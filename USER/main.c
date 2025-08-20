@@ -6,6 +6,9 @@
 #include "lcd.h"
 #include "usmart.h"
 #include "touch.h"
+#include "timer.h"
+#include "lvgl.h"
+#include "lv_port_disp.h"
 /************************************************
  WKS STM32F407VET6核心板
  触摸屏实验-HAL库函数版
@@ -18,8 +21,20 @@ void Load_Drow_Dialog(void)
  	POINT_COLOR=BLUE;//设置字体为蓝色 
 	LCD_ShowString(lcddev.width-24,0,200,16,16,"RST");//显示清屏区域
   	POINT_COLOR=RED;//设置画笔蓝色 
+}////////////////////////////////////////////////////////////////////////////////
+/**
+ * 在屏幕上绘制实心正方形
+ * @param x0 正方形左上角X坐标
+ * @param y0 正方形左上角Y坐标
+ * @param size 正方形边长
+ * @param color 正方形颜色
+ */
+void gui_fill_square(u16 x0, u16 y0, u16 size, u16 color)
+{
+    // 使用LCD_Fill函数填充一个矩形区域来实现实心正方形
+    LCD_Fill(x0, y0, x0 + size - 1, y0 + size - 1, color);
 }
-////////////////////////////////////////////////////////////////////////////////
+
 //电容触摸屏专有部分
 //画水平线
 //x0,y0:坐标
@@ -57,6 +72,39 @@ void gui_fill_circle(u16 x0,u16 y0,u16 r,u16 color)
 		gui_draw_hline(x0-x,y0-i,2*x,color);
 	}
 }  
+/**
+ * 在屏幕上画空心圆
+ * @param x0 圆心X坐标
+ * @param y0 圆心Y坐标
+ * @param r  圆的半径
+ */
+void draw_hollow_circle_on_screen(u16 x0, u16 y0, u16 r)
+{
+    // 使用Bresenham算法绘制空心圆
+    int x = 0;
+    int y = r;
+    int d = 3 - 2 * r;
+    
+    // 绘制圆上的8个对称点
+    while (x <= y) {
+        LCD_DrawPoint(x0 + x, y0 + y);
+        LCD_DrawPoint(x0 - x, y0 + y);
+        LCD_DrawPoint(x0 + x, y0 - y);
+        LCD_DrawPoint(x0 - x, y0 - y);
+        LCD_DrawPoint(x0 + y, y0 + x);
+        LCD_DrawPoint(x0 - y, y0 + x);
+        LCD_DrawPoint(x0 + y, y0 - x);
+        LCD_DrawPoint(x0 - y, y0 - x);
+        
+        if (d < 0) {
+            d += 4 * x + 6;
+        } else {
+            d += 4 * (x - y) + 10;
+            y--;
+        }
+        x++;
+    }
+}
 //两个数之差的绝对值 
 //x1,x2：需取差值的两个数
 //返回值：|x1-x2|
@@ -104,6 +152,19 @@ void lcd_draw_bline(u16 x1, u16 y1, u16 x2, u16 y2,u8 size,u16 color)
 		} 
 	}  
 }   
+
+void Test_Draw_Line(void)
+{
+    u16 x1 = 20;
+    u16 y1 = 30;
+    u16 x2 = 200;
+    u16 y2 = 150;
+    u8 size = 4;
+    u16 color = RED;
+
+    lcd_draw_bline(x1, y1, x2, y2, size, color);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 //5个触控点的颜色(电容触摸屏用)												 
 const u16 POINT_COLOR_TBL[5]={RED,GREEN,BLUE,BROWN,GRED};  
@@ -132,7 +193,7 @@ void rtp_test(void)
 			Load_Drow_Dialog();
 		}
 		i++;
-		if(i%20==0)LED0=!LED0;
+		if(i%20==0)LED0 =!LED0;
 	}
 }
 //电容触摸屏测试函数
@@ -173,9 +234,57 @@ void ctp_test(void)
 	}	
 }
 
+
+void lv_example_led_1(void)
+{
+    /*Create a LED and switch it OFF*/
+    lv_obj_t * led1  = lv_led_create(lv_scr_act());
+    lv_obj_align(led1, LV_ALIGN_CENTER, -80, 0);
+    lv_led_off(led1);
+ 
+    /*Copy the previous LED and set a brightness*/
+    lv_obj_t * led2  = lv_led_create(lv_scr_act());
+    lv_obj_align(led2, LV_ALIGN_CENTER, 0, 0);
+    lv_led_set_brightness(led2, 150);
+    lv_led_set_color(led2, lv_palette_main(LV_PALETTE_RED));
+ 
+    /*Copy the previous LED and switch it ON*/
+    lv_obj_t * led3  = lv_led_create(lv_scr_act());
+    lv_obj_align(led3, LV_ALIGN_CENTER, 80, 0);
+    lv_led_on(led3);
+}
+
+#include "lvgl.h"
+
+/* 按钮点击回调函数 */
+static void btn_event_cb(lv_event_t * e)
+{
+    lv_obj_t * btn = lv_event_get_target(e);
+    lv_obj_t * label = lv_obj_get_child(btn, 0);
+
+    if(lv_event_get_code(e) == LV_EVENT_CLICKED) {
+        lv_label_set_text(label, "Touched!");
+    }
+}
+
+/* 测试界面初始化 */
+void lv_touch_test(void)
+{
+    /* 创建一个按钮 */
+    lv_obj_t * btn = lv_btn_create(lv_scr_act());   // 在活动屏幕上建一个按钮
+    lv_obj_center(btn);                             // 居中显示
+    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);
+
+    /* 按钮上的文字 */
+    lv_obj_t * label = lv_label_create(btn);
+    lv_label_set_text(label, "Touch me!");
+    lv_obj_center(label);
+}
+
+
+
 int main(void)
 { 
-	
 	HAL_Init();                   	//初始化HAL库    
 	STM32_Clock_Init(336,25,2,7);  	//设置时钟,168Mhz
 	delay_init(168);               	//初始化延时函数
@@ -183,21 +292,23 @@ int main(void)
 	usmart_dev.init(84); 		        //初始化USMART
 	LED_Init();						          //初始化LED	
 	KEY_Init();						          //初始化KEY
- 	LCD_Init();           			    //初始化LCD
+	TIM2_Init();							  // 初始化TIM2
+	LCD_Init();           			    //初始化LCD
 	tp_dev.init();				          //触摸屏初始化 
 	
-  POINT_COLOR=RED;
-	LCD_ShowString(30,50,200,16,16,"STM32F407 Core Board");	
-	LCD_ShowString(30,70,200,16,16,"TOUCH TEST");	
-	LCD_ShowString(30,90,200,16,16,"WKS SMART");	 		
-  if((tp_dev.touchtype&0X80)==0)
-	{
-		LCD_ShowString(30,110,200,16,16,"Press KEY0 to Adjust");//电阻屏才显示
+	lv_init();
+	lv_port_disp_init();   // 你要实现的显示接口
+	lv_port_indev_init();  // 你要实现的触控接口
+	//lv_example_led_1();
+	lv_touch_test();
+
+    while (1)                                            // while函数死循环，不能让main函数运行结束，否则会产生硬件错误
+    {                                                  
+        lv_task_handler();  
+		HAL_Delay(5);//LVGL事物处理，必须加到循环中
 	}
-	delay_ms(1500);
- 	Load_Drow_Dialog();	 	
 	
-	if(tp_dev.touchtype&0X80)ctp_test();//电容屏测试
-	else rtp_test(); 					//电阻屏测试  
+	//if(tp_dev.touchtype&0X80)ctp_test();//电容屏测试
+	//else rtp_test(); 					//电阻屏测试  
 }
 

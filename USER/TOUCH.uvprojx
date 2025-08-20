@@ -665,6 +665,9 @@
             </File>
           </Files>
         </Group>
+        <Group>
+          <GroupName>lvgl</GroupName>
+        </Group>
       </Groups>
     </Target>
   </Targets>
