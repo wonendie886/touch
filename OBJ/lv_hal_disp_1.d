@@ -8,7 +8,7 @@
 ..\obj\lv_hal_disp_1.o: ..\lvgl\src\hal\../draw/lv_draw.h
 ..\obj\lv_hal_disp_1.o: ..\lvgl\src\hal\../draw/../lv_conf_internal.h
 ..\obj\lv_hal_disp_1.o: ..\lvgl\src\hal\../draw/../lv_conf_kconfig.h
-..\obj\lv_hal_disp_1.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_hal_disp_1.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_hal_disp_1.o: ..\lvgl\src\hal\../draw/../misc/lv_style.h
 ..\obj\lv_hal_disp_1.o: ..\lvgl\src\hal\../draw/../misc/../font/lv_font.h
 ..\obj\lv_hal_disp_1.o: ..\lvgl\src\hal\../draw/../misc/../font/lv_symbol_def.h

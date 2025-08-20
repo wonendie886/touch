@@ -5,7 +5,7 @@
 ..\obj\lv_draw_sw_polygon.o: ..\lvgl\src\draw\sw\../../misc/../lv_conf_internal.h
 ..\obj\lv_draw_sw_polygon.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_draw_sw_polygon.o: ..\lvgl\src\draw\sw\../../misc/../lv_conf_kconfig.h
-..\obj\lv_draw_sw_polygon.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_draw_sw_polygon.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_draw_sw_polygon.o: ..\lvgl\src\draw\sw\../../misc/lv_assert.h
 ..\obj\lv_draw_sw_polygon.o: ..\lvgl\src\draw\sw\../../misc/lv_log.h
 ..\obj\lv_draw_sw_polygon.o: ..\lvgl\src\draw\sw\../../misc/lv_types.h

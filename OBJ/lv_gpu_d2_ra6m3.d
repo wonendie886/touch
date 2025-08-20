@@ -4,7 +4,7 @@
 ..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\src\draw\renesas\../../misc/../lv_conf_internal.h
 ..\obj\lv_gpu_d2_ra6m3.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\src\draw\renesas\../../misc/../lv_conf_kconfig.h
-..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\src\draw\renesas\../../misc/lv_assert.h
 ..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\src\draw\renesas\../../misc/lv_log.h
 ..\obj\lv_gpu_d2_ra6m3.o: ..\lvgl\src\draw\renesas\../../misc/lv_types.h

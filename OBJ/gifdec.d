@@ -4,7 +4,7 @@
 ..\obj\gifdec.o: ..\lvgl\src\extra\libs\gif\../../../misc/lv_fs.h
 ..\obj\gifdec.o: ..\lvgl\src\extra\libs\gif\../../../misc/../lv_conf_internal.h
 ..\obj\gifdec.o: ..\lvgl\src\extra\libs\gif\../../../misc/../lv_conf_kconfig.h
-..\obj\gifdec.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\gifdec.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\gifdec.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\gifdec.o: ..\lvgl\src\extra\libs\gif\../../../misc/lv_log.h
 ..\obj\gifdec.o: ..\lvgl\src\extra\libs\gif\../../../misc/lv_types.h

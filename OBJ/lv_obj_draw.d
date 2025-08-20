@@ -4,7 +4,7 @@
 ..\obj\lv_obj_draw.o: ..\lvgl\src\core\../draw/../lv_conf_internal.h
 ..\obj\lv_obj_draw.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_obj_draw.o: ..\lvgl\src\core\../draw/../lv_conf_kconfig.h
-..\obj\lv_obj_draw.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_obj_draw.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_obj_draw.o: ..\lvgl\src\core\../draw/../misc/lv_style.h
 ..\obj\lv_obj_draw.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_obj_draw.o: ..\lvgl\src\core\../draw/../misc/../font/lv_font.h

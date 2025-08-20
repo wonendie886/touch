@@ -3,4 +3,4 @@
 ..\obj\lv_draw_sdl_stack_blur.o: ..\lvgl\src\draw\sdl\../../lv_conf_internal.h
 ..\obj\lv_draw_sdl_stack_blur.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_draw_sdl_stack_blur.o: ..\lvgl\src\draw\sdl\../../lv_conf_kconfig.h
-..\obj\lv_draw_sdl_stack_blur.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_draw_sdl_stack_blur.o: ..\lvgl\app\generated\../../lv_conf.h

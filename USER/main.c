@@ -9,6 +9,9 @@
 #include "timer.h"
 #include "lvgl.h"
 #include "lv_port_disp.h"
+#include "gui_guider.h"
+#include "events_init.h"
+lv_ui guider_ui;
 /************************************************
  WKS STM32F407VET6核心板
  触摸屏实验-HAL库函数版
@@ -235,53 +238,6 @@ void ctp_test(void)
 }
 
 
-void lv_example_led_1(void)
-{
-    /*Create a LED and switch it OFF*/
-    lv_obj_t * led1  = lv_led_create(lv_scr_act());
-    lv_obj_align(led1, LV_ALIGN_CENTER, -80, 0);
-    lv_led_off(led1);
- 
-    /*Copy the previous LED and set a brightness*/
-    lv_obj_t * led2  = lv_led_create(lv_scr_act());
-    lv_obj_align(led2, LV_ALIGN_CENTER, 0, 0);
-    lv_led_set_brightness(led2, 150);
-    lv_led_set_color(led2, lv_palette_main(LV_PALETTE_RED));
- 
-    /*Copy the previous LED and switch it ON*/
-    lv_obj_t * led3  = lv_led_create(lv_scr_act());
-    lv_obj_align(led3, LV_ALIGN_CENTER, 80, 0);
-    lv_led_on(led3);
-}
-
-#include "lvgl.h"
-
-/* 按钮点击回调函数 */
-static void btn_event_cb(lv_event_t * e)
-{
-    lv_obj_t * btn = lv_event_get_target(e);
-    lv_obj_t * label = lv_obj_get_child(btn, 0);
-
-    if(lv_event_get_code(e) == LV_EVENT_CLICKED) {
-        lv_label_set_text(label, "Touched!");
-    }
-}
-
-/* 测试界面初始化 */
-void lv_touch_test(void)
-{
-    /* 创建一个按钮 */
-    lv_obj_t * btn = lv_btn_create(lv_scr_act());   // 在活动屏幕上建一个按钮
-    lv_obj_center(btn);                             // 居中显示
-    lv_obj_add_event_cb(btn, btn_event_cb, LV_EVENT_ALL, NULL);
-
-    /* 按钮上的文字 */
-    lv_obj_t * label = lv_label_create(btn);
-    lv_label_set_text(label, "Touch me!");
-    lv_obj_center(label);
-}
-
-
 
 int main(void)
 { 
@@ -299,9 +255,11 @@ int main(void)
 	lv_init();
 	lv_port_disp_init();   // 你要实现的显示接口
 	lv_port_indev_init();  // 你要实现的触控接口
-	//lv_example_led_1();
-	lv_touch_test();
 
+	setup_ui(&guider_ui);
+	events_init(&guider_ui);
+
+	
     while (1)                                            // while函数死循环，不能让main函数运行结束，否则会产生硬件错误
     {                                                  
         lv_task_handler();  

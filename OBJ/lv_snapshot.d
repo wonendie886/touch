@@ -4,7 +4,7 @@
 ..\obj\lv_snapshot.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_snapshot.o: ..\lvgl\src\extra\others\snapshot\../../../lv_conf_internal.h
 ..\obj\lv_snapshot.o: ..\lvgl\src\extra\others\snapshot\../../../lv_conf_kconfig.h
-..\obj\lv_snapshot.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_snapshot.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_snapshot.o: ..\lvgl\src\extra\others\snapshot\../../../core/lv_obj.h
 ..\obj\lv_snapshot.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_snapshot.o: ..\lvgl\src\extra\others\snapshot\../../../core/../misc/lv_style.h

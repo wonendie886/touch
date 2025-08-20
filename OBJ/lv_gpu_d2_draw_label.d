@@ -4,7 +4,7 @@
 ..\obj\lv_gpu_d2_draw_label.o: ..\lvgl\src\draw\renesas\../../draw/../misc/../lv_conf_internal.h
 ..\obj\lv_gpu_d2_draw_label.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_gpu_d2_draw_label.o: ..\lvgl\src\draw\renesas\../../draw/../misc/../lv_conf_kconfig.h
-..\obj\lv_gpu_d2_draw_label.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_gpu_d2_draw_label.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_gpu_d2_draw_label.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_gpu_d2_draw_label.o: ..\lvgl\src\draw\renesas\../../draw/../misc/lv_txt.h
 ..\obj\lv_gpu_d2_draw_label.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdarg.h

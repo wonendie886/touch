@@ -5,7 +5,7 @@
 ..\obj\lv_extra_14.o: ..\lvgl\src\extra\../../src/misc/../lv_conf_internal.h
 ..\obj\lv_extra_14.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_extra_14.o: ..\lvgl\src\extra\../../src/misc/../lv_conf_kconfig.h
-..\obj\lv_extra_14.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_extra_14.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_extra_14.o: ..\lvgl\src\extra\../../src/misc/lv_types.h
 ..\obj\lv_extra_14.o: ..\lvgl\src\extra\../../src/misc/lv_timer.h
 ..\obj\lv_extra_14.o: ..\lvgl\src\extra\../../src/misc/../hal/lv_hal_tick.h

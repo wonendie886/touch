@@ -3,7 +3,7 @@
 ..\obj\lv_switch_2.o: ..\lvgl\src\widgets\../lv_conf_internal.h
 ..\obj\lv_switch_2.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_switch_2.o: ..\lvgl\src\widgets\../lv_conf_kconfig.h
-..\obj\lv_switch_2.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_switch_2.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_switch_2.o: ..\lvgl\src\widgets\../core/lv_obj.h
 ..\obj\lv_switch_2.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_switch_2.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h

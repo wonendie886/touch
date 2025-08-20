@@ -6,7 +6,7 @@
 ..\obj\lv_ime_pinyin.o: ..\lvgl\src\extra\others\ime\../../../../src/misc/../lv_conf_internal.h
 ..\obj\lv_ime_pinyin.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_ime_pinyin.o: ..\lvgl\src\extra\others\ime\../../../../src/misc/../lv_conf_kconfig.h
-..\obj\lv_ime_pinyin.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_ime_pinyin.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_ime_pinyin.o: ..\lvgl\src\extra\others\ime\../../../../src/misc/lv_types.h
 ..\obj\lv_ime_pinyin.o: ..\lvgl\src\extra\others\ime\../../../../src/misc/lv_timer.h
 ..\obj\lv_ime_pinyin.o: ..\lvgl\src\extra\others\ime\../../../../src/misc/../hal/lv_hal_tick.h

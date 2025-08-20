@@ -3,7 +3,7 @@
 ..\obj\lv_draw_triangle.o: ..\lvgl\src\draw\../lv_conf_internal.h
 ..\obj\lv_draw_triangle.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_draw_triangle.o: ..\lvgl\src\draw\../lv_conf_kconfig.h
-..\obj\lv_draw_triangle.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_draw_triangle.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_draw_triangle.o: ..\lvgl\src\draw\../misc/lv_style.h
 ..\obj\lv_draw_triangle.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_draw_triangle.o: ..\lvgl\src\draw\../misc/../font/lv_font.h

@@ -3,7 +3,7 @@
 ..\obj\lv_obj_style_gen.o: ..\lvgl\src\core\../lv_conf_internal.h
 ..\obj\lv_obj_style_gen.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_obj_style_gen.o: ..\lvgl\src\core\../lv_conf_kconfig.h
-..\obj\lv_obj_style_gen.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_obj_style_gen.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_obj_style_gen.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_obj_style_gen.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_obj_style_gen.o: ..\lvgl\src\core\../misc/lv_style.h

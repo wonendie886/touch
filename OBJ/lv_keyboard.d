@@ -4,7 +4,7 @@
 ..\obj\lv_keyboard.o: ..\lvgl\src\extra\widgets\keyboard\../../../widgets/../lv_conf_internal.h
 ..\obj\lv_keyboard.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_keyboard.o: ..\lvgl\src\extra\widgets\keyboard\../../../widgets/../lv_conf_kconfig.h
-..\obj\lv_keyboard.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_keyboard.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_keyboard.o: ..\lvgl\src\extra\widgets\keyboard\../../../widgets/../core/lv_obj.h
 ..\obj\lv_keyboard.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_keyboard.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h

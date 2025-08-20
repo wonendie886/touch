@@ -6,7 +6,7 @@
 ..\obj\lv_font_loader_3.o: ..\lvgl\src\font\../../src/misc/lv_log.h
 ..\obj\lv_font_loader_3.o: ..\lvgl\src\font\../../src/misc/../lv_conf_internal.h
 ..\obj\lv_font_loader_3.o: ..\lvgl\src\font\../../src/misc/../lv_conf_kconfig.h
-..\obj\lv_font_loader_3.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_font_loader_3.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_font_loader_3.o: ..\lvgl\src\font\../../src/misc/lv_types.h
 ..\obj\lv_font_loader_3.o: ..\lvgl\src\font\../../src/misc/lv_timer.h
 ..\obj\lv_font_loader_3.o: ..\lvgl\src\font\../../src/misc/../hal/lv_hal_tick.h

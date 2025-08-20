@@ -3,7 +3,7 @@
 ..\obj\lv_draw_sw.o: ..\lvgl\src\draw\sw\../../lv_conf_internal.h
 ..\obj\lv_draw_sw.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_draw_sw.o: ..\lvgl\src\draw\sw\../../lv_conf_kconfig.h
-..\obj\lv_draw_sw.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_draw_sw.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_draw_sw.o: ..\lvgl\src\draw\sw\../../misc/lv_style.h
 ..\obj\lv_draw_sw.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_draw_sw.o: ..\lvgl\src\draw\sw\../../misc/../font/lv_font.h

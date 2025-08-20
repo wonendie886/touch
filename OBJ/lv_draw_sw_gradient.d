@@ -4,7 +4,7 @@
 ..\obj\lv_draw_sw_gradient.o: ..\lvgl\src\draw\sw\../../misc/../lv_conf_internal.h
 ..\obj\lv_draw_sw_gradient.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_draw_sw_gradient.o: ..\lvgl\src\draw\sw\../../misc/../lv_conf_kconfig.h
-..\obj\lv_draw_sw_gradient.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_draw_sw_gradient.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_draw_sw_gradient.o: ..\lvgl\src\draw\sw\../../misc/lv_assert.h
 ..\obj\lv_draw_sw_gradient.o: ..\lvgl\src\draw\sw\../../misc/lv_log.h
 ..\obj\lv_draw_sw_gradient.o: ..\lvgl\src\draw\sw\../../misc/lv_types.h

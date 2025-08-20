@@ -9,7 +9,7 @@
 ..\obj\qrcodegen.o: ..\lvgl\src\extra\libs\qrcode\../../../misc/lv_assert.h
 ..\obj\qrcodegen.o: ..\lvgl\src\extra\libs\qrcode\../../../misc/../lv_conf_internal.h
 ..\obj\qrcodegen.o: ..\lvgl\src\extra\libs\qrcode\../../../misc/../lv_conf_kconfig.h
-..\obj\qrcodegen.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\qrcodegen.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\qrcodegen.o: ..\lvgl\src\extra\libs\qrcode\../../../misc/lv_log.h
 ..\obj\qrcodegen.o: ..\lvgl\src\extra\libs\qrcode\../../../misc/lv_types.h
 ..\obj\qrcodegen.o: ..\lvgl\src\extra\libs\qrcode\../../../misc/lv_mem.h

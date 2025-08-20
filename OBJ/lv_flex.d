@@ -5,7 +5,7 @@
 ..\obj\lv_flex.o: ..\lvgl\src\extra\layouts\flex\../flex/../../../core/../lv_conf_internal.h
 ..\obj\lv_flex.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_flex.o: ..\lvgl\src\extra\layouts\flex\../flex/../../../core/../lv_conf_kconfig.h
-..\obj\lv_flex.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_flex.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_flex.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_flex.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_flex.o: ..\lvgl\src\extra\layouts\flex\../flex/../../../core/../misc/lv_style.h

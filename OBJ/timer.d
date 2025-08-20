@@ -70,7 +70,7 @@
 ..\obj\timer.o: ..\lvgl\src/misc/lv_log.h
 ..\obj\timer.o: ..\lvgl\src/misc/../lv_conf_internal.h
 ..\obj\timer.o: ..\lvgl\src/misc/../lv_conf_kconfig.h
-..\obj\timer.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\timer.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\timer.o: ..\lvgl\src/misc/lv_types.h
 ..\obj\timer.o: ..\lvgl\src/misc/lv_timer.h
 ..\obj\timer.o: ..\lvgl\src/misc/../hal/lv_hal_tick.h

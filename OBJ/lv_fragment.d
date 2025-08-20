@@ -3,4 +3,4 @@
 ..\obj\lv_fragment.o: ..\lvgl\src\extra\others\fragment\../../../lv_conf_internal.h
 ..\obj\lv_fragment.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_fragment.o: ..\lvgl\src\extra\others\fragment\../../../lv_conf_kconfig.h
-..\obj\lv_fragment.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_fragment.o: ..\lvgl\app\generated\../../lv_conf.h

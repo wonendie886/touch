@@ -6,7 +6,7 @@
 ..\obj\lv_ffmpeg.o: ..\lvgl\src\extra\libs\ffmpeg\../../../../src/misc/../lv_conf_internal.h
 ..\obj\lv_ffmpeg.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_ffmpeg.o: ..\lvgl\src\extra\libs\ffmpeg\../../../../src/misc/../lv_conf_kconfig.h
-..\obj\lv_ffmpeg.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_ffmpeg.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_ffmpeg.o: ..\lvgl\src\extra\libs\ffmpeg\../../../../src/misc/lv_types.h
 ..\obj\lv_ffmpeg.o: ..\lvgl\src\extra\libs\ffmpeg\../../../../src/misc/lv_timer.h
 ..\obj\lv_ffmpeg.o: ..\lvgl\src\extra\libs\ffmpeg\../../../../src/misc/../hal/lv_hal_tick.h

@@ -3,7 +3,7 @@
 ..\obj\lv_font_fmt_txt_3.o: ..\lvgl\src\font\../lv_conf_internal.h
 ..\obj\lv_font_fmt_txt_3.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_font_fmt_txt_3.o: ..\lvgl\src\font\../lv_conf_kconfig.h
-..\obj\lv_font_fmt_txt_3.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_font_fmt_txt_3.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_font_fmt_txt_3.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_font_fmt_txt_3.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_font_fmt_txt_3.o: ..\lvgl\src\font\lv_symbol_def.h

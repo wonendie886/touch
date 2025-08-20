@@ -84,7 +84,7 @@
 ..\obj\main.o: ..\lvgl\src/misc/lv_log.h
 ..\obj\main.o: ..\lvgl\src/misc/../lv_conf_internal.h
 ..\obj\main.o: ..\lvgl\src/misc/../lv_conf_kconfig.h
-..\obj\main.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\main.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\main.o: ..\lvgl\src/misc/lv_types.h
 ..\obj\main.o: ..\lvgl\src/misc/lv_timer.h
 ..\obj\main.o: ..\lvgl\src/misc/../hal/lv_hal_tick.h
@@ -210,3 +210,5 @@
 ..\obj\main.o: ..\lvgl\src/extra/widgets/imgbtn/lv_imgbtn.h
 ..\obj\main.o: ..\lvgl\src/extra/widgets/span/lv_span.h
 ..\obj\main.o: ..\lvgl\porting\lv_port_disp.h
+..\obj\main.o: ..\lvgl\app\generated\gui_guider.h
+..\obj\main.o: ..\lvgl\app\generated\events_init.h

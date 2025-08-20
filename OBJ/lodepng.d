@@ -7,7 +7,7 @@
 ..\obj\lodepng.o: ..\lvgl\src\extra\libs\png\../../../../src/misc/../lv_conf_internal.h
 ..\obj\lodepng.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lodepng.o: ..\lvgl\src\extra\libs\png\../../../../src/misc/../lv_conf_kconfig.h
-..\obj\lodepng.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lodepng.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lodepng.o: ..\lvgl\src\extra\libs\png\../../../../src/misc/lv_types.h
 ..\obj\lodepng.o: ..\lvgl\src\extra\libs\png\../../../../src/misc/lv_timer.h
 ..\obj\lodepng.o: ..\lvgl\src\extra\libs\png\../../../../src/misc/../hal/lv_hal_tick.h

@@ -5,7 +5,7 @@
 ..\obj\lv_refr.o: ..\lvgl\src\core\../lv_conf_internal.h
 ..\obj\lv_refr.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_refr.o: ..\lvgl\src\core\../lv_conf_kconfig.h
-..\obj\lv_refr.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_refr.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_refr.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_refr.o: ..\lvgl\src\core\../misc/lv_style.h
 ..\obj\lv_refr.o: ..\lvgl\src\core\../misc/../font/lv_font.h

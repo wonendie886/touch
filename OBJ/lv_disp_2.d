@@ -8,7 +8,7 @@
 ..\obj\lv_disp_2.o: ..\lvgl\src\core\../hal/../draw/lv_draw.h
 ..\obj\lv_disp_2.o: ..\lvgl\src\core\../hal/../draw/../lv_conf_internal.h
 ..\obj\lv_disp_2.o: ..\lvgl\src\core\../hal/../draw/../lv_conf_kconfig.h
-..\obj\lv_disp_2.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_disp_2.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_disp_2.o: ..\lvgl\src\core\../hal/../draw/../misc/lv_style.h
 ..\obj\lv_disp_2.o: ..\lvgl\src\core\../hal/../draw/../misc/../font/lv_font.h
 ..\obj\lv_disp_2.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h

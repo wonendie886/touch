@@ -4,7 +4,7 @@
 ..\obj\lv_calendar.o: ..\lvgl\src\extra\widgets\calendar\../../../widgets/../lv_conf_internal.h
 ..\obj\lv_calendar.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_calendar.o: ..\lvgl\src\extra\widgets\calendar\../../../widgets/../lv_conf_kconfig.h
-..\obj\lv_calendar.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_calendar.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_calendar.o: ..\lvgl\src\extra\widgets\calendar\../../../widgets/../core/lv_obj.h
 ..\obj\lv_calendar.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stddef.h
 ..\obj\lv_calendar.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h

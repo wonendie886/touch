@@ -4,7 +4,7 @@
 ..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\src\draw\stm32_dma2d\../../misc/../lv_conf_internal.h
 ..\obj\lv_gpu_stm32_dma2d.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\src\draw\stm32_dma2d\../../misc/../lv_conf_kconfig.h
-..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\src\draw\stm32_dma2d\../../misc/lv_assert.h
 ..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\src\draw\stm32_dma2d\../../misc/lv_log.h
 ..\obj\lv_gpu_stm32_dma2d.o: ..\lvgl\src\draw\stm32_dma2d\../../misc/lv_types.h

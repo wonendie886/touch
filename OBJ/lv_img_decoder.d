@@ -3,7 +3,7 @@
 ..\obj\lv_img_decoder.o: ..\lvgl\src\draw\../lv_conf_internal.h
 ..\obj\lv_img_decoder.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdint.h
 ..\obj\lv_img_decoder.o: ..\lvgl\src\draw\../lv_conf_kconfig.h
-..\obj\lv_img_decoder.o: ..\lvgl\src\core\../../lv_conf.h
+..\obj\lv_img_decoder.o: ..\lvgl\app\generated\../../lv_conf.h
 ..\obj\lv_img_decoder.o: ..\lvgl\src\draw\lv_img_buf.h
 ..\obj\lv_img_decoder.o: C:\tool\keil\ARM\ARMCC\Bin\..\include\stdbool.h
 ..\obj\lv_img_decoder.o: ..\lvgl\src\draw\../misc/lv_color.h
