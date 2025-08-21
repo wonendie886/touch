@@ -9,8 +9,11 @@
 #include "timer.h"
 #include "lvgl.h"
 #include "lv_port_disp.h"
+#include "lv_port_indev.h"
 #include "gui_guider.h"
 #include "events_init.h"
+#include "modbus.h"
+
 lv_ui guider_ui;
 /************************************************
  WKS STM32F407VET6核心板
@@ -203,38 +206,38 @@ void rtp_test(void)
 void ctp_test(void)
 {
 	u8 t=0;
-	u8 i=0;	  	    
- 	u16 lastpos[5][2];		//最后一次的数据 
-	while(1)
-	{
+	//u8 i=0;	  	    
+ 	//u16 lastpos[5][2];		//最后一次的数据 
+	//while(1)
+	//{
 		tp_dev.scan(0);
 		for(t=0;t<5;t++)   //最多5点触摸
 		{
 			if((tp_dev.sta)&(1<<t))   //判断是否有点触摸
 			{
-                //printf("X坐标:%d,Y坐标:%d\r\n",tp_dev.x[0],tp_dev.y[0]);
-				if(tp_dev.x[t]<lcddev.width&&tp_dev.y[t]<lcddev.height)
-				{
-					if(lastpos[t][0]==0XFFFF)
-					{
-						lastpos[t][0] = tp_dev.x[t];
-						lastpos[t][1] = tp_dev.y[t];
-					}
+                printf("X坐标:%d,Y坐标:%d\r\n",tp_dev.x[0],tp_dev.y[0]);
+				//if(tp_dev.x[t]<lcddev.width&&tp_dev.y[t]<lcddev.height)
+				//{
+				//	if(lastpos[t][0]==0XFFFF)
+				//	{
+				//		lastpos[t][0] = tp_dev.x[t];
+				//		lastpos[t][1] = tp_dev.y[t];
+				//	}
                     
-					lcd_draw_bline(lastpos[t][0],lastpos[t][1],tp_dev.x[t],tp_dev.y[t],2,POINT_COLOR_TBL[t]);//画线
-					lastpos[t][0]=tp_dev.x[t];
-					lastpos[t][1]=tp_dev.y[t];
-					if(tp_dev.x[t]>(lcddev.width-24)&&tp_dev.y[t]<20)  //点击了屏幕上的RST部分
-					{
-						Load_Drow_Dialog();//清除
-					}
-				}
-			}else lastpos[t][0]=0XFFFF;
+					//lcd_draw_bline(lastpos[t][0],lastpos[t][1],tp_dev.x[t],tp_dev.y[t],2,POINT_COLOR_TBL[t]);//画线
+				//	lastpos[t][0]=tp_dev.x[t];
+				//	lastpos[t][1]=tp_dev.y[t];
+					//if(tp_dev.x[t]>(lcddev.width-24)&&tp_dev.y[t]<20)  //点击了屏幕上的RST部分
+					//{
+						//Load_Drow_Dialog();//清除
+					//}
+				//}
+			}//else lastpos[t][0]=0XFFFF;
 		}
 		
-		delay_ms(5);i++;
-		if(i%20==0)LED0=!LED0;
-	}	
+		//delay_ms(5);i++;
+		//if(i%20==0)LED0=!LED0;
+	//}	
 }
 
 
@@ -249,7 +252,9 @@ int main(void)
 	LED_Init();						          //初始化LED	
 	KEY_Init();						          //初始化KEY
 	TIM2_Init();							  // 初始化TIM2
-	LCD_Init();           			    //初始化LCD
+	LCD_Init();
+	//Modbus_Init(9600); // 初始化Modbus
+					   // 初始化LCD
 	tp_dev.init();				          //触摸屏初始化 
 	
 	lv_init();
@@ -258,10 +263,17 @@ int main(void)
 
 	setup_ui(&guider_ui);
 	events_init(&guider_ui);
-
-	
+	static uint32_t last_call = 0;
+    // 发送小杯（10s）
+   // Modbus_SendGrindTime(0);
+//	if(tp_dev.touchtype&0X80)ctp_test();//电容屏测试
+//	else rtp_test();
     while (1)                                            // while函数死循环，不能让main函数运行结束，否则会产生硬件错误
-    {                                                  
+    {           
+		if (HAL_GetTick() - last_call >= 5) {
+			ctp_test();
+			last_call = HAL_GetTick();
+		}                                 
         lv_task_handler();  
 		HAL_Delay(5);//LVGL事物处理，必须加到循环中
 	}

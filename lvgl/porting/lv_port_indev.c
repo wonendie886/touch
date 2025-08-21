@@ -209,8 +209,15 @@ static void touchpad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
 static bool touchpad_is_pressed(void)
 {
     /*Your code comes here*/
-    if (TP_Scan(0) == 1)
-        return true;
+	u8 t=0;
+    tp_dev.scan(0);
+    for(t=0;t<5;t++)   //最多5点触摸
+    {
+        if((tp_dev.sta)&(1<<t))   //判断是否有点触摸
+        {
+            return true;
+        }
+    }
     return false;
 }
 
@@ -218,10 +225,9 @@ static bool touchpad_is_pressed(void)
 static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y)
 {
     /*Your code comes here*/
-    uint16_t touch_x, touch_y;
-    TP_Read_XY2(&touch_x, &touch_y); // 复用坐标读取函数
-    (*x) = touch_x;
-    (*y) = touch_y;
+
+    (*x) = tp_dev.x[0];
+    (*y) = tp_dev.y[0];
 }
 
 /*------------------

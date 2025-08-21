@@ -260,8 +260,8 @@ u8 GT1151_Scan(u8 mode)
 						tp_dev.x[i]=((u16)buf[1]<<8)+buf[0];
 						tp_dev.y[i]=((u16)buf[3]<<8)+buf[2];
 					}  
-//					if(tp_dev.x[i]>0&&tp_dev.x[i]<480&&tp_dev.y[i]>0&&tp_dev.y[i]<800)
-//					printf("x[%d]:%d,y[%d]:%d\r\n",i,tp_dev.x[i],i,tp_dev.y[i]);
+					//if(tp_dev.x[i]>0&&tp_dev.x[i]<480&&tp_dev.y[i]>0&&tp_dev.y[i]<800)
+					//printf("x[%d]:%d,y[%d]:%d\r\n",i,tp_dev.x[i],i,tp_dev.y[i]);
 				}			
 			} 
 			res=1;

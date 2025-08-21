@@ -210,5 +210,7 @@
 ..\obj\main.o: ..\lvgl\src/extra/widgets/imgbtn/lv_imgbtn.h
 ..\obj\main.o: ..\lvgl\src/extra/widgets/span/lv_span.h
 ..\obj\main.o: ..\lvgl\porting\lv_port_disp.h
+..\obj\main.o: ..\lvgl\porting\lv_port_indev.h
 ..\obj\main.o: ..\lvgl\app\generated\gui_guider.h
 ..\obj\main.o: ..\lvgl\app\generated\events_init.h
+..\obj\main.o: ..\HARDWARE\modbus\modbus.h
