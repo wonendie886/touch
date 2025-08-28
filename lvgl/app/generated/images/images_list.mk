@@ -1,1 +1,1 @@
-GEN_CSRCS += _1755657687860_alpha_100x89.c _3_alpha_100x80.c _2_alpha_100x80.c _4_alpha_100x80.c _1_alpha_100x80.c
+GEN_CSRCS += _1755657687860_alpha_100x89.c _3_alpha_100x80.c _2_alpha_100x80.c

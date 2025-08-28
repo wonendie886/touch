@@ -10,11 +10,11 @@
 #include "events_init.h"
 #include <stdio.h>
 #include "lvgl.h"
+#include "flash.h"
 
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
 #endif
-
 
 static void screen_btn_4_event_handler (lv_event_t *e)
 {
@@ -30,9 +30,48 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_imgbtn_1_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+    // 获取新的研磨时间值（根据您的实际UI逻辑）后续换成按键出发后修改的真实值
+    uint32_t new_time = 10; 
+    
+    // 更新全局变量
+    current_grind_time = new_time;
+    
+    // 设置改变标志
+    grind_time_changed = 1;
+    
+    printf("研磨时间设置为: %d\n", current_grind_time);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_imgbtn_2_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_4, screen_btn_4_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_imgbtn_1, screen_imgbtn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_imgbtn_2, screen_imgbtn_2_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_1_btn_1_event_handler (lv_event_t *e)

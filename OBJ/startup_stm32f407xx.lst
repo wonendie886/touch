@@ -69,7 +69,7 @@ ARM Macro Assembler    Page 1
 ARM Macro Assembler    Page 2 
 
 
-                               EQU              0x00002000
+                               EQU              0x0002000
    44 00002000         
    45 00002000                 AREA             HEAP, NOINIT, READWRITE, ALIGN=
 3

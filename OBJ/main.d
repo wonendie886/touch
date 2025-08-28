@@ -214,3 +214,13 @@
 ..\obj\main.o: ..\lvgl\app\generated\gui_guider.h
 ..\obj\main.o: ..\lvgl\app\generated\events_init.h
 ..\obj\main.o: ..\HARDWARE\modbus\modbus.h
+..\obj\main.o: ..\SYSTEM\flash\flash.h
+..\obj\main.o: ..\FreeRTOS\include\FreeRTOS.h
+..\obj\main.o: ..\FreeRTOS\include\FreeRTOSConfig.h
+..\obj\main.o: ..\FreeRTOS\include\projdefs.h
+..\obj\main.o: ..\FreeRTOS\include\portable.h
+..\obj\main.o: ..\FreeRTOS\include\deprecated_definitions.h
+..\obj\main.o: ..\FreeRTOS\port\portmacro.h
+..\obj\main.o: ..\FreeRTOS\include\mpu_wrappers.h
+..\obj\main.o: ..\FreeRTOS\include\task.h
+..\obj\main.o: ..\FreeRTOS\include\list.h

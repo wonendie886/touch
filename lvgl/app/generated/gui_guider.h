@@ -67,12 +67,8 @@ void setup_scr_screen_2(lv_ui *ui);
 LV_IMG_DECLARE(_1755657687860_alpha_100x89);
 LV_IMG_DECLARE(_3_alpha_100x80);
 LV_IMG_DECLARE(_2_alpha_100x80);
-LV_IMG_DECLARE(_4_alpha_100x80);
-LV_IMG_DECLARE(_1_alpha_100x80);
 LV_IMG_DECLARE(_3_alpha_100x80);
 LV_IMG_DECLARE(_2_alpha_100x80);
-LV_IMG_DECLARE(_4_alpha_100x80);
-LV_IMG_DECLARE(_1_alpha_100x80);
 
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)

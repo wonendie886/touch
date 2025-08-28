@@ -12,6 +12,14 @@
         "lv_port_indev.h": "c",
         "stm32f4xx_hal.h": "c",
         "stm32f4xx_hal_conf.h": "c",
-        "stm32f4xx_hal_flash.h": "c"
+        "stm32f4xx_hal_flash.h": "c",
+        "flash.h": "c",
+        "stdint.h": "c",
+        "cstdint": "c",
+        "sys.h": "c",
+        "freertos.h": "c",
+        "task.h": "c",
+        "stdio.h": "c",
+        "gui_guider.h": "c"
     }
 }

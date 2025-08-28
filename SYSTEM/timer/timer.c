@@ -1,6 +1,6 @@
 #include "timer.h"
 #include "lvgl.h"
-
+#include "flash.h"
 TIM_HandleTypeDef htim2;
 
 /**
@@ -26,7 +26,7 @@ void TIM2_Init(void)
     HAL_TIM_Base_Start_IT(&htim2);
 
     /* 配置 NVIC */
-    HAL_NVIC_SetPriority(TIM2_IRQn, 0, 0);  
+    HAL_NVIC_SetPriority(TIM2_IRQn, 10, 0);
     HAL_NVIC_EnableIRQ(TIM2_IRQn);
 }
 
@@ -46,6 +46,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim->Instance == TIM2)
     {
-        lv_tick_inc(1);   // 1ms LVGL 心跳
+        HAL_IncTick();
+        //lv_tick_inc(1);
     }
 }

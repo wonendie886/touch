@@ -16,8 +16,11 @@ extern "C" {
 
 #include "gui_guider.h"
 
-void events_init(lv_ui *ui);
+extern volatile uint32_t current_grind_time; 
+extern volatile uint32_t last_stored_grind_time;   // 上次存储的研磨时间
+extern volatile uint8_t grind_time_changed;    
 
+void events_init(lv_ui *ui);
 void events_init_screen(lv_ui *ui);
 void events_init_screen_1(lv_ui *ui);
 

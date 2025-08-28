@@ -195,3 +195,4 @@
 ..\obj\timer.o: ..\lvgl\src/extra/widgets/led/lv_led.h
 ..\obj\timer.o: ..\lvgl\src/extra/widgets/imgbtn/lv_imgbtn.h
 ..\obj\timer.o: ..\lvgl\src/extra/widgets/span/lv_span.h
+..\obj\timer.o: ..\SYSTEM\flash\flash.h

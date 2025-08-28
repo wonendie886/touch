@@ -254,6 +254,15 @@
 "..\obj\lv_font_montserratmedium_18.o"
 "..\obj\lv_font_sourcehanserifsc_regular_16.o"
 "..\obj\lv_font_sourcehanserifsc_regular_18.o"
+"..\obj\port.o"
+"..\obj\heap_4.o"
+"..\obj\croutine.o"
+"..\obj\event_groups.o"
+"..\obj\list.o"
+"..\obj\queue.o"
+"..\obj\stream_buffer.o"
+"..\obj\tasks.o"
+"..\obj\timers.o"
 --strict --scatter "..\OBJ\Template.sct"
 --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers

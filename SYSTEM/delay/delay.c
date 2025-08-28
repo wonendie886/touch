@@ -1,5 +1,7 @@
 #include "delay.h"
 #include "sys.h"
+#include "FreeRTOS.h"
+#include "task.h"
 ////////////////////////////////////////////////////////////////////////////////// 	 
 //如果使用ucos,则包括下面的头文件即可.
 #if SYSTEM_SUPPORT_OS
@@ -158,24 +160,40 @@ void delay_ms(u16 nms)
 //延时nus
 //nus为要延时的us数.	
 //nus:0~190887435(最大值即2^32/fac_us@fac_us=22.5)	 
-void delay_us(u32 nus)
-{		
-	u32 ticks;
-	u32 told,tnow,tcnt=0;
-	u32 reload=SysTick->LOAD;				//LOAD的值	    	 
-	ticks=nus*fac_us; 						//需要的节拍数 
-	told=SysTick->VAL;        				//刚进入时的计数器值
-	while(1)
-	{
-		tnow=SysTick->VAL;	
-		if(tnow!=told)
-		{	    
-			if(tnow<told)tcnt+=told-tnow;	//这里注意一下SYSTICK是一个递减的计数器就可以了.
-			else tcnt+=reload-tnow+told;	    
-			told=tnow;
-			if(tcnt>=ticks)break;			//时间超过/等于要延迟的时间,则退出.
-		}  
-	};
+//void delay_us(u32 nus)
+//{		
+//	u32 ticks;
+//	u32 told,tnow,tcnt=0;
+//	u32 reload=SysTick->LOAD;				//LOAD的值	    	 
+//	ticks=nus*fac_us; 						//需要的节拍数 
+//	told=SysTick->VAL;        				//刚进入时的计数器值
+//	while(1)
+//	{
+//		tnow=SysTick->VAL;	
+//		if(tnow!=told)
+//		{	    
+//			if(tnow<told)tcnt+=told-tnow;	//这里注意一下SYSTICK是一个递减的计数器就可以了.
+//			else tcnt+=reload-tnow+told;	    
+//			told=tnow;
+//			if(tcnt>=ticks)break;			//时间超过/等于要延迟的时间,则退出.
+//		}  
+//	};
+//}
+//void delay_us(uint32_t us) {
+//    TickType_t ticks = pdMS_TO_TICKS(us / 1000.0);
+//    if(ticks == 0) ticks = 1;  // 至少延时1个tick
+//    
+//    vTaskDelay(ticks);  // 使用FreeRTOS延时
+//}
+
+void delay_us(uint32_t us) {
+    uint32_t start_ticks = DWT->CYCCNT;
+    uint32_t delay_ticks = us * (SystemCoreClock / 1000000); // 计算需等待的时钟周期数
+
+    // 等待周期计数器达到目标值（处理溢出）
+    while ((DWT->CYCCNT - start_ticks) < delay_ticks) {
+        // 空循环
+    }
 }
 
 //延时nms

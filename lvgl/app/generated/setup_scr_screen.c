@@ -149,8 +149,6 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_add_flag(ui->screen_imgbtn_1, LV_OBJ_FLAG_CHECKABLE);
     lv_imgbtn_set_src(ui->screen_imgbtn_1, LV_IMGBTN_STATE_RELEASED, NULL, &_3_alpha_100x80, NULL);
     lv_imgbtn_set_src(ui->screen_imgbtn_1, LV_IMGBTN_STATE_PRESSED, NULL, &_2_alpha_100x80, NULL);
-    lv_imgbtn_set_src(ui->screen_imgbtn_1, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_4_alpha_100x80, NULL);
-    lv_imgbtn_set_src(ui->screen_imgbtn_1, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_1_alpha_100x80, NULL);
     ui->screen_imgbtn_1_label = lv_label_create(ui->screen_imgbtn_1);
     lv_label_set_text(ui->screen_imgbtn_1_label, "");
     lv_label_set_long_mode(ui->screen_imgbtn_1_label, LV_LABEL_LONG_WRAP);
@@ -193,8 +191,6 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_add_flag(ui->screen_imgbtn_2, LV_OBJ_FLAG_CHECKABLE);
     lv_imgbtn_set_src(ui->screen_imgbtn_2, LV_IMGBTN_STATE_RELEASED, NULL, &_3_alpha_100x80, NULL);
     lv_imgbtn_set_src(ui->screen_imgbtn_2, LV_IMGBTN_STATE_PRESSED, NULL, &_2_alpha_100x80, NULL);
-    lv_imgbtn_set_src(ui->screen_imgbtn_2, LV_IMGBTN_STATE_CHECKED_RELEASED, NULL, &_4_alpha_100x80, NULL);
-    lv_imgbtn_set_src(ui->screen_imgbtn_2, LV_IMGBTN_STATE_CHECKED_PRESSED, NULL, &_1_alpha_100x80, NULL);
     ui->screen_imgbtn_2_label = lv_label_create(ui->screen_imgbtn_2);
     lv_label_set_text(ui->screen_imgbtn_2_label, "");
     lv_label_set_long_mode(ui->screen_imgbtn_2_label, LV_LABEL_LONG_WRAP);

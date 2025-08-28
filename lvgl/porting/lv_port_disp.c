@@ -139,6 +139,7 @@ void lv_port_disp_init(void)
 static void disp_init(void)
 {
     /*You code here*/
+    
 }
 
 volatile bool disp_flush_enabled = true;

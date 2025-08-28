@@ -107,9 +107,9 @@ void UsageFault_Handler(void)
   * @param  None
   * @retval None
   */
-void SVC_Handler(void)
-{
-}
+//void SVC_Handler(void)
+//{
+//}
 
 /**
   * @brief  This function handles Debug Monitor exception.
@@ -125,19 +125,27 @@ void DebugMon_Handler(void)
   * @param  None
   * @retval None
   */
-void PendSV_Handler(void)
-{
-}
+//void PendSV_Handler(void)
+//{
+//}
 
 /**
   * @brief  This function handles SysTick Handler.
   * @param  None
   * @retval None
   */
-void SysTick_Handler(void)
-{
-  HAL_IncTick();
-}
+//void SysTick_Handler(void)
+//{
+//  HAL_IncTick();
+//  // 调用FreeRTOS的SysTick处理函数
+//  #if (INCLUDE_xTaskGetSchedulerState == 1)
+//  if (xTaskGetSchedulerState() != taskSCHEDULER_NOT_STARTED) {
+//  #endif
+//      xPortSysTickHandler();   // 注意这里调用的是FreeRTOS的处理函数
+//  #if (INCLUDE_xTaskGetSchedulerState == 1)
+//  }
+//  #endif
+//}
 
 /******************************************************************************/
 /*                 STM32F4xx Peripherals Interrupt Handlers                   */

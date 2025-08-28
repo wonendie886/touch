@@ -15,4 +15,5 @@ typedef struct {
 void FLASH_StoreConfig(uint32_t grind_time);
 int FLASH_LoadConfig(uint32_t *saved_time);
 
+
 #endif
