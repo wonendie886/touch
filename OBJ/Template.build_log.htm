@@ -26,11 +26,25 @@ Project File Date:  08/25/2025
 
 <h2>Output:</h2>
 Build target 'TOUCH'
+compiling main.c...
+..\SYSTEM\flash\flash.h(19): warning:  #1-D: last line of file ends without a newline
+  #endif
+main.c(65): warning:  #177-D: variable "xReturned" was declared but never referenced
+        BaseType_t xReturned;
+main.c(169): warning:  #1-D: last line of file ends without a newline
+  }
+main.c: 3 warnings, 0 errors
 compiling led.c...
+compiling lcd.c...
+compiling touch.c...
+compiling gt1151.c...
+..\HARDWARE\TOUCH\gt1151.c(101): warning:  #550-D: variable "buf" was set but never used
+        u8 buf[3];
+..\HARDWARE\TOUCH\gt1151.c: 1 warning, 0 errors
 linking...
 Program Size: Code=190704 RO-data=195912 RW-data=1108 ZI-data=111892  
 FromELF: creating hex file...
-"..\OBJ\Template.axf" - 0 Error(s), 0 Warning(s).
+"..\OBJ\Template.axf" - 0 Error(s), 4 Warning(s).
 
 <h2>Collection of Component include folders:</h2>
   E:\zhuo mian\docoffee\USER\RTE
