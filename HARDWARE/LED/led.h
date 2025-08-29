@@ -8,7 +8,7 @@
 ////////////////////////////////////////////////////////////////////////////////// 	
 
 //LED�˿ڶ���
-#define LED0 PAout(1)   	//LED0
+#define LED0 PAout(7)   	//LED0
 #define LED1 PAout(2)   	//LED1
 
 void LED_Init(void);      //LED��ʼ��

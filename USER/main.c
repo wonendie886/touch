@@ -22,82 +22,137 @@ void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
 
 TaskHandle_t xLCD_Refresh_LED_TaskHandle= NULL;  
-TaskHandle_t xLvglTaskHandle = NULL;  //LVGLÏà¹ØµÄÈÎÎñ¾ä±ú  ÏÔÊ¾ÈÎÎñ
+TaskHandle_t xLvglTaskHandle = NULL;  //LVGLï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½
 TaskHandle_t xFlashTaskHandle = NULL;
 lv_ui guider_ui;
 
-// ÔÚÈ«¾Ö·¶Î§¶¨ÒåÕâÐ©±äÁ¿
-volatile uint32_t current_grind_time = 10;      // µ±Ç°ÑÐÄ¥Ê±¼ä
-volatile uint32_t last_stored_grind_time = 0;   // ÉÏ´Î´æ´¢µÄÑÐÄ¥Ê±¼ä
-volatile uint8_t grind_time_changed = 0;        // ¸Ä±ä±êÖ¾
+// ï¿½ï¿½È«ï¿½Ö·ï¿½Î§ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½
+volatile uint32_t current_grind_time = 10;      // ï¿½ï¿½Ç°ï¿½ï¿½Ä¥Ê±ï¿½ï¿½
+volatile uint32_t last_stored_grind_time = 0;   // ï¿½Ï´Î´æ´¢ï¿½ï¿½ï¿½ï¿½Ä¥Ê±ï¿½ï¿½
+volatile uint8_t grind_time_changed = 0;        // ï¿½Ä±ï¿½ï¿½Ö¾
 
 /************************************************
- WKS STM32F407VET6ºËÐÄ°å
- ´¥ÃþÆÁÊµÑé-HAL¿âº¯Êý°æ
+ WKS STM32F407VET6ï¿½ï¿½ï¿½Ä°ï¿½
+ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½-HALï¿½âº¯ï¿½ï¿½ï¿½ï¿½
 ************************************************/
 void DWT_Init(void) {
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // ÆôÓÃ¸ú×Ùµ¥Ôª
-    DWT->CYCCNT = 0;                                // ¼ÆÊýÆ÷ÇåÁã
-    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;            // ÆôÓÃÖÜÆÚ¼ÆÊýÆ÷
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // ï¿½ï¿½ï¿½Ã¸ï¿½ï¿½Ùµï¿½Ôª
+    DWT->CYCCNT = 0;                                // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;            // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 void grind_time_init(void) {
     uint32_t saved_time;
     int ret = FLASH_LoadConfig(&saved_time);
     
     if (ret == 1) {
-        // ³É¹¦¼ÓÔØ±£´æµÄÊ±¼ä
+        // ï¿½É¹ï¿½ï¿½ï¿½ï¿½Ø±ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½
         current_grind_time = saved_time;
-        printf("´ÓFlash¼ÓÔØÑÐÄ¥Ê±¼ä: %d\n", current_grind_time);
+        //printf("ï¿½ï¿½Flashï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¥Ê±ï¿½ï¿½: %d\n", current_grind_time);
     } else if (ret == 0) {
-        // Ã»ÓÐÓÐÐ§Êý¾Ý£¬Ê¹ÓÃÄ¬ÈÏÖµ
+        // Ã»ï¿½ï¿½ï¿½ï¿½Ð§ï¿½ï¿½ï¿½Ý£ï¿½Ê¹ï¿½ï¿½Ä¬ï¿½ï¿½Öµ
         current_grind_time = 10;
-        printf("Ê¹ÓÃÄ¬ÈÏÑÐÄ¥Ê±¼ä: %d\n", current_grind_time);
+        //printf("Ê¹ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½Ä¥Ê±ï¿½ï¿½: %d\n", current_grind_time);
     } else {
-        // CRCÐ£ÑéÊ§°Ü£¬Ê¹ÓÃÄ¬ÈÏÖµ
+        // CRCÐ£ï¿½ï¿½Ê§ï¿½Ü£ï¿½Ê¹ï¿½ï¿½Ä¬ï¿½ï¿½Öµ
         current_grind_time = 10;
-        printf("CRCÐ£ÑéÊ§°Ü£¬Ê¹ÓÃÄ¬ÈÏÑÐÄ¥Ê±¼ä: %d\n", current_grind_time);
+       // printf("CRCÐ£ï¿½ï¿½Ê§ï¿½Ü£ï¿½Ê¹ï¿½ï¿½Ä¬ï¿½ï¿½ï¿½ï¿½Ä¥Ê±ï¿½ï¿½: %d\n", current_grind_time);
     }
+}
+
+UART_HandleTypeDef huart6;
+
+// USART6åˆå§‹åŒ–å‡½æ•°
+static void MX_USART6_UART_Init(void)
+{
+    // 1. ä½¿èƒ½USART6æ—¶é’Ÿ
+    __HAL_RCC_USART6_CLK_ENABLE();
+    // 2. ä½¿èƒ½GPIOCæ—¶é’Ÿï¼ˆPC6æ‰€åœ¨ç«¯å£ï¼‰
+    __HAL_RCC_GPIOC_CLK_ENABLE();
+
+    // 3. é…ç½®PC6ä¸ºUSART6_TX
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = GPIO_PIN_6;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;        // å¤ç”¨æŽ¨æŒ½è¾“å‡º
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF8_USART6;   // å¤ç”¨åŠŸèƒ½8 = USART6
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
+
+    // 4. é…ç½®USART6å‚æ•°
+    huart6.Instance = USART6;
+    huart6.Init.BaudRate = 115200;
+    huart6.Init.WordLength = UART_WORDLENGTH_8B;
+    huart6.Init.StopBits = UART_STOPBITS_1;
+    huart6.Init.Parity = UART_PARITY_NONE;
+    huart6.Init.Mode = UART_MODE_TX;               // ä»…å‘é€æ¨¡å¼
+    huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart6.Init.OverSampling = UART_OVERSAMPLING_16;
+    
+    // 5. åˆå§‹åŒ–USART6
+    if (HAL_UART_Init(&huart6) != HAL_OK)
+    {
+    }
+}
+// é‡å®šå‘printfåˆ°USART6
+int fputc(int ch, FILE *f)
+{
+    HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+    return ch;
+    /*
+int fputc(int ch, FILE *f)
+{ 	
+	while((USART1->SR&0X40)==0);//Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½,Ö±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½   
+	USART1->DR = (u8) ch;      
+	return ch;
+}
+    */
 }
 
 int main(void)
 { 
 	DWT_Init();
 	BaseType_t xReturned;
-	HAL_Init();      //³õÊ¼»¯HAL¿â
-	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); // Ê¹ÓÃHAL¿âº¯Êý
-	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0); // ÉèÎª×îµÍÓÅÏÈ¼¶  
+	HAL_Init();      //ï¿½ï¿½Ê¼ï¿½ï¿½HALï¿½ï¿½
+	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); // Ê¹ï¿½ï¿½HALï¿½âº¯ï¿½ï¿½
+	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0); // ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¼ï¿½  
 	HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);	
-	STM32_Clock_Init(336,25,2,7);  	//ÉèÖÃÊ±ÖÓ,168Mhz
-	delay_init(168);               	//³õÊ¼»¯ÑÓÊ±º¯Êý
-	uart_init(115200);             	//³õÊ¼»¯USART
-	usmart_dev.init(84); 		        //³õÊ¼»¯USMART
-	LED_Init();										//³õÊ¼»¯LED
-	TIM2_Init();							  // ³õÊ¼»¯TIM2		
-	KEY_Init();						          //³õÊ¼»¯KEY
+	STM32_Clock_Init(336,25,2,7);  	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½,168Mhz
+	delay_init(168);               	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+	//uart_init(115200);             	//ï¿½ï¿½Ê¼ï¿½ï¿½USART
+	usmart_dev.init(84); 		        //ï¿½ï¿½Ê¼ï¿½ï¿½USMART
+	LED_Init();										//ï¿½ï¿½Ê¼ï¿½ï¿½LED
+	TIM2_Init();							  // ï¿½ï¿½Ê¼ï¿½ï¿½TIM2		
+	//KEY_Init();						          //ï¿½ï¿½Ê¼ï¿½ï¿½KEY
+    MX_USART6_UART_Init(); 
 
-	LCD_Init();								  // ³õÊ¼»¯LCD
-//	//Modbus_Init(9600); // ³õÊ¼»¯Modbus
-//	//grind_time_init();     //³õÊ¼»¯Ê±¼ä			   
-	tp_dev.init();				          //´¥ÃþÆÁ³õÊ¼»¯ 
+    nv3401_gpio_init();
+    nv3401_lcd_init();
+
+    //lcd_read_id();
+    printf("Hello World t!\r\n");
+	//LCD_Init();								  // ï¿½ï¿½Ê¼ï¿½ï¿½LCD
+//	//Modbus_Init(9600); // ï¿½ï¿½Ê¼ï¿½ï¿½Modbus
+//	//grind_time_init();     //ï¿½ï¿½Ê¼ï¿½ï¿½Ê±ï¿½ï¿½			   
+	//tp_dev.init();				          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ 
 //	
-	lv_init();
-	lv_port_disp_init();   // ÄãÒªÊµÏÖµÄÏÔÊ¾½Ó¿Ú
-	lv_port_indev_init();  // ÄãÒªÊµÏÖµÄ´¥¿Ø½Ó¿Ú
-	// ³õÊ¼»¯UI±ØÐëÔÚÈÎÎñÉÏÏÂÎÄÖÐ
-	setup_ui(&guider_ui);
-	events_init(&guider_ui);
+	//lv_init();
+	//lv_port_disp_init();   // ï¿½ï¿½ÒªÊµï¿½Öµï¿½ï¿½ï¿½Ê¾ï¿½Ó¿ï¿½
+	//lv_port_indev_init();  // ï¿½ï¿½ÒªÊµï¿½ÖµÄ´ï¿½ï¿½Ø½Ó¿ï¿½
+	// ï¿½ï¿½Ê¼ï¿½ï¿½UIï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//setup_ui(&guider_ui);
+	//events_init(&guider_ui);
 
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
-	vTaskStartScheduler();  //Æô¶¯µ÷¶ÈÆ÷£¬ÈÎÎñ¿ªÊ¼Ö´ÐÐ
+	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
+	vTaskStartScheduler();  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼Ö´ï¿½ï¿½
 
 //	static uint32_t last_call = 0;
 
-// 	·¢ËÍÐ¡±­£¨10s£©
+// 	ï¿½ï¿½ï¿½ï¿½Ð¡ï¿½ï¿½ï¿½ï¿½10sï¿½ï¿½
 // 	Modbus_SendGrindTime(0);
 
-    while (1)                                            // whileº¯ÊýËÀÑ­»·£¬²»ÄÜÈÃmainº¯ÊýÔËÐÐ½áÊø£¬·ñÔò»á²úÉúÓ²¼þ´íÎó
+    while (1)                                            // whileï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ñ­ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½mainï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     {           
 	}
 }
@@ -106,64 +161,64 @@ int main(void)
 void vLCD_Refresh_LED_Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime_Refresh;
-	const TickType_t xPeriod2 = pdMS_TO_TICKS( 100 );  //ÅäÖÃÖÜÆÚÖµ    5ms
-	xLastWakeTime_Refresh = xTaskGetTickCount();   //¶ÁÒ»ÏÂµ±Ç°Ê±¼ä	
+	const TickType_t xPeriod2 = pdMS_TO_TICKS( 100 );  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Öµ    5ms
+	xLastWakeTime_Refresh = xTaskGetTickCount();   //ï¿½ï¿½Ò»ï¿½Âµï¿½Ç°Ê±ï¿½ï¿½	
 	while(1)
 	{
-		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//¾ø¶ÔÑÓÊ±1s£¬¸ü¾«×¼
+		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±1sï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×¼
 		LED0=!LED0;
 	}
 }
 
-//LVGLÈÎÎñº¯Êý
+//LVGLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 void vLvglTaskFunction(void *pvParameters) {
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xPeriod = pdMS_TO_TICKS(5); // ÈÎÎñÖÜÆÚ5ms
+    const TickType_t xPeriod = pdMS_TO_TICKS(5); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½5ms
 
     while (1) {
-        // ¼ÆËã×ÔÉÏ´Îµ÷ÓÃÒÔÀ´¾­¹ýµÄtickÊý£¨¼´ºÁÃëÊý£©
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Îµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½tickï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         static TickType_t xLastTickCount = 0;
         TickType_t xCurrentTickCount = xTaskGetTickCount();
         uint32_t elapsed_ticks = xCurrentTickCount - xLastTickCount;
         xLastTickCount = xCurrentTickCount;
 
-        // ¸üÐÂLVGLÊ±¼ä
-        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MSÊÇÃ¿¸ötickµÄºÁÃëÊý
+        // ï¿½ï¿½ï¿½ï¿½LVGLÊ±ï¿½ï¿½
+        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MSï¿½ï¿½Ã¿ï¿½ï¿½tickï¿½Äºï¿½ï¿½ï¿½ï¿½ï¿½
 
-        // ´¦ÀíLVGLÈÎÎñ
+        // ï¿½ï¿½ï¿½ï¿½LVGLï¿½ï¿½ï¿½ï¿½
         lv_task_handler();
 
-        // ¾«È·ÑÓÊ±£¬±£Ö¤ÈÎÎñÖÜÆÚ
+        // ï¿½ï¿½È·ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Ö¤ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
 
 void vflash(void *pvParameters) {
-    // ³õÊ¼»¯£º¶ÁÈ¡Ö®Ç°´æ´¢µÄÖµ
+    // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡Ö®Ç°ï¿½æ´¢ï¿½ï¿½Öµ
     grind_time_init();
     
-    // ÉèÖÃ³õÊ¼Öµ
+    // ï¿½ï¿½ï¿½Ã³ï¿½Ê¼Öµ
     last_stored_grind_time = current_grind_time;
     
     for (;;) {
-        // ¼ì²éÊÇ·ñÐèÒª´æ´¢
+        // ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Òªï¿½æ´¢
         if (grind_time_changed) {
-            printf("¼ì²âµ½ÑÐÄ¥Ê±¼ä¸Ä±ä: %d -> %d\n", last_stored_grind_time, current_grind_time);
+           // printf("ï¿½ï¿½âµ½ï¿½ï¿½Ä¥Ê±ï¿½ï¿½Ä±ï¿½: %d -> %d\n", last_stored_grind_time, current_grind_time);
             
-            // Ö´ÐÐFlash´æ´¢²Ù×÷
+            // Ö´ï¿½ï¿½Flashï¿½æ´¢ï¿½ï¿½ï¿½ï¿½
             FLASH_StoreConfig(current_grind_time);
             
-            // ¸üÐÂÉÏ´Î´æ´¢µÄÖµ
+            // ï¿½ï¿½ï¿½ï¿½ï¿½Ï´Î´æ´¢ï¿½ï¿½Öµ
             last_stored_grind_time = current_grind_time;
             
-            // Çå³ý¸Ä±ä±êÖ¾
+            // ï¿½ï¿½ï¿½ï¿½Ä±ï¿½ï¿½Ö¾
             grind_time_changed = 0;
             
-            // ¸øFlash²Ù×÷Íê³ÉÊ±¼ä£¨¿ÉÑ¡£©
+            // ï¿½ï¿½Flashï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ä£¨ï¿½ï¿½Ñ¡ï¿½ï¿½
             vTaskDelay(pdMS_TO_TICKS(10));
         }
         
-        // ¶ÌÔÝÑÓÊ±£¬¼õÉÙCPUÕ¼ÓÃ
+        // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½CPUÕ¼ï¿½ï¿½
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
