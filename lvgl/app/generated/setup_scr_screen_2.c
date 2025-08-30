@@ -15,7 +15,7 @@
 #include "custom.h"
 
 
-
+/*
 void setup_scr_screen_2(lv_ui *ui)
 {
     //Write codes screen_2
@@ -34,3 +34,4 @@ void setup_scr_screen_2(lv_ui *ui)
     lv_obj_update_layout(ui->screen_2);
 
 }
+*/

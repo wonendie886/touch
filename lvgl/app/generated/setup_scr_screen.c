@@ -18,6 +18,7 @@
 
 void setup_scr_screen(lv_ui *ui)
 {
+    
     //Write codes screen
     ui->screen = lv_obj_create(NULL);
     lv_obj_set_size(ui->screen, 480, 272);
@@ -34,6 +35,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_label_set_long_mode(ui->screen_label_1, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_1, 40, 30);
     lv_obj_set_size(ui->screen_label_1, 100, 30);
+    
 
     //Write style for screen_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -233,7 +235,6 @@ void setup_scr_screen(lv_ui *ui)
 
     //Update current screen layout.
     lv_obj_update_layout(ui->screen);
-
     //Init events for screen.
-    events_init_screen(ui);
+    // events_init_screen(ui);
 }

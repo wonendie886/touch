@@ -379,7 +379,8 @@ void nv3401_lcd_init(void)
 	write_lcd_reg(0x0000,0x0029);
 	delay_ms(120);
 
-	nv3401_SetWindow(0,0,480-1,272-1);
+/*
+	
 
 	for (int i=0;i < 99;i++)
 	{
@@ -392,7 +393,9 @@ void nv3401_lcd_init(void)
 		}
 		delay_ms(1000);
 	}
-	
+	*/
+	nv3401_SetWindow(0,0,480-1,272-1);
+	nv3401_fillColor(BLACK,480*272);
 	
 }   
 
@@ -438,7 +441,7 @@ void nv3401_SetWindow(uint16_t x1, uint16_t y1, uint16_t x2, uint16_t y2)
 static void nv3401_fillColor(uint16_t color, uint32_t pixel_count)
 {
     // 设置好窗口后，连续写入颜色数据
-    write_lcd_cmd(0x002C);  // 开始写入显存
+    //write_lcd_cmd(0x002C);  // 开始写入显存
     
 	// for(uint32_t i = 0; i < pixel_count; i++) {
 	// 	write_lcd_data(color);
@@ -452,6 +455,42 @@ static void nv3401_fillColor(uint16_t color, uint32_t pixel_count)
 		
 		NV3401_WR = 0;
 		nv3401_set_data(color);
+		NV3401_WR = 1;
+    }
+
+	NV3401_CS = 1;
+	
+}
+/// @brief LVGL callback function to fill a rectangle with a color
+void LCD_Color_Fill(uint16_t sx,uint16_t sy,uint16_t ex,uint16_t ey,uint16_t *color)
+{
+	uint16_t height = 0,width = 0;
+
+	width = ex - sx + 1; 			
+	height = ey - sy + 1;	
+
+	write_lcd_cmd(0x002A);  // 列地址设置
+    write_lcd_data(sx >> 8);
+    write_lcd_data(sx & 0xFF);
+    write_lcd_data(ex >> 8);
+    write_lcd_data(ex & 0xFF);
+    
+    write_lcd_cmd(0x002B);  // 行地址设置
+    write_lcd_data(sy >> 8);
+    write_lcd_data(sy & 0xFF);
+    write_lcd_data(ey >> 8);
+    write_lcd_data(ey & 0xFF);
+    
+    write_lcd_cmd(0x002C);  // 开始写入显存
+
+	write_lcd_cmd(0x002C);
+	NV3401_CS = 0;
+	
+	NV3401_DC = 1; ///data
+	NV3401_RD = 1;
+    for(uint32_t i = 0; i < width*height; i++) {
+		NV3401_WR = 0;
+		nv3401_set_data(color[i]);
 		NV3401_WR = 1;
     }
 
@@ -2740,6 +2779,7 @@ void LCD_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 color)
 //��ָ�����������ָ����ɫ��
 //(sx,sy),(ex,ey):�����ζԽ�����,�����СΪ:(ex-sx+1)*(ey-sy+1)
 //color:Ҫ������ɫ
+/*
 void LCD_Color_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 *color)
 {  
 	u16 height,width;
@@ -2759,7 +2799,7 @@ void LCD_Color_Fill(u16 sx,u16 sy,u16 ex,u16 ey,u16 *color)
         }
     }
 }
-
+*/
 //����
 //x1,y1:�������
 //x2,y2:�յ�����  

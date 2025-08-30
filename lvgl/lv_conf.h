@@ -20,7 +20,8 @@
 #include <stdint.h>
 
 #define MY_DISP_HOR_RES  480
-#define MY_DISP_VER_RES  800
+#define MY_DISP_VER_RES  272
+
 
 /*====================
    COLOR SETTINGS

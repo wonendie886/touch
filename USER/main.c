@@ -119,32 +119,28 @@ int main(void)
 	STM32_Clock_Init(336,25,2,7);  	//����ʱ��,168Mhz
 	delay_init(168);               	//��ʼ����ʱ����
 	//uart_init(115200);             	//��ʼ��USART
-	usmart_dev.init(84); 		        //��ʼ��USMART
+	//usmart_dev.init(84); 		        //��ʼ��USMART
 	LED_Init();										//��ʼ��LED
 	TIM2_Init();							  // ��ʼ��TIM2		
 	//KEY_Init();						          //��ʼ��KEY
     MX_USART6_UART_Init(); 
 
-    nv3401_gpio_init();
-    nv3401_lcd_init();
+    
 
-    lcd_read_id();
+    // lcd_read_id();
     printf("Hello World t!\r\n");
 	//LCD_Init();								  // ��ʼ��LCD
 //	//Modbus_Init(9600); // ��ʼ��Modbus
-//	//grind_time_init();     //��ʼ��ʱ��			   
-	//tp_dev.init();				          //��������ʼ�� 
+	grind_time_init();     //��ʼ��ʱ��			   
+	tp_dev.init();				          //��������ʼ�� 
 //	
-	//lv_init();
-	//lv_port_disp_init();   // ��Ҫʵ�ֵ���ʾ�ӿ�
-	//lv_port_indev_init();  // ��Ҫʵ�ֵĴ��ؽӿ�
-	// ��ʼ��UI������������������
-	//setup_ui(&guider_ui);
-	//events_init(&guider_ui);
+	
+
+        
 
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
 	vTaskStartScheduler();  //����������������ʼִ��
 
 //	static uint32_t last_call = 0;
@@ -161,12 +157,13 @@ int main(void)
 void vLCD_Refresh_LED_Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime_Refresh;
-	const TickType_t xPeriod2 = pdMS_TO_TICKS( 100 );  //��������ֵ    5ms
+	const TickType_t xPeriod2 = pdMS_TO_TICKS( 500 );  //��������ֵ    5ms
 	xLastWakeTime_Refresh = xTaskGetTickCount();   //��һ�µ�ǰʱ��	
 	while(1)
 	{
 		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//������ʱ1s������׼
 		LED0=!LED0;
+        
 	}
 }
 
@@ -174,6 +171,16 @@ void vLCD_Refresh_LED_Task( void *pvParameters )
 void vLvglTaskFunction(void *pvParameters) {
     TickType_t xLastWakeTime = xTaskGetTickCount();
     const TickType_t xPeriod = pdMS_TO_TICKS(5); // ��������5ms
+
+    nv3401_gpio_init();
+    nv3401_lcd_init();
+
+    lv_init();
+	lv_port_disp_init();   // ��Ҫʵ�ֵ���ʾ�ӿ�
+	lv_port_indev_init();  // ��Ҫʵ�ֵĴ��ؽӿ�
+	// ��ʼ��UI������������������
+	setup_ui(&guider_ui);
+	events_init(&guider_ui);
 
     while (1) {
         // �������ϴε�������������tick��������������
@@ -183,7 +190,7 @@ void vLvglTaskFunction(void *pvParameters) {
         xLastTickCount = xCurrentTickCount;
 
         // ����LVGLʱ��
-        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
+        //lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
 
         // ����LVGL����
         lv_task_handler();
