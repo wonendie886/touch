@@ -128,7 +128,7 @@ int main(void)
     nv3401_gpio_init();
     nv3401_lcd_init();
 
-    //lcd_read_id();
+    lcd_read_id();
     printf("Hello World t!\r\n");
 	//LCD_Init();								  // ��ʼ��LCD
 //	//Modbus_Init(9600); // ��ʼ��Modbus
