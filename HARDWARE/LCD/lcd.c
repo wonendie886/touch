@@ -175,7 +175,7 @@ void nv3401_lcd_init(void)
 	write_lcd_reg(0x0000,0x0040);
 	write_lcd_reg(0x8000,0x0001); //01:IPS/00:TN
 	write_lcd_reg(0x0000,0x0041);
-	write_lcd_reg(0x8000,0x0001);//01--8bit//03--16bit
+	write_lcd_reg(0x8000,0x0003);//01--8bit//03--16bit
 	write_lcd_reg(0x0000,0x0055);
 	write_lcd_reg(0x8000,0x0001);
 	write_lcd_reg(0x0000,0x0044);//VBP
@@ -379,10 +379,20 @@ void nv3401_lcd_init(void)
 	write_lcd_reg(0x0000,0x0029);
 	delay_ms(120);
 
-	//write_lcd_cmd(0x28); 0x001F
-	nv3401_SetWindow(0,0,50-1,50-1);
+	nv3401_SetWindow(0,0,480-1,272-1);
 
-	nv3401_fillColor(0xffff,50*50);
+	for (int i=0;i < 99;i++)
+	{
+		if (i % 3 == 0){
+			nv3401_fillColor(RED,480*272);
+		} else if (i % 3 == 1){
+		    nv3401_fillColor(GREEN,480*272);
+		} else {
+			nv3401_fillColor(BLUE,480*272);
+		}
+		delay_ms(1000);
+	}
+	
 	
 }   
 
@@ -439,8 +449,9 @@ static void nv3401_fillColor(uint16_t color, uint32_t pixel_count)
 	NV3401_DC = 1; ///data
 	NV3401_RD = 1;
     for(uint32_t i = 0; i < pixel_count; i++) {
-		nv3401_set_data(color);
+		
 		NV3401_WR = 0;
+		nv3401_set_data(color);
 		NV3401_WR = 1;
     }
 
@@ -542,6 +553,7 @@ static void write_lcd_reg(uint16_t cmd_data,uint16_t data)
 /// @brief NV3401 read id
 void lcd_read_id()
 {
+	uint16_t data = 0;
 	uint16_t id = 0;
 	write_lcd_cmd(0xda);
 	id = read_lcd_data();
@@ -554,6 +566,17 @@ void lcd_read_id()
 	write_lcd_cmd(0xdc);
 	id = read_lcd_data();
 	printf("3 lcd id:0x%x\n",id);
+
+	write_lcd_cmd(0x3a);
+	data = read_lcd_data();
+	printf("pxl_fmt:0x%x\n",data);
+
+	write_lcd_cmd(0x09);
+	for(int i = 0; i < 4; i++){
+		data = read_lcd_data();
+		printf("state parameter %d:0x%x\n",i,data);
+	}
+
 }
 
 
