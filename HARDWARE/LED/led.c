@@ -1,23 +1,23 @@
 #include "led.h"
 //////////////////////////////////////////////////////////////////////////////////	 
-//WKS STM32F407VET6ºËÐÄ°å
-//LEDÇý¶¯´úÂë	   
-//°æ±¾£ºV1.0						  
+//WKS STM32F407VET6ï¿½ï¿½ï¿½Ä°ï¿½
+//LEDï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½	   
+//ï¿½æ±¾ï¿½ï¿½V1.0						  
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-//³õÊ¼»¯PA1ºÍPA2ÎªÊä³ö¿Ú.²¢Ê¹ÄÜÕâÁ½¸ö¿ÚµÄÊ±ÖÓ		    
-//LED IO³õÊ¼»¯
+//ï¿½ï¿½Ê¼ï¿½ï¿½PA1ï¿½ï¿½PA2Îªï¿½ï¿½ï¿½ï¿½ï¿½.ï¿½ï¿½Ê¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Úµï¿½Ê±ï¿½ï¿½		    
+//LED IOï¿½ï¿½Ê¼ï¿½ï¿½
 void LED_Init(void)
 {
     GPIO_InitTypeDef GPIO_Initure;
-    __HAL_RCC_GPIOA_CLK_ENABLE();           //¿ªÆôGPIOAÊ±ÖÓ
+    __HAL_RCC_GPIOA_CLK_ENABLE();           //ï¿½ï¿½ï¿½ï¿½GPIOAÊ±ï¿½ï¿½
 	
-    GPIO_Initure.Pin=GPIO_PIN_1|GPIO_PIN_2|GPIO_PIN_7; //PA1,2
-    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //ÍÆÍìÊä³ö
-    GPIO_Initure.Pull=GPIO_PULLUP;          //ÉÏÀ­
-    GPIO_Initure.Speed=GPIO_SPEED_HIGH;     //¸ßËÙ
+    GPIO_Initure.Pin = GPIO_PIN_7;
+    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    GPIO_Initure.Pull=GPIO_PULLUP;          //ï¿½ï¿½ï¿½ï¿½
+    GPIO_Initure.Speed=GPIO_SPEED_HIGH;     //ï¿½ï¿½ï¿½ï¿½
     HAL_GPIO_Init(GPIOA,&GPIO_Initure);
 	
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);	//PA1ÖÃ1£¬Ä¬ÈÏ³õÊ¼»¯ºóµÆÃð
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);	//PA2ÖÃ1£¬Ä¬ÈÏ³õÊ¼»¯ºóµÆÃð
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_1,GPIO_PIN_SET);	//PA1ï¿½ï¿½1ï¿½ï¿½Ä¬ï¿½Ï³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);	//PA2ï¿½ï¿½1ï¿½ï¿½Ä¬ï¿½Ï³ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }

@@ -2,6 +2,7 @@
 #OutputFiledir & Files
 Listings/
 Objects/
+OBJ/
 *.crf
 *.d
 *.o
