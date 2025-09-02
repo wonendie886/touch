@@ -4,8 +4,6 @@
 #include "led.h"
 #include "key.h"
 #include "lcd.h"
-#include "usmart.h"
-#include "touch.h"
 #include "timer.h"
 #include "lvgl.h"
 #include "lv_port_disp.h"
@@ -16,6 +14,7 @@
 #include "flash.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "gt911.h"
 
 void vLCD_Refresh_LED_Task( void *pvParameters );
 void vLvglTaskFunction( void * pvParameters );
@@ -59,54 +58,42 @@ void grind_time_init(void) {
     }
 }
 
-UART_HandleTypeDef huart6;
-
+static UART_HandleTypeDef huart6;
 // USART6初始化函数
 static void MX_USART6_UART_Init(void)
 {
-    // 1. 使能USART6时钟
     __HAL_RCC_USART6_CLK_ENABLE();
-    // 2. 使能GPIOC时钟（PC6所在端口）
     __HAL_RCC_GPIOC_CLK_ENABLE();
 
-    // 3. 配置PC6为USART6_TX
     GPIO_InitTypeDef GPIO_InitStruct = {0};
     GPIO_InitStruct.Pin = GPIO_PIN_6;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;        // 复用推挽输出
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
     GPIO_InitStruct.Pull = GPIO_NOPULL;
     GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF8_USART6;   // 复用功能8 = USART6
+    GPIO_InitStruct.Alternate = GPIO_AF8_USART6; 
     HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    // 4. 配置USART6参数
     huart6.Instance = USART6;
     huart6.Init.BaudRate = 115200;
     huart6.Init.WordLength = UART_WORDLENGTH_8B;
     huart6.Init.StopBits = UART_STOPBITS_1;
     huart6.Init.Parity = UART_PARITY_NONE;
-    huart6.Init.Mode = UART_MODE_TX;               // 仅发送模式
+    huart6.Init.Mode = UART_MODE_TX; 
     huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
     huart6.Init.OverSampling = UART_OVERSAMPLING_16;
     
-    // 5. 初始化USART6
     if (HAL_UART_Init(&huart6) != HAL_OK)
     {
     }
 }
-// 重定向printf到USART6
+// USART6 for printf 
 int fputc(int ch, FILE *f)
 {
     HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
     return ch;
-    /*
-int fputc(int ch, FILE *f)
-{ 	
-	while((USART1->SR&0X40)==0);//ѭ������,ֱ���������   
-	USART1->DR = (u8) ch;      
-	return ch;
 }
-    */
-}
+
+const char version[12] = "MRC_V1.0.0";
 
 int main(void)
 { 
@@ -118,24 +105,17 @@ int main(void)
 	HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);	
 	STM32_Clock_Init(336,25,2,7);  	//����ʱ��,168Mhz
 	delay_init(168);               	//��ʼ����ʱ����
-	//uart_init(115200);             	//��ʼ��USART
-	//usmart_dev.init(84); 		        //��ʼ��USMART
-	LED_Init();										//��ʼ��LED
-	TIM2_Init();							  // ��ʼ��TIM2		
-	//KEY_Init();						          //��ʼ��KEY
+
+	LED_Init();					
+	TIM2_Init();				 
+	//KEY_Init();
     MX_USART6_UART_Init(); 
 
-    
-
-    // lcd_read_id();
-    printf("Hello World t!\r\n");
-	//LCD_Init();								  // ��ʼ��LCD
-//	//Modbus_Init(9600); // ��ʼ��Modbus
-	grind_time_init();     //��ʼ��ʱ��			   
-	tp_dev.init();				          //��������ʼ�� 
-//	
+    printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
+//	//Modbus_Init(9600); 
+	grind_time_init();		   
 	
-
+    gt911_init();
         
 
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
@@ -157,13 +137,12 @@ int main(void)
 void vLCD_Refresh_LED_Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime_Refresh;
-	const TickType_t xPeriod2 = pdMS_TO_TICKS( 500 );  //��������ֵ    5ms
+	const TickType_t xPeriod2 = pdMS_TO_TICKS( 50 );  //��������ֵ    5ms
 	xLastWakeTime_Refresh = xTaskGetTickCount();   //��һ�µ�ǰʱ��	
 	while(1)
 	{
 		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//������ʱ1s������׼
 		LED0=!LED0;
-        
 	}
 }
 
@@ -190,7 +169,7 @@ void vLvglTaskFunction(void *pvParameters) {
         xLastTickCount = xCurrentTickCount;
 
         // ����LVGLʱ��
-        //lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
+        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
 
         // ����LVGL����
         lv_task_handler();

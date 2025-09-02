@@ -2,29 +2,29 @@
 #define __MYCT_IIC_H
 #include "sys.h"	    
 //////////////////////////////////////////////////////////////////////////////////	 
-//WKS STM32F407VET6ºËÐÄ°å
-//µçÈÝ´¥ÃþÆÁ-IIC Çý¶¯´úÂë
-//°æ±¾£ºV1.0
+//WKS STM32F407VET6ï¿½ï¿½ï¿½Ä°ï¿½
+//ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½-IIC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½æ±¾ï¿½ï¿½V1.0
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-//IO·½ÏòÉèÖÃ
-#define CT_SDA_IN()  {GPIOB->MODER&=~(3<<(2*12));GPIOB->MODER|=0<<2*12;}	//PB12ÊäÈëÄ£Ê½
-#define CT_SDA_OUT() {GPIOB->MODER&=~(3<<(2*12));GPIOB->MODER|=1<<2*12;} 	//PB12Êä³öÄ£Ê½
-//IO²Ù×÷º¯Êý	 
-#define CT_IIC_SCL    PBout(15) 	//SCL
-#define CT_IIC_SDA    PBout(12)   //SDA	 
-#define CT_READ_SDA   PBin(12)    //ÊäÈëSDA 
+
+#define CT_SDA_IN()  {GPIOB->MODER&=~(3<<(9*2));GPIOB->MODER|=0<<9*2;}	//PB9ï¿½ï¿½ï¿½ï¿½Ä£Ê½
+#define CT_SDA_OUT() {GPIOB->MODER&=~(3<<(9*2));GPIOB->MODER|=1<<9*2;} //PB9ï¿½ï¿½ï¿½Ä£Ê½
+//IOï¿½ï¿½ï¿½ï¿½
+#define CT_IIC_SCL   PBout(8) //SCL
+#define CT_IIC_SDA   PBout(9) //SDA
+#define CT_READ_SDA  PBin(9)  //ï¿½ï¿½ï¿½ï¿½SDA
  
 
-//IICËùÓÐ²Ù×÷º¯Êý
-void CT_IIC_Init(void);                	//³õÊ¼»¯IICµÄIO¿Ú				 
-void CT_IIC_Start(void);				//·¢ËÍIIC¿ªÊ¼ÐÅºÅ
-void CT_IIC_Stop(void);	  				//·¢ËÍIICÍ£Ö¹ÐÅºÅ
-void CT_IIC_Send_Byte(u8 txd);			//IIC·¢ËÍÒ»¸ö×Ö½Ú
-u8 CT_IIC_Read_Byte(unsigned char ack);	//IIC¶ÁÈ¡Ò»¸ö×Ö½Ú
-u8 CT_IIC_Wait_Ack(void); 				//IICµÈ´ýACKÐÅºÅ
-void CT_IIC_Ack(void);					//IIC·¢ËÍACKÐÅºÅ
-void CT_IIC_NAck(void);					//IIC²»·¢ËÍACKÐÅºÅ
+//IICï¿½ï¿½ï¿½Ð²ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+void CT_IIC_Init(void);                	//ï¿½ï¿½Ê¼ï¿½ï¿½IICï¿½ï¿½IOï¿½ï¿½				 
+void CT_IIC_Start(void);				//ï¿½ï¿½ï¿½ï¿½IICï¿½ï¿½Ê¼ï¿½Åºï¿½
+void CT_IIC_Stop(void);	  				//ï¿½ï¿½ï¿½ï¿½IICÍ£Ö¹ï¿½Åºï¿½
+void CT_IIC_Send_Byte(u8 txd);			//IICï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö½ï¿½
+u8 CT_IIC_Read_Byte(unsigned char ack);	//IICï¿½ï¿½È¡Ò»ï¿½ï¿½ï¿½Ö½ï¿½
+u8 CT_IIC_Wait_Ack(void); 				//IICï¿½È´ï¿½ACKï¿½Åºï¿½
+void CT_IIC_Ack(void);					//IICï¿½ï¿½ï¿½ï¿½ACKï¿½Åºï¿½
+void CT_IIC_NAck(void);					//IICï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ACKï¿½Åºï¿½
 
 #endif
 

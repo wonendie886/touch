@@ -1,130 +1,126 @@
 #include "ctiic.h"
 #include "delay.h"	 
 //////////////////////////////////////////////////////////////////////////////////	 
-//WKS STM32F407VET6ºËÐÄ°å
-//µçÈÝ´¥ÃþÆÁ-IIC Çý¶¯´úÂë
-//°æ±¾£ºV1.0
+//WKS STM32F407VET6ï¿½ï¿½ï¿½Ä°ï¿½
+//ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½-IIC ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½æ±¾ï¿½ï¿½V1.0
 ////////////////////////////////////////////////////////////////////////////////// 	
 
-//¿ØÖÆI2CËÙ¶ÈµÄÑÓÊ±
+//ï¿½ï¿½ï¿½ï¿½I2Cï¿½Ù¶Èµï¿½ï¿½ï¿½Ê±
 void CT_Delay(void)
 {
 	delay_us(2);
 } 
-//µçÈÝ´¥ÃþÐ¾Æ¬IIC½Ó¿Ú³õÊ¼»¯
+//ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½Ð¾Æ¬IICï¿½Ó¿Ú³ï¿½Ê¼ï¿½ï¿½
 void CT_IIC_Init(void)
 {	
     GPIO_InitTypeDef GPIO_Initure;
     
-    __HAL_RCC_GPIOB_CLK_ENABLE();   		//Ê¹ÄÜGPIOBÊ±ÖÓ
-
-    //PB15,12
-    GPIO_Initure.Pin=GPIO_PIN_15;			      //PB15ÉèÖÃÎªÍÆÍìÊä³ö
-    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //ÍÆÍìÊä³ö
-    GPIO_Initure.Pull=GPIO_PULLUP;          //ÉÏÀ­
-    GPIO_Initure.Speed=GPIO_SPEED_HIGH;     //¸ßËÙ
+     __HAL_RCC_GPIOB_CLK_ENABLE();   //Ê¹ï¿½ï¿½GPIOBÊ±ï¿½ï¿½
+    
+    //PB8,9ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    GPIO_Initure.Pin=GPIO_PIN_8|GPIO_PIN_9;
+    GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    GPIO_Initure.Pull=GPIO_PULLUP;          //ï¿½ï¿½ï¿½ï¿½
+    GPIO_Initure.Speed=GPIO_SPEED_FAST;     //ï¿½ï¿½ï¿½ï¿½
     HAL_GPIO_Init(GPIOB,&GPIO_Initure);
-	
-		GPIO_Initure.Pin=GPIO_PIN_12;			//PB12ÉèÖÃÍÆÍìÊä³ö
-		HAL_GPIO_Init(GPIOB,&GPIO_Initure);
-	
 //    CT_IIC_SDA=1;	  	  
 //	  CT_IIC_SCL=1;
 }
-//²úÉúIICÆðÊ¼ÐÅºÅ
+//ï¿½ï¿½ï¿½ï¿½IICï¿½ï¿½Ê¼ï¿½Åºï¿½
 void CT_IIC_Start(void)
 {
-	CT_SDA_OUT();     //sdaÏßÊä³ö
+	CT_SDA_OUT();     //sdaï¿½ï¿½ï¿½ï¿½ï¿½
 	CT_IIC_SDA=1;	  	  
 	CT_IIC_SCL=1;
 	delay_us(30);
  	CT_IIC_SDA=0;//START:when CLK is high,DATA change form high to low 
 	CT_Delay();
-	CT_IIC_SCL=0;//Ç¯×¡I2C×ÜÏß£¬×¼±¸·¢ËÍ»ò½ÓÊÕÊý¾Ý 
+	CT_IIC_SCL=0;//Ç¯×¡I2Cï¿½ï¿½ï¿½ß£ï¿½×¼ï¿½ï¿½ï¿½ï¿½ï¿½Í»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 }	  
-//²úÉúIICÍ£Ö¹ÐÅºÅ
+//ï¿½ï¿½ï¿½ï¿½IICÍ£Ö¹ï¿½Åºï¿½
 void CT_IIC_Stop(void)
 {
-	CT_SDA_OUT();//sdaÏßÊä³ö
+	CT_SDA_OUT();//sdaï¿½ï¿½ï¿½ï¿½ï¿½
 	CT_IIC_SCL=1;
 	delay_us(30);
 	CT_IIC_SDA=0;//STOP:when CLK is high DATA change form low to high
 	CT_Delay();
-	CT_IIC_SDA=1;//·¢ËÍI2C×ÜÏß½áÊøÐÅºÅ  
+	CT_IIC_SDA=1;//ï¿½ï¿½ï¿½ï¿½I2Cï¿½ï¿½ï¿½ß½ï¿½ï¿½ï¿½ï¿½Åºï¿½  
 }
-//µÈ´ýÓ¦´ðÐÅºÅµ½À´
-//·µ»ØÖµ£º1£¬½ÓÊÕÓ¦´ðÊ§°Ü
-//        0£¬½ÓÊÕÓ¦´ð³É¹¦
+//ï¿½È´ï¿½Ó¦ï¿½ï¿½ï¿½ÅºÅµï¿½ï¿½ï¿½
+//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½1ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½Ê§ï¿½ï¿½
+//        0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½É¹ï¿½
 u8 CT_IIC_Wait_Ack(void)
 {
 	u8 ucErrTime=0;
-	CT_SDA_IN();      //SDAÉèÖÃÎªÊäÈë  
-	CT_IIC_SDA=1;	    //ÊÍ·ÅSDAÏß
-	CT_IIC_SCL=1;     //Ê±ÖÓÏßÎª¸ßµçÆ½
+	CT_SDA_IN();      //SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½  
+	CT_IIC_SDA=1;	    //ï¿½Í·ï¿½SDAï¿½ï¿½
+	CT_IIC_SCL=1;     //Ê±ï¿½ï¿½ï¿½ï¿½Îªï¿½ßµï¿½Æ½
 	CT_Delay();
-	while(CT_READ_SDA)     //ÅÐ¶ÏÊÇ·ñ½ÓÊÕµ½ÁËÓ¦´ðÐÅºÅ£¬µÍµçÆ½ÎªÓÐÐ§ÐÅºÅ
+	while(CT_READ_SDA)     //ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½ÅºÅ£ï¿½ï¿½Íµï¿½Æ½Îªï¿½ï¿½Ð§ï¿½Åºï¿½
 	{
 		ucErrTime++;
 		if(ucErrTime>250)
 		{
 			CT_IIC_Stop();
-			return 1;         //Ã»ÓÐÊÕµ½Ó¦´ðÐÅºÅ
+			return 1;         //Ã»ï¿½ï¿½ï¿½Õµï¿½Ó¦ï¿½ï¿½ï¿½Åºï¿½
 		} 
 		CT_Delay();
 	}
-	CT_IIC_SCL=0;//Ê±ÖÓÊä³ö0 	   
+	CT_IIC_SCL=0;//Ê±ï¿½ï¿½ï¿½ï¿½ï¿½0 	   
 	return 0;  
 } 
-//²úÉúACKÓ¦´ð
+//ï¿½ï¿½ï¿½ï¿½ACKÓ¦ï¿½ï¿½
 void CT_IIC_Ack(void)
 {
 	CT_IIC_SCL=0;
-	CT_SDA_OUT();        //SDAÉèÖÃÎªÊä³ö
+	CT_SDA_OUT();        //SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½
 	CT_Delay();
-	CT_IIC_SDA=0;        //²úÉúÓ¦´ðÐÅºÅ
+	CT_IIC_SDA=0;        //ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Åºï¿½
 	CT_Delay();
 	CT_IIC_SCL=1;
 	CT_Delay();
 	CT_IIC_SCL=0;
 }
-//²»²úÉúACKÓ¦´ð		    
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ACKÓ¦ï¿½ï¿½		    
 void CT_IIC_NAck(void)
 {
 	CT_IIC_SCL=0;
-	CT_SDA_OUT();       //SDAÉèÖÃÎªÊä³ö
+	CT_SDA_OUT();       //SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½
 	CT_Delay();
-	CT_IIC_SDA=1;       //·ÇÓ¦´ðÐÅºÅ
+	CT_IIC_SDA=1;       //ï¿½ï¿½Ó¦ï¿½ï¿½ï¿½Åºï¿½
 	CT_Delay();
 	CT_IIC_SCL=1;
 	CT_Delay();
 	CT_IIC_SCL=0;
 }					 				     
-//IIC·¢ËÍÒ»¸ö×Ö½Ú
-//·µ»Ø´Ó»úÓÐÎÞÓ¦´ð
-//1£¬ÓÐÓ¦´ð
-//0£¬ÎÞÓ¦´ð			  
+//IICï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½Ö½ï¿½
+//ï¿½ï¿½ï¿½Ø´Ó»ï¿½ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½
+//1ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½
+//0ï¿½ï¿½ï¿½ï¿½Ó¦ï¿½ï¿½			  
 void CT_IIC_Send_Byte(u8 txd)
 {                        
     u8 t;   
 	CT_SDA_OUT(); 	    
-    CT_IIC_SCL=0;//À­µÍÊ±ÖÓ¿ªÊ¼Êý¾Ý´«Êä
+    CT_IIC_SCL=0;//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½Ó¿ï¿½Ê¼ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½
 	CT_Delay();
 	for(t=0;t<8;t++)
     {              
         CT_IIC_SDA=(txd&0x80)>>7;
         txd<<=1; 	 
     CT_Delay();   			
-		CT_IIC_SCL=1;      //ÔÚSCLÉÏÉýÑØSDAÉÏµÄÊý¾Ý½øÐÐ´®ÐÐ´«ËÍ
+		CT_IIC_SCL=1;      //ï¿½ï¿½SCLï¿½ï¿½ï¿½ï¿½ï¿½ï¿½SDAï¿½Ïµï¿½ï¿½ï¿½ï¿½Ý½ï¿½ï¿½Ð´ï¿½ï¿½Ð´ï¿½ï¿½ï¿½
 		CT_Delay();
 		CT_IIC_SCL=0;	
 		CT_Delay();
     }	 
 } 	    
-//¶Á1¸ö×Ö½Ú£¬ack=1Ê±£¬·¢ËÍACK£¬ack=0£¬·¢ËÍnACK   
+//ï¿½ï¿½1ï¿½ï¿½ï¿½Ö½Ú£ï¿½ack=1Ê±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ACKï¿½ï¿½ack=0ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½nACK   
 u8 CT_IIC_Read_Byte(unsigned char ack)
 {
 	u8 i,receive=0;
- 	CT_SDA_IN();//SDAÉèÖÃÎªÊäÈë
+ 	CT_SDA_IN();//SDAï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½ï¿½ï¿½
 	delay_us(30);
 	for(i=0;i<8;i++ )
 	{ 
@@ -133,12 +129,12 @@ u8 CT_IIC_Read_Byte(unsigned char ack)
 		CT_IIC_SCL=1;	 
 		receive<<=1;
 		CT_Delay();   
-		if(CT_READ_SDA)receive++;      //SCLÎª¸ßµçÆ½ÆÚ¼ä£¬¶ÁÈ¡SDAÉÏµÄÊý¾Ý
+		if(CT_READ_SDA)receive++;      //SCLÎªï¿½ßµï¿½Æ½ï¿½Ú¼ä£¬ï¿½ï¿½È¡SDAï¿½Ïµï¿½ï¿½ï¿½ï¿½ï¿½
 		CT_Delay();
 	}	  				 
-	if (!ack)CT_IIC_NAck();//·¢ËÍnACK
-	else CT_IIC_Ack(); //·¢ËÍACK   
- 	return receive;    //·µ»Ø¶Áµ½µÄÊý¾Ý
+	if (!ack)CT_IIC_NAck();//ï¿½ï¿½ï¿½ï¿½nACK
+	else CT_IIC_Ack(); //ï¿½ï¿½ï¿½ï¿½ACK   
+ 	return receive;    //ï¿½ï¿½ï¿½Ø¶ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 }
 
 

@@ -12,6 +12,7 @@
 #include "lv_port_indev.h"
 #include "../../lvgl.h"
 
+#include "gt911.h"
 /*********************
  *      DEFINES
  *********************/
@@ -66,6 +67,8 @@ static lv_indev_state_t encoder_state;
 /**********************
  *   GLOBAL FUNCTIONS
  **********************/
+void gt911_scanf(void);
+extern Touch_Struct TouchDev;
 
 void lv_port_indev_init(void)
 {
@@ -209,25 +212,19 @@ static void touchpad_read(lv_indev_drv_t * indev_drv, lv_indev_data_t * data)
 static bool touchpad_is_pressed(void)
 {
     /*Your code comes here*/
-	u8 t=0;
-    tp_dev.scan(0);
-    for(t=0;t<5;t++)   //最多5点触摸
-    {
-        if((tp_dev.sta)&(1<<t))   //判断是否有点触摸
-        {
-            return true;
-        }
-    }
-    return false;
+	u8 t = 0;
+
+    gt911_scanf();
+
+    return TouchDev.isTouch;
 }
 
 /*Get the x and y coordinates if the touchpad is pressed*/
 static void touchpad_get_xy(lv_coord_t * x, lv_coord_t * y)
 {
     /*Your code comes here*/
-
-    (*x) = tp_dev.x[0];
-    (*y) = tp_dev.y[0];
+    (*x) = TouchDev.xy[0].x;
+    (*y) = TouchDev.xy[0].y;
 }
 
 /*------------------
