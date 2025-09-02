@@ -1,15 +1,9 @@
 #ifndef _LED_H
 #define _LED_H
 #include "sys.h"
-//////////////////////////////////////////////////////////////////////////////////	 
-//WKS STM32F407VET6���İ�
-//LED��������	   
-//�汾��V1.0									  
-////////////////////////////////////////////////////////////////////////////////// 	
 
-//LED�˿ڶ���
-#define LED0 PAout(7)   	//LED0
-#define LED1 PAout(2)   	//LED1
+#define LED0 PAout(7) 
 
-void LED_Init(void);      //LED��ʼ��
+void LED_Init(void);
+
 #endif
