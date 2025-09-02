@@ -4,7 +4,6 @@
 #include "led.h"
 #include "key.h"
 #include "lcd.h"
-#include "usmart.h"
 #include "timer.h"
 #include "lvgl.h"
 #include "lv_port_disp.h"
