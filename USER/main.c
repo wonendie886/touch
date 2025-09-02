@@ -5,7 +5,6 @@
 #include "key.h"
 #include "lcd.h"
 #include "usmart.h"
-#include "touch.h"
 #include "timer.h"
 #include "lvgl.h"
 #include "lv_port_disp.h"
@@ -16,6 +15,7 @@
 #include "flash.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "gt911.h"
 
 void vLCD_Refresh_LED_Task( void *pvParameters );
 void vLvglTaskFunction( void * pvParameters );
@@ -108,6 +108,8 @@ int fputc(int ch, FILE *f)
     */
 }
 
+const char version[12] = "MRC_V1.0.0";
+
 int main(void)
 { 
 	DWT_Init();
@@ -125,17 +127,11 @@ int main(void)
 	//KEY_Init();						          //��ʼ��KEY
     MX_USART6_UART_Init(); 
 
-    
-
-    // lcd_read_id();
-    printf("Hello World t!\r\n");
-	//LCD_Init();								  // ��ʼ��LCD
+    printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 //	//Modbus_Init(9600); // ��ʼ��Modbus
 	grind_time_init();     //��ʼ��ʱ��			   
-	tp_dev.init();				          //��������ʼ�� 
-//	
 	
-
+    gt911_init();
         
 
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
@@ -157,13 +153,12 @@ int main(void)
 void vLCD_Refresh_LED_Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime_Refresh;
-	const TickType_t xPeriod2 = pdMS_TO_TICKS( 500 );  //��������ֵ    5ms
+	const TickType_t xPeriod2 = pdMS_TO_TICKS( 50 );  //��������ֵ    5ms
 	xLastWakeTime_Refresh = xTaskGetTickCount();   //��һ�µ�ǰʱ��	
 	while(1)
 	{
 		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//������ʱ1s������׼
 		LED0=!LED0;
-        
 	}
 }
 
@@ -190,7 +185,7 @@ void vLvglTaskFunction(void *pvParameters) {
         xLastTickCount = xCurrentTickCount;
 
         // ����LVGLʱ��
-        //lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
+        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
 
         // ����LVGL����
         lv_task_handler();
