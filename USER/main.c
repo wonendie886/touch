@@ -39,24 +39,8 @@ void DWT_Init(void) {
     DWT->CYCCNT = 0;                                // ����������
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;            // �������ڼ�����
 }
-void grind_time_init(void) {
-    uint32_t saved_time;
-    int ret = FLASH_LoadConfig(&saved_time);
-    
-    if (ret == 1) {
-        // �ɹ����ر����ʱ��
-        current_grind_time = saved_time;
-        //printf("��Flash������ĥʱ��: %d\n", current_grind_time);
-    } else if (ret == 0) {
-        // û����Ч���ݣ�ʹ��Ĭ��ֵ
-        current_grind_time = 10;
-        //printf("ʹ��Ĭ����ĥʱ��: %d\n", current_grind_time);
-    } else {
-        // CRCУ��ʧ�ܣ�ʹ��Ĭ��ֵ
-        current_grind_time = 10;
-       // printf("CRCУ��ʧ�ܣ�ʹ��Ĭ����ĥʱ��: %d\n", current_grind_time);
-    }
-}
+
+
 
 static UART_HandleTypeDef huart6;
 // USART6初始化函数
@@ -94,17 +78,19 @@ int fputc(int ch, FILE *f)
 }
 
 const char version[12] = "MRC_V1.0.0";
-
 int main(void)
 { 
-	DWT_Init();
+/*	DWT_Init();
 	BaseType_t xReturned;
 	HAL_Init();      //��ʼ��HAL��
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); // ʹ��HAL�⺯��
 	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0); // ��Ϊ������ȼ�  
-	HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);	
+	HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);*/	
+    HAL_Init();
 	STM32_Clock_Init(336,25,2,7);  	//����ʱ��,168Mhz
-	delay_init(168);               	//��ʼ����ʱ����
+
+    MX_USART6_UART_Init();
+/*	delay_init(168);               	//��ʼ����ʱ����
 
 	LED_Init();					
 	TIM2_Init();				 
@@ -113,20 +99,57 @@ int main(void)
 
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 //	//Modbus_Init(9600); 
-	grind_time_init();		   
+//	grind_time_init();		   
 	
-    gt911_init();
+    gt911_init();*/
         
+    HAL_StatusTypeDef status;
+    uint32_t test_data = 0x12345678;
+    uint32_t read_back_data;
 
-	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
-	vTaskStartScheduler();  //����������������ʼִ��
+    /* 1. 初始化Flash，解锁 */
+    status = FLASH_Init();
+    if (status != HAL_OK) {
+        // 打印解锁失败
+        printf("Flash unlock failed\r\n");
+        
+    }
 
-//	static uint32_t last_call = 0;
+    /* 2. 擦除扇区 (写入前必须先擦除!) */
+    status = FLASH_EraseSector(USER_FLASH_SECTOR);
+    if (status != HAL_OK) {
+        // 打印擦除失败
+        printf("Flash erase failed\r\n");
+    }
 
-// 	����С����10s��
-// 	Modbus_SendGrindTime(0);
+    /* 3. 写入一个字的数据 */
+    status = FLASH_WriteWord(USER_FLASH_START_ADDR, test_data);
+    if (status != HAL_OK) {
+        // 打印写入失败
+        printf("Flash write failed\r\n");
+    }
+
+    /* 4. 读取刚写入的数据 */
+    read_back_data = FLASH_ReadWord(USER_FLASH_START_ADDR);
+
+    printf("Data read: 0x%08lX\r\n", read_back_data);
+
+    /* 5. 示例：写入多个数据 */
+    uint32_t data_array[4] = {0xAAAAAAAA, 0x55555555, 0x00000000, 0xFFFFFFFF};
+    status = FLASH_WriteData(USER_FLASH_START_ADDR + 0x100, data_array, 4); // 偏移一定地址写入
+
+    /* 最后，可以根据需要决定是否重新上锁Flash */
+    HAL_FLASH_Lock();
+
+    //	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
+    //	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    //	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
+    //	vTaskStartScheduler();  //����������������ʼִ��
+
+    //	static uint32_t last_call = 0;
+
+    // 	����С����10s��
+    // 	Modbus_SendGrindTime(0);
 
     while (1)                                            // while������ѭ����������main�������н�������������Ӳ������
     {           
@@ -179,7 +202,7 @@ void vLvglTaskFunction(void *pvParameters) {
     }
 }
 
-void vflash(void *pvParameters) {
+/*void vflash(void *pvParameters) {
     // ��ʼ������ȡ֮ǰ�洢��ֵ
     grind_time_init();
     
@@ -207,4 +230,4 @@ void vflash(void *pvParameters) {
         // ������ʱ������CPUռ��
         vTaskDelay(pdMS_TO_TICKS(100));
     }
-}
+}*/

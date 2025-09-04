@@ -1,111 +1,68 @@
 #include "flash.h"
+#include <string.h>
+#include "stdint.h"
+HAL_StatusTypeDef FLASH_Init(void) {
+    HAL_StatusTypeDef status;
 
-uint32_t pending_grind_time = 0;
-GrindConfig_t pending_config;
-uint32_t *flash_dest = NULL;
-uint32_t *flash_src = NULL;
-uint32_t flash_words_remaining = 0;
+    /* 1. 解锁Flash */
+    status = HAL_FLASH_Unlock();
+    if (status != HAL_OK) {
+        return status;
+    }
 
-// 启用CRC时钟并初始化
-static void crc_init(void) {
-  RCC->AHB1ENR |= RCC_AHB1ENR_CRCEN;  // 使能CRC时钟
-  CRC->CR = CRC_CR_RESET;             // 复位CRC计算器
+    /* 2. 清除所有错误标志位 (可选，但推荐) */
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR |
+                           FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
+
+    return HAL_OK;
 }
 
-// 硬件CRC32计算（4字节对齐版本）
-static uint32_t crc_calculate(uint32_t *data, uint32_t count) {
-  CRC->CR |= CRC_CR_RESET;  // 开始新计算前复位
 
-  while (count--) {
-    CRC->DR = *data++;
-  }
-  return CRC->DR;  // 返回最终校验值
-}
-// flash.c
-#include "flash.h"
-#include "stm32f4xx.h"
-
-
-
-// 存储配置到Flash
-void FLASH_StoreConfig(uint32_t grind_time) {
-  // 初始化配置结构体
-  GrindConfig_t config = {
-    .grind_time_s = grind_time,
-    .checksum = 0  // 先临时置0
-  };
-
-  // 计算有效数据CRC（不包含checksum自身）
-  crc_init();
-  config.checksum = crc_calculate(&config.grind_time_s, 
-                                 sizeof(config.grind_time_s)/sizeof(uint32_t));
-
-  // 打印要存储的数据
-  printf("准备存储数据: grind_time=%d, checksum=0x%08X\n", config.grind_time_s, config.checksum);
-
-  // 准备Flash操作
-  FLASH->KEYR = 0x45670123;  // 解锁序列1
-  FLASH->KEYR = 0xCDEF89AB;  // 解锁序列2
-
-  // 擦除扇区（11号扇区）
-  FLASH->CR |= FLASH_CR_SER;       // 扇区擦除使能
-  FLASH->CR |= (FLASH_SECTOR << FLASH_CR_SNB_Pos);  // 选择扇区
-  FLASH->CR |= FLASH_CR_STRT;      // 开始擦除
-  while (FLASH->SR & FLASH_SR_BSY) // 等待完成
-    ;
-
-  printf("扇区擦除完成\n");
-
-  // 按字（32bit）写入
-  uint32_t *dest = (uint32_t*)GRIND_TIME_ADDR;
-  uint32_t *src = (uint32_t*)&config;
-  for (int i = 0; i < sizeof(config)/4; i++) {
-    FLASH->CR |= FLASH_CR_PG;  // 编程使能
-    *dest = *src++;
-
-    printf("写入地址 0x%08X: 0x%08X\n", (uint32_t)dest, *src);
-
-    while (!(FLASH->SR & FLASH_SR_EOP)) // 等待完成
-      ;
-    FLASH->SR = FLASH_SR_EOP;  // 清除标志
-    dest++;
-  }
-
-  // 锁定Flash
-  FLASH->CR |= FLASH_CR_LOCK;
-
-  printf("Flash存储完成并已锁定\n");
-
+uint32_t FLASH_ReadWord(uint32_t Address) {
+    /* 通过指针直接访问内存地址 */
+    return (*(__IO uint32_t*) Address);
 }
 
-// 从Flash加载配置
-int FLASH_LoadConfig(uint32_t *saved_time) {
-  GrindConfig_t *config = (GrindConfig_t*)GRIND_TIME_ADDR;
 
-    // 打印Flash中的数据
-    printf("从Flash地址 0x%08X 读取数据:\n", (uint32_t)GRIND_TIME_ADDR);
-    printf("grind_time_s: 0x%08X (%u)\n", config->grind_time_s, config->grind_time_s);
-    printf("checksum: 0x%08X\n", config->checksum);
+HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector) {
+    HAL_StatusTypeDef status;
+    FLASH_EraseInitTypeDef EraseInitStruct;
+    uint32_t SectorError = 0;
 
-  // 检查是否初始状态（全FF）
-  if (config->grind_time_s == 0xFFFFFFFF){ 
+    /* 配置擦除参数 */
+    EraseInitStruct.TypeErase = FLASH_TYPEERASE_SECTORS;
+    EraseInitStruct.VoltageRange = FLASH_VOLTAGE_RANGE_3; // 电压范围，适用于3.3V系统
+    EraseInitStruct.Sector = Sector; // 起始扇区
+    EraseInitStruct.NbSectors = 1;   // 要擦除的扇区数量
 
-    printf("Flash中无有效数据全FF\n");
+    /* 执行擦除操作 */
+    status = HAL_FLASHEx_Erase(&EraseInitStruct, &SectorError);
+    return status;
+}
 
-    return 0; // 无有效数据
-  }
-  // 验证CRC
-  crc_init();
-  uint32_t calc_crc = crc_calculate(&config->grind_time_s, 
-                                   sizeof(config->grind_time_s)/4);
-  
-  printf("计算得到的CRC: 0x%08X, 存储的CRC: 0x%08X\n", calc_crc, config->checksum);
 
-  if (calc_crc != config->checksum){
-    printf("Flash中数据校验失败\n");
-    return -1; // 校验失败
-  }
-  *saved_time = config->grind_time_s;
-  printf("数据校验成功，磨豆时间: %u秒\n", *saved_time);
-  return 1;
+HAL_StatusTypeDef FLASH_WriteWord(uint32_t Address, uint32_t Data) {
+    HAL_StatusTypeDef status;
+
+    /* 执行编程操作，使用字编程模式 */
+    status = HAL_FLASH_Program(FLASH_TYPEPROGRAM_WORD, Address, Data);
+    return status;
+}
+
+
+HAL_StatusTypeDef FLASH_WriteData(uint32_t Address, uint32_t *pData, uint32_t Size) {
+    HAL_StatusTypeDef status = HAL_OK;
+    uint32_t i;
+    uint32_t WriteAddr = Address;
+
+    /* 循环写入每一个字 */
+    for (i = 0; i < Size; i++) {
+        status = FLASH_WriteWord(WriteAddr, pData[i]);
+        if (status != HAL_OK) {
+            break; // 如果写入失败，跳出循环
+        }
+        WriteAddr += 4; // 地址递增4字节
+    }
+
+    return status;
 }
