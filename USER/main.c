@@ -94,7 +94,7 @@ int fputc(int ch, FILE *f)
 }
 
 const char version[12] = "MRC_V1.0.0";
-
+extern UART_HandleTypeDef huart4;
 int main(void)
 { 
 	DWT_Init();
@@ -110,7 +110,11 @@ int main(void)
 	TIM2_Init();				 
 	//KEY_Init();
     MX_USART6_UART_Init(); 
+    uart4_init();
 
+    char test_message[] = "Hello UART!1234567890qwertyuiopasdfghjklzxcvbnm\r\n";
+    // HAL_UART_Transmit(&huart4, (uint8_t*)test_message, strlen(test_message), 1000);
+    UART_SendData((uint8_t*)test_message, strlen(test_message));
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 //	//Modbus_Init(9600); 
 	grind_time_init();		   

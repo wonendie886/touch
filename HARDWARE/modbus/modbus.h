@@ -8,6 +8,9 @@
 #define MODBUS_DE_GPIO     GPIOA
 #define MODBUS_DE_PIN      GPIO_PIN_2
 
+void uart4_init(void);
+void UART_SendData(char *data, int len);
+
 // 接口函数
 void Modbus_Init(uint32_t baudrate);
 void Modbus_Send(uint8_t *pData, uint16_t Size);

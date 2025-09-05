@@ -1,10 +1,90 @@
 #include "modbus.h"
+#include "led.h"
 
 UART_HandleTypeDef huart2;
+UART_HandleTypeDef huart4;
+
+static uint8_t rx_data = 0;
+
+void uart4_init(void)
+{ 
+    __HAL_RCC_GPIOA_CLK_ENABLE();
+    
+    huart4.Instance = UART4;
+    huart4.Init.BaudRate = 9600;
+    huart4.Init.WordLength = UART_WORDLENGTH_8B;
+    huart4.Init.StopBits = UART_STOPBITS_1;
+    huart4.Init.Parity = UART_PARITY_NONE;
+    huart4.Init.Mode = UART_MODE_TX_RX; 
+    huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+    
+    if (HAL_UART_Init(&huart4) != HAL_OK){
+        
+    }
+
+    ///enable receive interrupt
+    HAL_UART_Receive_IT(&huart4, &rx_data, 1);
+}
+
+void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
+{
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+
+    if(uartHandle->Instance == UART4) {
+        __HAL_RCC_UART4_CLK_ENABLE();
+        __HAL_RCC_GPIOA_CLK_ENABLE();
+
+        GPIO_InitTypeDef GPIO_InitStruct = {0};
+        GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
+        GPIO_InitStruct.Pull = GPIO_NOPULL;
+        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+        GPIO_InitStruct.Alternate = GPIO_AF8_UART4; 
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+        GPIO_InitTypeDef gpio_initure = {0};
+        
+        gpio_initure.Pin = GPIO_PIN_2;	
+        gpio_initure.Mode = GPIO_MODE_OUTPUT_PP;  
+        gpio_initure.Pull = GPIO_PULLUP;          //GPIO_NOPULL
+        gpio_initure.Speed = GPIO_SPEED_HIGH;
+        HAL_GPIO_Init(GPIOA,&gpio_initure); 
+
+        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
+        
+        HAL_NVIC_SetPriority(UART4_IRQn, 3, 3);
+        HAL_NVIC_EnableIRQ(UART4_IRQn);
+    }
+}
+
+void UART_SendData(char *data, int len)
+{
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
+    HAL_UART_Transmit(&huart4, (uint8_t*)data, len, 1000);
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
+}
+
+void UART4_IRQHandler(void)
+{
+    HAL_UART_IRQHandler(&huart4);
+}
+
+// 接收数据（中断方式）
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+    if(huart->Instance == UART4)
+    {
+        
+        HAL_UART_Receive_IT(&huart4, &rx_data, 1);
+    }
+}
+
 
 // ================== 初始化 ==================
 void Modbus_Init(uint32_t baudrate)
 {
+    /*
     // 1. 打开时钟
     __HAL_RCC_GPIOA_CLK_ENABLE();
     __HAL_RCC_USART2_CLK_ENABLE();
@@ -48,6 +128,7 @@ void Modbus_Init(uint32_t baudrate)
     if (HAL_UART_Init(&huart2) != HAL_OK) {
         // 错误处理（可以加 while(1) 或 debug 打印）
     }
+*/
 }
 
 // ================== 发送函数 ==================
