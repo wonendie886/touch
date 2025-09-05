@@ -1,6 +1,6 @@
 #include "gt911.h"
 #include "ctiic.h"
-
+#include "delay.h"
 static I2C_HandleTypeDef hi2c1;
 
 Touch_Struct TouchDev;
@@ -55,14 +55,14 @@ void gt911_init(void)
     HAL_GPIO_WritePin(GPIOA, GT911_RESET_PIN, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(GPIOA, GT911_INT_PIN, GPIO_PIN_RESET);
 
-    HAL_Delay(10);
+    delay_ms(10);
 
     HAL_GPIO_WritePin(GPIOA, GT911_INT_PIN, GPIO_PIN_SET);
 
-    HAL_Delay(50);
+    delay_ms(50);
     
     HAL_GPIO_WritePin(GPIOA, GT911_RESET_PIN, GPIO_PIN_SET);
-    HAL_Delay(50);
+    delay_ms(50);
 
     gpio_initure.Pin = GT911_INT_PIN;
     gpio_initure.Mode = GPIO_MODE_IT_FALLING;
@@ -72,7 +72,7 @@ void gt911_init(void)
     // HAL_NVIC_SetPriority(EXTI9_5_IRQn, 5, 0);
     // HAL_NVIC_EnableIRQ(EXTI9_5_IRQn);
 
-    HAL_Delay(50);
+    delay_ms(50);
 
     uint8_t _temp=0;
 /*

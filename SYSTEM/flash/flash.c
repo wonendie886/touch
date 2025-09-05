@@ -1,6 +1,21 @@
+/* flash_task.c - Flash storage task for STM32F407 (halfword programming)
+ *
+ * Requires:
+ *  - FreeRTOS V10.5.1
+ *  - CMSIS core headers (for NVIC, __disable_irq etc.)
+ *  - Ensure the ramfunc placement macro is handled by linker (see notes)
+ *
+ * This file uses direct register access for FLASH on STM32F4.
+ */
+
 #include "flash.h"
 #include <string.h>
+#include "FreeRTOS.h"
+#include <stdio.h>
 #include "stdint.h"
+
+
+
 HAL_StatusTypeDef FLASH_Init(void) {
     HAL_StatusTypeDef status;
 
@@ -65,4 +80,27 @@ HAL_StatusTypeDef FLASH_WriteData(uint32_t Address, uint32_t *pData, uint32_t Si
     }
 
     return status;
+}
+
+
+void flash_store_read(flash_store_t *store) {
+    uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
+    uint32_t *dst = (uint32_t*)store;
+    uint32_t size = sizeof(flash_store_t) / 4; // 除以4，因为每次读取4字节
+    for (uint32_t i = 0; i < size; i++) {
+        dst[i] = src[i];
+    }
+}
+
+void flash_store_write(flash_store_t *store) {
+    // 擦除扇区
+    FLASH_EraseSector(USER_FLASH_SECTOR);
+    
+    // 写入数据
+    uint32_t *src = (uint32_t*)store;
+    uint32_t *dst = (uint32_t*)USER_FLASH_START_ADDR;
+    uint32_t size = sizeof(flash_store_t) / 4;
+    for (uint32_t i = 0; i < size; i++) {
+        FLASH_WriteWord((uint32_t)&dst[i], src[i]);
+    }
 }

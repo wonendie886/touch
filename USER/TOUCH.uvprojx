@@ -78,9 +78,9 @@
             <nStopB2X>0</nStopB2X>
           </BeforeMake>
           <AfterMake>
-            <RunUserProg1>0</RunUserProg1>
+            <RunUserProg1>1</RunUserProg1>
             <RunUserProg2>0</RunUserProg2>
-            <UserProg1Name></UserProg1Name>
+            <UserProg1Name>fromelf --bin --output=bin\grinder_project.bin !L</UserProg1Name>
             <UserProg2Name></UserProg2Name>
             <UserProg1Dos16Mode>0</UserProg1Dos16Mode>
             <UserProg2Dos16Mode>0</UserProg2Dos16Mode>
@@ -1654,49 +1654,39 @@
               <FilePath>..\lvgl\app\generated\setup_scr_screen.c</FilePath>
             </File>
             <File>
-              <FileName>setup_scr_screen_1.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\setup_scr_screen_1.c</FilePath>
-            </File>
-            <File>
-              <FileName>setup_scr_screen_2.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\setup_scr_screen_2.c</FilePath>
-            </File>
-            <File>
               <FileName>widgets_init.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\widgets_init.c</FilePath>
             </File>
             <File>
-              <FileName>_1_alpha_100x80.c</FileName>
+              <FileName>_1755657687860_alpha_100x70.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_1_alpha_100x80.c</FilePath>
+              <FilePath>..\lvgl\app\generated\images\_1755657687860_alpha_100x70.c</FilePath>
             </File>
             <File>
-              <FileName>_2_alpha_100x80.c</FileName>
+              <FileName>_cup_fill_alpha_100x80.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_2_alpha_100x80.c</FilePath>
+              <FilePath>..\lvgl\app\generated\images\_cup_fill_alpha_100x80.c</FilePath>
             </File>
             <File>
-              <FileName>_3_alpha_100x80.c</FileName>
+              <FileName>_cup_fill_alpha_100x81.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_3_alpha_100x80.c</FilePath>
+              <FilePath>..\lvgl\app\generated\images\_cup_fill_alpha_100x81.c</FilePath>
             </File>
             <File>
-              <FileName>_4_alpha_100x80.c</FileName>
+              <FileName>_cup_line_alpha_100x80.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_4_alpha_100x80.c</FilePath>
+              <FilePath>..\lvgl\app\generated\images\_cup_line_alpha_100x80.c</FilePath>
             </File>
             <File>
-              <FileName>_1755657687860_alpha_100x89.c</FileName>
+              <FileName>_cup_line_alpha_100x81.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_1755657687860_alpha_100x89.c</FilePath>
+              <FilePath>..\lvgl\app\generated\images\_cup_line_alpha_100x81.c</FilePath>
             </File>
             <File>
-              <FileName>lv_font_Acme_Regular_20.c</FileName>
+              <FileName>_start_alpha_60x50.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Acme_Regular_20.c</FilePath>
+              <FilePath>..\lvgl\app\generated\images\_start_alpha_60x50.c</FilePath>
             </File>
             <File>
               <FileName>lv_font_montserratMedium_12.c</FileName>
@@ -1712,6 +1702,11 @@
               <FileName>lv_font_montserratMedium_18.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</FilePath>
             </File>
             <File>
               <FileName>lv_font_SourceHanSerifSC_Regular_16.c</FileName>

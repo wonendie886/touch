@@ -41,6 +41,10 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "stm32f4xx_hal.h"
+#include "stdint.h"
+
+extern volatile uint8_t grind_time_changed;
+extern volatile uint32_t current_grind_time; 
 
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
