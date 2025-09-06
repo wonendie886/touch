@@ -598,6 +598,11 @@
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TOUCH\gt911.c</FilePath>
             </File>
+            <File>
+              <FileName>mbrtu_master.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\modbus\mbrtu_master.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

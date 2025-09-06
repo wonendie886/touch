@@ -42,11 +42,11 @@ void TIM2_IRQHandler(void)
   * @brief  HAL 定时器更新回调函数
   * @note   1ms 触发一次，驱动 LVGL 心跳
   */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    if(htim->Instance == TIM2)
-    {
-        HAL_IncTick();
-        //lv_tick_inc(1);
-    }
-}
+// void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+// {
+//     if(htim->Instance == TIM2)
+//     {
+//         HAL_IncTick();
+//         //lv_tick_inc(1);
+//     }
+// }

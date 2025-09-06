@@ -15,6 +15,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "gt911.h"
+#include "mbrtu_master.h"
+#include "modbus.h"
 
 void vLCD_Refresh_LED_Task( void *pvParameters );
 void vLvglTaskFunction( void * pvParameters );
@@ -58,7 +60,7 @@ void grind_time_init(void) {
     }
 }
 
-static UART_HandleTypeDef huart6;
+UART_HandleTypeDef huart6;
 // USART6初始化函数
 static void MX_USART6_UART_Init(void)
 {
@@ -95,6 +97,9 @@ int fputc(int ch, FILE *f)
 
 const char version[12] = "MRC_V1.0.0";
 extern UART_HandleTypeDef huart4;
+extern MBRTUMaterTypeDef MbRtu;
+extern uint32_t rxCount;
+extern uint8_t RxBuf[100];
 int main(void)
 { 
 	DWT_Init();
@@ -107,21 +112,18 @@ int main(void)
 	delay_init(168);               	//��ʼ����ʱ����
 
 	LED_Init();					
-	TIM2_Init();				 
+	TIM2_Init();	
 	//KEY_Init();
     MX_USART6_UART_Init(); 
-    uart4_init();
-
-    char test_message[] = "Hello UART!1234567890qwertyuiopasdfghjklzxcvbnm\r\n";
-    // HAL_UART_Transmit(&huart4, (uint8_t*)test_message, strlen(test_message), 1000);
-    UART_SendData((uint8_t*)test_message, strlen(test_message));
+    
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
-//	//Modbus_Init(9600); 
-	grind_time_init();		   
+    modbus_init();
+	grind_time_init();
 	
     gt911_init();
-        
 
+    modbus_test();
+    
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
 	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
@@ -146,7 +148,7 @@ void vLCD_Refresh_LED_Task( void *pvParameters )
 	while(1)
 	{
 		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//������ʱ1s������׼
-		LED0=!LED0;
+        LED0 = !LED0;
 	}
 }
 
