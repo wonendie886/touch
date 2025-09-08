@@ -11,7 +11,10 @@
 #include <stdio.h>
 #include "lvgl.h"
 #include "flash.h"
-
+#include "mbrtu_master.h"  // 添加Modbus RTU头文件
+#include "modbus.h"
+#include <string.h>
+#include <stdlib.h>
 
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
@@ -19,6 +22,45 @@
 static int Textselectionflag = 0;
 static int mode_flag = 0;  // 0表示显示标签123，1表示显示标签456
 
+/**
+ * 从标签提取float值并转换为Modbus寄存器格式
+ * @param label 要读取的标签对象
+ * @param unit_suffix 期望的单位后缀 ('s' 或 'g')
+ * @param reg_value 输出的寄存器值数组(至少2个uint16_t)
+ * @return 0:成功  <0:失败
+ */
+static int extract_float_from_label(lv_obj_t* label, char unit_suffix, uint16_t* reg_value)
+{
+    // 获取标签文本
+    const char *txt = lv_label_get_text(label);
+    
+    // 检查文本长度
+    if (txt == NULL || strlen(txt) <= 1) {
+        return -1;
+    }
+    
+    // 检查最后一个字符是否为指定的单位后缀
+    if (txt[strlen(txt) - 1] != unit_suffix) {
+        return -2;
+    }
+    
+    // 去掉单位后缀并转换为float
+    char value_str[32];
+    uint32_t len = strlen(txt) - 1;
+    if (len >= sizeof(value_str)) {
+        len = sizeof(value_str) - 1;
+    }
+    strncpy(value_str, txt, len);
+    value_str[len] = '\0';
+    
+    // 转换为float
+    float value = atof(value_str);
+    
+    // 转换为寄存器值(两个16位寄存器表示一个32位float)
+    memcpy(reg_value, &value, sizeof(float));
+    
+    return 0;
+}
 
 // 封装函数：传入当前按钮，让其他全部隐藏
 void show_only_one_button(lv_obj_t * active_btn)
@@ -50,7 +92,21 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         lv_obj_clear_flag(guider_ui.screen_img_6, LV_OBJ_FLAG_HIDDEN);
 
         lv_obj_add_flag(guider_ui.screen_img_5, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_img_7, LV_OBJ_FLAG_HIDDEN);        
+        lv_obj_add_flag(guider_ui.screen_img_7, LV_OBJ_FLAG_HIDDEN);   
+
+        // 通过Modbus发送数据
+        uint16_t reg_value[2];
+        if (mode_flag == 0) {
+            // 模式0: 发送文本1的float数据
+            if (extract_float_from_label(guider_ui.screen_label_1, 's', reg_value) == 0) {
+                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0000, 2, reg_value, 100);
+            }
+        } else {
+            // 模式1: 发送文本4的float数据
+            if (extract_float_from_label(guider_ui.screen_label_4, 'g', reg_value) == 0) {
+                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0000, 2, reg_value, 100);
+            }
+        }     
         break;
     }
     default:
@@ -69,6 +125,20 @@ static void screen_btn_2_event_handler (lv_event_t *e)
 
         lv_obj_add_flag(guider_ui.screen_img_5, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_6, LV_OBJ_FLAG_HIDDEN);
+
+        // 通过Modbus发送数据
+        uint16_t reg_value[2];
+        if (mode_flag == 0) {
+            // 模式0: 发送文本2的float数据
+            if (extract_float_from_label(guider_ui.screen_label_2, 's', reg_value) == 0) {
+                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0002, 2, reg_value, 100);
+            }
+        } else {
+            // 模式1: 发送文本5的float数据
+            if (extract_float_from_label(guider_ui.screen_label_5, 'g', reg_value) == 0) {
+                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0002, 2, reg_value, 100);
+            }
+        }
         break;
     }
     default:
@@ -87,6 +157,19 @@ static void screen_btn_3_event_handler (lv_event_t *e)
 
         lv_obj_add_flag(guider_ui.screen_img_7, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_6, LV_OBJ_FLAG_HIDDEN);
+        // 通过Modbus发送数据
+        uint16_t reg_value[2];
+        if (mode_flag == 0) {
+            // 模式0: 发送文本3的float数据
+            if (extract_float_from_label(guider_ui.screen_label_3, 's', reg_value) == 0) {
+                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0004, 2, reg_value, 100);
+            }
+        } else {
+            // 模式1: 发送文本6的float数据
+            if (extract_float_from_label(guider_ui.screen_label_6, 'g', reg_value) == 0) {
+                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0004, 2, reg_value, 100);
+            }
+        }
         break;
     }
     default:
@@ -207,8 +290,7 @@ static void screen_btn_8_event_handler (lv_event_t *e)
         lv_obj_add_flag(guider_ui.screen_spinbox_2_btn_plus,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_spinbox_2_btn_minus,LV_OBJ_FLAG_HIDDEN);
 
-        //flash_store_t store;
-        //flash_store_read(&store);
+        flash_store_read(&flash_write_data);
         //Synchronize the content of the input box with the text.
         if (Textselectionflag == 1){
             const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_2);
@@ -234,13 +316,16 @@ static void screen_btn_8_event_handler (lv_event_t *e)
         }
         if (Textselectionflag == 3){
             const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_2);
-
+            //打印txt数据
+            //printf("txt:%s\n", txt);
             if (mode_flag == 0) {
                 lv_label_set_text_fmt(guider_ui.screen_label_3, "%ss", txt);
                 strncpy(flash_write_data.label3_text, txt, MAX_TEXT_LEN);
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_6, "%sg", txt);
                 strncpy(flash_write_data.label6_text, txt, MAX_TEXT_LEN);
+                //打印flash_write_data.label6_text
+                //printf("flash_write_data.label6_text:%s\n", flash_write_data.label6_text);
             }
         }
         // 设置标志位，触发flash写入任务
@@ -290,6 +375,10 @@ static void screen_btn_9_event_handler (lv_event_t *e)
             lv_obj_add_flag(guider_ui.screen_label_5, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
         }
+        // 通过Modbus发送当前模式信息到从机
+        uint16_t mode_value = mode_flag;
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0010, mode_value, 100);
+      
         break;
     }
     default:
