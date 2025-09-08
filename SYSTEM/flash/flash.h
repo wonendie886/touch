@@ -11,7 +11,7 @@
 
 #define USER_FLASH_START_ADDR   0x080E0000      /* Sector 11 起始地址 */
 #define USER_FLASH_SECTOR       FLASH_SECTOR_11  /* 对应扇区编号 */
-#define MAX_TEXT_LEN  5
+#define MAX_TEXT_LEN  6
 typedef struct {
     char label1_text[MAX_TEXT_LEN];
     char label2_text[MAX_TEXT_LEN];
