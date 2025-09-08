@@ -207,18 +207,18 @@ static void screen_btn_8_event_handler (lv_event_t *e)
         lv_obj_add_flag(guider_ui.screen_spinbox_2_btn_plus,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_spinbox_2_btn_minus,LV_OBJ_FLAG_HIDDEN);
 
-        flash_store_t store;
-        flash_store_read(&store);
+        //flash_store_t store;
+        //flash_store_read(&store);
         //Synchronize the content of the input box with the text.
         if (Textselectionflag == 1){
             const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_2);
 
             if (mode_flag == 0) {
                 lv_label_set_text_fmt(guider_ui.screen_label_1, "%ss", txt);
-                strncpy(store.label1_text, txt, MAX_TEXT_LEN);
+                strncpy(flash_write_data.label1_text, txt, MAX_TEXT_LEN);
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_4, "%sg", txt);
-                strncpy(store.label4_text, txt, MAX_TEXT_LEN);
+                strncpy(flash_write_data.label4_text, txt, MAX_TEXT_LEN);
             }
         }
         if (Textselectionflag == 2){
@@ -226,10 +226,10 @@ static void screen_btn_8_event_handler (lv_event_t *e)
 
             if (mode_flag == 0) {
                 lv_label_set_text_fmt(guider_ui.screen_label_2, "%ss", txt);
-                strncpy(store.label2_text, txt, MAX_TEXT_LEN);
+                strncpy(flash_write_data.label2_text, txt, MAX_TEXT_LEN);
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_5, "%sg", txt);
-                strncpy(store.label5_text, txt, MAX_TEXT_LEN);
+                strncpy(flash_write_data.label5_text, txt, MAX_TEXT_LEN);
             }
         }
         if (Textselectionflag == 3){
@@ -237,14 +237,14 @@ static void screen_btn_8_event_handler (lv_event_t *e)
 
             if (mode_flag == 0) {
                 lv_label_set_text_fmt(guider_ui.screen_label_3, "%ss", txt);
-                strncpy(store.label3_text, txt, MAX_TEXT_LEN);
+                strncpy(flash_write_data.label3_text, txt, MAX_TEXT_LEN);
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_6, "%sg", txt);
-                strncpy(store.label6_text, txt, MAX_TEXT_LEN);
+                strncpy(flash_write_data.label6_text, txt, MAX_TEXT_LEN);
             }
         }
-        // 将整个结构体写回Flash
-        flash_store_write(&store);
+        // 设置标志位，触发flash写入任务
+        flash_request_flag = 1;
 
         Textselectionflag = 0;
 

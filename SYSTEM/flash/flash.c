@@ -1,13 +1,3 @@
-/* flash_task.c - Flash storage task for STM32F407 (halfword programming)
- *
- * Requires:
- *  - FreeRTOS V10.5.1
- *  - CMSIS core headers (for NVIC, __disable_irq etc.)
- *  - Ensure the ramfunc placement macro is handled by linker (see notes)
- *
- * This file uses direct register access for FLASH on STM32F4.
- */
-
 #include "flash.h"
 #include <string.h>
 #include "FreeRTOS.h"
@@ -87,8 +77,23 @@ void flash_store_read(flash_store_t *store) {
     uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
     uint32_t *dst = (uint32_t*)store;
     uint32_t size = sizeof(flash_store_t) / 4; // 除以4，因为每次读取4字节
+    // 检查flash是否已经被写入（不是全0xFFFFFFFF）
+    uint32_t flash_content_check = 0;
     for (uint32_t i = 0; i < size; i++) {
-        dst[i] = src[i];
+        if (src[i] != 0xFFFFFFFF) {
+            flash_content_check = 1;
+            break;
+        }
+    }
+    
+    // 如果flash中有有效数据，则读取
+    if (flash_content_check) {
+        for (uint32_t i = 0; i < size; i++) {
+            dst[i] = src[i];
+        }
+        printf("Flash data read successfully.\r\n");
+    } else {
+        printf("No valid data found in flash, using default values.\r\n");
     }
 }
 

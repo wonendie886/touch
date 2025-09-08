@@ -29,7 +29,7 @@ typedef struct {
 } flash_store_t;
 
 extern volatile uint8_t flash_request_flag;
-extern volatile uint32_t flash_request_value;
+extern flash_store_t flash_write_data;
 /* 函数声明 */
 HAL_StatusTypeDef FLASH_Init(void);
 uint32_t FLASH_ReadWord(uint32_t Address);

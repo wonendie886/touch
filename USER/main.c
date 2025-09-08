@@ -28,12 +28,12 @@ lv_ui guider_ui;
 
 /* 全局触发标志 */
 volatile uint8_t flash_request_flag = 0;
-volatile uint32_t flash_request_value = 0;
+flash_store_t flash_write_data;
 
 void DWT_Init(void) {
-    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; // ���ø��ٵ�Ԫ
-    DWT->CYCCNT = 0;                                // ����������
-    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;            // �������ڼ�����
+    CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 
+    DWT->CYCCNT = 0;                                
+    DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;           
 }
 
 
@@ -77,13 +77,13 @@ int main(void)
 { 
 	DWT_Init();
 	BaseType_t xReturned;
-	HAL_Init();      //��ʼ��HAL��
-	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); // ʹ��HAL�⺯��
-	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0); // ��Ϊ������ȼ�  
+	HAL_Init();      
+	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); 
+	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0); 
 	HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
-	STM32_Clock_Init(336,25,2,7);  	//����ʱ��,168Mhz
+	STM32_Clock_Init(336,25,2,7);  	
 
-	delay_init(168);               	//��ʼ����ʱ����
+	delay_init(168);               
 	LED_Init();					
 	TIM2_Init();			 
 	//KEY_Init();
@@ -110,12 +110,7 @@ int main(void)
     }
     vTaskStartScheduler();  
 
-    //	static uint32_t last_call = 0;
-
-    // 	����С����10s��
-    // 	Modbus_SendGrindTime(0);
-
-    while (1)                                            // while������ѭ����������main�������н�������������Ӳ������
+    while (1)                                            
     {           
 	}
 }
@@ -124,11 +119,11 @@ int main(void)
 void vLCD_Refresh_LED_Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime_Refresh;
-	const TickType_t xPeriod2 = pdMS_TO_TICKS( 50 );  //��������ֵ    5ms
-	xLastWakeTime_Refresh = xTaskGetTickCount();   //��һ�µ�ǰʱ��	
+	const TickType_t xPeriod2 = pdMS_TO_TICKS( 50 );  
+	xLastWakeTime_Refresh = xTaskGetTickCount();   
 	while(1)
 	{
-		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );//������ʱ1s������׼
+		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );
 		LED0=!LED0;
 	}
 }
@@ -138,51 +133,45 @@ void vLvglTaskFunction(void *pvParameters) {
     printf("LVGL task is running. \r\n");
 
     TickType_t xLastWakeTime = xTaskGetTickCount();
-    const TickType_t xPeriod = pdMS_TO_TICKS(5); // ��������5ms
+    const TickType_t xPeriod = pdMS_TO_TICKS(5); 
 
     nv3401_gpio_init();
     nv3401_lcd_init();
 
     lv_init();
-	lv_port_disp_init();   // ��Ҫʵ�ֵ���ʾ�ӿ�
-	lv_port_indev_init();  // ��Ҫʵ�ֵĴ��ؽӿ�
-	// ��ʼ��UI������������������
+	lv_port_disp_init();  
+	lv_port_indev_init();  
+
 	setup_ui(&guider_ui);
 	events_init(&guider_ui);
 
     while (1) {
-        // �������ϴε�������������tick��������������
+
         static TickType_t xLastTickCount = 0;
         TickType_t xCurrentTickCount = xTaskGetTickCount();
         uint32_t elapsed_ticks = xCurrentTickCount - xLastTickCount;
         xLastTickCount = xCurrentTickCount;
 
-        // ����LVGLʱ��
-        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); // portTICK_PERIOD_MS��ÿ��tick�ĺ�����
+        lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); 
 
-        // ����LVGL����
         lv_task_handler();
 
-        // ��ȷ��ʱ����֤��������
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
 
 void vflash(void *pvParameters) {
-    uint32_t read_back_data;
-
         for (;;) {
         if (flash_request_flag) {
             flash_request_flag = 0;  // 清除标志
-
-            printf("FlashTask: request to write %lu\r\n", flash_request_value);
 
             /* 解锁 Flash */
             FLASH_Init();
 
             /* 擦除 sector 11 */
             if (FLASH_EraseSector(USER_FLASH_SECTOR) == HAL_OK) {
-                if (FLASH_WriteWord(0x080E0000, flash_request_value) == HAL_OK) {
+                if (FLASH_WriteData(USER_FLASH_START_ADDR, (uint32_t*)&flash_write_data, 
+                                   sizeof(flash_store_t)/4) == HAL_OK) {
 
                     printf("FlashTask: write OK\r\n");
                 } else {
@@ -191,8 +180,23 @@ void vflash(void *pvParameters) {
             } else {
                 printf("FlashTask: erase FAIL\r\n");
             }
-            read_back_data = FLASH_ReadWord(USER_FLASH_START_ADDR);
-            printf("Data read: 0x%08lX\r\n", read_back_data);
+            // 读回验证
+            flash_store_t read_data;
+            uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
+            uint32_t *dst = (uint32_t*)&read_data;
+            uint32_t size = sizeof(flash_store_t) / 4;
+            for (uint32_t i = 0; i < size; i++) {
+                dst[i] = src[i];
+            }
+            // 添加数据打印
+            printf("FlashTask: Data read back verification:\r\n");
+            printf("  label1_text: %s\r\n", read_data.label1_text);
+            printf("  label2_text: %s\r\n", read_data.label2_text);
+            printf("  label3_text: %s\r\n", read_data.label3_text);
+            printf("  label4_text: %s\r\n", read_data.label4_text);
+            printf("  label5_text: %s\r\n", read_data.label5_text);
+            printf("  label6_text: %s\r\n", read_data.label6_text);
+            
             HAL_FLASH_Lock();
         }
         
