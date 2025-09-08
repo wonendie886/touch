@@ -15,6 +15,8 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "gt911.h"
+#include "mbrtu_master.h"
+#include "modbus.h"
 
 
 void vLCD_Refresh_LED_Task( void *pvParameters );
@@ -36,9 +38,8 @@ void DWT_Init(void) {
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;           
 }
 
-
-static UART_HandleTypeDef huart6;
-// USART6初�?�化函数
+UART_HandleTypeDef huart6;
+// USART6初始化函数
 static void MX_USART6_UART_Init(void)
 {
     __HAL_RCC_USART6_CLK_ENABLE();
@@ -73,6 +74,10 @@ int fputc(int ch, FILE *f)
 }
 
 const char version[12] = "MRC_V1.0.0";
+extern UART_HandleTypeDef huart4;
+extern MBRTUMaterTypeDef MbRtu;
+extern uint32_t rxCount;
+extern uint8_t RxBuf[100];
 int main(void)
 { 
 	DWT_Init();
@@ -85,30 +90,22 @@ int main(void)
 
 	delay_init(168);               
 	LED_Init();					
-	TIM2_Init();			 
+	TIM2_Init();	
 	//KEY_Init();
     MX_USART6_UART_Init(); 
-    printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
-//	//Modbus_Init(9600); 
-//	grind_time_init();		   
-	
-    gt911_init();
-    //Read the data stored in the flash memory and print it.
     
-        
-    xReturned = xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-    if (xReturned != pdPASS) {
-        printf("led task creation failed!\r\n");
-    }
-    xReturned = xTaskCreate(vLvglTaskFunction,"lvgl_task",1024,NULL,3,&xLvglTaskHandle);
-    if (xReturned != pdPASS) {
-        printf("lvgl task creation failed!\r\n");
-    }
-    xReturned = xTaskCreate(vflash, "flash_task", 256, NULL, 2, &xFlashTaskHandle);
-    if (xReturned != pdPASS) {
-        printf("Flash task creation failed!\r\n");
-    }
-    vTaskStartScheduler();  
+    printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
+    modbus_init();
+
+    gt911_init();
+
+    modbus_test();
+    
+	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
+	vTaskStartScheduler();  
+
 
     while (1)                                            
     {           
@@ -128,7 +125,6 @@ void vLCD_Refresh_LED_Task( void *pvParameters )
 	}
 }
 
-//LVGL������
 void vLvglTaskFunction(void *pvParameters) {
     printf("LVGL task is running. \r\n");
 
