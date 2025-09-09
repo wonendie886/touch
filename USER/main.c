@@ -99,7 +99,7 @@ int main(void)
 
     gt911_init();
 
-//    modbus_test();
+    //modbus_test();
     
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
@@ -185,13 +185,13 @@ void vflash(void *pvParameters) {
                 dst[i] = src[i];
             }
             // 添加数据打印
-            printf("FlashTask: Data read back verification:\r\n");
-            printf("  label1_text: %s\r\n", read_data.label1_text);
-            printf("  label2_text: %s\r\n", read_data.label2_text);
-            printf("  label3_text: %s\r\n", read_data.label3_text);
-            printf("  label4_text: %s\r\n", read_data.label4_text);
-            printf("  label5_text: %s\r\n", read_data.label5_text);
-            printf("  label6_text: %s\r\n", read_data.label6_text);
+//            printf("FlashTask: Data read back verification:\r\n");
+//            printf("  label1_text: %s\r\n", read_data.label1_text);
+//            printf("  label2_text: %s\r\n", read_data.label2_text);
+//            printf("  label3_text: %s\r\n", read_data.label3_text);
+//            printf("  label4_text: %s\r\n", read_data.label4_text);
+//            printf("  label5_text: %s\r\n", read_data.label5_text);
+//            printf("  label6_text: %s\r\n", read_data.label6_text);
             
             HAL_FLASH_Lock();
         }

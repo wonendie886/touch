@@ -207,7 +207,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_4_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_4, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_4_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_4, 210, 223);
+    lv_obj_set_pos(ui->screen_btn_4, 210, 220);
     lv_obj_set_size(ui->screen_btn_4, 60, 50);
 
     //Write style for screen_btn_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -424,7 +424,8 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_img_8
     ui->screen_img_8 = lv_img_create(ui->screen);
-    lv_obj_add_flag(ui->screen_img_8, LV_OBJ_FLAG_CLICKABLE);
+    //lv_obj_add_flag(ui->screen_img_8, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_add_flag(ui->screen_img_8,LV_OBJ_FLAG_HIDDEN);
     lv_img_set_src(ui->screen_img_8, &_start_alpha_60x50);
     lv_img_set_pivot(ui->screen_img_8, 50,50);
     lv_img_set_angle(ui->screen_img_8, 0);

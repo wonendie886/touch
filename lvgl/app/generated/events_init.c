@@ -55,6 +55,12 @@ static int extract_float_from_label(lv_obj_t* label, char unit_suffix, uint16_t*
     
     // 转换为float
     float value = atof(value_str);
+    printf("准备发送的数据: %f\n", value); // 打印浮点数
+    printf("准备发送的原始字节: ");
+    for(int i=0; i<sizeof(value); i++) {
+        printf("%02X ", *((uint8_t*)&value + i));
+    }
+    printf("\n");
     
     // 转换为寄存器值(两个16位寄存器表示一个32位float)
     memcpy(reg_value, &value, sizeof(float));
@@ -99,11 +105,14 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         if (mode_flag == 0) {
             // 模式0: 发送文本1的float数据
             if (extract_float_from_label(guider_ui.screen_label_1, 's', reg_value) == 0) {
+                //打印reg_value[0]和reg_value[1]的值
+                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
                 MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0000, 2, reg_value, 100);
             }
         } else {
             // 模式1: 发送文本4的float数据
             if (extract_float_from_label(guider_ui.screen_label_4, 'g', reg_value) == 0) {
+                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
                 MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0000, 2, reg_value, 100);
             }
         }     
@@ -130,12 +139,14 @@ static void screen_btn_2_event_handler (lv_event_t *e)
         uint16_t reg_value[2];
         if (mode_flag == 0) {
             // 模式0: 发送文本2的float数据
-            if (extract_float_from_label(guider_ui.screen_label_2, 's', reg_value) == 0) {
+            if (extract_float_from_label(guider_ui.screen_label_3, 's', reg_value) == 0) {
+                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
                 MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0002, 2, reg_value, 100);
             }
         } else {
             // 模式1: 发送文本5的float数据
-            if (extract_float_from_label(guider_ui.screen_label_5, 'g', reg_value) == 0) {
+            if (extract_float_from_label(guider_ui.screen_label_6, 'g', reg_value) == 0) {
+                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
                 MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0002, 2, reg_value, 100);
             }
         }
@@ -161,12 +172,14 @@ static void screen_btn_3_event_handler (lv_event_t *e)
         uint16_t reg_value[2];
         if (mode_flag == 0) {
             // 模式0: 发送文本3的float数据
-            if (extract_float_from_label(guider_ui.screen_label_3, 's', reg_value) == 0) {
+            if (extract_float_from_label(guider_ui.screen_label_2, 's', reg_value) == 0) {
+                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
                 MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0004, 2, reg_value, 100);
             }
         } else {
             // 模式1: 发送文本6的float数据
-            if (extract_float_from_label(guider_ui.screen_label_6, 'g', reg_value) == 0) {
+            if (extract_float_from_label(guider_ui.screen_label_5, 'g', reg_value) == 0) {
+                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
                 MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0004, 2, reg_value, 100);
             }
         }
@@ -184,6 +197,17 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Press the button to directly control the motor via Modbus protocol.
+        // 发送启动标志位到下位机
+        // 使用保持寄存器地址0x0006，发送值1表示启动，0表示停止
+        static uint16_t start_flag = 0;
+        start_flag = !start_flag; // 切换启动标志位
+        
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0006, start_flag, 100);
+        if(ret == 0) {
+            printf("成功发送启动标志位: %d\n", start_flag);
+        } else {
+            printf("发送启动标志位失败, 错误码: %d\n", ret);
+        }
         break;
     }
     default:
@@ -259,7 +283,6 @@ static void screen_btn_7_event_handler (lv_event_t *e)
         lv_obj_clear_flag(guider_ui.screen_spinbox_2, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_spinbox_2_btn_plus,LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_spinbox_2_btn_minus,LV_OBJ_FLAG_HIDDEN);
-
         lv_obj_clear_flag(guider_ui.screen_btn_8, LV_OBJ_FLAG_HIDDEN);
 
         if (mode_flag == 0) {
@@ -328,6 +351,11 @@ static void screen_btn_8_event_handler (lv_event_t *e)
                 //printf("flash_write_data.label6_text:%s\n", flash_write_data.label6_text);
             }
         }
+        if(Textselectionflag == 10){
+            const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_2);
+ 
+            lv_label_set_text_fmt(guider_ui.screen_btn_10, "%s", txt);
+        }
         // 设置标志位，触发flash写入任务
         flash_request_flag = 1;
 
@@ -385,6 +413,28 @@ static void screen_btn_9_event_handler (lv_event_t *e)
     break;
     }    
 }
+
+static void screen_btn_10_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:{
+        lv_obj_clear_flag(guider_ui.screen_spinbox_2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_spinbox_2_btn_plus,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_spinbox_2_btn_minus,LV_OBJ_FLAG_HIDDEN);
+
+        lv_obj_clear_flag(guider_ui.screen_btn_8, LV_OBJ_FLAG_HIDDEN);
+
+        Textselectionflag = 10;
+        //Send the thickness information to the lower-level machine.
+        uint16_t thickness_value = 0;  // 以毫米为单位
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, thickness_value, 100);
+        break;
+    }
+    default:
+    break;
+    }    
+}
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_1, screen_btn_1_event_handler, LV_EVENT_ALL, ui);
@@ -396,6 +446,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_7, screen_btn_7_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_8, screen_btn_8_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_9, screen_btn_9_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_10, screen_btn_10_event_handler, LV_EVENT_ALL, ui);
 }
 
 
