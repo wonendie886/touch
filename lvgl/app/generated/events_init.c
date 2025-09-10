@@ -419,16 +419,21 @@ static void screen_btn_10_event_handler (lv_event_t *e)
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:{
-        lv_obj_clear_flag(guider_ui.screen_spinbox_2, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_clear_flag(guider_ui.screen_spinbox_2_btn_plus,LV_OBJ_FLAG_HIDDEN);
-        lv_obj_clear_flag(guider_ui.screen_spinbox_2_btn_minus,LV_OBJ_FLAG_HIDDEN);
-
-        lv_obj_clear_flag(guider_ui.screen_btn_8, LV_OBJ_FLAG_HIDDEN);
-
-        Textselectionflag = 10;
         //Send the thickness information to the lower-level machine.
-        uint16_t thickness_value = 0;  // 以毫米为单位
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, thickness_value, 100);
+        uint16_t motordrive_value = 0;  // 驱动与否
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, motordrive_value, 100);
+        break;
+    }
+    case LV_EVENT_LONG_PRESSED:{
+        // 长按发送1
+        uint16_t motordrive_value = 1;
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, motordrive_value, 100);
+        break;
+    }
+    case LV_EVENT_RELEASED:{
+        // 松开发送0
+        uint16_t motordrive_value = 0;
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, motordrive_value, 100);
         break;
     }
     default:
