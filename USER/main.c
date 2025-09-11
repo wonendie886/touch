@@ -211,96 +211,132 @@ void vflash(void *pvParameters) {
     }
 }
 
-// 研磨监控任务
-/*void vGrindingMonitorTask(void *pvParameters) {
-    uint16_t grinding_status = 0;     // 研磨状态 (来自输入寄存器0x0001)
-    uint16_t grinding_progress = 0;   // 研磨进度 (来自输入寄存器0x0002)
+
+extern uint16_t start_flag;
+extern uint16_t Currenttargetime;
+// 合并后的研磨控制任务，包含原来的研磨监控和按钮4检测功能
+// 研磨控制任务
+
+bool isGrindProgress = false;
+bool isGrindRunning = false;
+
+bool timerStart = false;
+uint32_t resetTime = 0;
+
+void sendStartCmd()
+{   
+    if (!isGrindRunning) {
+        if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100) == 0) {
+            isGrindProgress = true;
+            ///@todo change png to stop
+            printf("send start cmd\r\n");
+        }
+    }
+}
+
+void sendStopCmd()
+{
+    if (isGrindRunning) {
+        if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100) == 0) {
+            /// start 3S timer
+            timerStart = true;
+            resetTime = 0;
+            ///@todo change png to start
+            printf("send stop cmd\r\n");
+        }
+    }
+    
+}
+
+void vGrindingControlTask(void *pvParameters) {
+
+    uint16_t register_values[2];  
+    uint16_t time = 0 ;
     char progress_text[32];           // 进度文本缓冲区
-    extern int grinding_target;      // 研磨目标
+    bool isGrindMode = MODE_TIME;
 
     for (;;) {
-        // 读取输入寄存器0x0001的研磨状态
-        int ret_status = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 1, 100, &grinding_status);
-        if (ret_status == 0) {  // 读取成功
-            if (grinding_status == 0) {  // 没有在研磨
-                // 将文本7、8、9清零
-                lv_label_set_text(guider_ui.screen_label_7, "0");
-                lv_label_set_text(guider_ui.screen_label_8, "0");
-                lv_label_set_text(guider_ui.screen_label_9, "0");
-                //启动标志位置零
-                start_flag = grinding_status;              // 按钮4的启动标志位
-            } else {  // 正在研磨
-                // 读取当前研磨进度 (输入寄存器0x0002)
-                int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_DATA, 1, 100, &grinding_progress);
-                if (ret_progress == 0) {  // 读取成功
-                    // 根据grinding_target决定在哪个文本上显示进度
-                    sprintf(progress_text, "%d", grinding_progress);
-                    switch (grinding_target) {
-                        case 1:  // 显示在文本7上
-                            lv_label_set_text(guider_ui.screen_label_7, progress_text);
-                            break;
-                        case 2:  // 显示在文本8上
-                            lv_label_set_text(guider_ui.screen_label_8, progress_text);
-                            break;
- ret_progress                       case 3:  // 显示在文本9上
-                            lv_label_set_text(guider_ui.screen_label_9, progress_text);
-                            break;
-                        default:
-                            // 如果没有设置目标，则不显示
-                            break;
+        if (isGrindMode == MODE_TIME) {
+            if(start_flag == STATUS_IN_GRIND_START) {
+                sendStartCmd();
+            } else {
+                /// ui status stop
+                sendStopCmd();
+
+                /// check resetTime == 3S, then send modbus reset cmd, then resetTime = 0 change png to start,update ui time = 0,isGrindProgress = false
+                if(resetTime == 3000){
+                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 0, 100);
+
+                    resetTime = 0 ; 
+
+                    lv_label_set_text(guider_ui.screen_label_7, "0");
+                    lv_label_set_text(guider_ui.screen_label_8, "0");
+                    lv_label_set_text(guider_ui.screen_label_9, "0");
+
+                    isGrindProgress = false;
+                }
+                
+            }
+
+            if (isGrindProgress) {
+                ///grind work progress
+
+                /// read modbus data,get data
+                int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, register_values);
+                if (ret_progress == 0) {
+                     /// check grind motor running status
+                    /// running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
+                    if (register_values[0] == 1) {
+                        isGrindRunning = true;
+
+                        /// update ui
+                        sprintf(progress_text, "%d", register_values[1]);
+                        switch (grinding_target) {
+                            case 1: lv_label_set_text(guider_ui.screen_label_7, progress_text); break;
+                            case 2: lv_label_set_text(guider_ui.screen_label_8, progress_text); break;
+                            case 3: lv_label_set_text(guider_ui.screen_label_9, progress_text); break;
+                            default: break;
+                        }
+                    } else {
+                        isGrindRunning = false;
+                        printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
+                        if(register_values[1] == 0){
+                            lv_label_set_text(guider_ui.screen_label_7, "0");
+                            lv_label_set_text(guider_ui.screen_label_8, "0");
+                            lv_label_set_text(guider_ui.screen_label_9, "0");
+                            isGrindProgress = false;
+                            start_flag = STATUS_IN_GRIND_STOP;
+                            ///@TODO change png to start
+                        }
                     }
                 }
+            } else {
+                ///grind ready
+            }   
+        } else {
+             /// read modbus data,get data
+
+
+            if (isGrindProgress) {
+                /// update weight ui
+                /// check running status,running is false,update ui time = 0,isGrindProgress = false
+            } else {
+                /// check running status
+                /// running is true,isGrindProgress = true
             }
+           
+
         }
-        
-        // 每100ms读取一次
+        if (timerStart){
+            resetTime += 100;
+        }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 
-void vButton4MonitorTask(void *pvParameters) {
-    static uint32_t zero_start_time = 0;     // 置零开始时间
-    static uint8_t is_zero_state = 0;        // 是否处于置零状态
 
-    u16 reg = 1 ;
-    for (;;) {
-   
-            // 检查按钮4的状态
-            if (start_flag == 0) {  // 按钮4触发的标志位为0
-                if (!is_zero_state) {
-                    is_zero_state = 1;
-                    zero_start_time = xTaskGetTickCount();  // 记录取零开始时间
-                } else {
-                    // 检查是否超过3秒
-                   if ((xTaskGetTickCount() - zero_start_time) > pdMS_TO_TICKS(3000)) {
-                       // 超过3秒，重置文本数据
-                       lv_label_set_text(guider_ui.screen_label_7, "0");
-                       lv_label_set_text(guider_ui.screen_label_8, "0");
-                       lv_label_set_text(guider_ui.screen_label_9, "0");
-    
-                       // 通过Modbus下发数据0到保持寄存器0x0003
-                       MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, 0, 100);
-    
-                       // 重置状态以避免重复执行
-                       is_zero_state = 0;
-                   }
-               }
-           } else {
-               // 按钮4标志位不为0，清除置零状态
-               is_zero_state = 0;
-           }
-    
-           // 每100ms检查一次
-           vTaskDelay(pdMS_TO_TICKS(100));
-    }
-}*/
-extern uint16_t start_flag; 
-// 合并后的研磨控制任务，包含原来的研磨监控和按钮4检测功能
-// 研磨控制任务
-void vGrindingControlTask(void *pvParameters) {
-    uint16_t grinding_status = 0;     // 当前设备状态 (来自输入寄存器0x0001)
-    uint16_t grinding_progress = 0;   // 当前研磨进度 (来自输入寄存器0x0002)
-    char progress_text[32];           // 进度文本缓冲区
+/*    uint16_t grinding_status = 0;     // 当前设备状态 (来自输入寄存器0x0001)
+
 
     // 状态跟踪
     static uint16_t last_status = 0xFFFF; // 上一次设备状态 (初始化为无效值)
@@ -310,9 +346,9 @@ void vGrindingControlTask(void *pvParameters) {
 
     // 命令状态
     static uint8_t last_command_sent = 0;     // 上次命令 (0: 停止, 1: 启动)
-    static uint8_t command_acknowledged = 1;  // 是否已确认（初始可发命令）
+    static uint8_t command_acknowledged = 1;  // 是否已确认（初始可发命令）*/
 
-    for (;;) {
+/*
         // 1. 读取设备运行状态
         int ret_status = MBRTUMasterReadInputRegisters(
             &MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 1, 100, &grinding_status
@@ -384,7 +420,10 @@ void vGrindingControlTask(void *pvParameters) {
                 is_stop_pressed = 0;
             }
         }
-
+        if (time % 500 == 0)
+        {
+            printf("start_flag = %d;command_acknowledged = %d;last_command_sent = %d;",start_flag,command_acknowledged,last_command_sent);
+        }
         // 3. 启停命令逻辑（仅在命令已确认时允许发新命令）
         if (start_flag == 1 && command_acknowledged && last_command_sent != 1) {
             if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100) == 0) {
@@ -392,17 +431,13 @@ void vGrindingControlTask(void *pvParameters) {
                 last_command_sent = 1;
                 command_acknowledged = 0; // 等待设备确认
             }
-        } 
-        else if (start_flag == 0 && command_acknowledged && last_command_sent != 0) {
-            if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100) == 0) {
+        } else if (start_flag == 0 && command_acknowledged && last_command_sent != 0) {
+            printf("111111111111");
+            if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100) == 0)
+            {
                 printf("停止命令已发送\r\n");
                 last_command_sent = 0;
                 command_acknowledged = 0; // 等待设备确认
             }
         }
-
-        vTaskDelay(pdMS_TO_TICKS(100));
-    }
-}
-
-
+*/

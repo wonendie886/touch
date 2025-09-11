@@ -23,50 +23,35 @@ static int Textselectionflag = 0;
 static int mode_flag = 0;  // 0表示显示标签123，1表示显示标签456
 volatile int grinding_target = 0;
 /**
- * 从标签提取float值并转换为Modbus寄存器格式
+ * 从标签提取数值并转换为Modbus寄存器格式
  * @param label 要读取的标签对象
  * @param unit_suffix 期望的单位后缀 ('s' 或 'g')
- * @param reg_value 输出的寄存器值数组(至少2个uint16_t)
- * @return 0:成功  <0:失败
+ * @return 转换后的16位整数值
  */
-/*static int extract_float_from_label(lv_obj_t* label, char unit_suffix, uint16_t* reg_value)
+static uint16_t extract_value_from_label(lv_obj_t* label, char unit_suffix)
 {
-    // 获取标签文本
     const char *txt = lv_label_get_text(label);
+    uint16_t result = 0;
     
-    // 检查文本长度
-    if (txt == NULL || strlen(txt) <= 1) {
-        return -1;
+    // 检查文本长度和单位后缀
+    if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == unit_suffix) {
+        // 去掉单位后缀并转换为float
+        char value_str[32];
+        uint32_t len = strlen(txt) - 1;
+        if (len >= sizeof(value_str)) {
+            len = sizeof(value_str) - 1;
+        }
+        strncpy(value_str, txt, len);
+        value_str[len] = '\0';
+        
+        // 转换为float并乘以1000转换为整数
+        float value = atof(value_str);
+        result = (uint16_t)(value * 1000);
+        printf("提取的值: %d (原始值: %f)\n", result, value);
     }
     
-    // 检查最后一个字符是否为指定的单位后缀
-    if (txt[strlen(txt) - 1] != unit_suffix) {
-        return -2;
-    }
-    
-    // 去掉单位后缀并转换为float
-    char value_str[32];
-    uint32_t len = strlen(txt) - 1;
-    if (len >= sizeof(value_str)) {
-        len = sizeof(value_str) - 1;
-    }
-    strncpy(value_str, txt, len);
-    value_str[len] = '\0';
-    
-    // 转换为float
-    float value = atof(value_str);
-    printf("准备发送的数据: %f\n", value); // 打印浮点数
-    printf("准备发送的原始字节: ");
-    for(int i=0; i<sizeof(value); i++) {
-        printf("%02X ", *((uint8_t*)&value + i));
-    }
-    printf("\n");
-    
-    // 转换为寄存器值(两个16位寄存器表示一个32位float)
-    memcpy(reg_value, &value, sizeof(float));
-    
-    return 0;
-}*/
+    return result;
+}
 
 // 封装函数：传入当前按钮，让其他全部隐藏
 void show_only_one_button(lv_obj_t * active_btn)
@@ -87,7 +72,7 @@ void show_only_one_button(lv_obj_t * active_btn)
         }
     }
 }
-
+volatile uint16_t Currenttargetime = 0;
 static void screen_btn_1_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -103,40 +88,19 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         grinding_target = 1;
 
         // 通过Modbus发送数据
-        uint16_t reg_value;
         if (mode_flag == 0) {
-            // 模式0: 发送文本1的float数据
-            const char *txt = lv_label_get_text(guider_ui.screen_label_1);
-            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 's') {
-                char value_str[32];
-                uint32_t len = strlen(txt) - 1;
-                if (len >= sizeof(value_str)) {
-                    len = sizeof(value_str) - 1;
-                }
-                strncpy(value_str, txt, len);
-                value_str[len] = '\0';
-                
-                float value = atof(value_str);
-                reg_value = (uint16_t)(value * 1000);  // 转换为整数
-                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, reg_value, 100);
+            // 模式0: 发送文本1的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_1, 's');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
-            // 模式1: 发送文本4的float数据
-            const char *txt = lv_label_get_text(guider_ui.screen_label_4);
-            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 'g') {
-                char value_str[32];
-                uint32_t len = strlen(txt) - 1;
-                if (len >= sizeof(value_str)) {
-                    len = sizeof(value_str) - 1;
-                }
-                strncpy(value_str, txt, len);
-                value_str[len] = '\0';
-                
-                float value = atof(value_str);
-                reg_value = (uint16_t)(value * 1000);  // 转换为整数
-                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, reg_value, 100);
+            // 模式1: 发送文本4的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_4, 'g');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargetime, 100);
             }
         }     
         break;
@@ -161,41 +125,19 @@ static void screen_btn_2_event_handler (lv_event_t *e)
         grinding_target = 3;
 
         // 通过Modbus发送数据
-        // 修改为发送单个寄存器整数数据（原float值*1000）
-        uint16_t reg_value;
         if (mode_flag == 0) {
-            // 模式0: 发送文本3的float数据
-            const char *txt = lv_label_get_text(guider_ui.screen_label_3);
-            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 's') {
-                char value_str[32];
-                uint32_t len = strlen(txt) - 1;
-                if (len >= sizeof(value_str)) {
-                    len = sizeof(value_str) - 1;
-                }
-                strncpy(value_str, txt, len);
-                value_str[len] = '\0';
-                
-                float value = atof(value_str);
-                reg_value = (uint16_t)(value * 1000);  // 转换为整数
-                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, reg_value, 100);
+            // 模式0: 发送文本3的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_3, 's');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
-            // 模式1: 发送文本6的float数据
-            const char *txt = lv_label_get_text(guider_ui.screen_label_6);
-            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 'g') {
-                char value_str[32];
-                uint32_t len = strlen(txt) - 1;
-                if (len >= sizeof(value_str)) {
-                    len = sizeof(value_str) - 1;
-                }
-                strncpy(value_str, txt, len);
-                value_str[len] = '\0';
-                
-                float value = atof(value_str);
-                reg_value = (uint16_t)(value * 1000);  // 转换为整数
-                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, reg_value, 100);
+            // 模式1: 发送文本6的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_6, 'g');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargetime, 100);
             }
         }
         break;
@@ -221,41 +163,19 @@ static void screen_btn_3_event_handler (lv_event_t *e)
         grinding_target = 2;
 
         // 通过Modbus发送数据
-        // 修改为发送单个寄存器整数数据（原float值*1000）
-        uint16_t reg_value;
         if (mode_flag == 0) {
-            // 模式0: 发送文本3的float数据
-            const char *txt = lv_label_get_text(guider_ui.screen_label_2);
-            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 's') {
-                char value_str[32];
-                uint32_t len = strlen(txt) - 1;
-                if (len >= sizeof(value_str)) {
-                    len = sizeof(value_str) - 1;
-                }
-                strncpy(value_str, txt, len);
-                value_str[len] = '\0';
-                
-                float value = atof(value_str);
-                reg_value = (uint16_t)(value * 1000);  // 转换为整数
-                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, reg_value, 100);
+            // 模式0: 发送文本2的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_2, 's');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
-            // 模式1: 发送文本6的float数据
-            const char *txt = lv_label_get_text(guider_ui.screen_label_5);
-            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 'g') {
-                char value_str[32];
-                uint32_t len = strlen(txt) - 1;
-                if (len >= sizeof(value_str)) {
-                    len = sizeof(value_str) - 1;
-                }
-                strncpy(value_str, txt, len);
-                value_str[len] = '\0';
-                
-                float value = atof(value_str);
-                reg_value = (uint16_t)(value * 1000);  // 转换为整数
-                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, reg_value, 100);
+            // 模式1: 发送文本5的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_5, 'g');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargetime, 100);
             }
         }
         break;
@@ -264,7 +184,7 @@ static void screen_btn_3_event_handler (lv_event_t *e)
         break;
     }
 }
-volatile uint16_t start_flag = 0;
+volatile uint8_t start_flag = STATUS_IN_GRIND_STOP;
 static void screen_btn_4_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -275,7 +195,15 @@ static void screen_btn_4_event_handler (lv_event_t *e)
         // 发送启动标志位到下位机
         // 使用保持寄存器地址0x0006，发送值1表示启动，0表示停止
 
-        start_flag = !start_flag; // 切换启动标志位
+        if(start_flag == STATUS_IN_GRIND_STOP){
+            start_flag = STATUS_IN_GRIND_START;
+            
+            
+        } else {
+            start_flag = STATUS_IN_GRIND_STOP;
+
+            
+        }
         
         break;
     }
