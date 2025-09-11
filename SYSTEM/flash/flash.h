@@ -3,6 +3,35 @@
 
 #include "stm32f4xx_hal.h"  // 确保已包含HAL库头文件
 
+typedef enum _INPUT_REG_OFFSET{
+    INDEX_GRIND_MOTOR_RUNNING = 0,
+    INDEX_GRIND_DATA,
+    INDEX_STEP_MOTOR_RUNNING,
+    INDEX_STEP_DATA,
+}INPUT_REG_OFFSET;
+
+typedef enum _HOLDING_REG_OFFSET{
+    INDEX_GRIND_ENABLE = 0,
+    INDEX_GRIND_MODE,
+    INDEX_GRIND_TIME,
+    INDEX_GRIND_WEIGHT,
+    INDEX_GRIND_RESET,
+    INDEX_STEP_ENABLE,
+    INDEX_STEP_DIR,
+    INDEX_STEP_MODE,
+    INDEX_STEP_TIME,
+} HOLDING_REG_OFFSET;
+
+enum _GRIND_MODE{
+    MODE_TIME = 0,
+    MODE_WEIGHT,
+};
+enum _STEP_MODE{
+    MODE_COARSE,
+    MODE_FINE,
+};
+
+
 /* 根据你的芯片型号定义Flash大小和起始地址 */
 #define STM32_FLASH_BASE        0x08000000UL    /* STM32 Flash的起始地址 */
 #define STM32_FLASH_SIZE        (512 * 1024)    /* STM32F407VET6 的Flash大小为512KB */

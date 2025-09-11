@@ -21,7 +21,7 @@
 #endif
 static int Textselectionflag = 0;
 static int mode_flag = 0;  // 0表示显示标签123，1表示显示标签456
-
+volatile int grinding_target = 0;
 /**
  * 从标签提取float值并转换为Modbus寄存器格式
  * @param label 要读取的标签对象
@@ -29,7 +29,7 @@ static int mode_flag = 0;  // 0表示显示标签123，1表示显示标签456
  * @param reg_value 输出的寄存器值数组(至少2个uint16_t)
  * @return 0:成功  <0:失败
  */
-static int extract_float_from_label(lv_obj_t* label, char unit_suffix, uint16_t* reg_value)
+/*static int extract_float_from_label(lv_obj_t* label, char unit_suffix, uint16_t* reg_value)
 {
     // 获取标签文本
     const char *txt = lv_label_get_text(label);
@@ -66,7 +66,7 @@ static int extract_float_from_label(lv_obj_t* label, char unit_suffix, uint16_t*
     memcpy(reg_value, &value, sizeof(float));
     
     return 0;
-}
+}*/
 
 // 封装函数：传入当前按钮，让其他全部隐藏
 void show_only_one_button(lv_obj_t * active_btn)
@@ -99,21 +99,44 @@ static void screen_btn_1_event_handler (lv_event_t *e)
 
         lv_obj_add_flag(guider_ui.screen_img_5, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_7, LV_OBJ_FLAG_HIDDEN);   
+        // 设置研磨目标为文本7
+        grinding_target = 1;
 
         // 通过Modbus发送数据
-        uint16_t reg_value[2];
+        uint16_t reg_value;
         if (mode_flag == 0) {
             // 模式0: 发送文本1的float数据
-            if (extract_float_from_label(guider_ui.screen_label_1, 's', reg_value) == 0) {
-                //打印reg_value[0]和reg_value[1]的值
-                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
-                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0000, 2, reg_value, 100);
+            const char *txt = lv_label_get_text(guider_ui.screen_label_1);
+            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 's') {
+                char value_str[32];
+                uint32_t len = strlen(txt) - 1;
+                if (len >= sizeof(value_str)) {
+                    len = sizeof(value_str) - 1;
+                }
+                strncpy(value_str, txt, len);
+                value_str[len] = '\0';
+                
+                float value = atof(value_str);
+                reg_value = (uint16_t)(value * 1000);  // 转换为整数
+                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, reg_value, 100);
             }
         } else {
             // 模式1: 发送文本4的float数据
-            if (extract_float_from_label(guider_ui.screen_label_4, 'g', reg_value) == 0) {
-                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
-                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0000, 2, reg_value, 100);
+            const char *txt = lv_label_get_text(guider_ui.screen_label_4);
+            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 'g') {
+                char value_str[32];
+                uint32_t len = strlen(txt) - 1;
+                if (len >= sizeof(value_str)) {
+                    len = sizeof(value_str) - 1;
+                }
+                strncpy(value_str, txt, len);
+                value_str[len] = '\0';
+                
+                float value = atof(value_str);
+                reg_value = (uint16_t)(value * 1000);  // 转换为整数
+                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, reg_value, 100);
             }
         }     
         break;
@@ -134,20 +157,45 @@ static void screen_btn_2_event_handler (lv_event_t *e)
 
         lv_obj_add_flag(guider_ui.screen_img_5, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_6, LV_OBJ_FLAG_HIDDEN);
+        // 设置研磨目标为文本8
+        grinding_target = 3;
 
         // 通过Modbus发送数据
-        uint16_t reg_value[2];
+        // 修改为发送单个寄存器整数数据（原float值*1000）
+        uint16_t reg_value;
         if (mode_flag == 0) {
-            // 模式0: 发送文本2的float数据
-            if (extract_float_from_label(guider_ui.screen_label_3, 's', reg_value) == 0) {
-                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
-                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0002, 2, reg_value, 100);
+            // 模式0: 发送文本3的float数据
+            const char *txt = lv_label_get_text(guider_ui.screen_label_3);
+            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 's') {
+                char value_str[32];
+                uint32_t len = strlen(txt) - 1;
+                if (len >= sizeof(value_str)) {
+                    len = sizeof(value_str) - 1;
+                }
+                strncpy(value_str, txt, len);
+                value_str[len] = '\0';
+                
+                float value = atof(value_str);
+                reg_value = (uint16_t)(value * 1000);  // 转换为整数
+                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, reg_value, 100);
             }
         } else {
-            // 模式1: 发送文本5的float数据
-            if (extract_float_from_label(guider_ui.screen_label_6, 'g', reg_value) == 0) {
-                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
-                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0002, 2, reg_value, 100);
+            // 模式1: 发送文本6的float数据
+            const char *txt = lv_label_get_text(guider_ui.screen_label_6);
+            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 'g') {
+                char value_str[32];
+                uint32_t len = strlen(txt) - 1;
+                if (len >= sizeof(value_str)) {
+                    len = sizeof(value_str) - 1;
+                }
+                strncpy(value_str, txt, len);
+                value_str[len] = '\0';
+                
+                float value = atof(value_str);
+                reg_value = (uint16_t)(value * 1000);  // 转换为整数
+                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, reg_value, 100);
             }
         }
         break;
@@ -168,19 +216,46 @@ static void screen_btn_3_event_handler (lv_event_t *e)
 
         lv_obj_add_flag(guider_ui.screen_img_7, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_6, LV_OBJ_FLAG_HIDDEN);
+
+        // 设置研磨目标为文本9
+        grinding_target = 2;
+
         // 通过Modbus发送数据
-        uint16_t reg_value[2];
+        // 修改为发送单个寄存器整数数据（原float值*1000）
+        uint16_t reg_value;
         if (mode_flag == 0) {
             // 模式0: 发送文本3的float数据
-            if (extract_float_from_label(guider_ui.screen_label_2, 's', reg_value) == 0) {
-                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
-                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0004, 2, reg_value, 100);
+            const char *txt = lv_label_get_text(guider_ui.screen_label_2);
+            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 's') {
+                char value_str[32];
+                uint32_t len = strlen(txt) - 1;
+                if (len >= sizeof(value_str)) {
+                    len = sizeof(value_str) - 1;
+                }
+                strncpy(value_str, txt, len);
+                value_str[len] = '\0';
+                
+                float value = atof(value_str);
+                reg_value = (uint16_t)(value * 1000);  // 转换为整数
+                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, reg_value, 100);
             }
         } else {
             // 模式1: 发送文本6的float数据
-            if (extract_float_from_label(guider_ui.screen_label_5, 'g', reg_value) == 0) {
-                printf("发送的寄存器值: %04X %04X\n", reg_value[0], reg_value[1]);
-                MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, 0x0004, 2, reg_value, 100);
+            const char *txt = lv_label_get_text(guider_ui.screen_label_5);
+            if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == 'g') {
+                char value_str[32];
+                uint32_t len = strlen(txt) - 1;
+                if (len >= sizeof(value_str)) {
+                    len = sizeof(value_str) - 1;
+                }
+                strncpy(value_str, txt, len);
+                value_str[len] = '\0';
+                
+                float value = atof(value_str);
+                reg_value = (uint16_t)(value * 1000);  // 转换为整数
+                printf("发送的寄存器值: %d (原始值: %f)\n", reg_value, value);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, reg_value, 100);
             }
         }
         break;
@@ -189,7 +264,7 @@ static void screen_btn_3_event_handler (lv_event_t *e)
         break;
     }
 }
-
+volatile uint16_t start_flag = 0;
 static void screen_btn_4_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -199,15 +274,9 @@ static void screen_btn_4_event_handler (lv_event_t *e)
         //Press the button to directly control the motor via Modbus protocol.
         // 发送启动标志位到下位机
         // 使用保持寄存器地址0x0006，发送值1表示启动，0表示停止
-        static uint16_t start_flag = 0;
+
         start_flag = !start_flag; // 切换启动标志位
         
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0006, start_flag, 100);
-        if(ret == 0) {
-            printf("成功发送启动标志位: %d\n", start_flag);
-        } else {
-            printf("发送启动标志位失败, 错误码: %d\n", ret);
-        }
         break;
     }
     default:
@@ -353,7 +422,7 @@ static void screen_btn_8_event_handler (lv_event_t *e)
         }
         if(Textselectionflag == 10){
             const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_2);
- 
+            //打印txt数据
             lv_label_set_text_fmt(guider_ui.screen_btn_10, "%s", txt);
         }
         // 设置标志位，触发flash写入任务
@@ -405,7 +474,7 @@ static void screen_btn_9_event_handler (lv_event_t *e)
         }
         // 通过Modbus发送当前模式信息到从机
         uint16_t mode_value = mode_flag;
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0010, mode_value, 100);
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode_value, 100);
       
         break;
     }
@@ -421,19 +490,50 @@ static void screen_btn_10_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:{
         //Send the thickness information to the lower-level machine.
         uint16_t motordrive_value = 0;  // 驱动与否
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, motordrive_value, 100);
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
         break;
     }
     case LV_EVENT_LONG_PRESSED:{
         // 长按发送1
         uint16_t motordrive_value = 1;
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, motordrive_value, 100);
+        uint16_t direction = 0;
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_DIR, direction, 100);
         break;
     }
     case LV_EVENT_RELEASED:{
         // 松开发送0
         uint16_t motordrive_value = 0;
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, 0x0011, motordrive_value, 100);
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        break;
+    }
+    default:
+    break;
+    }    
+}
+
+static void screen_btn_11_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:{
+        //Send the thickness information to the lower-level machine.
+        uint16_t motordrive_value = 0;  // 驱动与否
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        break;
+    }
+    case LV_EVENT_LONG_PRESSED:{
+        // 长按发送1
+        uint16_t motordrive_value = 1;
+        uint16_t direction = 0;
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_DIR, direction, 100);
+        break;
+    }
+    case LV_EVENT_RELEASED:{
+        // 松开发送0
+        uint16_t motordrive_value = 0;
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
         break;
     }
     default:
@@ -452,6 +552,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_8, screen_btn_8_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_9, screen_btn_9_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_10, screen_btn_10_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_11, screen_btn_11_event_handler, LV_EVENT_ALL, ui);
 }
 
 

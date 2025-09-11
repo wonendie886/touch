@@ -55,8 +55,13 @@ typedef struct
 	lv_obj_t *screen_label_4;
 	lv_obj_t *screen_label_5;
 	lv_obj_t *screen_label_6;
+	lv_obj_t *screen_label_7;
+	lv_obj_t *screen_label_8;
+	lv_obj_t *screen_label_9;
 	lv_obj_t *screen_btn_10;
 	lv_obj_t *screen_btn_10_label;
+	lv_obj_t *screen_btn_11;
+	lv_obj_t *screen_btn_11_label;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 

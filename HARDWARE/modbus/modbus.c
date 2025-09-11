@@ -1,6 +1,6 @@
 #include "modbus.h"
 #include "led.h"
-
+#include "flash.h"
 #ifdef 0
 static void mutex_lock(void);
 static void mutex_unlock(void);
@@ -193,34 +193,41 @@ static uint32_t sendData(const void* buf, uint32_t len)
 
 void modbus_test(void)
 {
+
     int ret = 0;
     uint16_t usBuf[10] = {0};
      ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
     HAL_Delay(100);
-    // 写多个寄存器
-    memset(usBuf, 0XFF, 20);
-    ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 1, 0, 8, usBuf, 500);
-    printf(" write regs %s. \r\n", ret < 0 ? "failed" : "ok");
+//    // 写多个寄存器
+//    memset(usBuf, 0XFF, 20);
+//    ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 1, 0, 8, usBuf, 500);
+//    printf(" write regs %s. \r\n", ret < 0 ? "failed" : "ok");
 
-    HAL_Delay(100);
+//    HAL_Delay(100);
 
 
-    ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
-    printf(" read hold regs %s. \r\n", ret < 0 ? "failed" : "ok");
-    if (ret >= 0){
-        for(int i = 0; i < 4; i++)
-            printf("reg[%d] = %d \r\n", i, usBuf[i]);
-    }
+//    ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
+//    printf(" read hold regs %s. \r\n", ret < 0 ? "failed" : "ok");
+//    if (ret >= 0){
+//        for(int i = 0; i < 4; i++)
+//            printf("reg[%d] = %d \r\n", i, usBuf[i]);
+//    }
 
-    memset(usBuf, 0XBB, 20);
-    ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 1, 0, 2, usBuf, 500);
-    printf(" write regs %s. \r\n", ret < 0 ? "failed" : "ok");
+//    memset(usBuf, 0XBB, 20);
+//    ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 1, 0, 2, usBuf, 500);
+//    printf(" write regs %s. \r\n", ret < 0 ? "failed" : "ok");
 
-    HAL_Delay(100);
-    ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
-    printf(" read hold regs %s. \r\n", ret < 0 ? "failed" : "ok");
-    if (ret >= 0){
-        for(int i = 0; i < 4; i++)
-            printf("reg[%d] = %d \r\n", i, usBuf[i]);
-    }
+//    HAL_Delay(100);
+//    ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
+//    printf(" read hold regs %s. \r\n", ret < 0 ? "failed" : "ok");
+//    if (ret >= 0){
+//        for(int i = 0; i < 4; i++)
+//            printf("reg[%d] = %d \r\n", i, usBuf[i]);
+//    }
+//    HAL_Delay(100);
+//    
+//    
+//    ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
+
+//    printf(" 1111111 write regs %s. \r\n", ret < 0 ? "failed" : "ok");
 }
