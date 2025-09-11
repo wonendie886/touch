@@ -297,7 +297,6 @@ void vButton4MonitorTask(void *pvParameters) {
 extern uint16_t start_flag; 
 // 合并后的研磨控制任务，包含原来的研磨监控和按钮4检测功能
 // 研磨控制任务
-// 研磨控制任务
 void vGrindingControlTask(void *pvParameters) {
     uint16_t grinding_status = 0;     // 当前设备状态 (来自输入寄存器0x0001)
     uint16_t grinding_progress = 0;   // 当前研磨进度 (来自输入寄存器0x0002)
@@ -324,21 +323,22 @@ void vGrindingControlTask(void *pvParameters) {
             if (grinding_status != last_status) {
                 if (grinding_status != 0) {
                     // ---- 设备从停止 → 运行 ----
-                    printf("设备开始运行\n");
-                    command_acknowledged = 1; // 确认启动成功
+                    printf("设备开始运行\r\n");
+                    command_acknowledged = 1; 
                     is_stop_pressed = 0;
                     reset_performed = 0;
                 } else {
                     // ---- 设备从运行 → 停止 ----
                     if (last_command_sent == 1) {
-                        // 自然停止（研磨完成）
+                        // 自然结束
                         command_acknowledged = 1;
                         last_command_sent = 0;
-                        printf("设备自动结束，状态已重置为停止\n");
+                        start_flag = 0;  // ⭐ 修复：自然结束时同步清零启动标志
+                        printf("设备自动结束，状态已重置为停止\r\n");
                     } else {
-                        // 用户停止
+                        // 用户主动停止
                         command_acknowledged = 1;
-                        printf("设备已停止（用户停止）\n");
+                        printf("设备已停止（用户停止）\r\n");
                     }
 
                     // 开始3秒计时
@@ -347,8 +347,7 @@ void vGrindingControlTask(void *pvParameters) {
                     reset_performed = 0;
                 }
 
-                // 保存当前状态
-                last_status = grinding_status;
+                last_status = grinding_status; // 保存当前状态
             }
 
             // === 如果正在运行则更新进度 ===
@@ -371,7 +370,7 @@ void vGrindingControlTask(void *pvParameters) {
         // 2. 停止超过3秒 → 重置
         if (is_stop_pressed && !reset_performed) {
             if ((xTaskGetTickCount() - stop_timer) > pdMS_TO_TICKS(3000)) {
-                printf("停止超过3秒，重置所有状态\n");
+                printf("停止超过3秒，重置所有状态\r\n");
 
                 // 清零显示
                 lv_label_set_text(guider_ui.screen_label_7, "0");
@@ -379,7 +378,7 @@ void vGrindingControlTask(void *pvParameters) {
                 lv_label_set_text(guider_ui.screen_label_9, "0");
 
                 // 下发复位命令
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, 0, 100);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 0, 100);
 
                 reset_performed = 1;
                 is_stop_pressed = 0;
@@ -389,14 +388,14 @@ void vGrindingControlTask(void *pvParameters) {
         // 3. 启停命令逻辑（仅在命令已确认时允许发新命令）
         if (start_flag == 1 && command_acknowledged && last_command_sent != 1) {
             if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100) == 0) {
-                printf("启动命令已发送\n");
+                printf("启动命令已发送\r\n");
                 last_command_sent = 1;
                 command_acknowledged = 0; // 等待设备确认
             }
         } 
         else if (start_flag == 0 && command_acknowledged && last_command_sent != 0) {
             if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100) == 0) {
-                printf("停止命令已发送\n");
+                printf("停止命令已发送\r\n");
                 last_command_sent = 0;
                 command_acknowledged = 0; // 等待设备确认
             }
@@ -405,4 +404,5 @@ void vGrindingControlTask(void *pvParameters) {
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
+
 
