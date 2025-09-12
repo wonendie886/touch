@@ -202,7 +202,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_4
     ui->screen_btn_4 = lv_btn_create(ui->screen);
     ui->screen_btn_4_label = lv_label_create(ui->screen_btn_4);
-    lv_label_set_text(ui->screen_btn_4_label, "");
+    lv_label_set_text(ui->screen_btn_4_label, "START");
     lv_label_set_long_mode(ui->screen_btn_4_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_4_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_4, 0, LV_STATE_DEFAULT);
