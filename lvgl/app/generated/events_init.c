@@ -331,6 +331,7 @@ static void screen_btn_8_event_handler (lv_event_t *e)
                 strncpy(flash_write_data.label4_text, txt, MAX_TEXT_LEN);
                 if(grinding_target == 1){
                     Currenttargeweight = extract_value_from_label(guider_ui.screen_label_4, 'g');
+                    printf("write %d\n", Currenttargeweight);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
                 }
             }
@@ -341,15 +342,18 @@ static void screen_btn_8_event_handler (lv_event_t *e)
             if (isGrindMode == 0) {
                 lv_label_set_text_fmt(guider_ui.screen_label_2, "%ss", txt);
                 strncpy(flash_write_data.label2_text, txt, MAX_TEXT_LEN);
-                if(grinding_target == 3){
+                printf ("write grinding_target = %d\n", grinding_target);
+                if(grinding_target == 2){
                     Currenttargetime = extract_value_from_label(guider_ui.screen_label_2, 's');
+                    printf("write %d\n", Currenttargetime);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 }                
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_5, "%sg", txt);
                 strncpy(flash_write_data.label5_text, txt, MAX_TEXT_LEN);
-                if(grinding_target == 3){
+                if(grinding_target == 2){
                     Currenttargeweight = extract_value_from_label(guider_ui.screen_label_5, 'g');
+                    printf("write %d\n", Currenttargeweight);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
                 }
             }
@@ -361,15 +365,17 @@ static void screen_btn_8_event_handler (lv_event_t *e)
             if (isGrindMode == 0) {
                 lv_label_set_text_fmt(guider_ui.screen_label_3, "%ss", txt);
                 strncpy(flash_write_data.label3_text, txt, MAX_TEXT_LEN);
-                if(grinding_target == 2){
+                if(grinding_target == 3){
                     Currenttargetime = extract_value_from_label(guider_ui.screen_label_3, 's');
+                    printf("write %d\n", Currenttargetime);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 }   
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_6, "%sg", txt);
                 strncpy(flash_write_data.label6_text, txt, MAX_TEXT_LEN);
-                if(grinding_target == 2){
+                if(grinding_target == 3){
                     Currenttargeweight = extract_value_from_label(guider_ui.screen_label_6, 'g');
+                    printf("write %d\n", Currenttargeweight);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
                 }
                 //打印flash_write_data.label6_text
@@ -414,6 +420,9 @@ static void screen_btn_9_event_handler (lv_event_t *e)
             lv_obj_add_flag(guider_ui.screen_label_2, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_label_3, LV_OBJ_FLAG_HIDDEN);
 
+            lv_obj_add_flag(guider_ui.screen_img_5,LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_img_6,LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_img_7,LV_OBJ_FLAG_HIDDEN);
             isGrindMode = MODE_WEIGHT;
             printf("isGrindMode: %d\n", isGrindMode);
 
@@ -427,6 +436,10 @@ static void screen_btn_9_event_handler (lv_event_t *e)
             lv_obj_add_flag(guider_ui.screen_label_4, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_label_5, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
+
+            lv_obj_add_flag(guider_ui.screen_img_5,LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_img_6,LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_img_7,LV_OBJ_FLAG_HIDDEN);
 
             isGrindMode = MODE_TIME;
             printf("isGrindMode: %d\n", isGrindMode);
