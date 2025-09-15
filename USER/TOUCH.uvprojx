@@ -1659,14 +1659,29 @@
               <FilePath>..\lvgl\app\generated\setup_scr_screen.c</FilePath>
             </File>
             <File>
+              <FileName>setup_scr_screen_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\setup_scr_screen_1.c</FilePath>
+            </File>
+            <File>
               <FileName>widgets_init.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\widgets_init.c</FilePath>
             </File>
             <File>
+              <FileName>_16Bjishi_alpha_50x50.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_16Bjishi_alpha_50x50.c</FilePath>
+            </File>
+            <File>
               <FileName>_1755657687860_alpha_100x70.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_1755657687860_alpha_100x70.c</FilePath>
+            </File>
+            <File>
+              <FileName>_chengzhong_alpha_50x50.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_chengzhong_alpha_50x50.c</FilePath>
             </File>
             <File>
               <FileName>_cup_fill_alpha_100x80.c</FileName>
@@ -1689,9 +1704,44 @@
               <FilePath>..\lvgl\app\generated\images\_cup_line_alpha_100x81.c</FilePath>
             </File>
             <File>
+              <FileName>_danfen_alpha_100x108.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_danfen_alpha_100x108.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_alpha_128x30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_alpha_128x30.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shezhi_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shezhi_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shoubing_alpha_42x71.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shoubing_alpha_42x71.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shuangfen_alpha_100x108.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shuangfen_alpha_100x108.c</FilePath>
+            </File>
+            <File>
               <FileName>_start_alpha_60x50.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_start_alpha_60x50.c</FilePath>
+            </File>
+            <File>
+              <FileName>_uxdb_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_uxdb_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_yuyan_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_yuyan_alpha_40x40.c</FilePath>
             </File>
             <File>
               <FileName>lv_font_montserratMedium_12.c</FileName>

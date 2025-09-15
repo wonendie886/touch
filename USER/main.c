@@ -45,7 +45,7 @@ flash_store_t flash_write_data;
 void set_all_grinding_labels_text(const char* text)
 {
     lv_label_set_text(guider_ui.screen_label_7, text);
-    lv_label_set_text(guider_ui.screen_label_8, text);
+//    lv_label_set_text(guider_ui.screen_label_8, text);
     lv_label_set_text(guider_ui.screen_label_9, text);
 }
 
@@ -61,7 +61,7 @@ void set_grinding_label_text_by_target(int target, const char* text)
             lv_label_set_text(guider_ui.screen_label_7, text);
             break;
         case 2:
-            lv_label_set_text(guider_ui.screen_label_8, text);
+//            lv_label_set_text(guider_ui.screen_label_8, text);
             break;
         case 3:
             lv_label_set_text(guider_ui.screen_label_9, text);
@@ -158,7 +158,7 @@ int main(void)
 	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
     // xTaskCreate(vGrindingMonitorTask, "grinding_monitor_task", 128, NULL, 2, &xGrindingMonitorTaskHandle);
     // xTaskCreate(vButton4MonitorTask, "button4_monitor_task", 128, NULL, 2, &xButton4MonitorTaskHandle);  
-    xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+    //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
 	vTaskStartScheduler();  
 
 
