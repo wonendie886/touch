@@ -25,6 +25,91 @@ volatile int grinding_target = 0;
 volatile uint16_t Currenttargetime = 0;
 volatile uint16_t Currenttargeweight = 0;
 volatile uint8_t start_flag = STATUS_IN_GRIND_STOP;
+
+// 指定的图片对象数组
+static lv_obj_t** target_images = NULL;
+static int target_images_count = 0;
+
+
+void custom_init(lv_ui *ui)
+{
+    /* Add your codes here */
+    // 初始化指定的图片对象数组
+    static lv_obj_t* images[] = {
+        guider_ui.screen_img_3,
+        guider_ui.screen_img_4,
+        guider_ui.screen_img_8,
+        guider_ui.screen_img_9,
+        guider_ui.screen_img_10,
+        guider_ui.screen_img_12
+    };
+    
+    target_images = images;
+    target_images_count = sizeof(images) / sizeof(images[0]);
+}
+
+void set_image_opacity(lv_obj_t* target_img) 
+{
+    if (target_images == NULL) return;
+    
+    for (int i = 0; i < target_images_count; i++) {
+        if (target_images[i] != NULL) {
+            if (target_images[i] == target_img) {
+                // 设置指定图片透明度为188
+                lv_obj_set_style_img_opa(target_images[i], 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+            } else {
+                // 设置其他图片透明度为255
+                lv_obj_set_style_img_opa(target_images[i], 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+            }
+        }
+    }
+}
+
+static uint16_t extract_value_from_label(lv_obj_t* label, char unit_suffix)
+{
+    const char *txt = lv_label_get_text(label);
+    uint16_t result = 0;
+    
+    // 检查文本长度和单位后缀
+    if (txt != NULL && strlen(txt) > 1 && txt[strlen(txt) - 1] == unit_suffix) {
+        // 去掉单位后缀并转换为float
+        char value_str[32];
+        uint32_t len = strlen(txt) - 1;
+        if (len >= sizeof(value_str)) {
+            len = sizeof(value_str) - 1;
+        }
+        strncpy(value_str, txt, len);
+        value_str[len] = '\0';
+        
+        // 转换为float并乘以1000转换为整数
+        float value = atof(value_str);
+        result = (uint16_t)(value * 1000);
+        printf("提取的值: %d (原始值: %f)\n", result, value);
+    }
+    
+    return result;
+}
+
+// 封装函数：传入当前按钮，让其他全部隐藏
+void show_only_one_button(lv_obj_t * active_btn)
+{
+    lv_obj_t * btn_list[9] = { 
+                                guider_ui.screen_btn_1, guider_ui.screen_btn_2, guider_ui.screen_btn_11, 
+                                guider_ui.screen_btn_4, guider_ui.screen_btn_5, guider_ui.screen_btn_12, 
+                                guider_ui.screen_btn_7, guider_ui.screen_btn_8, guider_ui.screen_btn_13, 
+                            };
+
+    for(int i = 0; i < 8; i++) {
+        if(btn_list[i] == active_btn) {
+            // 显示当前按钮
+            lv_obj_clear_flag(btn_list[i], LV_OBJ_FLAG_HIDDEN);
+        } else {
+            // 隐藏其他按钮
+            lv_obj_add_flag(btn_list[i], LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+}
+
 static void screen_btn_1_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -32,6 +117,26 @@ static void screen_btn_1_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Currently highlighted, the rest are initialized.
+        set_image_opacity(guider_ui.screen_img_4);  
+        // 设置研磨目标为文本7
+        grinding_target = 1;
+
+        // 通过Modbus发送数据
+        if (isGrindMode == 0) {
+            // 模式0: 发送文本1的数值数据
+            Currenttargetime = extract_value_from_label(guider_ui.screen_label_1, 's');
+            if (Currenttargetime > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargetime);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+            }
+        } else {
+            // 模式1: 发送文本4的数值数据
+            Currenttargeweight = extract_value_from_label(guider_ui.screen_label_4, 'g');
+            if (Currenttargeweight > 0) {
+                printf("发送的寄存器值: %d\n", Currenttargeweight);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+            }
+        }         
         break;
     }
     default:

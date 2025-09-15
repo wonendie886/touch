@@ -155,7 +155,7 @@ int main(void)
     
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
+	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
     // xTaskCreate(vGrindingMonitorTask, "grinding_monitor_task", 128, NULL, 2, &xGrindingMonitorTaskHandle);
     // xTaskCreate(vButton4MonitorTask, "button4_monitor_task", 128, NULL, 2, &xButton4MonitorTaskHandle);  
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
