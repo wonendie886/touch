@@ -2,7 +2,7 @@
 #define FLASH_H
 
 #include "stm32f4xx_hal.h"  // 确保已包含HAL库头文件
-
+#include "stdbool.h"
 typedef enum _INPUT_REG_OFFSET{
     INDEX_GRIND_MOTOR_RUNNING = 0,
     INDEX_GRIND_DATA,
@@ -31,6 +31,13 @@ enum _STEP_MODE{
     MODE_FINE,
 };
 
+enum _GRIND_STATUS{
+    STATUS_IN_GRIND_STOP = 0,
+    STATUS_IN_GRIND_START,
+};
+
+
+extern bool isGrindMode;
 
 /* 根据你的芯片型号定义Flash大小和起始地址 */
 #define STM32_FLASH_BASE        0x08000000UL    /* STM32 Flash的起始地址 */
@@ -38,9 +45,9 @@ enum _STEP_MODE{
 #define FLASH_END_ADDRESS       (STM32_FLASH_BASE + STM32_FLASH_SIZE)
 
 
-#define USER_FLASH_START_ADDR   0x080E0000      /* Sector 11 起始地址 */
-#define USER_FLASH_SECTOR       FLASH_SECTOR_11  /* 对应扇区编号 */
-#define MAX_TEXT_LEN  6
+#define USER_FLASH_START_ADDR   0x08060000      /* Sector 11 起始地址 */
+#define USER_FLASH_SECTOR       FLASH_SECTOR_7  /* 对应扇区编号 */
+#define MAX_TEXT_LEN  8
 typedef struct {
     char label1_text[MAX_TEXT_LEN];
     char label2_text[MAX_TEXT_LEN];
