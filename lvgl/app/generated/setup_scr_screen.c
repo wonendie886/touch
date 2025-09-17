@@ -459,7 +459,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_width(ui->screen_spinbox_1, 70);
     lv_obj_set_height(ui->screen_spinbox_1, 40);
     lv_spinbox_set_digit_format(ui->screen_spinbox_1, 3, 2);
-    lv_spinbox_set_range(ui->screen_spinbox_1, -999, 999);
+    lv_spinbox_set_range(ui->screen_spinbox_1, 0, 999);
     lv_coord_t screen_spinbox_1_h = lv_obj_get_height(ui->screen_spinbox_1);
     ui->screen_spinbox_1_btn_plus = lv_btn_create(ui->screen);
     lv_obj_set_size(ui->screen_spinbox_1_btn_plus, screen_spinbox_1_h, screen_spinbox_1_h);
@@ -611,6 +611,8 @@ void setup_scr_screen(lv_ui *ui)
     //The custom code of screen.
     //Initial hidden Tweak tool, Buttons 14, 15
     show_hide_controls(ui, 0);
+    lv_obj_add_flag(ui->screen_label_4, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->screen_label_6, LV_OBJ_FLAG_HIDDEN);
 
     flash_store_t store;
     //flash_store_read(&store);

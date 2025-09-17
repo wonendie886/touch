@@ -17,6 +17,8 @@
 #include "gt911.h"
 #include "mbrtu_master.h"
 #include "modbus.h"
+#include "can.h" 
+#include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 
 
 void vLCD_Refresh_LED_Task( void *pvParameters );
@@ -33,6 +35,53 @@ lv_ui guider_ui;
 /* 全局触发标志 */
 volatile uint8_t flash_request_flag = 0;
 flash_store_t flash_write_data;
+
+// 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
+void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
+{
+    CanRxMsgTypeDef *r = hcan_if->pRxMsg;
+    uint8_t data[8];
+    uint8_t i;
+    for (i = 0; i < r->DLC && i < 8; i++) data[i] = r->Data[i];
+    for (; i < 8; i++) data[i] = 0x00;
+
+    uint8_t is_ext = 0;
+    uint32_t id = 0;
+#ifdef CAN_Id_Extended
+    if (r->IDE == CAN_Id_Extended) {
+        is_ext = 1; id = r->ExtId;
+    } else {
+        is_ext = 0; id = r->StdId;
+    }
+#else
+    // 如果你的 HAL 没有 CAN_Id_Extended 宏，使用常见数值判断：0x04 表示扩展（老 HAL 习惯）
+    if (r->IDE == 0x04U) {
+        is_ext = 1; id = r->ExtId;
+    } else {
+        is_ext = 0; id = r->StdId;
+    }
+#endif
+
+    // 转给我们封装的用户回调（由用户覆盖）
+    CAN_UserRxCb(is_ext, id, r->DLC, data);
+
+    // 重新使能接收（legacy HAL 的 Receive_IT 是一次性的）
+    HAL_CAN_Receive_IT(hcan_if, CAN_FIFO0);
+}
+
+// 发送完成回调：通知用户
+void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan_if)
+{
+    (void)hcan_if;
+    CAN_UserTxCb();
+}
+
+// 错误回调：转发或记录错误码。你可以在这里打印 hcan_if->ErrorCode
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
+{
+    // 用户可覆盖 HAL_CAN_ErrorCallback 或实现 CAN_UserXXX 来打印错误
+    // 例如：Debug_Printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
+}
 
 /**
  * 将所有研磨进度标签设置为相同的文本
@@ -57,10 +106,10 @@ void set_grinding_label_text_by_target(int target, const char* text)
            lv_label_set_text(guider_ui.screen_label_7, text);
            break;
        case 2:
-            lv_label_set_text(guider_ui.screen_label_8, text);
+//            lv_label_set_text(guider_ui.screen_label_8, text);
            break;
        case 3:
-//           lv_label_set_text(guider_ui.screen_label_9, text);
+           lv_label_set_text(guider_ui.screen_label_8, text);
            break;
        default:
            break;
@@ -147,13 +196,12 @@ int main(void)
 
     gt911_init();
 
-    modbus_test();
     
-	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	//xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
+	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
 	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
-    xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-	vTaskStartScheduler();  
+    //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+	//vTaskStartScheduler();  
 
 
     while (1)                                            
