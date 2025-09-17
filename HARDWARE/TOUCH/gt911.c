@@ -127,10 +127,14 @@ void gt911_scanf(void)
 				GT911_ReadReg((GT_TPD_Sta + i*8 + X_H), &_temp, 1);	//read x pos high 8 bit
 				TouchDev.xy[i].x |= (_temp <<8 );
 
+				TouchDev.xy[i].x = 480 - TouchDev.xy[i].x;
+
 				GT911_ReadReg((GT_TPD_Sta + i*8 + Y_L), &_temp, 1);	//read y pos low 8 bit
 				TouchDev.xy[i].y  = _temp;
 				GT911_ReadReg((GT_TPD_Sta + i*8 + Y_H), &_temp, 1);	//read y pos high 8 bit
 				TouchDev.xy[i].y |= (_temp << 8);
+
+				TouchDev.xy[i].y = 272 - TouchDev.xy[i].y;
 
 				GT911_ReadReg((GT_TPD_Sta + i*8 + S_L), &_temp, 1);	//read size low 8 bit
 				TouchDev.xy[i].s  = _temp;
