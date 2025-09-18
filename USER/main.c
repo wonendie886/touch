@@ -175,11 +175,17 @@ extern uint32_t rxCount;
 extern uint8_t RxBuf[100];
 extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
 extern uint16_t start_flag;              // 按钮4的启动标志位
+
+/// 32K offset
+#define APP_FLASH_OFFSET 0x8000
 int main(void)
 { 
+    
+    SCB->VTOR = FLASH_BASE | APP_FLASH_OFFSET;
 	DWT_Init();
 	BaseType_t xReturned;
 	HAL_Init();      
+    
 	HAL_NVIC_SetPriorityGrouping(NVIC_PRIORITYGROUP_4); 
 	HAL_NVIC_SetPriority(SysTick_IRQn, 15, 0); 
 	HAL_NVIC_SetPriority(PendSV_IRQn, 15, 0);
