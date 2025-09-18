@@ -17,20 +17,18 @@
 #include "gt911.h"
 #include "mbrtu_master.h"
 #include "modbus.h"
+#include "can.h" 
+#include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 
 
 void vLCD_Refresh_LED_Task( void *pvParameters );
 void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
-// void vGrindingMonitorTask(void *pvParameters);  
-// void vButton4MonitorTask(void *pvParameters); 
 void vGrindingControlTask(void *pvParameters);
 
 TaskHandle_t xLCD_Refresh_LED_TaskHandle= NULL;  
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
-// TaskHandle_t xGrindingMonitorTaskHandle = NULL; 
-// TaskHandle_t xButton4MonitorTaskHandle = NULL; 
 TaskHandle_t xGrindingControlTaskHandle = NULL; 
 lv_ui guider_ui;
 
@@ -38,37 +36,84 @@ lv_ui guider_ui;
 volatile uint8_t flash_request_flag = 0;
 flash_store_t flash_write_data;
 
+// 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
+void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
+{
+    CanRxMsgTypeDef *r = hcan_if->pRxMsg;
+    uint8_t data[8];
+    uint8_t i;
+    for (i = 0; i < r->DLC && i < 8; i++) data[i] = r->Data[i];
+    for (; i < 8; i++) data[i] = 0x00;
+
+    uint8_t is_ext = 0;
+    uint32_t id = 0;
+#ifdef CAN_Id_Extended
+    if (r->IDE == CAN_Id_Extended) {
+        is_ext = 1; id = r->ExtId;
+    } else {
+        is_ext = 0; id = r->StdId;
+    }
+#else
+    // 如果你的 HAL 没有 CAN_Id_Extended 宏，使用常见数值判断：0x04 表示扩展（老 HAL 习惯）
+    if (r->IDE == 0x04U) {
+        is_ext = 1; id = r->ExtId;
+    } else {
+        is_ext = 0; id = r->StdId;
+    }
+#endif
+
+    // 转给我们封装的用户回调（由用户覆盖）
+    CAN_UserRxCb(is_ext, id, r->DLC, data);
+
+    // 重新使能接收（legacy HAL 的 Receive_IT 是一次性的）
+    HAL_CAN_Receive_IT(hcan_if, CAN_FIFO0);
+}
+
+// 发送完成回调：通知用户
+void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan_if)
+{
+    (void)hcan_if;
+    CAN_UserTxCb();
+}
+
+// 错误回调：转发或记录错误码。你可以在这里打印 hcan_if->ErrorCode
+void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
+{
+    // 用户可覆盖 HAL_CAN_ErrorCallback 或实现 CAN_UserXXX 来打印错误
+    // 例如：Debug_Printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
+}
+
 /**
  * 将所有研磨进度标签设置为相同的文本
  * @param text 要设置的文本内容
  */
 void set_all_grinding_labels_text(const char* text)
 {
-    lv_label_set_text(guider_ui.screen_label_7, text);
+   lv_label_set_text(guider_ui.screen_label_7, text);
     lv_label_set_text(guider_ui.screen_label_8, text);
-    lv_label_set_text(guider_ui.screen_label_9, text);
+//   lv_label_set_text(guider_ui.screen_label_9, text);
 }
 
 /**
- * 根据研磨目标设置对应标签的文本
- * @param target 研磨目标 (1=标签7, 2=标签8, 3=标签9)
- * @param text 要设置的文本内容
- */
+* 根据研磨目标设置对应标签的文本
+* @param target 研磨目标 (1=标签7, 2=标签8, 3=标签9)
+* @param text 要设置的文本内容
+*/
 void set_grinding_label_text_by_target(int target, const char* text)
 {
-    switch (target) {
-        case 1:
-            lv_label_set_text(guider_ui.screen_label_7, text);
-            break;
-        case 2:
-            lv_label_set_text(guider_ui.screen_label_8, text);
-            break;
-        case 3:
-            lv_label_set_text(guider_ui.screen_label_9, text);
-            break;
-        default:
-            break;
-    }
+   switch (target) {
+       case 1:
+           lv_label_set_text(guider_ui.screen_label_7, text);
+           break;
+       case 2:
+//            lv_label_set_text(guider_ui.screen_label_8, text);
+           break;
+       case 3:
+           lv_label_set_text(guider_ui.screen_label_8, text);
+           break;
+       default:
+           break;
+   }
 }
 
 /**
@@ -151,15 +196,12 @@ int main(void)
 
     gt911_init();
 
-    modbus_test();
     
-	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle);
-    // xTaskCreate(vGrindingMonitorTask, "grinding_monitor_task", 128, NULL, 2, &xGrindingMonitorTaskHandle);
-    // xTaskCreate(vButton4MonitorTask, "button4_monitor_task", 128, NULL, 2, &xButton4MonitorTaskHandle);  
-    xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-	vTaskStartScheduler();  
+	//xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
+	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
+    //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+	//vTaskStartScheduler();  
 
 
     while (1)                                            
@@ -195,6 +237,7 @@ void vLvglTaskFunction(void *pvParameters) {
 
 	setup_ui(&guider_ui);
 	events_init(&guider_ui);
+    images_init(&guider_ui);
 
     while (1) {
 
@@ -271,10 +314,10 @@ void sendStartCmd()
 {   
     if (!isGrindRunning) {
         if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100) == 0) {
-            HAL_Delay(100);
+            vTaskDelay(pdMS_TO_TICKS(20));
             isGrindProgress = true;
             ///@todo change png to stop
-            lv_label_set_text(guider_ui.screen_btn_4_label, "STOP");
+            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
             printf("send start cmd\r\n");
         } else {
             printf("send start failed\r\n");
@@ -286,11 +329,12 @@ void sendStopCmd()
 {
     if (isGrindRunning) {
         if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100) == 0) {
+            vTaskDelay(pdMS_TO_TICKS(20));
             /// start 3S timer
             timerStart = true;
             resetTime = 0;
             ///@todo change png to start
-            lv_label_set_text(guider_ui.screen_btn_4_label, "START");
+            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
             printf("send stop cmd\r\n");
         } else {
             printf("send stop failed\r\n");
@@ -314,6 +358,7 @@ void vGrindingControlTask(void *pvParameters) {
     } else {
         printf("send initial weight and time down failed\r\n");
     }
+    vTaskDelay(pdMS_TO_TICKS(20));
     for (;;) {
         if (isGrindMode == MODE_TIME) {
             if(start_flag == STATUS_IN_GRIND_START) {
@@ -331,7 +376,8 @@ void vGrindingControlTask(void *pvParameters) {
                     set_all_grinding_labels_text("0");
 
                     isGrindProgress = false;
-                    lv_label_set_text(guider_ui.screen_btn_4_label, "START");
+                    lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    vTaskDelay(pdMS_TO_TICKS(20));
                 }
                 
             }
@@ -357,7 +403,7 @@ void vGrindingControlTask(void *pvParameters) {
                             isGrindProgress = false;
                             start_flag = STATUS_IN_GRIND_STOP;
                             ///@TODO change png to start
-                            lv_label_set_text(guider_ui.screen_btn_4_label, "START");
+                            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
                         }
                     }
                 }
@@ -367,6 +413,7 @@ void vGrindingControlTask(void *pvParameters) {
         } else {
              /// read modbus data,get data
             int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, weight_value);
+            vTaskDelay(pdMS_TO_TICKS(20));
             if(ret_progress == 0){
                 /// check grind motor running status
                 if (weight_value[0] == 1) {
