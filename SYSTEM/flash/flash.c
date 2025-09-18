@@ -4,30 +4,40 @@
 #include <stdio.h>
 #include "stdint.h"
 
+GrindData GrindSetData;
 
+void flashDataInit(void) 
+{
+    ///read flash data
+    getGrindDataFromFlash();
 
-HAL_StatusTypeDef FLASH_Init(void) {
-    HAL_StatusTypeDef status;
+    if (GrindSetData.time_1 == 0xFFFFFFFF) {
+        ///write default data
+        GrindSetData.time_1 = 5000;
+        GrindSetData.time_2 = 6000;
+        GrindSetData.time_3 = 7000;
+        GrindSetData.weight_1 = 160;
+        GrindSetData.weight_2 = 180;
+        GrindSetData.weight_3 = 190;
+        GrindSetData.grind_mode = MODE_TIME;
 
-    /* 1. 解锁Flash */
-    status = HAL_FLASH_Unlock();
-    if (status != HAL_OK) {
-        return status;
+        flashDataSave();
     }
-
-    /* 2. 清除所有错误标志位 (可选，但推荐) */
-    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR |
-                           FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
-
-    return HAL_OK;
 }
 
+void flashDataSave(void)
+{
+    uint32_t buffer[7] = {0};
+    buffer[0] = GrindSetData.time_1;
+    buffer[1] = GrindSetData.time_2;
+    buffer[2] = GrindSetData.time_3;
+    buffer[3] = GrindSetData.weight_1;
+    buffer[4] = GrindSetData.weight_2;
+    buffer[5] = GrindSetData.weight_3;
+    buffer[6] = GrindSetData.grind_mode;
 
-uint32_t FLASH_ReadWord(uint32_t Address) {
-    /* 通过指针直接访问内存地址 */
-    return (*(__IO uint32_t*) Address);
+    FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
 }
-
 
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector) {
     HAL_StatusTypeDef status;
@@ -60,6 +70,17 @@ HAL_StatusTypeDef FLASH_WriteData(uint32_t Address, uint32_t *pData, uint32_t Si
     uint32_t i;
     uint32_t WriteAddr = Address;
 
+    status = HAL_FLASH_Unlock();
+    if (status != HAL_OK) {
+        return status;
+    }
+
+    /* 2. 清除所有错误标志位 (可选，但推荐) */
+    __HAL_FLASH_CLEAR_FLAG(FLASH_FLAG_EOP | FLASH_FLAG_OPERR | FLASH_FLAG_WRPERR |
+                           FLASH_FLAG_PGAERR | FLASH_FLAG_PGPERR | FLASH_FLAG_PGSERR);
+
+    FLASH_EraseSector(USER_FLASH_SECTOR);
+
     /* 循环写入每一个字 */
     for (i = 0; i < Size; i++) {
         status = FLASH_WriteWord(WriteAddr, pData[i]);
@@ -69,43 +90,38 @@ HAL_StatusTypeDef FLASH_WriteData(uint32_t Address, uint32_t *pData, uint32_t Si
         WriteAddr += 4; // 地址递增4字节
     }
 
+    HAL_FLASH_Lock();
+
     return status;
 }
 
+void getGrindDataFromFlash() 
+{
+    uint32_t buffer[7] = {0};
 
-void flash_store_read(flash_store_t *store) {
-    uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
-    uint32_t *dst = (uint32_t*)store;
-    uint32_t size = sizeof(flash_store_t) / 4; // 除以4，因为每次读取4字节
-    // 检查flash是否已经被写入（不是全0xFFFFFFFF）
-    uint32_t flash_content_check = 0;
+    uint32_t *src = (uint32_t*)USER_FLASH_DATA_ADDR;
+
+    uint32_t size = sizeof(buffer) / sizeof(buffer[0]);
     for (uint32_t i = 0; i < size; i++) {
-        if (src[i] != 0xFFFFFFFF) {
-            flash_content_check = 1;
-            break;
-        }
+        buffer[i] = src[i];
     }
-    
-    // 如果flash中有有效数据，则读取
-    if (flash_content_check) {
-        for (uint32_t i = 0; i < size; i++) {
-            dst[i] = src[i];
-        }
-        printf("Flash data read successfully.\r\n");
-    } else {
-        printf("No valid data found in flash, using default values.\r\n");
-    }
+
+    GrindSetData.time_1 = buffer[0];
+    GrindSetData.time_2 = buffer[1];
+    GrindSetData.time_3 = buffer[2];
+    GrindSetData.weight_1 = buffer[3];
+    GrindSetData.weight_2 = buffer[4];
+    GrindSetData.weight_3 = buffer[5];
+    GrindSetData.grind_mode = buffer[6];
+
+    /*
+    printf("time_1: %d\n", GrindSetData.time_1);
+    printf("time_2: %d\n", GrindSetData.time_2);
+    printf("time_3: %d\n", GrindSetData.time_3);
+    printf("weight_1: %d\n", GrindSetData.weight_1);
+    printf("weight_2: %d\n", GrindSetData.weight_2);
+    printf("weight_3: %d\n", GrindSetData.weight_3);
+    printf("grind_mode: %d\n", GrindSetData.grind_mode);
+    */
 }
 
-void flash_store_write(flash_store_t *store) {
-    // 擦除扇区
-    FLASH_EraseSector(USER_FLASH_SECTOR);
-    
-    // 写入数据
-    uint32_t *src = (uint32_t*)store;
-    uint32_t *dst = (uint32_t*)USER_FLASH_START_ADDR;
-    uint32_t size = sizeof(flash_store_t) / 4;
-    for (uint32_t i = 0; i < size; i++) {
-        FLASH_WriteWord((uint32_t)&dst[i], src[i]);
-    }
-}

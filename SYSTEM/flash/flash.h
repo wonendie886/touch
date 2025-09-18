@@ -45,8 +45,8 @@ extern bool isGrindMode;
 #define FLASH_END_ADDRESS       (STM32_FLASH_BASE + STM32_FLASH_SIZE)
 
 
-#define USER_FLASH_START_ADDR   0x08060000      /* Sector 11 起始地址 */
-#define USER_FLASH_SECTOR       FLASH_SECTOR_7  /* 对应扇区编号 */
+#define USER_FLASH_DATA_ADDR   0x08004000      /* Sector 1 */
+#define USER_FLASH_SECTOR       FLASH_SECTOR_1  /* 对应扇区编号 */
 #define MAX_TEXT_LEN  8
 typedef struct {
     char label1_text[MAX_TEXT_LEN];
@@ -58,15 +58,28 @@ typedef struct {
 
 } flash_store_t;
 
+typedef struct _GRIND_DATA{
+    uint32_t time_1;    // unit: ms
+    uint32_t time_2;
+    uint32_t time_3;
+    uint32_t weight_1;  // unit: g  scale:10
+    uint32_t weight_2;
+    uint32_t weight_3;
+    uint32_t grind_mode;    //weight or time
+} GrindData;
+
 extern volatile uint8_t flash_request_flag;
 extern flash_store_t flash_write_data;
-/* 函数声明 */
-HAL_StatusTypeDef FLASH_Init(void);
+
+void flashDataInit(void);
+void flashDataSave(void);
+void getGrindDataFromFlash();
+
 uint32_t FLASH_ReadWord(uint32_t Address);
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector);
 HAL_StatusTypeDef FLASH_WriteWord(uint32_t Address, uint32_t Data);
 HAL_StatusTypeDef FLASH_WriteData(uint32_t Address, uint32_t *pData, uint32_t Size);
-void flash_store_read(flash_store_t *store) ;
-void flash_store_write(flash_store_t *store);
+// void flash_store_read(flash_store_t *store) ;
+// void flash_store_write(flash_store_t *store);
 
 #endif /* __FLASH_IO_H */

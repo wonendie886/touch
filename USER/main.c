@@ -202,10 +202,11 @@ int main(void)
 
     gt911_init();
 
+    flashDataInit();
     
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
+	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
     xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
 	vTaskStartScheduler();  
 
@@ -261,47 +262,39 @@ void vLvglTaskFunction(void *pvParameters) {
 }
 
 void vflash(void *pvParameters) {
-        for (;;) {
-        if (flash_request_flag) {
-            flash_request_flag = 0;  // 清除标志
+        // for (;;) {
+        // if (flash_request_flag) {
+        //     flash_request_flag = 0;  // 清除标志
 
-            /* 解锁 Flash */
-            FLASH_Init();
+        //     /* 解锁 Flash */
+        //     FLASH_Init();
 
-            /* 擦除 sector 11 */
-            if (FLASH_EraseSector(USER_FLASH_SECTOR) == HAL_OK) {
-                if (FLASH_WriteData(USER_FLASH_START_ADDR, (uint32_t*)&flash_write_data, 
-                                   sizeof(flash_store_t)/4) == HAL_OK) {
+        //     /* 擦除 sector 11 */
+        //     if (FLASH_EraseSector(USER_FLASH_SECTOR) == HAL_OK) {
+        //         if (FLASH_WriteData(USER_FLASH_START_ADDR, (uint32_t*)&flash_write_data, 
+        //                            sizeof(flash_store_t)/4) == HAL_OK) {
 
-                    printf("FlashTask: write OK\r\n");
-                } else {
-                    printf("FlashTask: write FAIL\r\n");
-                }
-            } else {
-                printf("FlashTask: erase FAIL\r\n");
-            }
-            // 读回验证
-            flash_store_t read_data;
-            uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
-            uint32_t *dst = (uint32_t*)&read_data;
-            uint32_t size = sizeof(flash_store_t) / 4;
-            for (uint32_t i = 0; i < size; i++) {
-                dst[i] = src[i];
-            }
-            // 添加数据打印
-//            printf("FlashTask: Data read back verification:\r\n");
-//            printf("  label1_text: %s\r\n", read_data.label1_text);
-//            printf("  label2_text: %s\r\n", read_data.label2_text);
-//            printf("  label3_text: %s\r\n", read_data.label3_text);
-//            printf("  label4_text: %s\r\n", read_data.label4_text);
-//            printf("  label5_text: %s\r\n", read_data.label5_text);
-//            printf("  label6_text: %s\r\n", read_data.label6_text);
+        //             printf("FlashTask: write OK\r\n");
+        //         } else {
+        //             printf("FlashTask: write FAIL\r\n");
+        //         }
+        //     } else {
+        //         printf("FlashTask: erase FAIL\r\n");
+        //     }
+        //     // 读回验证
+        //     flash_store_t read_data;
+        //     uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
+        //     uint32_t *dst = (uint32_t*)&read_data;
+        //     uint32_t size = sizeof(flash_store_t) / 4;
+        //     for (uint32_t i = 0; i < size; i++) {
+        //         dst[i] = src[i];
+        //     }
             
-            HAL_FLASH_Lock();
-        }
+        //     HAL_FLASH_Lock();
+        // }
         
         vTaskDelay(pdMS_TO_TICKS(10)); // 避免空转，占用CPU
-    }
+    // }
 }
 
 
