@@ -197,11 +197,11 @@ int main(void)
     gt911_init();
 
     
-	//xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
-	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
-    //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-	//vTaskStartScheduler();  
+	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
+    xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+	vTaskStartScheduler();  
 
 
     while (1)                                            
