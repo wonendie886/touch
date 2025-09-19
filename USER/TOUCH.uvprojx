@@ -1729,6 +1729,11 @@
               <FilePath>..\lvgl\app\generated\images\_shoubing_alpha_42x71.c</FilePath>
             </File>
             <File>
+              <FileName>_shoudonganniu_alpha_72x72.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shoudonganniu_alpha_72x72.c</FilePath>
+            </File>
+            <File>
               <FileName>_shuangfen_alpha_100x108.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_shuangfen_alpha_100x108.c</FilePath>

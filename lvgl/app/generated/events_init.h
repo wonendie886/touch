@@ -15,8 +15,6 @@ extern "C" {
 #endif
 
 #include "gui_guider.h"
-void images_init(lv_ui *ui);
-void show_hide_controls(lv_ui *ui, int show);
 
 void events_init(lv_ui *ui);
 

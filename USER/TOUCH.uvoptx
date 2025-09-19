@@ -197,24 +197,7 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512 -FS08000000 -FL080000 -FP0($$Device:STM32F407VE$CMSIS\Flash\STM32F4xx_512.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint>
-        <Bp>
-          <Number>0</Number>
-          <Type>0</Type>
-          <LineNumber>228</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134430950</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Template\main.c\228</Expression>
-        </Bp>
-      </Breakpoint>
+      <Breakpoint/>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -3504,7 +3487,7 @@
       <FileNumber>240</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\custom\custom.c</PathWithFileName>
@@ -3517,7 +3500,7 @@
       <FileNumber>241</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\events_init.c</PathWithFileName>
@@ -3530,7 +3513,7 @@
       <FileNumber>242</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\gui_guider.c</PathWithFileName>
@@ -3543,7 +3526,7 @@
       <FileNumber>243</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\setup_scr_screen.c</PathWithFileName>
@@ -3556,7 +3539,7 @@
       <FileNumber>244</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\setup_scr_screen_1.c</PathWithFileName>
@@ -3569,7 +3552,7 @@
       <FileNumber>245</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\widgets_init.c</PathWithFileName>
@@ -3582,7 +3565,7 @@
       <FileNumber>246</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_16Bjishi_alpha_50x50.c</PathWithFileName>
@@ -3595,7 +3578,7 @@
       <FileNumber>247</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_1755657687860_alpha_100x70.c</PathWithFileName>
@@ -3608,7 +3591,7 @@
       <FileNumber>248</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_chengzhong_alpha_50x50.c</PathWithFileName>
@@ -3621,7 +3604,7 @@
       <FileNumber>249</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_cup_fill_alpha_100x80.c</PathWithFileName>
@@ -3634,7 +3617,7 @@
       <FileNumber>250</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_cup_fill_alpha_100x81.c</PathWithFileName>
@@ -3647,7 +3630,7 @@
       <FileNumber>251</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_cup_line_alpha_100x80.c</PathWithFileName>
@@ -3660,7 +3643,7 @@
       <FileNumber>252</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_cup_line_alpha_100x81.c</PathWithFileName>
@@ -3673,7 +3656,7 @@
       <FileNumber>253</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_danfen_alpha_100x108.c</PathWithFileName>
@@ -3686,7 +3669,7 @@
       <FileNumber>254</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_logo_alpha_128x30.c</PathWithFileName>
@@ -3699,7 +3682,7 @@
       <FileNumber>255</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_shezhi_alpha_40x40.c</PathWithFileName>
@@ -3712,7 +3695,7 @@
       <FileNumber>256</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_shoubing_alpha_42x71.c</PathWithFileName>
@@ -3725,7 +3708,20 @@
       <FileNumber>257</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\images\_shoudonganniu_alpha_72x72.c</PathWithFileName>
+      <FilenameWithoutPath>_shoudonganniu_alpha_72x72.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>258</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_shuangfen_alpha_100x108.c</PathWithFileName>
@@ -3735,10 +3731,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>258</FileNumber>
+      <FileNumber>259</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_start_alpha_60x50.c</PathWithFileName>
@@ -3748,10 +3744,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>259</FileNumber>
+      <FileNumber>260</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_uxdb_alpha_40x40.c</PathWithFileName>
@@ -3761,10 +3757,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>260</FileNumber>
+      <FileNumber>261</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_yuyan_alpha_40x40.c</PathWithFileName>
@@ -3774,10 +3770,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>261</FileNumber>
+      <FileNumber>262</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_12.c</PathWithFileName>
@@ -3787,10 +3783,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>262</FileNumber>
+      <FileNumber>263</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_16.c</PathWithFileName>
@@ -3800,10 +3796,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>263</FileNumber>
+      <FileNumber>264</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_18.c</PathWithFileName>
@@ -3813,10 +3809,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>264</FileNumber>
+      <FileNumber>265</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</PathWithFileName>
@@ -3826,10 +3822,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>265</FileNumber>
+      <FileNumber>266</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_16.c</PathWithFileName>
@@ -3839,10 +3835,10 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>266</FileNumber>
+      <FileNumber>267</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
-      <Focus>1</Focus>
+      <Focus>0</Focus>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</PathWithFileName>
@@ -3860,7 +3856,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>267</FileNumber>
+      <FileNumber>268</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3873,7 +3869,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>268</FileNumber>
+      <FileNumber>269</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3886,7 +3882,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>269</FileNumber>
+      <FileNumber>270</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3899,7 +3895,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>270</FileNumber>
+      <FileNumber>271</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3912,7 +3908,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>271</FileNumber>
+      <FileNumber>272</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3925,7 +3921,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>272</FileNumber>
+      <FileNumber>273</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3938,7 +3934,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>273</FileNumber>
+      <FileNumber>274</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3951,7 +3947,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>274</FileNumber>
+      <FileNumber>275</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>
@@ -3964,7 +3960,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>275</FileNumber>
+      <FileNumber>276</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>1</Focus>

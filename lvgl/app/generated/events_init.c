@@ -29,6 +29,7 @@ volatile uint8_t start_flag = STATUS_IN_GRIND_STOP;
 static lv_obj_t* target_images[6];   // 直接开一个数组
 static int target_images_count = 0;
 
+
 void images_init(lv_ui *ui)
 {
     /* Add your codes here */
@@ -93,7 +94,8 @@ void show_hide_controls(lv_ui *ui, int show)
         ui->screen_btn_14,     // 按钮14
         ui->screen_btn_15 ,     // 按钮15
         ui->screen_spinbox_1_btn_plus, //微调器按钮
-        ui->screen_spinbox_1_btn_minus //微调器按钮
+        ui->screen_spinbox_1_btn_minus, //微调器按钮
+        ui->screen_cont_1
     };
     
     int num_controls = sizeof(controls) / sizeof(controls[0]);
@@ -173,17 +175,18 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         // 通过Modbus发送数据
         if (isGrindMode == 0) {
             // 模式0: 发送文本1的数值数据
-            Currenttargetime = extract_value_from_label(guider_ui.screen_label_1, 's');
+            Currenttargetime = GrindSetData.time_1;
+            printf("Currenttime == %d\n",Currenttargetime);
             if (Currenttargetime > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargetime);
                 MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
             // 模式1: 发送文本4的数值数据
-            Currenttargeweight = extract_value_from_label(guider_ui.screen_label_4, 'g');
+            Currenttargeweight = GrindSetData.weight_1;
             if (Currenttargeweight > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargeweight);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
             }
         }       
         break;
@@ -208,17 +211,17 @@ static void screen_btn_2_event_handler (lv_event_t *e)
         // 通过Modbus发送数据
         if (isGrindMode == 0) {
             // 模式0: 发送文本3的数值数据
-            Currenttargetime = extract_value_from_label(guider_ui.screen_label_3, 's');
+            Currenttargetime = GrindSetData.time_3;
             if (Currenttargetime > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargetime);
                 MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
             // 模式1: 发送文本6的数值数据
-            Currenttargeweight = extract_value_from_label(guider_ui.screen_label_6, 'g');
+            Currenttargeweight = GrindSetData.weight_3;
             if (Currenttargeweight > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargeweight);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
             }
         }
         break;
@@ -238,11 +241,29 @@ static void screen_btn_5_event_handler (lv_event_t *e)
         show_hide_controls(&guider_ui,1);
 
         show_multiple_buttons(&guider_ui,guider_ui.screen_btn_14,2);
-
         if (isGrindMode == 0) {
-            lv_label_set_text(guider_ui.screen_label_1, "");
+            // 获取当前标签1的值并设置到spinbox
+            const char* current_text = lv_label_get_text(guider_ui.screen_label_1);
+            printf("current_text = %s\n",current_text);
+            if (current_text != NULL && strlen(current_text) > 0) {
+                lv_textarea_set_text(guider_ui.screen_spinbox_1, current_text);
+                float value = atof(current_text);
+                printf("value == %f\n",value);
+                lv_spinbox_set_value(guider_ui.screen_spinbox_1, (int32_t)(value * 10));
+            } 
+            else {
+                lv_label_set_text(guider_ui.screen_label_1, "");
+            }
         } else {
-            lv_label_set_text(guider_ui.screen_label_4, "");
+            // 获取当前标签4的值并设置到spinbox
+            const char* current_text = lv_label_get_text(guider_ui.screen_label_4);
+            if (current_text != NULL && strlen(current_text) > 0) {
+                lv_textarea_set_text(guider_ui.screen_spinbox_1, current_text);
+                float value = atof(current_text);
+                lv_spinbox_set_value(guider_ui.screen_spinbox_1, (int32_t)(value * 10));
+            } else {
+                lv_label_set_text(guider_ui.screen_label_4, "");
+            }
         }
         Textselectionflag = 1;
         break;
@@ -260,12 +281,29 @@ static void screen_btn_7_event_handler (lv_event_t *e)
     {
         //Press to open the input box
         show_hide_controls(&guider_ui,1);
+
         show_multiple_buttons(&guider_ui,guider_ui.screen_btn_14,2);
 
-        if (isGrindMode == 0) {
-            lv_label_set_text(guider_ui.screen_label_3, "");
+       if (isGrindMode == 0) {
+            // 获取当前标签3的值并设置到spinbox
+            const char* current_text = lv_label_get_text(guider_ui.screen_label_3);
+            if (current_text != NULL && strlen(current_text) > 0) {
+                lv_textarea_set_text(guider_ui.screen_spinbox_1, current_text);
+                float value = atof(current_text);
+                lv_spinbox_set_value(guider_ui.screen_spinbox_1, (int32_t)(value * 10)); 
+            } else {
+                lv_label_set_text(guider_ui.screen_label_3, "");
+            }
         } else {
-            lv_label_set_text(guider_ui.screen_label_6, "");
+            // 获取当前标签6的值并设置到spinbox
+            const char* current_text = lv_label_get_text(guider_ui.screen_label_6);
+            if (current_text != NULL && strlen(current_text) > 0) {
+                lv_textarea_set_text(guider_ui.screen_spinbox_1, current_text);
+                float value = atof(current_text);
+                lv_spinbox_set_value(guider_ui.screen_spinbox_1, (int32_t)(value * 10));
+            } else {
+                lv_label_set_text(guider_ui.screen_label_6, "");
+            }
         }
         Textselectionflag = 3;
         break;
@@ -306,14 +344,24 @@ static void screen_btn_11_event_handler (lv_event_t *e)
 
         lv_obj_clear_flag(guider_ui.screen_label_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
-        
+        lv_obj_clear_flag(guider_ui.screen_label_9, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_label_10, LV_OBJ_FLAG_HIDDEN);
+
         lv_obj_add_flag(guider_ui.screen_label_1, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_label_3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_label_11, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_label_12, LV_OBJ_FLAG_HIDDEN);
+
+
 
         isGrindMode = MODE_WEIGHT;
+        uint16_t mode = 1;
+        GrindSetData.grind_mode = MODE_WEIGHT;
+        flashDataSave();
         printf("isGrindMode: %d\n", isGrindMode);
 
         lv_obj_add_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
+        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
         break;
     }
     default:
@@ -331,15 +379,27 @@ static void screen_btn_12_event_handler (lv_event_t *e)
             // 显示标签123，隐藏标签456
         lv_obj_clear_flag(guider_ui.screen_label_1, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_label_11, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_label_12, LV_OBJ_FLAG_HIDDEN);
         
         lv_obj_add_flag(guider_ui.screen_label_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_label_9, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_label_10, LV_OBJ_FLAG_HIDDEN);
 
 
         isGrindMode = MODE_TIME;
+        uint16_t mode = 0;
+        GrindSetData.grind_mode = MODE_TIME;
+        flashDataSave();
         printf("isGrindMode: %d\n", isGrindMode);
 
         lv_obj_clear_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
+        if (ret == 0)
+        {
+            printf("mode down");
+        }
         break;
     }
     default:
@@ -373,21 +433,24 @@ static void screen_btn_14_event_handler (lv_event_t *e)
         //flash_store_read(&flash_write_data);
         //Synchronize the content of the input box with the text.
         if (Textselectionflag == 1){
-            const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_1);
+            const char *txt = lv_textarea_get_text(guider_ui.screen_spinbox_1);
 
             if (isGrindMode == 0) {
-                lv_label_set_text_fmt(guider_ui.screen_label_1, "%ss", txt);
-                strncpy(flash_write_data.label1_text, txt, MAX_TEXT_LEN);
+                lv_label_set_text_fmt(guider_ui.screen_label_1, "%s", txt);
+                GrindSetData.time_1 = (uint32_t)(atof(txt) * 1000);
+                printf("write %d\n", GrindSetData.time_1);
+                // strncpy(flash_write_data.label1_text, txt, MAX_TEXT_LEN);
                 if(grinding_target == 1){
-                    Currenttargetime = extract_value_from_label(guider_ui.screen_label_1, 's');
+                    Currenttargetime = GrindSetData.time_1;
                     printf("write %d\n", Currenttargetime);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 }
             } else {
-                lv_label_set_text_fmt(guider_ui.screen_label_4, "%sg", txt);
-                strncpy(flash_write_data.label4_text, txt, MAX_TEXT_LEN);
+                lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", txt);
+                GrindSetData.weight_1 = (uint32_t)(atof(txt) * 10);
+                printf("write %d\n", GrindSetData.weight_1);  
                 if(grinding_target == 1){
-                    Currenttargeweight = extract_value_from_label(guider_ui.screen_label_4, 'g');
+                    Currenttargeweight = GrindSetData.weight_1;
                     printf("write %d\n", Currenttargeweight);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
                 }
@@ -398,18 +461,20 @@ static void screen_btn_14_event_handler (lv_event_t *e)
             //打印txt数据
             //printf("txt:%s\n", txt);
             if (isGrindMode == 0) {
-                lv_label_set_text_fmt(guider_ui.screen_label_3, "%ss", txt);
-                strncpy(flash_write_data.label3_text, txt, MAX_TEXT_LEN);
+                lv_label_set_text_fmt(guider_ui.screen_label_3, "%s", txt);
+                GrindSetData.time_3 = (uint32_t)(atof(txt) * 1000);
+                printf("write %d\n", GrindSetData.time_3);
                 if(grinding_target == 3){
-                    Currenttargetime = extract_value_from_label(guider_ui.screen_label_3, 's');
+                    Currenttargetime = GrindSetData.time_3;
                     printf("write %d\n", Currenttargetime);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 }   
             } else {
-                lv_label_set_text_fmt(guider_ui.screen_label_6, "%sg", txt);
-                strncpy(flash_write_data.label6_text, txt, MAX_TEXT_LEN);
+                lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", txt);
+                GrindSetData.weight_3 = (uint32_t)(atof(txt) * 10);
+                printf("write %d\n", GrindSetData.weight_3);
                 if(grinding_target == 3){
-                    Currenttargeweight = extract_value_from_label(guider_ui.screen_label_6, 'g');
+                    Currenttargeweight = GrindSetData.weight_3;
                     printf("write %d\n", Currenttargeweight);
                     MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
                 }
@@ -418,8 +483,8 @@ static void screen_btn_14_event_handler (lv_event_t *e)
             }
         }
         // 设置标志位，触发flash写入任务
-        flash_request_flag = 1;
-
+        // flash_request_flag = 1;
+        flashDataSave();
         Textselectionflag = 0;
 
         show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
@@ -442,18 +507,26 @@ static void screen_btn_15_event_handler (lv_event_t *e)
 
         if (Textselectionflag == 1){
             if (isGrindMode == 0) {
-                lv_label_set_text_fmt(guider_ui.screen_label_1, "%ss", flash_write_data.label1_text);
+                char string_data[50] = {0};  // 初始化为全0
+                sprintf(string_data, "%.1f", (float)GrindSetData.time_1 / 1000.0f); 
+                lv_label_set_text_fmt(guider_ui.screen_label_1, "0%s", string_data);
             } else {
-                lv_label_set_text_fmt(guider_ui.screen_label_4, "%sg", flash_write_data.label4_text);
+                char string_data[50] = {0};
+                sprintf(string_data, "%.1f", (float)GrindSetData.weight_1 / 10.0f);
+                lv_label_set_text_fmt(guider_ui.screen_label_4, "0%s", string_data);
  
             }
         }
         if (Textselectionflag == 3){
             if (isGrindMode == 0) {
-                lv_label_set_text_fmt(guider_ui.screen_label_3, "%ss", flash_write_data.label3_text);
+                char string_data[50] = {0};
+                sprintf(string_data, "%.1f", (float)GrindSetData.time_3 / 1000.0f);
+                lv_label_set_text_fmt(guider_ui.screen_label_3, "0%s", string_data);
  
             } else {
-                lv_label_set_text_fmt(guider_ui.screen_label_6, "%sg", flash_write_data.label6_text);
+                char string_data[50] = {0};
+                sprintf(string_data, "%.1f", (float)GrindSetData.weight_3 / 10.0f);
+                lv_label_set_text_fmt(guider_ui.screen_label_6, "0%s", string_data);
                 //打印flash_write_data.label6_text
                 //printf("flash_write_data.label6_text:%s\n", flash_write_data.label6_text);
             }

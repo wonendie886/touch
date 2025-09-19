@@ -89,7 +89,7 @@ void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
  */
 void set_all_grinding_labels_text(const char* text)
 {
-   lv_label_set_text(guider_ui.screen_label_7, text);
+//    lv_label_set_text(guider_ui.screen_label_7, text);
     lv_label_set_text(guider_ui.screen_label_8, text);
 //   lv_label_set_text(guider_ui.screen_label_9, text);
 }
@@ -99,22 +99,22 @@ void set_all_grinding_labels_text(const char* text)
 * @param target 研磨目标 (1=标签7, 2=标签8, 3=标签9)
 * @param text 要设置的文本内容
 */
-void set_grinding_label_text_by_target(int target, const char* text)
-{
-   switch (target) {
-       case 1:
-           lv_label_set_text(guider_ui.screen_label_7, text);
-           break;
-       case 2:
+// void set_grinding_label_text_by_target(int target, const char* text)
+// {
+//    switch (target) {
+//        case 1:
+//            lv_label_set_text(guider_ui.screen_label_7, text);
+//            break;
+//        case 2:
+// //            lv_label_set_text(guider_ui.screen_label_8, text);
+//            break;
+//        case 3:
 //            lv_label_set_text(guider_ui.screen_label_8, text);
-           break;
-       case 3:
-           lv_label_set_text(guider_ui.screen_label_8, text);
-           break;
-       default:
-           break;
-   }
-}
+//            break;
+//        default:
+//            break;
+//    }
+// }
 
 /**
  * 根据研磨目标和数值设置对应标签的文本
@@ -124,8 +124,8 @@ void set_grinding_label_text_by_target(int target, const char* text)
 void set_grinding_label_text_by_target_with_value(int target, int value)
 {
     char buffer[32];
-    sprintf(buffer, "%d", value);
-    set_grinding_label_text_by_target(target, buffer);
+    sprintf(buffer, "%0.1f", (float)value/10.0f);
+    lv_label_set_text(guider_ui.screen_label_8, buffer);
 }
 void DWT_Init(void) {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 
@@ -312,15 +312,15 @@ uint32_t resetTime = 0;
 void sendStartCmd()
 {   
     if (!isGrindRunning) {
-        if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100) == 0) {
+            MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
             vTaskDelay(pdMS_TO_TICKS(20));
             isGrindProgress = true;
             ///@todo change png to stop
             lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
             printf("send start cmd\r\n");
-        } else {
-            printf("send start failed\r\n");
-        }
+        // } else {
+        //     printf("send start failed\r\n");
+        // }
     }
 }
 
@@ -393,7 +393,7 @@ void vGrindingControlTask(void *pvParameters) {
                         isGrindRunning = true;
 
                         /// update ui
-                        set_grinding_label_text_by_target_with_value(grinding_target, register_values[1]);
+                        set_grinding_label_text_by_target_with_value(grinding_target, register_values[1]/100);
                     } else {
                         isGrindRunning = false;
                         printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        

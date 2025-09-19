@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include "stdint.h"
 
-GrindData GrindSetData;
+GrindData GrindSetData ;
 
 void flashDataInit(void) 
 {
@@ -23,6 +23,7 @@ void flashDataInit(void)
 
         flashDataSave();
     }
+
 }
 
 void flashDataSave(void)
@@ -36,6 +37,7 @@ void flashDataSave(void)
     buffer[5] = GrindSetData.weight_3;
     buffer[6] = GrindSetData.grind_mode;
 
+    //printf("BUFFER[0] == %d\n",buffer[0]);
     FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
 }
 

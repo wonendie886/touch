@@ -46,10 +46,11 @@ typedef struct
 	lv_obj_t *screen_btn_12_label;
 	lv_obj_t *screen_img_9;
 	lv_obj_t *screen_img_10;
-	lv_obj_t *screen_img_11;
 	lv_obj_t *screen_img_12;
 	lv_obj_t *screen_btn_13;
 	lv_obj_t *screen_btn_13_label;
+	lv_obj_t *screen_img_11;
+	lv_obj_t *screen_cont_1;
 	lv_obj_t *screen_spinbox_1;
 	lv_obj_t *screen_spinbox_1_btn_plus;
 	lv_obj_t *screen_spinbox_1_btn_minus;
@@ -57,7 +58,10 @@ typedef struct
 	lv_obj_t *screen_btn_14_label;
 	lv_obj_t *screen_btn_15;
 	lv_obj_t *screen_btn_15_label;
-	lv_obj_t *screen_label_7;
+	lv_obj_t *screen_label_11;
+	lv_obj_t *screen_label_12;
+	lv_obj_t *screen_label_9;
+	lv_obj_t *screen_label_10;
 	lv_obj_t *screen_label_8;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
@@ -97,17 +101,15 @@ LV_IMG_DECLARE(_logo_alpha_128x30);
 LV_IMG_DECLARE(_uxdb_alpha_40x40);
 LV_IMG_DECLARE(_shuangfen_alpha_100x108);
 LV_IMG_DECLARE(_danfen_alpha_100x108);
-LV_IMG_DECLARE(_shoubing_alpha_42x71);
+LV_IMG_DECLARE(_shoudonganniu_alpha_72x72);
 LV_IMG_DECLARE(_chengzhong_alpha_50x50);
 LV_IMG_DECLARE(_16Bjishi_alpha_50x50);
-LV_IMG_DECLARE(_yuyan_alpha_40x40);
 LV_IMG_DECLARE(_shezhi_alpha_40x40);
+LV_IMG_DECLARE(_yuyan_alpha_40x40);
 
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
-LV_FONT_DECLARE(lv_font_montserratMedium_18)
-LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
-LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_18)
 
 

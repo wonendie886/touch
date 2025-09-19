@@ -69,8 +69,8 @@ typedef struct _GRIND_DATA{
 } GrindData;
 
 extern volatile uint8_t flash_request_flag;
-extern flash_store_t flash_write_data;
-
+extern GrindData GrindSetData;
+extern flash_store_t grindsetdata;
 void flashDataInit(void);
 void flashDataSave(void);
 void getGrindDataFromFlash();
