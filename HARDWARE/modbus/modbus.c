@@ -1,10 +1,11 @@
 #include "modbus.h"
 #include "led.h"
 #include "flash.h"
-#ifdef 0
+#include "FreeRTOS.h"
+#include "semphr.h"
+
 static void mutex_lock(void);
 static void mutex_unlock(void);
-#endif
 static void timerStop(void);
 static void timerStart(void);
 static void delayms(uint32_t nms);
@@ -21,10 +22,8 @@ MBRTUMaterTypeDef MbRtu =
     .timerStop                    = timerStop,
     .sendData                     = sendData,
 
-#ifdef 0
     .lock                         = mutex_lock,
     .unlock                       = mutex_unlock,
-#endif
 };
 
 static uint8_t rx_data = 0;
@@ -148,19 +147,16 @@ void modbus_init(void)
     timer3_init();	
 }
 
-#ifdef 0
-
+extern SemaphoreHandle_t xSharedMutex;
 static void mutex_lock(void)
 {
-
+    xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(50));
 }
 
 static void mutex_unlock(void)
 {
-
+    xSemaphoreGive(xSharedMutex);
 }
-
-#endif
 
 static void timerStop(void)
 {

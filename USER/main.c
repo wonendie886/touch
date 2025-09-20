@@ -13,6 +13,7 @@
 #include "modbus.h"
 #include "flash.h"
 #include "FreeRTOS.h"
+#include "semphr.h"
 #include "task.h"
 #include "gt911.h"
 #include "mbrtu_master.h"
@@ -176,6 +177,7 @@ extern uint8_t RxBuf[100];
 extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
 extern uint16_t start_flag;              // 按钮4的启动标志位
 
+SemaphoreHandle_t xSharedMutex;
 /// 32K offset
 #define APP_FLASH_OFFSET 0x8000
 int main(void)
@@ -203,6 +205,9 @@ int main(void)
     gt911_init();
 
     flashDataInit();
+
+    xSharedMutex = xSemaphoreCreateMutex();
+    xSemaphoreGive(xSharedMutex);
     
 	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
@@ -221,7 +226,7 @@ void vLCD_Refresh_LED_Task( void *pvParameters )
 {
 	TickType_t xLastWakeTime_Refresh;
 	const TickType_t xPeriod2 = pdMS_TO_TICKS( 50 );  
-	xLastWakeTime_Refresh = xTaskGetTickCount();   
+	xLastWakeTime_Refresh = xTaskGetTickCount(); 
 	while(1)
 	{
 		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );
@@ -348,16 +353,23 @@ void vGrindingControlTask(void *pvParameters) {
     uint16_t weight_value[2];
     uint16_t time = 0 ;
     char progress_text[32];           // 进度文本缓冲区
-    uint16_t initialization_data[2] = {5000,50};
+    uint16_t initialization_data[2] = {0};
+    initialization_data[0] = GrindSetData.time_1;
+    initialization_data[1] = GrindSetData.weight_1;
+
+    ///@todo The first transmission of Modbus always fails
+    MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, register_values);
+    vTaskDelay(pdMS_TO_TICKS(100));
 
     //Send the initial weight and time down
     int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200);
     if(ret == 0) {
-        printf("send initial weight and time down\r\n");
+        printf("send initial weight and time success\r\n");
     } else {
-        printf("send initial weight and time down failed\r\n");
+        printf("send initial weight and time failed\r\n");
     }
     vTaskDelay(pdMS_TO_TICKS(20));
+
     for (;;) {
         if (isGrindMode == MODE_TIME) {
             if(start_flag == STATUS_IN_GRIND_START) {
@@ -438,6 +450,7 @@ void vGrindingControlTask(void *pvParameters) {
         if (timerStart){
             resetTime += 100;
         }
+        
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
