@@ -21,8 +21,6 @@
 #include "can.h" 
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 
-
-void vLCD_Refresh_LED_Task( void *pvParameters );
 void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
@@ -209,28 +207,13 @@ int main(void)
     xSharedMutex = xSemaphoreCreateMutex();
     xSemaphoreGive(xSharedMutex);
     
-	xTaskCreate(vLCD_Refresh_LED_Task,"lcd_refresh_led_task",256,NULL,1,&xLCD_Refresh_LED_TaskHandle);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-	//xTaskCreate(vflash, "flash_task", 1024, NULL, 2, &xFlashTaskHandle); 
     xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
 	vTaskStartScheduler();  
 
 
     while (1)                                            
     {           
-	}
-}
-
-
-void vLCD_Refresh_LED_Task( void *pvParameters )
-{
-	TickType_t xLastWakeTime_Refresh;
-	const TickType_t xPeriod2 = pdMS_TO_TICKS( 50 );  
-	xLastWakeTime_Refresh = xTaskGetTickCount(); 
-	while(1)
-	{
-		vTaskDelayUntil( &xLastWakeTime_Refresh, xPeriod2 );
-		LED0=!LED0;
 	}
 }
 
@@ -450,6 +433,7 @@ void vGrindingControlTask(void *pvParameters) {
         if (timerStart){
             resetTime += 100;
         }
+        LED0=!LED0;
         
         vTaskDelay(pdMS_TO_TICKS(100));
     }
