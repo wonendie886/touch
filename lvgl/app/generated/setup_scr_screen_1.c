@@ -31,7 +31,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_1
     ui->screen_1_btn_1 = lv_btn_create(ui->screen_1);
     ui->screen_1_btn_1_label = lv_label_create(ui->screen_1_btn_1);
-    lv_label_set_text(ui->screen_1_btn_1_label, "thin");
+    lv_label_set_text(ui->screen_1_btn_1_label, "Thin");
     lv_label_set_long_mode(ui->screen_1_btn_1_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_1_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_1, 0, LV_STATE_DEFAULT);
@@ -59,7 +59,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_2
     ui->screen_1_btn_2 = lv_btn_create(ui->screen_1);
     ui->screen_1_btn_2_label = lv_label_create(ui->screen_1_btn_2);
-    lv_label_set_text(ui->screen_1_btn_2_label, "thick");
+    lv_label_set_text(ui->screen_1_btn_2_label, "Thick");
     lv_label_set_long_mode(ui->screen_1_btn_2_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_2_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_2, 0, LV_STATE_DEFAULT);
