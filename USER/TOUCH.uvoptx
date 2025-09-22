@@ -153,7 +153,88 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F4xx_512 -FS08000000 -FL080000 -FP0($$Device:STM32F407VE$CMSIS\Flash\STM32F4xx_512.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>391</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134433108</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Template\main.c\391</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>391</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134433194</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\\main.c\391</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>407</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134433278</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\\main.c\407</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>343</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134413492</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\main.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Template\main.c\343</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>156</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>..\HARDWARE\modbus\modbus.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -739,7 +820,7 @@
 
   <Group>
     <GroupName>HARDWARE</GroupName>
-    <tvExp>0</tvExp>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -3386,6 +3467,18 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\images\_danfenL_alpha_100x108.c</PathWithFileName>
+      <FilenameWithoutPath>_danfenL_alpha_100x108.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>255</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\images\_logo_alpha_128x30.c</PathWithFileName>
       <FilenameWithoutPath>_logo_alpha_128x30.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
@@ -3393,7 +3486,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>255</FileNumber>
+      <FileNumber>256</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3405,7 +3498,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>256</FileNumber>
+      <FileNumber>257</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3417,7 +3510,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>257</FileNumber>
+      <FileNumber>258</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3429,7 +3522,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>258</FileNumber>
+      <FileNumber>259</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3441,7 +3534,19 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>259</FileNumber>
+      <FileNumber>260</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\images\_shuangfenL_alpha_100x108.c</PathWithFileName>
+      <FilenameWithoutPath>_shuangfenL_alpha_100x108.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>261</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3453,7 +3558,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>260</FileNumber>
+      <FileNumber>262</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3465,7 +3570,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>261</FileNumber>
+      <FileNumber>263</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3477,7 +3582,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>262</FileNumber>
+      <FileNumber>264</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3489,7 +3594,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>263</FileNumber>
+      <FileNumber>265</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3501,7 +3606,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>264</FileNumber>
+      <FileNumber>266</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3513,7 +3618,19 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>265</FileNumber>
+      <FileNumber>267</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_25.c</PathWithFileName>
+      <FilenameWithoutPath>lv_font_montserratMedium_25.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>268</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3525,7 +3642,7 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>266</FileNumber>
+      <FileNumber>269</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3537,13 +3654,37 @@
     </File>
     <File>
       <GroupNumber>9</GroupNumber>
-      <FileNumber>267</FileNumber>
+      <FileNumber>270</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
       <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</PathWithFileName>
       <FilenameWithoutPath>lv_font_SourceHanSerifSC_Regular_18.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>271</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\images\_shuangfenL_alpha_114x96.c</PathWithFileName>
+      <FilenameWithoutPath>_shuangfenL_alpha_114x96.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>272</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\images\_danfenL_alpha_114x96.c</PathWithFileName>
+      <FilenameWithoutPath>_danfenL_alpha_114x96.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -3557,7 +3698,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>268</FileNumber>
+      <FileNumber>273</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3569,7 +3710,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>269</FileNumber>
+      <FileNumber>274</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3581,7 +3722,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>270</FileNumber>
+      <FileNumber>275</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3593,7 +3734,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>271</FileNumber>
+      <FileNumber>276</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3605,7 +3746,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>272</FileNumber>
+      <FileNumber>277</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3617,7 +3758,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>273</FileNumber>
+      <FileNumber>278</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3629,7 +3770,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>274</FileNumber>
+      <FileNumber>279</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3641,7 +3782,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>275</FileNumber>
+      <FileNumber>280</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
@@ -3653,7 +3794,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>276</FileNumber>
+      <FileNumber>281</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>

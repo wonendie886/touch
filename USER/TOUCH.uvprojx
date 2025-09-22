@@ -1689,6 +1689,11 @@
               <FilePath>..\lvgl\app\generated\images\_danfen_alpha_100x108.c</FilePath>
             </File>
             <File>
+              <FileName>_danfenL_alpha_100x108.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_danfenL_alpha_100x108.c</FilePath>
+            </File>
+            <File>
               <FileName>_logo_alpha_128x30.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_logo_alpha_128x30.c</FilePath>
@@ -1712,6 +1717,11 @@
               <FileName>_shuangfen_alpha_100x108.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_shuangfen_alpha_100x108.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shuangfenL_alpha_100x108.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shuangfenL_alpha_100x108.c</FilePath>
             </File>
             <File>
               <FileName>_start_alpha_60x50.c</FileName>
@@ -1744,6 +1754,11 @@
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_18.c</FilePath>
             </File>
             <File>
+              <FileName>lv_font_montserratMedium_25.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_25.c</FilePath>
+            </File>
+            <File>
               <FileName>lv_font_SourceHanSerifSC_Regular_12.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</FilePath>
@@ -1757,6 +1772,16 @@
               <FileName>lv_font_SourceHanSerifSC_Regular_18.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shuangfenL_alpha_114x96.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shuangfenL_alpha_114x96.c</FilePath>
+            </File>
+            <File>
+              <FileName>_danfenL_alpha_114x96.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_danfenL_alpha_114x96.c</FilePath>
             </File>
           </Files>
         </Group>
@@ -1819,5 +1844,14 @@
     <components/>
     <files/>
   </RTE>
+
+  <LayerInfo>
+    <Layers>
+      <Layer>
+        <LayName>TOUCH</LayName>
+        <LayPrjMark>1</LayPrjMark>
+      </Layer>
+    </Layers>
+  </LayerInfo>
 
 </Project>

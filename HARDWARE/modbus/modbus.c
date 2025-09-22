@@ -155,7 +155,6 @@ static void mutex_lock(void)
 
 static void mutex_unlock(void)
 {
-    //vTaskDelay(pdMS_TO_TICKS(50));
     xSemaphoreGive(xSharedMutex);
 }
 

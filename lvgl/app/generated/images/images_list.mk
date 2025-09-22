@@ -1,1 +1,1 @@
-GEN_CSRCS += _logo_alpha_128x30.c _uxdb_alpha_40x40.c _shuangfen_alpha_100x108.c _danfen_alpha_100x108.c _shoudonganniu_alpha_72x72.c _chengzhong_alpha_50x50.c _16Bjishi_alpha_50x50.c _shezhi_alpha_40x40.c _yuyan_alpha_40x40.c
+GEN_CSRCS += _logo_alpha_128x30.c _uxdb_alpha_40x40.c _shuangfenL_alpha_114x96.c _danfenL_alpha_114x96.c _shoudonganniu_alpha_72x72.c _chengzhong_alpha_50x50.c _16Bjishi_alpha_50x50.c _shezhi_alpha_40x40.c _yuyan_alpha_40x40.c
