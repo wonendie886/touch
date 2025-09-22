@@ -95,7 +95,7 @@ void show_hide_controls(lv_ui *ui, int show)
         ui->screen_btn_15 ,     // 按钮15
         ui->screen_spinbox_1_btn_plus, //微调器按钮
         ui->screen_spinbox_1_btn_minus, //微调器按钮
-        ui->screen_cont_1
+        ui->screen_cont_1,
     };
     
     int num_controls = sizeof(controls) / sizeof(controls[0]);
@@ -168,10 +168,10 @@ static void screen_btn_1_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Currently highlighted, the rest are initialized.
-        set_image_opacity(guider_ui.screen_img_4);  
-        // 设置研磨目标为文本7
-        grinding_target = 1;
+        lv_obj_set_style_img_opa(guider_ui.screen_img_4,255,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3,188,LV_PART_MAIN | LV_STATE_DEFAULT);
 
+        grinding_target = 1;
         // 通过Modbus发送数据
         if (isGrindMode == 0) {
             // 模式0: 发送文本1的数值数据
@@ -179,14 +179,20 @@ static void screen_btn_1_event_handler (lv_event_t *e)
             printf("Currenttime == %d\n",Currenttargetime);
             if (Currenttargetime > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargetime);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                if(ret != 0){
+                    printf("ret == %d\n",ret);
+                }
             }
         } else {
             // 模式1: 发送文本4的数值数据
             Currenttargeweight = GrindSetData.weight_1;
             if (Currenttargeweight > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargeweight);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
+                int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
+                if (ret != 0){
+                    printf("ret == %d\n",ret);
+                }
             }
         }       
         break;
@@ -203,7 +209,8 @@ static void screen_btn_2_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Currently highlighted, the rest are initialized.
-        set_image_opacity(guider_ui.screen_img_3); 
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3,255,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_4,188,LV_PART_MAIN | LV_STATE_DEFAULT);
 
         // 设置研磨目标为文本8
         grinding_target = 3;
@@ -214,14 +221,20 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             Currenttargetime = GrindSetData.time_3;
             if (Currenttargetime > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargetime);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                if(ret != 0){
+                    printf("ret == %d\n",ret);
+                }
             }
         } else {
             // 模式1: 发送文本6的数值数据
             Currenttargeweight = GrindSetData.weight_3;
             if (Currenttargeweight > 0) {
                 printf("发送的寄存器值: %d\n", Currenttargeweight);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
+                int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
+                if(ret != 0){
+                    printf("ret == %d\n",ret);
+                }
             }
         }
         break;
@@ -320,7 +333,6 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Press the button to directly control the motor via Modbus protocol.
-        set_image_opacity(guider_ui.screen_img_8);
         if(start_flag == STATUS_IN_GRIND_STOP){
             start_flag = STATUS_IN_GRIND_START;
         } else {
@@ -339,8 +351,18 @@ static void screen_btn_11_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        lv_obj_set_style_img_opa(guider_ui.screen_img_4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+        uint16_t initialization_data[2] = {0};
+        initialization_data[0] = GrindSetData.time_1;
+        initialization_data[1] = GrindSetData.weight_1;
+        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200); 
+        if(ret != 0){
+            printf("ret == %d\n",ret);
+        }  
         //Weighing mode
-        set_image_opacity(guider_ui.screen_img_9);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_9,255,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_10,188,LV_PART_MAIN | LV_STATE_DEFAULT);
 
         lv_obj_clear_flag(guider_ui.screen_label_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
@@ -361,7 +383,10 @@ static void screen_btn_11_event_handler (lv_event_t *e)
         printf("isGrindMode: %d\n", isGrindMode);
 
         lv_obj_add_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
+        int retdata = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
+        if(retdata != 0){
+            printf("retdata == %d\n",retdata);
+        }
         break;
     }
     default:
@@ -375,7 +400,18 @@ static void screen_btn_12_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Timing mode
-        set_image_opacity(guider_ui.screen_img_10);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+        uint16_t initialization_data[2] = {0};
+        initialization_data[0] = GrindSetData.time_1;
+        initialization_data[1] = GrindSetData.weight_1;
+        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200);    
+        if(ret != 0){
+            printf("ret == %d\n",ret);
+        }
+
+        lv_obj_set_style_img_opa(guider_ui.screen_img_10,255,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_9,188,LV_PART_MAIN | LV_STATE_DEFAULT);
             // 显示标签123，隐藏标签456
         lv_obj_clear_flag(guider_ui.screen_label_1, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_3, LV_OBJ_FLAG_HIDDEN);
@@ -395,10 +431,10 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         printf("isGrindMode: %d\n", isGrindMode);
 
         lv_obj_clear_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
-        if (ret == 0)
+        int retdata = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
+        if (retdata != 0)
         {
-            printf("mode down");
+            printf("retdata == %d\n",retdata);
         }
         break;
     }
@@ -413,6 +449,7 @@ static void screen_btn_13_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        lv_obj_set_style_img_opa(guider_ui.screen_img_12,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
         break;
     }
@@ -443,7 +480,10 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 if(grinding_target == 1){
                     Currenttargetime = GrindSetData.time_1;
                     printf("write %d\n", Currenttargetime);
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                    if(ret != 0){
+                        printf("ret == %d\n",ret);
+                    }
                 }
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", txt);
@@ -452,7 +492,10 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 if(grinding_target == 1){
                     Currenttargeweight = GrindSetData.weight_1;
                     printf("write %d\n", Currenttargeweight);
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                    if(ret != 0){
+                        printf("ret == %d\n",ret);
+                    }
                 }
             }
         }
@@ -467,7 +510,10 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 if(grinding_target == 3){
                     Currenttargetime = GrindSetData.time_3;
                     printf("write %d\n", Currenttargetime);
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                    if(ret!= 0){
+                        printf("ret == %d\n",ret);
+                    }
                 }   
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", txt);
@@ -476,7 +522,10 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 if(grinding_target == 3){
                     Currenttargeweight = GrindSetData.weight_3;
                     printf("write %d\n", Currenttargeweight);
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                    if(ret != 0){
+                        printf("ret == %d\n",ret);
+                    }
                 }
                 //打印flash_write_data.label6_text
                 //printf("flash_write_data.label6_text:%s\n", flash_write_data.label6_text);
@@ -509,11 +558,11 @@ static void screen_btn_15_event_handler (lv_event_t *e)
             if (isGrindMode == 0) {
                 char string_data[50] = {0};  // 初始化为全0
                 sprintf(string_data, "%.1f", (float)GrindSetData.time_1 / 1000.0f); 
-                lv_label_set_text_fmt(guider_ui.screen_label_1, "0%s", string_data);
+                lv_label_set_text_fmt(guider_ui.screen_label_1, "%s", string_data);
             } else {
                 char string_data[50] = {0};
                 sprintf(string_data, "%.1f", (float)GrindSetData.weight_1 / 10.0f);
-                lv_label_set_text_fmt(guider_ui.screen_label_4, "0%s", string_data);
+                lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", string_data);
  
             }
         }
@@ -521,12 +570,12 @@ static void screen_btn_15_event_handler (lv_event_t *e)
             if (isGrindMode == 0) {
                 char string_data[50] = {0};
                 sprintf(string_data, "%.1f", (float)GrindSetData.time_3 / 1000.0f);
-                lv_label_set_text_fmt(guider_ui.screen_label_3, "0%s", string_data);
+                lv_label_set_text_fmt(guider_ui.screen_label_3, "%s", string_data);
  
             } else {
                 char string_data[50] = {0};
                 sprintf(string_data, "%.1f", (float)GrindSetData.weight_3 / 10.0f);
-                lv_label_set_text_fmt(guider_ui.screen_label_6, "0%s", string_data);
+                lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", string_data);
                 //打印flash_write_data.label6_text
                 //printf("flash_write_data.label6_text:%s\n", flash_write_data.label6_text);
             }
@@ -562,13 +611,20 @@ static void screen_1_btn_1_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:{
         //Send the thickness information to the lower-level machine.
         uint16_t motordrive_value = 0;  // 驱动与否
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        if(ret != 0)
+        {
+            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
+        }
         break;
     }
     case LV_EVENT_LONG_PRESSED:{
         // 长按发送1
         uint16_t motordrive_value[2] = {1,0};
-        MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
+        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
+        if(ret != 0){
+            printf("ret == %d\n",ret);
+        }  
         break;
     }
     case LV_EVENT_RELEASED:{
@@ -593,13 +649,19 @@ static void screen_1_btn_2_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:{
         //Send the thickness information to the lower-level machine.
         uint16_t motordrive_value = 0;  // 驱动与否
-        MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
+        if(ret != 0){
+            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
+        }
         break;
     }
     case LV_EVENT_LONG_PRESSED:{
         // 长按发送1
         uint16_t motordrive_value[2] = {1,1};
-        MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
+        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
+        if(ret != 0){
+            printf("ret == %d\n",ret);
+        }
         break;
     }
     case LV_EVENT_RELEASED:{

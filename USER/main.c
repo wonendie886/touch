@@ -317,11 +317,14 @@ uint32_t resetTime = 0;
 void sendStartCmd()
 {   
     if (!isGrindRunning) {
-            MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
-            vTaskDelay(pdMS_TO_TICKS(20));
+            int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
+
+            if(ret != 0){
+                printf("ret == %d\n",ret);
+            }
             isGrindProgress = true;
             ///@todo change png to stop
-            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
             printf("send start cmd\r\n");
         // } else {
         //     printf("send start failed\r\n");
@@ -332,16 +335,16 @@ void sendStartCmd()
 void sendStopCmd()
 {
     if (isGrindRunning) {
-        if (MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100) == 0) {
-            vTaskDelay(pdMS_TO_TICKS(20));
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 0, 100);
+        if ( ret == 0) {
             /// start 3S timer
             timerStart = true;
             resetTime = 0;
             ///@todo change png to start
-            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
             printf("send stop cmd\r\n");
         } else {
-            printf("send stop failed\r\n");
+            printf("ret == %d\r\n",ret);
         }
     }
     
@@ -366,9 +369,8 @@ void vGrindingControlTask(void *pvParameters) {
     if(ret == 0) {
         printf("send initial weight and time success\r\n");
     } else {
-        printf("send initial weight and time failed\r\n");
+        printf("ret == %d\r\n",ret);
     }
-    vTaskDelay(pdMS_TO_TICKS(20));
 
     for (;;) {
         if (isGrindMode == MODE_TIME) {
@@ -380,61 +382,76 @@ void vGrindingControlTask(void *pvParameters) {
 
                 /// check resetTime == 3S, then send modbus reset cmd, then resetTime = 0 change png to start,update ui time = 0,isGrindProgress = false
                 if(resetTime == 3000){
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 1, 100);
-
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 1, 100);
+                    if (ret != 0){
+                        printf("ret == %d\r\n",ret);
+                    }
                     resetTime = 0 ; 
 
                     set_all_grinding_labels_text("0");
 
                     isGrindProgress = false;
-                    lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-                    vTaskDelay(pdMS_TO_TICKS(20));
+                    lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+                    lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
+                    show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
                 }
                 
             }
 
             if (isGrindProgress) {
                 ///grind work progress
-
                 /// read modbus data,get data
                 int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, register_values);
                 if (ret_progress == 0) {
                      /// check grind motor running status
                     /// running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
                     if (register_values[0] == 1) {
+                        set_all_grinding_labels_text("0");
                         isGrindRunning = true;
-
+                        show_multiple_buttons(&guider_ui,guider_ui.screen_btn_4,1);
+                        lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                         /// update ui
                         set_grinding_label_text_by_target_with_value(grinding_target, register_values[1]/100);
+                        
                     } else {
                         isGrindRunning = false;
                         printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
-                        if(register_values[1] == 0){
-                            set_all_grinding_labels_text("0");
+                        if(register_values[1] == 0){                     
                             isGrindProgress = false;
                             start_flag = STATUS_IN_GRIND_STOP;
                             ///@TODO change png to start
-                            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+                            vTaskDelay(pdMS_TO_TICKS(1000));
+                            lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
+                            show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
                         }
                     }
+                }else{
+                    printf("ret_progress == %d\r\n",ret_progress);
                 }
+                
             } else {
                 ///grind ready
             }   
         } else {
              /// read modbus data,get data
             int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, weight_value);
-            vTaskDelay(pdMS_TO_TICKS(20));
             if(ret_progress == 0){
                 /// check grind motor running status
                 if (weight_value[0] == 1) {
                     isGrindRunning = true;
                     /// update ui
+                    lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                     set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);      
                 }else{
                     isGrindRunning = false;
+                    vTaskDelay(pdMS_TO_TICKS(1000));
+                    lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
+                    
                     //End of prompt
                 }    
+            }else{
+                printf("ret_progress == %d\r\n",ret_progress);
             }
              /*if (isGrindProgress)
              {

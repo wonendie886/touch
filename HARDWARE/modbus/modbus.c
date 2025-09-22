@@ -33,7 +33,7 @@ void uart4_init(void)
     __HAL_RCC_GPIOA_CLK_ENABLE();
     
     huart4.Instance = UART4;
-    huart4.Init.BaudRate = 9600;
+    huart4.Init.BaudRate = 115200;
     huart4.Init.WordLength = UART_WORDLENGTH_8B;
     huart4.Init.StopBits = UART_STOPBITS_1;
     huart4.Init.Parity = UART_PARITY_NONE;
@@ -150,12 +150,13 @@ void modbus_init(void)
 extern SemaphoreHandle_t xSharedMutex;
 static void mutex_lock(void)
 {
-    xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(50));
+    xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(100));
 }
 
 static void mutex_unlock(void)
 {
     xSemaphoreGive(xSharedMutex);
+    vTaskDelay(50);
 }
 
 static void timerStop(void)
