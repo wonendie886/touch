@@ -278,7 +278,7 @@ void sendStartCmd()
             }
             isGrindProgress = true;
             ///@todo change png to stop
-            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
             printf("send start cmd\r\n");
         // } else {
         //     printf("send start failed\r\n");
@@ -295,7 +295,7 @@ void sendStopCmd()
             timerStart = true;
             resetTime = 0;
             ///@todo change png to start
-            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
+
             printf("send stop cmd\r\n");
         } else {
             printf("ret == %d\r\n",ret);
@@ -485,7 +485,6 @@ void vGrindingControlTask(void *pvParameters) {
                     set_all_grinding_labels_text("0");
 
                     isGrindProgress = false;
-                    lv_obj_set_style_img_opa(guider_ui.screen_img_8, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
                     lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                     show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
                 }
@@ -514,7 +513,6 @@ void vGrindingControlTask(void *pvParameters) {
                             isGrindProgress = false;
                             start_flag = STATUS_IN_GRIND_STOP;
                             ///@TODO change png to start
-                            lv_obj_set_style_img_opa(guider_ui.screen_img_8, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
                             vTaskDelay(pdMS_TO_TICKS(1000));
                             lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                             show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
