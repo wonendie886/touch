@@ -73,6 +73,7 @@ typedef struct
 	lv_obj_t *screen_1_btn_3;
 	lv_obj_t *screen_1_btn_3_label;
 	lv_obj_t *g_kb_top_layer;
+	lv_obj_t *screen_label_logo;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
