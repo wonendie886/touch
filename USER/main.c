@@ -22,7 +22,7 @@
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 
 void vLvglTaskFunction( void * pvParameters );
-void vflash(void *pvParameters);
+void vModbusTask(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
 
 TaskHandle_t xLCD_Refresh_LED_TaskHandle= NULL;  
@@ -208,7 +208,8 @@ int main(void)
     xSemaphoreGive(xSharedMutex);
     
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-    xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+    xTaskCreate(vModbusTask,"modbus_task",512,NULL,3,&xLvglTaskHandle);
+    xTaskCreate(vGrindingControlTask, "grinding_control_task", 1024, NULL, 2, &xGrindingControlTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -249,43 +250,6 @@ void vLvglTaskFunction(void *pvParameters) {
     }
 }
 
-void vflash(void *pvParameters) {
-        // for (;;) {
-        // if (flash_request_flag) {
-        //     flash_request_flag = 0;  // 清除标志
-
-        //     /* 解锁 Flash */
-        //     FLASH_Init();
-
-        //     /* 擦除 sector 11 */
-        //     if (FLASH_EraseSector(USER_FLASH_SECTOR) == HAL_OK) {
-        //         if (FLASH_WriteData(USER_FLASH_START_ADDR, (uint32_t*)&flash_write_data, 
-        //                            sizeof(flash_store_t)/4) == HAL_OK) {
-
-        //             printf("FlashTask: write OK\r\n");
-        //         } else {
-        //             printf("FlashTask: write FAIL\r\n");
-        //         }
-        //     } else {
-        //         printf("FlashTask: erase FAIL\r\n");
-        //     }
-        //     // 读回验证
-        //     flash_store_t read_data;
-        //     uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
-        //     uint32_t *dst = (uint32_t*)&read_data;
-        //     uint32_t size = sizeof(flash_store_t) / 4;
-        //     for (uint32_t i = 0; i < size; i++) {
-        //         dst[i] = src[i];
-        //     }
-            
-        //     HAL_FLASH_Lock();
-        // }
-        
-        vTaskDelay(pdMS_TO_TICKS(10)); // 避免空转，占用CPU
-    // }
-}
-
-
 extern uint16_t start_flag;
 extern uint16_t Currenttargetime;
 // 合并后的研磨控制任务，包含原来的研磨监控和按钮4检测功能
@@ -300,7 +264,7 @@ uint32_t resetTime = 0;
 void sendStartCmd()
 {   
     if (!isGrindRunning) {
-            MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
+            int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
             vTaskDelay(pdMS_TO_TICKS(20));
             isGrindProgress = true;
             ///@todo change png to stop
@@ -330,6 +294,146 @@ void sendStopCmd()
     
 }
 
+volatile uint8_t isStartMotor = 0;
+volatile uint8_t resetFlag = 0;
+volatile uint16_t register_values[3];  
+uint8_t grindButtonStatus = 0;
+void vModbusTask(void *pvParameters) {
+    uint16_t initialization_data[2] = {0};
+    initialization_data[0] = GrindSetData.time_1;
+    initialization_data[1] = GrindSetData.weight_1;
+
+    ///@todo The first transmission of Modbus always fails
+    MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, register_values);
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+    //Send the initial weight and time down
+    int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200);
+    if(ret == 0) {
+        printf("send initial weight and time success\r\n");
+    } else {
+        printf("send initial weight and time failed\r\n");
+    }
+    vTaskDelay(pdMS_TO_TICKS(100));
+
+    uint16_t wBuffer[5] = {0};
+
+    Currenttargetime = GrindSetData.time_1;
+    while (1){
+        wBuffer[INDEX_GRIND_ENABLE] = isStartMotor;
+        wBuffer[INDEX_GRIND_MODE] = MODE_TIME;
+        wBuffer[INDEX_GRIND_TIME] = Currenttargetime;
+        wBuffer[INDEX_GRIND_WEIGHT] = 0;
+        wBuffer[INDEX_GRIND_RESET] = resetFlag;
+        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 5,wBuffer, 100);
+
+        if (resetFlag){
+            resetFlag = 0;
+        }
+        if (ret != 0) {
+            printf("ret: %d\n",ret);
+        }
+        vTaskDelay(pdMS_TO_TICKS(100));
+        int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 3, 100, register_values);
+        if (ret_progress != 0) {
+            printf("ret_progress = %d\r\n",ret_progress);
+        }
+
+        if (grindButtonStatus != register_values[INDEX_GRIND_BUTTON]){
+            grindButtonStatus = register_values[INDEX_GRIND_BUTTON];
+
+            if(start_flag == STATUS_IN_GRIND_STOP){
+                start_flag = STATUS_IN_GRIND_START;
+            } else {
+                start_flag = STATUS_IN_GRIND_STOP;
+            }
+        }
+        
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+}
+
+void vGrindingControlTask(void *pvParameters) {
+    uint16_t time = 0 ;
+    char progress_text[32];
+    bool isStartFlag = 0;
+    uint16_t motorTimer = 0;
+
+    for (;;) {
+
+        if(start_flag == STATUS_IN_GRIND_START) {
+            isStartMotor = 1;
+            if (!register_values[INDEX_GRIND_MOTOR_RUNNING]) {
+                if (!isGrindProgress) {
+                    motorTimer = 0;
+                }
+                timerStart = false;
+                resetTime = 0;
+                    
+                isGrindProgress = true;
+                lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+                printf("send start cmd\r\n");
+            }
+        } else {
+            isStartMotor = 0;
+            if (register_values[INDEX_GRIND_MOTOR_RUNNING]) {
+                ///@todo change png to start
+                lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+
+                /// start 3S timer
+                timerStart = true;
+                resetTime = 0;
+                printf("send stop cmd\r\n");
+            }
+
+            /// check resetTime == 3S, then send modbus reset cmd, then resetTime = 0 change png to start,update ui time = 0,isGrindProgress = false
+            
+            if(resetTime == 3000){
+                printf("resetFlag = 1\r\n");
+                resetFlag = 1;
+                timerStart = false;
+                resetTime = 0;
+                motorTimer = 0;
+
+                set_all_grinding_labels_text("0");
+
+                isGrindProgress = false;
+                lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+                vTaskDelay(pdMS_TO_TICKS(20));
+            }
+            
+        }
+
+        if (isGrindProgress) {
+            ///wait for start
+            if (register_values[0] == 1) {
+                //isGrindRunning = true;
+                isStartFlag = true;
+                motorTimer += 100;
+                /// update ui
+                set_grinding_label_text_by_target_with_value(grinding_target, motorTimer/100);
+            } 
+            
+            if (isStartFlag){
+                if(motorTimer >= Currenttargetime){
+                    printf("motorTimer is time out\n");
+                    isGrindProgress = false;
+                    start_flag = STATUS_IN_GRIND_STOP;
+                    ///@TODO change png to start
+                    lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+                }
+            }
+        }
+        if (timerStart){
+            resetTime += 100;
+        }
+        LED0=!LED0;
+        
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
+}
+
+#if 0
 void vGrindingControlTask(void *pvParameters) {
 
     uint16_t register_values[2];  
@@ -391,7 +495,7 @@ void vGrindingControlTask(void *pvParameters) {
                         set_grinding_label_text_by_target_with_value(grinding_target, register_values[1]/100);
                     } else {
                         isGrindRunning = false;
-                        printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
+                        //printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
                         if(register_values[1] == 0){
                             set_all_grinding_labels_text("0");
                             isGrindProgress = false;
@@ -438,4 +542,4 @@ void vGrindingControlTask(void *pvParameters) {
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
-
+#endif 

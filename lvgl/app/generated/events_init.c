@@ -178,8 +178,8 @@ static void screen_btn_1_event_handler (lv_event_t *e)
             Currenttargetime = GrindSetData.time_1;
             printf("Currenttime == %d\n",Currenttargetime);
             if (Currenttargetime > 0) {
-                printf("发送的寄存器值: %d\n", Currenttargetime);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                //printf("发送的寄存器值: %d\n", Currenttargetime);
+                //MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
             // 模式1: 发送文本4的数值数据
@@ -213,8 +213,8 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             // 模式0: 发送文本3的数值数据
             Currenttargetime = GrindSetData.time_3;
             if (Currenttargetime > 0) {
-                printf("发送的寄存器值: %d\n", Currenttargetime);
-                MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                //printf("发送的寄存器值: %d\n", Currenttargetime);
+                //MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
             }
         } else {
             // 模式1: 发送文本6的数值数据
@@ -442,8 +442,8 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 // strncpy(flash_write_data.label1_text, txt, MAX_TEXT_LEN);
                 if(grinding_target == 1){
                     Currenttargetime = GrindSetData.time_1;
-                    printf("write %d\n", Currenttargetime);
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                    //printf("write %d\n", Currenttargetime);
+                    //MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 }
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", txt);
@@ -466,8 +466,8 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 printf("write %d\n", GrindSetData.time_3);
                 if(grinding_target == 3){
                     Currenttargetime = GrindSetData.time_3;
-                    printf("write %d\n", Currenttargetime);
-                    MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
+                    //printf("write %d\n", Currenttargetime);
+                    //MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 }   
             } else {
                 lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", txt);
