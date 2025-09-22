@@ -50,7 +50,7 @@ void set_image_opacity(lv_obj_t* target_img)
         if (target_images[i] != NULL) {
             if (target_images[i] == target_img) {
                 // 设置指定图片透明度为188
-                lv_obj_set_style_img_opa(target_images[i], 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+                lv_obj_set_style_img_opa(target_images[i], 100, LV_PART_MAIN | LV_STATE_DEFAULT);
             } else {
                 // 设置其他图片透明度为255
                 lv_obj_set_style_img_opa(target_images[i], 255, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -169,7 +169,7 @@ static void screen_btn_1_event_handler (lv_event_t *e)
     {
         //Currently highlighted, the rest are initialized.
         lv_obj_set_style_img_opa(guider_ui.screen_img_4,255,LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_img_opa(guider_ui.screen_img_3,188,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3,100,LV_PART_MAIN | LV_STATE_DEFAULT);
 
         grinding_target = 1;
         // 通过Modbus发送数据
@@ -210,7 +210,7 @@ static void screen_btn_2_event_handler (lv_event_t *e)
     {
         //Currently highlighted, the rest are initialized.
         lv_obj_set_style_img_opa(guider_ui.screen_img_3,255,LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_img_opa(guider_ui.screen_img_4,188,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_4,100,LV_PART_MAIN | LV_STATE_DEFAULT);
 
         // 设置研磨目标为文本8
         grinding_target = 3;
@@ -352,7 +352,7 @@ static void screen_btn_11_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         lv_obj_set_style_img_opa(guider_ui.screen_img_4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_img_opa(guider_ui.screen_img_3, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
         uint16_t initialization_data[2] = {0};
         initialization_data[0] = GrindSetData.time_1;
         initialization_data[1] = GrindSetData.weight_1;
@@ -362,7 +362,7 @@ static void screen_btn_11_event_handler (lv_event_t *e)
         }  
         //Weighing mode
         lv_obj_set_style_img_opa(guider_ui.screen_img_9,255,LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_img_opa(guider_ui.screen_img_10,188,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_10,100,LV_PART_MAIN | LV_STATE_DEFAULT);
 
         lv_obj_clear_flag(guider_ui.screen_label_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
@@ -401,7 +401,7 @@ static void screen_btn_12_event_handler (lv_event_t *e)
     {
         //Timing mode
         lv_obj_set_style_img_opa(guider_ui.screen_img_4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_img_opa(guider_ui.screen_img_3, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_3, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
         uint16_t initialization_data[2] = {0};
         initialization_data[0] = GrindSetData.time_1;
         initialization_data[1] = GrindSetData.weight_1;
@@ -411,7 +411,7 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         }
 
         lv_obj_set_style_img_opa(guider_ui.screen_img_10,255,LV_PART_MAIN | LV_STATE_DEFAULT);
-        lv_obj_set_style_img_opa(guider_ui.screen_img_9,188,LV_PART_MAIN | LV_STATE_DEFAULT);
+        lv_obj_set_style_img_opa(guider_ui.screen_img_9,100,LV_PART_MAIN | LV_STATE_DEFAULT);
             // 显示标签123，隐藏标签456
         lv_obj_clear_flag(guider_ui.screen_label_1, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_3, LV_OBJ_FLAG_HIDDEN);
