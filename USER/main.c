@@ -33,9 +33,14 @@ TaskHandle_t xFlashTaskHandle = NULL;
 TaskHandle_t xGrindingControlTaskHandle = NULL; 
 lv_ui guider_ui;
 
-/* 全局触发标志 */
+
 volatile uint8_t flash_request_flag = 0;
 flash_store_t flash_write_data;
+bool isGrindProgress = false;
+bool isGrindRunning = false;
+bool isGrindMode = MODE_TIME;
+bool timerStart = false;
+uint32_t resetTime = 0;
 
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
@@ -125,7 +130,12 @@ void set_all_grinding_labels_text(const char* text)
 void set_grinding_label_text_by_target_with_value(int target, int value)
 {
     char buffer[32];
-    sprintf(buffer, "%0.1f", (float)value/10.0f);
+    if(isGrindMode == MODE_TIME){
+        sprintf(buffer, "%0.1fs", (float)value/10.0f);
+    }else{
+        sprintf(buffer, "%0.1fg", (float)value/10.0f);
+    }
+    
     lv_label_set_text(guider_ui.screen_label_8, buffer);
 }
 void DWT_Init(void) {
@@ -308,11 +318,7 @@ extern uint16_t Currenttargetime;
 // 合并后的研磨控制任务，包含原来的研磨监控和按钮4检测功能
 // 研磨控制任务
 
-bool isGrindProgress = false;
-bool isGrindRunning = false;
-bool isGrindMode = MODE_TIME;
-bool timerStart = false;
-uint32_t resetTime = 0;
+
 
 void sendStartCmd()
 {   

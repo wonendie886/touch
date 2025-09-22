@@ -20,7 +20,7 @@
 #include "freemaster_client.h"
 #endif
 static int Textselectionflag = 0;
-volatile int grinding_target = 0;
+volatile int grinding_target = 1;
 volatile uint16_t Currenttargetime = 0;
 volatile uint16_t Currenttargeweight = 0;
 volatile uint8_t start_flag = STATUS_IN_GRIND_STOP;
@@ -376,7 +376,7 @@ static void screen_btn_11_event_handler (lv_event_t *e)
         lv_obj_add_flag(guider_ui.screen_label_12, LV_OBJ_FLAG_HIDDEN);
 
 
-
+        grinding_target = 1;
         isGrindMode = MODE_WEIGHT;
         uint16_t mode = 1;
         GrindSetData.grind_mode = MODE_WEIGHT;
@@ -427,7 +427,7 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         lv_obj_add_flag(guider_ui.screen_label_9, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_label_10, LV_OBJ_FLAG_HIDDEN);
 
-
+        grinding_target = 1;
         isGrindMode = MODE_TIME;
         uint16_t mode = 0;
         GrindSetData.grind_mode = MODE_TIME;
@@ -499,7 +499,7 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                     Currenttargeweight = GrindSetData.weight_1;
 
                     // printf("write %d\n", Currenttargeweight);
-                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
                     if(ret != 0){
                         printf("ret == %d\n",ret);
                     }
@@ -533,7 +533,7 @@ static void screen_btn_14_event_handler (lv_event_t *e)
                 if(grinding_target == 3){
                     Currenttargeweight = GrindSetData.weight_3;
                     // printf("write %d\n", Currenttargeweight);
-                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight/100, 100);
+                    int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
                     if(ret != 0){
                         printf("ret == %d\n",ret);
                     }
