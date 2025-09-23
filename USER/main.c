@@ -361,6 +361,10 @@ void vGrindingControlTask(void *pvParameters) {
         printf("ret == %d\r\n",ret);
     }
 
+    static uint32_t self_timer_ms = 0;        // 以毫秒为单位的独立计时器
+    static bool self_timer_active = false;    // 是否处于自计时状态（只在 register_values[0]==1 时累加）
+    uint16_t last_register_running = 0;       // 上一次循环读到的 register_values[0]，用于检测 0 -> 1 的上升沿
+
     for (;;) {
         if (isGrindMode == MODE_TIME) {
             if(start_flag == STATUS_IN_GRIND_START) {
@@ -376,7 +380,7 @@ void vGrindingControlTask(void *pvParameters) {
                         printf("ret == %d\r\n",ret);
                     }
                     resetTime = 0 ; 
-
+                    self_timer_ms = 0;
                     set_all_grinding_labels_text("0");
 
                     isGrindProgress = false;
@@ -391,28 +395,69 @@ void vGrindingControlTask(void *pvParameters) {
                 /// read modbus data,get data
                 int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, register_values);
                 if (ret_progress == 0) {
+                    uint32_t target_ms = 0;
+                    if(grinding_target == 1){
+                        target_ms = GrindSetData.time_1; // 转为毫秒上限
+                    }else if(grinding_target == 3){
+                        target_ms = GrindSetData.time_3;
+                    }
+                    
                      /// check grind motor running status
                     /// running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
                     if (register_values[0] == 1) {
-                        set_all_grinding_labels_text("0");
+                        // 上升沿检测：从 0 -> 1 时启动/复位自计时器
+                        if (last_register_running == 0) {
+                            self_timer_active = true;
+                           
+                        } else {
+                            // 连续处于 1 的情况：每个循环累加 100ms（本任务末尾 vTaskDelay 100ms）
+                            if (self_timer_active) {
+                                if (self_timer_ms + 150u <= target_ms) {
+                                    self_timer_ms += 150u;
+                                } else {
+                                    self_timer_ms = target_ms; // cap 到目标
+                                }
+                            } else {
+                                // 防护：如果意外为 false，则在这里启动
+                                self_timer_active = true;
+                                self_timer_ms = 100u;
+                            }
+                        }
+
+                        // 将毫秒转换为 deciseconds（UI 显示函数中以 value/10 显示秒）
+                        uint16_t display_value_ds = (uint16_t)(self_timer_ms / 100u);
+                        set_grinding_label_text_by_target_with_value(grinding_target, display_value_ds);
                         isGrindRunning = true;
                         show_multiple_buttons(&guider_ui,guider_ui.screen_btn_4,1);
                         lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                         /// update ui
-                        set_grinding_label_text_by_target_with_value(grinding_target, register_values[1]/100);
                         
                     } else {
                         isGrindRunning = false;
+                        self_timer_ms = register_values[1];
                         printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
-                        if(register_values[1] == 0){                     
+                        if(register_values[1] == 0){  
+                        /* 停止时：若检测到刚从 1 -> 0（下位机结束），立即显示设定的 GrindSetData.time_1；随后重置自计时器，确保下次从 0 开始累加。 */
+                            if (last_register_running == 1) {
+                                // 下降沿：下位机结束，显示你设置的最终时间（毫秒转 deciseconds）
+                                uint16_t display_value_ds = (uint16_t)(target_ms / 100u);
+                                set_grinding_label_text_by_target_with_value(grinding_target, display_value_ds);
+                            } 
+                            // 重置：保证下次启动从 0 开始累加
+                            self_timer_active = false;
+                            self_timer_ms = 0;      
+
                             isGrindProgress = false;
                             start_flag = STATUS_IN_GRIND_STOP;
                             ///@TODO change png to start
-                            vTaskDelay(pdMS_TO_TICKS(1000));
+                            vTaskDelay(pdMS_TO_TICKS(2000));
                             lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                             show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
                         }
                     }
+
+                    // 保存上一次寄存器状态用于下一轮上升沿检测
+                    last_register_running = register_values[0];
                 }else{
                     printf("ret_progress == %d\r\n",ret_progress);
                 }
@@ -432,9 +477,10 @@ void vGrindingControlTask(void *pvParameters) {
                     set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);      
                 }else{
                     isGrindRunning = false;
-                    vTaskDelay(pdMS_TO_TICKS(1000));
-                    lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                     
+                    set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);   
+                    vTaskDelay(pdMS_TO_TICKS(2000));
+                    lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                     //End of prompt
                 }    
             }else{
