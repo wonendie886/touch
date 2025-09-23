@@ -565,7 +565,7 @@ void vGrindingControlTask(void *pvParameters) {
         if (timerStart){
             resetTime += 100;
         }
-        LED0=!LED0;
+        
         
         vTaskDelay(pdMS_TO_TICKS(100));
     }
