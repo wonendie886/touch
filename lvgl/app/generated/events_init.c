@@ -77,7 +77,7 @@ static uint16_t extract_value_from_label(lv_obj_t* label, char unit_suffix)
         // 转换为float并乘以1000转换为整数
         float value = atof(value_str);
         result = (uint16_t)(value * 1000);
-        printf("提取的值: %d (原始值: %f)\n", result, value);
+        printf("result: %d (value: %f)\n", result, value);
     }
     
     return result;
@@ -176,9 +176,8 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         if (isGrindMode == 0) {
             // 模式0: 发送文本1的数值数据
             Currenttargetime = GrindSetData.time_1;
-            printf("Currenttime == %d\n",Currenttargetime);
             if (Currenttargetime > 0) {
-                printf("发送的寄存器值: %d\n", Currenttargetime);
+                printf("Currenttime == %d\n",Currenttargetime);
                 int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 if(ret != 0){
                     printf("ret == %d\n",ret);
@@ -188,7 +187,7 @@ static void screen_btn_1_event_handler (lv_event_t *e)
             // 模式1: 发送文本4的数值数据
             Currenttargeweight = GrindSetData.weight_1;
             if (Currenttargeweight > 0) {
-                printf("发送的寄存器值: %d\n", Currenttargeweight);
+                printf("Currenttargeweight: %d\n", Currenttargeweight);
                 int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
                 if (ret != 0){
                     printf("ret == %d\n",ret);
@@ -220,7 +219,7 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             // 模式0: 发送文本3的数值数据
             Currenttargetime = GrindSetData.time_3;
             if (Currenttargetime > 0) {
-                printf("发送的寄存器值: %d\n", Currenttargetime);
+                printf("Currenttargetime: %d\n", Currenttargetime);
                 int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
                 if(ret != 0){
                     printf("ret == %d\n",ret);
@@ -230,7 +229,7 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             // 模式1: 发送文本6的数值数据
             Currenttargeweight = GrindSetData.weight_3;
             if (Currenttargeweight > 0) {
-                printf("发送的寄存器值: %d\n", Currenttargeweight);
+                printf("Currenttargeweight: %d\n", Currenttargeweight);
                 int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
                 if(ret != 0){
                     printf("ret == %d\n",ret);
