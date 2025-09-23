@@ -155,6 +155,7 @@ static void mutex_lock(void)
 
 static void mutex_unlock(void)
 {
+    vTaskDelay(pdMS_TO_TICKS(50));
     xSemaphoreGive(xSharedMutex);
     vTaskDelay(50);
 }
@@ -172,7 +173,8 @@ static void timerStart(void)
 
 static void delayms(uint32_t nms)
 {
-    HAL_Delay(nms);
+    // HAL_Delay(nms);
+    vTaskDelay(pdMS_TO_TICKS(nms));
 }
 
 static uint32_t sendData(const void* buf, uint32_t len)
