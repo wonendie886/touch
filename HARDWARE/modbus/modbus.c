@@ -58,11 +58,16 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
         __HAL_RCC_GPIOA_CLK_ENABLE();
 
         GPIO_InitTypeDef GPIO_InitStruct = {0};
-        GPIO_InitStruct.Pin = GPIO_PIN_0 | GPIO_PIN_1;
+        GPIO_InitStruct.Pin = GPIO_PIN_0;
         GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
         GPIO_InitStruct.Pull = GPIO_NOPULL;
         GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
         GPIO_InitStruct.Alternate = GPIO_AF8_UART4; 
+        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+        GPIO_InitStruct.Pin = GPIO_PIN_1;
+        GPIO_InitStruct.Pull = GPIO_PULLUP;
+        GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;       
         HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
 
         GPIO_InitTypeDef gpio_initure = {0};
@@ -91,6 +96,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart->Instance == UART4)
     {
+        LED0=!LED0;
         MBRTUMasterRecvByteISRCallback(&MbRtu,rx_data);
         HAL_UART_Receive_IT(&huart4, &rx_data, 1);
     }
