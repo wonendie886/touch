@@ -39,6 +39,7 @@ typedef struct
 	lv_obj_t *screen_btn_4;
 	lv_obj_t *screen_btn_4_label;
 	lv_obj_t *screen_label_4;
+	lv_obj_t *screen_label_um;
 	lv_obj_t *screen_label_6;
 	lv_obj_t *screen_btn_11;
 	lv_obj_t *screen_btn_11_label;
@@ -72,6 +73,18 @@ typedef struct
 	lv_obj_t *screen_1_btn_2_label;
 	lv_obj_t *screen_1_btn_3;
 	lv_obj_t *screen_1_btn_3_label;
+	lv_obj_t *screen_1_label_thickness;
+	lv_obj_t *screen_1_label_um;
+	lv_obj_t *screen_1_btn_thicknessset;
+	lv_obj_t *screen_1_btn_thicknessset_label;
+	lv_obj_t *screen_1_cont_1;
+	lv_obj_t *screen_1_spinbox_1;
+	lv_obj_t *screen_1_spinbox_1_btn_plus;
+	lv_obj_t *screen_1_spinbox_1_btn_minus;
+	lv_obj_t *screen_1_btn_confirm;
+	lv_obj_t *screen_1_btn_confirm_label;
+	lv_obj_t *screen_1_btn_concel;
+	lv_obj_t *screen_1_btn_concel_label;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
