@@ -32,6 +32,34 @@ extern "C" {
 #include "stm32f4xx_hal.h"
 #include <stdint.h>
 
+#define GatewayId 0x2
+#define HmiId 0x1
+#define SEMIID 0x3
+#define WEIGHT_SCALE_ID 0x4
+#define GRINDID 0x5
+#define GRIND_HMI_ID 0x6
+#define PC_TEST_ID 0xa
+#define TEST_MACHINE_ID 0xb
+
+enum GRIND_HMI_ID_FUNC_TYPE{
+    GRIND_HMI_ID_FUNC_NULL = 0,
+    GRIND_HMI_ID_HEART_BEAT,
+    GRIND_HMI_ID_TARGET_WEIGHT,
+    GRIND_HMI_ID_CURRENT_WEIGHT,
+};
+
+typedef struct _can_msg{
+    uint8_t data_is_ready;
+    uint32_t rx_efid;
+    uint8_t rx_dlen;
+    uint8_t rx_data[8];
+} CanMsg;
+
+uint8_t getSrcId(uint32_t canId);
+uint8_t getDestId(uint32_t canId);
+uint8_t getCmdType(uint32_t canId);
+uint8_t getCrc(uint32_t canId);
+
 // ----- Change these if your hardware differs -----
 #ifndef CAN_INSTANCE
 #define CAN_INSTANCE             CAN1
@@ -74,6 +102,8 @@ HAL_StatusTypeDef CAN_StartReceive_IT(void);
 
 /** Transmit a standard 11-bit frame via interrupt. Returns HAL status. */
 HAL_StatusTypeDef CAN_Transmit_IT(uint32_t id, uint8_t *data, uint8_t len);
+
+void sendHeartBeat(uint8_t status);
 
 /** User-overridable callback for received frames.
  *  Override this function in your application to handle incoming frames.

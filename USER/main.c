@@ -21,6 +21,8 @@
 #include "can.h" 
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 
+extern volatile uint16_t Currenttargeweight;
+
 void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
@@ -39,48 +41,6 @@ bool isGrindRunning = false;
 bool isGrindMode = MODE_TIME;
 bool timerStart = false;
 uint32_t resetTime = 0;
-
-#define GatewayId 0x2
-#define HmiId 0x1
-#define SEMIID 0x3
-#define WEIGHT_SCALE_ID 0x4
-#define GRINDID 0x5
-#define GRIND_HMI_ID 0x6
-#define PC_TEST_ID 0xa
-#define TEST_MACHINE_ID 0xb
-
-enum GRIND_HMI_ID_FUNC_TYPE{
-    GRIND_HMI_ID_FUNC_NULL = 0,
-    GRIND_HMI_ID_HEART_BEAT,
-    GRIND_HMI_ID_TARGET_WEIGHT,
-    GRIND_HMI_ID_CURRENT_WEIGHT,
-};
-
-
-uint8_t getSrcId(uint32_t canId)
-{
-    return (canId & 0xF);
-}
-uint8_t getDestId(uint32_t canId)
-{
-    return ((canId >> 4) & 0xF);
-}
-
-uint8_t getCmdType(uint32_t canId)
-{
-    return ((canId >>8) & 0xFF);
-}
-uint8_t getCrc(uint32_t canId)
-{
-    return ((canId >> 16) & 0xFF);
-}
-
-typedef struct _can_msg{
-    uint8_t data_is_ready;
-    uint32_t rx_efid;
-    uint8_t rx_dlen;
-    uint8_t rx_data[8];
-} CanMsg;
 
 CanMsg can_msg = {0};
 
@@ -396,6 +356,7 @@ void vGrindingControlTask(void *pvParameters) {
     uint32_t time = 0 ;
     char progress_text[32];           // 进度文本缓冲区
     uint16_t initialization_data[2] = {0};
+
     initialization_data[0] = GrindSetData.time_1;
     initialization_data[1] = GrindSetData.weight_1;
 
@@ -515,6 +476,10 @@ void vGrindingControlTask(void *pvParameters) {
             } else {
                 ///grind ready
             }   
+
+            if (time >= 3000) {
+                sendHeartBeat(0);
+            } 
         } else {
              /// read modbus data,get data
             int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 2, 100, weight_value);
@@ -548,7 +513,7 @@ void vGrindingControlTask(void *pvParameters) {
             
             if (can_msg.data_is_ready){
                 can_msg.data_is_ready = 0;
-                uint16_t crc = 0;
+                uint8_t crc = 0;
                 for(int i = 0;i < can_msg.rx_dlen;i++){
                     crc += can_msg.rx_data[i];
                 }
@@ -557,9 +522,17 @@ void vGrindingControlTask(void *pvParameters) {
                         if ( getCmdType(can_msg.rx_efid) == GRIND_HMI_ID_TARGET_WEIGHT) {
                             int weight = (can_msg.rx_data[3] << 24) | (can_msg.rx_data[2] << 16) 
                                         | (can_msg.rx_data[1] << 8) | can_msg.rx_data[0];
-                            /// weight from semi-coffee machine
-                            ///@todo just update ui,DO NOT update flash
-                            printf("coffee machine weight == %d\r\n",weight);
+                            char str[50] = {0};
+
+                            Currenttargeweight = weight;
+
+                            sprintf(str, "%.1f", (float)Currenttargeweight / 10.0f);
+                            lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", str);
+                            lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", str);
+                            int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
+                            if(ret != 0){
+                                printf("ret == %d\n",ret);
+                            }
                         } 
                     }
                 } else {
@@ -567,11 +540,16 @@ void vGrindingControlTask(void *pvParameters) {
                 }
 
             }
+
+            if (time >= 3000) {
+                sendHeartBeat(1);
+            } 
         }
         if (timerStart){
             resetTime += 100;
         }
 
+        time += 100;
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

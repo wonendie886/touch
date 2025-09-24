@@ -186,6 +186,9 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         } else {
             // 模式1: 发送文本4的数值数据
             Currenttargeweight = GrindSetData.weight_1;
+            char str[50] = {0};
+            sprintf(str, "%.1f", (float)Currenttargeweight / 10.0f);
+            lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", str);
             if (Currenttargeweight > 0) {
                 printf("Currenttargeweight: %d\n", Currenttargeweight);
                 int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
@@ -228,6 +231,9 @@ static void screen_btn_2_event_handler (lv_event_t *e)
         } else {
             // 模式1: 发送文本6的数值数据
             Currenttargeweight = GrindSetData.weight_3;
+            char str[50] = {0};
+            sprintf(str, "%.1f", (float)Currenttargeweight / 10.0f);
+            lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", str);
             if (Currenttargeweight > 0) {
                 printf("Currenttargeweight: %d\n", Currenttargeweight);
                 int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);

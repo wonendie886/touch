@@ -158,3 +158,38 @@ void CAN1_SCE_IRQHandler(void)
 {
     HAL_CAN_IRQHandler(&hcan);
 }
+
+void sendHeartBeat(uint8_t status)
+{
+    uint32_t id = (0x000000FF & ((GRIND_HMI_ID & 0x0F) << 0)) | ((HmiId & 0x0F) << 4);
+    uint8_t len = 1;
+    uint8_t data[1] = {status};
+
+    uint8_t crc = 0;
+    for(uint8_t i = 0; i < len; i++){
+        crc += data[i];
+    }
+
+    id = id | (GRIND_HMI_ID_HEART_BEAT << 8 & 0xFF00);
+    id = id | ((crc << 16) & 0xFF0000);
+
+    CAN_Transmit_IT(id,data,len);
+}
+
+uint8_t getSrcId(uint32_t canId)
+{
+    return (canId & 0xF);
+}
+uint8_t getDestId(uint32_t canId)
+{
+    return ((canId >> 4) & 0xF);
+}
+
+uint8_t getCmdType(uint32_t canId)
+{
+    return ((canId >>8) & 0xFF);
+}
+uint8_t getCrc(uint32_t canId)
+{
+    return ((canId >> 16) & 0xFF);
+}
