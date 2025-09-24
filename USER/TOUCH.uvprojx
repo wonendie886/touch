@@ -1699,6 +1699,11 @@
               <FilePath>..\lvgl\app\generated\images\_danfenL_alpha_100x108.c</FilePath>
             </File>
             <File>
+              <FileName>_danfenL_alpha_114x96.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_danfenL_alpha_114x96.c</FilePath>
+            </File>
+            <File>
               <FileName>_logo_alpha_128x30.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_logo_alpha_128x30.c</FilePath>
@@ -1729,6 +1734,11 @@
               <FilePath>..\lvgl\app\generated\images\_shuangfenL_alpha_100x108.c</FilePath>
             </File>
             <File>
+              <FileName>_shuangfenL_alpha_114x96.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shuangfenL_alpha_114x96.c</FilePath>
+            </File>
+            <File>
               <FileName>_start_alpha_60x50.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_start_alpha_60x50.c</FilePath>
@@ -1742,6 +1752,16 @@
               <FileName>_yuyan_alpha_40x40.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_yuyan_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>screen_animimg_1logo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\screen_animimg_1logo.c</FilePath>
+            </File>
+            <File>
+              <FileName>screen_animimg_11755657687860.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\screen_animimg_11755657687860.c</FilePath>
             </File>
             <File>
               <FileName>lv_font_montserratMedium_12.c</FileName>
@@ -1777,16 +1797,6 @@
               <FileName>lv_font_SourceHanSerifSC_Regular_18.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</FilePath>
-            </File>
-            <File>
-              <FileName>_shuangfenL_alpha_114x96.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_shuangfenL_alpha_114x96.c</FilePath>
-            </File>
-            <File>
-              <FileName>_danfenL_alpha_114x96.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_danfenL_alpha_114x96.c</FilePath>
             </File>
           </Files>
         </Group>

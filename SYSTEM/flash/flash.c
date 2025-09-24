@@ -20,7 +20,7 @@ void flashDataInit(void)
         GrindSetData.weight_2 = 180;
         GrindSetData.weight_3 = 190;
         GrindSetData.grind_mode = MODE_TIME;
-
+        GrindSetData.grind_thickness = 300;
         flashDataSave();
     }
 
@@ -28,7 +28,7 @@ void flashDataInit(void)
 
 void flashDataSave(void)
 {
-    uint32_t buffer[7] = {0};
+    uint32_t buffer[8] = {0};
     buffer[0] = GrindSetData.time_1;
     buffer[1] = GrindSetData.time_2;
     buffer[2] = GrindSetData.time_3;
@@ -36,7 +36,7 @@ void flashDataSave(void)
     buffer[4] = GrindSetData.weight_2;
     buffer[5] = GrindSetData.weight_3;
     buffer[6] = GrindSetData.grind_mode;
-
+    buffer[7] = GrindSetData.grind_thickness;
     //printf("BUFFER[0] == %d\n",buffer[0]);
     FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
 }
@@ -99,7 +99,7 @@ HAL_StatusTypeDef FLASH_WriteData(uint32_t Address, uint32_t *pData, uint32_t Si
 
 void getGrindDataFromFlash() 
 {
-    uint32_t buffer[7] = {0};
+    uint32_t buffer[8] = {0};
 
     uint32_t *src = (uint32_t*)USER_FLASH_DATA_ADDR;
 
@@ -115,7 +115,7 @@ void getGrindDataFromFlash()
     GrindSetData.weight_2 = buffer[4];
     GrindSetData.weight_3 = buffer[5];
     GrindSetData.grind_mode = buffer[6];
-
+    GrindSetData.grind_thickness = buffer[7]; 
     /*
     printf("time_1: %d\n", GrindSetData.time_1);
     printf("time_2: %d\n", GrindSetData.time_2);

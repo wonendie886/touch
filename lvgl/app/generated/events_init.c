@@ -626,28 +626,14 @@ static void screen_1_btn_1_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:{
         //Send the thickness information to the lower-level machine.
-        uint16_t motordrive_value = 0;  // 驱动与否
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if(ret != 0)
-        {
-            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        }
-        break;
-    }
-    case LV_EVENT_LONG_PRESSED:{
-        // 长按发送1
-        uint16_t motordrive_value[2] = {1,0};
+        uint16_t motordrive_value[2] = {1,0};  // 驱动与否
+        char buffer[32];
+        GrindSetData.grind_thickness -= 5;
+        sprintf(buffer, "%d", GrindSetData.grind_thickness);
+        lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+        lv_label_set_text(guider_ui.screen_label_2,buffer);
         int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
-        if(ret != 0){
-            printf("ret == %d\n",ret);
-        }  
-        break;
-    }
-    case LV_EVENT_RELEASED:{
-        // 松开发送0
-        uint16_t motordrive_value = 0;
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if (ret != 0)
+        if(ret != 0)
         {
             printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
         }
@@ -664,28 +650,14 @@ static void screen_1_btn_2_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:{
         //Send the thickness information to the lower-level machine.
-        uint16_t motordrive_value = 0;  // 驱动与否
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if(ret != 0){
-            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        }
-        break;
-    }
-    case LV_EVENT_LONG_PRESSED:{
-        // 长按发送1
-        uint16_t motordrive_value[2] = {1,1};
+        uint16_t motordrive_value[2] = {1,1};  // 驱动与否
+        char buffer[32];
+        GrindSetData.grind_thickness += 5;
+        sprintf(buffer, "%d", GrindSetData.grind_thickness);
+        lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+        lv_label_set_text(guider_ui.screen_label_2,buffer);
         int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
         if(ret != 0){
-            printf("ret == %d\n",ret);
-        }
-        break;
-    }
-    case LV_EVENT_RELEASED:{
-        // 松开发送0
-        uint16_t motordrive_value = 0;
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if (ret != 0)
-        {
             printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
         }
         break;
@@ -701,6 +673,7 @@ static void screen_1_btn_3_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        flashDataSave();
         break;
     }
     default:
@@ -708,11 +681,74 @@ static void screen_1_btn_3_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_1_btn_thicknessset_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        lv_obj_clear_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+
+        char buf[16];
+        sprintf(buf, "%d", (int)GrindSetData.grind_thickness);
+        lv_textarea_set_text(guider_ui.screen_1_spinbox_1, buf);
+
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, (int32_t)(GrindSetData.grind_thickness));
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_confirm_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+
+        const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
+        int thickness = atoi(txt);
+        GrindSetData.grind_thickness = thickness;
+
+        char buffer[32];
+        sprintf(buffer, "%d", GrindSetData.grind_thickness);
+        lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+        lv_label_set_text(guider_ui.screen_label_2, buffer);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_concel_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+
+        char buffer[32];
+        sprintf(buffer, "%d", (int)GrindSetData.grind_thickness);
+        lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_1, screen_1_btn_1_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_2, screen_1_btn_2_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_3, screen_1_btn_3_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_thicknessset, screen_1_btn_thicknessset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_confirm, screen_1_btn_confirm_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_concel, screen_1_btn_concel_event_handler, LV_EVENT_ALL, ui);
 }
 
 
