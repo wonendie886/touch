@@ -73,7 +73,7 @@ HAL_StatusTypeDef CAN_ConfigFilterAcceptAll(void);
 HAL_StatusTypeDef CAN_StartReceive_IT(void);
 
 /** Transmit a standard 11-bit frame via interrupt. Returns HAL status. */
-HAL_StatusTypeDef CAN_TransmitStd_IT(uint16_t stdId, uint8_t *data, uint8_t len);
+HAL_StatusTypeDef CAN_Transmit_IT(uint32_t id, uint8_t *data, uint8_t len);
 
 /** User-overridable callback for received frames.
  *  Override this function in your application to handle incoming frames.

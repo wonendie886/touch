@@ -69,13 +69,16 @@ HAL_StatusTypeDef CAN_ConfigFilterAcceptAll(void)
 {
     CAN_FilterConfTypeDef sFilterConfig;
 
+    ///set filter id
+    uint32_t ExtId = 0x00000061;
+
     sFilterConfig.FilterNumber = 0;
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
     sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-    sFilterConfig.FilterIdHigh = 0x0000;
-    sFilterConfig.FilterIdLow = 0x0000;
+    sFilterConfig.FilterIdHigh = (ExtId >> 13) & 0xFFFF;  // 高16位：ID[28:13]
+    sFilterConfig.FilterIdLow = ((ExtId & 0x1FFF) << 3) | CAN_ID_EXT; // 低16位：ID[12:0] + 扩展ID标志
     sFilterConfig.FilterMaskIdHigh = 0x0000;
-    sFilterConfig.FilterMaskIdLow = 0x0000;
+    sFilterConfig.FilterMaskIdLow = 0x07F8 | 0x0004; // 低13位全匹配，IDE位必须匹配扩展ID
     sFilterConfig.FilterFIFOAssignment = CAN_FIFO0;
     sFilterConfig.FilterActivation = ENABLE;
 #ifdef __HAL_RCC_CAN2_CLK_ENABLE
@@ -90,14 +93,14 @@ HAL_StatusTypeDef CAN_StartReceive_IT(void)
     return HAL_CAN_Receive_IT(&hcan, CAN_FIFO0);
 }
 
-HAL_StatusTypeDef CAN_TransmitStd_IT(uint16_t stdId, uint8_t *data, uint8_t len)
+HAL_StatusTypeDef CAN_Transmit_IT(uint32_t id, uint8_t *data, uint8_t len)
 {
     if (len > 8) len = 8;
 
     // Fill legacy tx message
-    hcan.pTxMsg->StdId = stdId & 0x7FF;
-    hcan.pTxMsg->ExtId = 0x00;
-    hcan.pTxMsg->IDE = CAN_Id_Standard; // legacy macro
+    hcan.pTxMsg->StdId = id;
+    hcan.pTxMsg->ExtId = id;
+    hcan.pTxMsg->IDE = CAN_Id_Extended; // legacy macro
     hcan.pTxMsg->RTR = CAN_RTR_DATA;
     hcan.pTxMsg->DLC = len;
     for (uint8_t i = 0; i < len; i++) hcan.pTxMsg->Data[i] = data[i];
@@ -105,56 +108,6 @@ HAL_StatusTypeDef CAN_TransmitStd_IT(uint16_t stdId, uint8_t *data, uint8_t len)
 
     return HAL_CAN_Transmit_IT(&hcan);
 }
-
-/**
- * Weak user callbacks (override in your app)
- */
-__weak void CAN_UserRxCb(uint8_t is_ext, uint32_t id, uint8_t dlc, uint8_t data[8])
-{
-    (void)is_ext; (void)id; (void)dlc; (void)data; // default do nothing
-}
-
-__weak void CAN_UserTxCb(void)
-{
-    // default do nothing
-}
-
-/** HAL callbacks invoked by HAL_CAN_IRQHandler (legacy API)
- *  We implement them here and forward to user callback, then rearm receive.
- */
-// __weak void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
-// {
-//     // Copy received msg from internal buffer (pRxMsg)
-//     CanRxMsgTypeDef *r = hcan_if->pRxMsg;
-//     uint8_t data[8];
-//     uint8_t i;
-
-//     for (i = 0; i < r->DLC && i < 8; i++) data[i] = r->Data[i];
-//     for (; i < 8; i++) data[i] = 0x00;
-
-//     uint8_t is_ext = (r->IDE == CAN_Id_Extended) ? 1 : 0;
-//     uint32_t id = is_ext ? r->ExtId : r->StdId;
-
-//     // Call user callback
-//     CAN_UserRxCb(is_ext, id, r->DLC, data);
-
-//     // Rearm receive (one-shot API)
-//     // It's possible this rearm fails with HAL_BUSY if other HAL locks are held; callers
-//     // should handle that possibility. We'll try to re-enable reception.
-//     (void)HAL_CAN_Receive_IT(hcan_if, CAN_FIFO0);
-// }
-
-// __weak void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan_if)
-// {
-//     (void)hcan_if;
-//     CAN_UserTxCb();
-// }
-
-// __weak void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
-// {
-//     // Default empty. You can override to inspect hcan_if->ErrorCode
-//     (void)hcan_if;
-// }
 
 /** Minimal MSP init so CubeMX is not required. If you use your own MSP, remove/modify this.
  *  This sets PA11/PA12 as AF9 (CAN1) and enables NVIC for CAN1_RX0 and CAN1_SCE.

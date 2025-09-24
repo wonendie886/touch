@@ -40,23 +40,70 @@ bool isGrindMode = MODE_TIME;
 bool timerStart = false;
 uint32_t resetTime = 0;
 
+#define GatewayId 0x2
+#define HmiId 0x1
+#define SEMIID 0x3
+#define WEIGHT_SCALE_ID 0x4
+#define GRINDID 0x5
+#define GRIND_HMI_ID 0x6
+#define PC_TEST_ID 0xa
+#define TEST_MACHINE_ID 0xb
+
+enum GRIND_HMI_ID_FUNC_TYPE{
+    GRIND_HMI_ID_FUNC_NULL = 0,
+    GRIND_HMI_ID_HEART_BEAT,
+    GRIND_HMI_ID_TARGET_WEIGHT,
+    GRIND_HMI_ID_CURRENT_WEIGHT,
+};
+
+
+uint8_t getSrcId(uint32_t canId)
+{
+    return (canId & 0xF);
+}
+uint8_t getDestId(uint32_t canId)
+{
+    return ((canId >> 4) & 0xF);
+}
+
+uint8_t getCmdType(uint32_t canId)
+{
+    return ((canId >>8) & 0xFF);
+}
+uint8_t getCrc(uint32_t canId)
+{
+    return ((canId >> 16) & 0xFF);
+}
+
+typedef struct _can_msg{
+    uint8_t data_is_ready;
+    uint32_t rx_efid;
+    uint8_t rx_dlen;
+    uint8_t rx_data[8];
+} CanMsg;
+
+CanMsg can_msg = {0};
+
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 {
     CanRxMsgTypeDef *r = hcan_if->pRxMsg;
-    uint8_t data[8];
-    uint8_t i;
-    for (i = 0; i < r->DLC && i < 8; i++) data[i] = r->Data[i];
-    for (; i < 8; i++) data[i] = 0x00;
 
-    uint8_t is_ext = 0;
-    uint32_t id = 0;
+    uint8_t i = 0;
+
+    can_msg.rx_dlen = r->DLC;
+
+    for (i = 0; i < r->DLC && i < 8; i++) 
+        can_msg.rx_data[i] = r->Data[i];
+
+    for (; i < 8; i++) 
+        can_msg.rx_data[i] = 0x00;
+
 #ifdef CAN_Id_Extended
     if (r->IDE == CAN_Id_Extended) {
-        is_ext = 1; id = r->ExtId;
-    } else {
-        is_ext = 0; id = r->StdId;
-    }
+        can_msg.rx_efid = r->ExtId;
+        can_msg.data_is_ready = 1;
+    } 
 #else
     // 如果你的 HAL 没有 CAN_Id_Extended 宏，使用常见数值判断：0x04 表示扩展（老 HAL 习惯）
     if (r->IDE == 0x04U) {
@@ -65,9 +112,8 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
         is_ext = 0; id = r->StdId;
     }
 #endif
-
     // 转给我们封装的用户回调（由用户覆盖）
-    CAN_UserRxCb(is_ext, id, r->DLC, data);
+    //CAN_UserRxCb(is_ext, id, r->DLC, data);
 
     // 重新使能接收（legacy HAL 的 Receive_IT 是一次性的）
     HAL_CAN_Receive_IT(hcan_if, CAN_FIFO0);
@@ -213,6 +259,10 @@ int main(void)
     gt911_init();
 
     flashDataInit();
+    
+    CAN_Init_IT(500);
+    CAN_ConfigFilterAcceptAll();
+    CAN_StartReceive_IT();
 
     xSharedMutex = xSemaphoreCreateMutex();
     xSemaphoreGive(xSharedMutex);
@@ -343,7 +393,7 @@ void vGrindingControlTask(void *pvParameters) {
 
     uint16_t register_values[2];  
     uint16_t weight_value[2];
-    uint16_t time = 0 ;
+    uint32_t time = 0 ;
     char progress_text[32];           // 进度文本缓冲区
     uint16_t initialization_data[2] = {0};
     initialization_data[0] = GrindSetData.time_1;
@@ -495,13 +545,33 @@ void vGrindingControlTask(void *pvParameters) {
                 /// running is true,isGrindProgress = true
             }*/
            
+            
+            if (can_msg.data_is_ready){
+                can_msg.data_is_ready = 0;
+                uint16_t crc = 0;
+                for(int i = 0;i < can_msg.rx_dlen;i++){
+                    crc += can_msg.rx_data[i];
+                }
+                if (getCrc(can_msg.rx_efid)  == crc ) {
+                    if (getDestId(can_msg.rx_efid)  == GRIND_HMI_ID ) {
+                        if ( getCmdType(can_msg.rx_efid) == GRIND_HMI_ID_TARGET_WEIGHT) {
+                            int weight = (can_msg.rx_data[3] << 24) | (can_msg.rx_data[2] << 16) 
+                                        | (can_msg.rx_data[1] << 8) | can_msg.rx_data[0];
+                            /// weight from semi-coffee machine
+                            ///@todo just update ui,DO NOT update flash
+                            printf("coffee machine weight == %d\r\n",weight);
+                        } 
+                    }
+                } else {
+                    printf("crc failed\r\n");
+                }
 
+            }
         }
         if (timerStart){
             resetTime += 100;
         }
-        
-        
+
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
