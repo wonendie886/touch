@@ -376,19 +376,9 @@ void vGrindingControlTask(void *pvParameters) {
     static uint32_t self_timer_ms = 0;        // 以毫秒为单位的独立计时器
     static bool self_timer_active = false;    // 是否处于自计时状态（只在 register_values[0]==1 时累加）
     uint16_t last_register_running = 0;       // 上一次循环读到的 register_values[0]，用于检测 0 -> 1 的上升沿
-
+    uint16_t last_weight_running = 0;    
     for (;;) {
-        // 检查是否需要隐藏容器2（只有在结束标志被设置且容器当前可见时才处理）
-        if (container2_status.end_flag == 1 && container2_status.is_visible) {
-            container2_status.hide_counter += 150; // 每次循环增加100ms
-            if (container2_status.hide_counter >= 2000) {
-                lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
-                container2_status.is_visible = 0;
-                container2_status.end_flag = 0;
-                container2_status.hide_counter = 0;
-                printf("Container2 hidden after normal completion\n");
-            }
-        }
+
         if (isGrindMode == MODE_TIME) {
             if(start_flag == STATUS_IN_GRIND_START) {
                 sendStartCmd();
@@ -425,7 +415,7 @@ void vGrindingControlTask(void *pvParameters) {
                     }else if(grinding_target == 3){
                         target_ms = GrindSetData.time_3;
                     }
-                    
+                    printf("register_values[0] == %d\n",register_values[0]);
                      /// check grind motor running status
                     /// running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
                     if (register_values[0] == 1) {
@@ -516,11 +506,13 @@ void vGrindingControlTask(void *pvParameters) {
                     isGrindRunning = false;                    
                     set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);   
 
-                    // 重量模式正常结束，设置标志位
-                    container2_status.end_flag = 1;
-                    container2_status.hide_counter = 0; // 重置计数器
-                    //End of prompt
-                }    
+                    // 只有在从运行状态变为停止状态时才设置结束标志
+                    if (last_weight_running == 1) {
+                        container2_status.end_flag = 1;
+                        container2_status.hide_counter = 0; // 重置计数器
+                    }
+                }
+                last_weight_running = weight_value[0];    
             }else{
                 printf("ret_progress == %d\r\n",ret_progress);
             }
@@ -573,6 +565,19 @@ void vGrindingControlTask(void *pvParameters) {
         }
 
         time += 100;
+        
+        // 检查是否需要隐藏容器2（只有在结束标志被设置且容器当前可见时才处理）
+        if (container2_status.end_flag == 1 && container2_status.is_visible) {
+            container2_status.hide_counter += 150; // 每次循环增加100ms
+            if (container2_status.hide_counter >= 2000) {
+                lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
+                container2_status.is_visible = 0;
+                container2_status.end_flag = 0;
+                container2_status.hide_counter = 0;
+                printf("Container2 hidden after normal completion\n");
+            }
+        }
+        
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
