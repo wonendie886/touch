@@ -159,7 +159,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_2 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_2, "0");
     lv_label_set_long_mode(ui->screen_label_2, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_2, 190, 99);
+    lv_obj_set_pos(ui->screen_label_2, 212, 89);
     lv_obj_set_size(ui->screen_label_2, 55, 19);
 
     //Write style for screen_label_2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -170,7 +170,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_label_2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_label_2, LV_TEXT_ALIGN_RIGHT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_label_2, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_top(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -310,7 +310,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_um = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_um, "um");
     lv_label_set_long_mode(ui->screen_label_um, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_um, 255, 99);
+    lv_obj_set_pos(ui->screen_label_um, 230, 109);
     lv_obj_set_size(ui->screen_label_um, 45, 19);
 
     //Write style for screen_label_um, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

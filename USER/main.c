@@ -104,27 +104,6 @@ void set_all_grinding_labels_text(const char* text)
 //   lv_label_set_text(guider_ui.screen_label_9, text);
 }
 
-/**
-* 根据研磨目标设置对应标签的文本
-* @param target 研磨目标 (1=标签7, 2=标签8, 3=标签9)
-* @param text 要设置的文本内容
-*/
-// void set_grinding_label_text_by_target(int target, const char* text)
-// {
-//    switch (target) {
-//        case 1:
-//            lv_label_set_text(guider_ui.screen_label_7, text);
-//            break;
-//        case 2:
-// //            lv_label_set_text(guider_ui.screen_label_8, text);
-//            break;
-//        case 3:
-//            lv_label_set_text(guider_ui.screen_label_8, text);
-//            break;
-//        default:
-//            break;
-//    }
-// }
 
 /**
  * 根据研磨目标和数值设置对应标签的文本
