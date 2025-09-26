@@ -361,6 +361,7 @@ static void screen_btn_11_event_handler (lv_event_t *e)
         uint16_t initialization_data[2] = {0};
         initialization_data[0] = GrindSetData.time_1;
         initialization_data[1] = GrindSetData.weight_1;
+        printf("initialization_data[0] = %d,initialization_data[1] = %d\n",initialization_data[0],initialization_data[1]);
         int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200); 
         if(ret != 0){
             printf("ret == %d\n",ret);
@@ -410,8 +411,10 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         lv_obj_set_style_img_opa(guider_ui.screen_img_3, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
         
         uint16_t initialization_data[2] = {0};
+
         initialization_data[0] = GrindSetData.time_1;
         initialization_data[1] = GrindSetData.weight_1;
+        
         int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200);    
         if(ret != 0){
             printf("ret == %d\n",ret);
@@ -741,6 +744,44 @@ static void screen_1_btn_concel_event_handler (lv_event_t *e)
         break;
     }
 }
+
+static void screen_1_btn_calibration1_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        uint16_t calibration_value = 1 ;
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_CALIBRATION, calibration_value, 100);
+        if (ret != 0){
+            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_calibration2_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        uint16_t calibration_value = 2 ;
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_CALIBRATION, calibration_value, 100);
+        if (ret != 0){
+            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_1, screen_1_btn_1_event_handler, LV_EVENT_ALL, ui);
@@ -749,6 +790,8 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_thicknessset, screen_1_btn_thicknessset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_confirm, screen_1_btn_confirm_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_concel, screen_1_btn_concel_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_calibration1, screen_1_btn_calibration1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_calibration2, screen_1_btn_calibration2_event_handler, LV_EVENT_ALL, ui);
 }
 
 

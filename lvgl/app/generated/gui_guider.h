@@ -85,6 +85,12 @@ typedef struct
 	lv_obj_t *screen_1_btn_confirm_label;
 	lv_obj_t *screen_1_btn_concel;
 	lv_obj_t *screen_1_btn_concel_label;
+	lv_obj_t *screen_1_btn_calibration1;
+	lv_obj_t *screen_1_btn_calibration1_label;
+	lv_obj_t *screen_1_btn_calibration2;
+	lv_obj_t *screen_1_btn_calibration2_label;	
+	lv_obj_t *screen_1_label_hint1;
+	lv_obj_t *screen_1_label_hint2;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
