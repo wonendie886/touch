@@ -126,6 +126,9 @@ LV_IMG_DECLARE(_chengzhong_alpha_50x50);
 LV_IMG_DECLARE(_16Bjishi_alpha_50x50);
 LV_IMG_DECLARE(_shezhi_alpha_40x40);
 LV_IMG_DECLARE(_yuyan_alpha_40x40);
+LV_IMG_DECLARE(_danbeies_alpha_63x69);
+LV_IMG_DECLARE(_shuangbeies_alpha_85x71);
+LV_IMG_DECLARE(_SIGMALOGONEW_alpha_200x60);
 
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)

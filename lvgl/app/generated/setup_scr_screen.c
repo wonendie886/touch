@@ -31,11 +31,11 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_1
     ui->screen_img_1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_1, &_logo_alpha_128x30);
+    lv_img_set_src(ui->screen_img_1, &_SIGMALOGONEW_alpha_200x60);
     lv_img_set_pivot(ui->screen_img_1, 50,50);
     lv_img_set_angle(ui->screen_img_1, 0);
-    lv_obj_set_pos(ui->screen_img_1, 183, 12);
-    lv_obj_set_size(ui->screen_img_1, 128, 30);
+    lv_obj_set_pos(ui->screen_img_1, 147, 0);
+    lv_obj_set_size(ui->screen_img_1, 200, 60);
 
     //Write style for screen_img_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_img_recolor_opa(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -61,11 +61,11 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_3
     ui->screen_img_3 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_3, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_3, &_shuangfenL_alpha_114x96);
+    lv_img_set_src(ui->screen_img_3, &_shuangbeies_alpha_85x71);
     lv_img_set_pivot(ui->screen_img_3, 50,50);
     lv_img_set_angle(ui->screen_img_3, 0);
-    lv_obj_set_pos(ui->screen_img_3, 290, 90);
-    lv_obj_set_size(ui->screen_img_3, 114, 96);
+    lv_obj_set_pos(ui->screen_img_3, 345, 120);
+    lv_obj_set_size(ui->screen_img_3, 85, 71);
 
     //Write style for screen_img_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_img_recolor_opa(ui->screen_img_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -76,11 +76,11 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_4
     ui->screen_img_4 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_4, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_4, &_danfenL_alpha_114x96);
+    lv_img_set_src(ui->screen_img_4, &_danbeies_alpha_63x69);
     lv_img_set_pivot(ui->screen_img_4, 50,50);
     lv_img_set_angle(ui->screen_img_4, 0);
-    lv_obj_set_pos(ui->screen_img_4, 73, 90);
-    lv_obj_set_size(ui->screen_img_4, 114, 96);
+    lv_obj_set_pos(ui->screen_img_4, 75, 120);
+    lv_obj_set_size(ui->screen_img_4, 63, 69);
 
     //Write style for screen_img_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_img_recolor_opa(ui->screen_img_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -96,8 +96,8 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_1_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_1, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_1_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_1, 80, 110);
-    lv_obj_set_size(ui->screen_btn_1, 100, 80);
+    lv_obj_set_pos(ui->screen_btn_1, 75, 120);
+    lv_obj_set_size(ui->screen_btn_1, 63, 69);
 
     //Write style for screen_btn_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -117,8 +117,8 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_2_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_2, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_2_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_2, 300, 110);
-    lv_obj_set_size(ui->screen_btn_2, 100, 80);
+    lv_obj_set_pos(ui->screen_btn_2, 345, 120);
+    lv_obj_set_size(ui->screen_btn_2, 85, 71);
 
     //Write style for screen_btn_2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
