@@ -100,6 +100,7 @@ extern lv_ui guider_ui;
 void setup_scr_screen(lv_ui *ui);
 void setup_scr_screen_1(lv_ui *ui);
 LV_IMG_DECLARE(_logo_alpha_128x30);
+LV_IMG_DECLARE(_SIGMALOGONEW_alpha_200x60);
 LV_IMG_DECLARE(_uxdb_alpha_40x40);
 LV_IMG_DECLARE(_shuangfenL_alpha_114x96);
 LV_IMG_DECLARE(_danfenL_alpha_114x96);
@@ -108,6 +109,8 @@ LV_IMG_DECLARE(_chengzhong_alpha_50x50);
 LV_IMG_DECLARE(_16Bjishi_alpha_50x50);
 LV_IMG_DECLARE(_shezhi_alpha_40x40);
 LV_IMG_DECLARE(_yuyan_alpha_40x40);
+LV_IMG_DECLARE(_danbeies_alpha_63x69);
+LV_IMG_DECLARE(_shuangbeies_alpha_85x71);
 
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
