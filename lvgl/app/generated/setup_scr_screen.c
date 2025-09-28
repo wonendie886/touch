@@ -134,7 +134,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_1 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_1, "0");
     lv_label_set_long_mode(ui->screen_label_1, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_1, 100, 80);
+    lv_obj_set_pos(ui->screen_label_1, 75, 80);
     lv_obj_set_size(ui->screen_label_1, 60, 30);
 
     //Write style for screen_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -182,7 +182,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_3 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_3, "0");
     lv_label_set_long_mode(ui->screen_label_3, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_3, 320, 80);
+    lv_obj_set_pos(ui->screen_label_3, 345, 80);
     lv_obj_set_size(ui->screen_label_3, 60, 30);
 
     //Write style for screen_label_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -211,8 +211,8 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_5_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_5, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_5_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_5, 80, 80);
-    lv_obj_set_size(ui->screen_btn_5, 100, 30);
+    lv_obj_set_pos(ui->screen_btn_5, 75, 80);
+    lv_obj_set_size(ui->screen_btn_5, 60, 30);
 
     //Write style for screen_btn_5, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_5, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -232,8 +232,8 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_7_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_7, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_7_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_7, 300, 80);
-    lv_obj_set_size(ui->screen_btn_7, 100, 30);
+    lv_obj_set_pos(ui->screen_btn_7, 345, 80);
+    lv_obj_set_size(ui->screen_btn_7, 60, 30);
 
     //Write style for screen_btn_7, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_7, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -285,7 +285,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_4 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_4, "0");
     lv_label_set_long_mode(ui->screen_label_4, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_4, 100, 80);
+    lv_obj_set_pos(ui->screen_label_4, 75, 80);
     lv_obj_set_size(ui->screen_label_4, 60, 30);
 
     //Write style for screen_label_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -333,7 +333,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_6 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_6, "0");
     lv_label_set_long_mode(ui->screen_label_6, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_6, 320, 80);
+    lv_obj_set_pos(ui->screen_label_6, 345, 80);
     lv_obj_set_size(ui->screen_label_6, 60, 30);
 
     //Write style for screen_label_6, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
