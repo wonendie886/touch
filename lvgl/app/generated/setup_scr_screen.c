@@ -14,7 +14,11 @@
 #include "widgets_init.h"
 #include "custom.h"
 #include "flash.h"
-
+lv_anim_t a;
+static void set_angle(void * img, int32_t v)
+{
+    lv_img_set_angle(img, v);
+}
 
 void setup_scr_screen(lv_ui *ui)
 {
@@ -248,7 +252,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_8
     ui->screen_img_8 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_8, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_8, &_shoudonganniu_alpha_72x72);
+    lv_img_set_src(ui->screen_img_8, &_shou_alpha_72x72);
     lv_img_set_pivot(ui->screen_img_8, 50,50);
     lv_img_set_angle(ui->screen_img_8, 0);
     lv_obj_set_pos(ui->screen_img_8, 204, 200);
@@ -654,6 +658,30 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_label_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_label_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes screen_img_13
+    ui->screen_img_13 = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_13, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_13, &_yuanquan_alpha_72x72);
+    lv_img_set_pivot(ui->screen_img_13, 50,50);
+    lv_img_set_angle(ui->screen_img_13, 0);
+    lv_obj_set_pos(ui->screen_img_13, 204, 200);
+    lv_obj_set_size(ui->screen_img_13, 72, 72);
+
+    //Write style for screen_img_13, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_13, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_13, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_13, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+
+    lv_anim_init(&a);
+    lv_anim_set_var(&a, ui->screen_img_13);
+    lv_anim_set_exec_cb(&a, (lv_anim_exec_xcb_t)lv_img_set_angle);
+    lv_anim_set_values(&a, 0, 3600); // 从 0 到 360 度
+    lv_anim_set_time(&a, 1000);      // 动画时长 2000ms
+    lv_anim_set_repeat_count(&a, LV_ANIM_REPEAT_INFINITE); // 无限循环
+    lv_img_set_pivot(ui->screen_img_13, 72 / 2, 72 / 2);
+
     //The custom code of screen.
     //Initial hidden Tweak tool, Buttons 14, 15
     show_hide_controls(ui, 0);
@@ -699,4 +727,10 @@ void setup_scr_screen(lv_ui *ui)
 
     //Init events for screen.
     events_init_screen(ui);
+}
+
+void stop_spinner(void)
+{
+    lv_anim_del(guider_ui.screen_img_13, NULL);
+    // lv_obj_del(guider_ui.screen_img_13);
 }
