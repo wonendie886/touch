@@ -374,6 +374,7 @@ void vGrindingControlTask(void *pvParameters) {
     char progress_text[32];
     bool isStartFlag = 0;
     uint16_t motorTimer = 0;
+    bool isAniRunning = false;
 
     for (;;) {
 
@@ -427,17 +428,30 @@ void vGrindingControlTask(void *pvParameters) {
             if (register_values[0] == 1) {
                 //isGrindRunning = true;
                 isStartFlag = true;
+                if (!isAniRunning) {
+                    isAniRunning = true;
+                    lv_anim_start(&a);
+                } 
+
                 motorTimer += 100;
                 /// update ui
                 set_kr_current_time(motorTimer/100);
-            } 
+            } else {
+                if (isAniRunning) {
+                    isAniRunning = false;
+                    stop_spinner();
+                } 
+            }
             
             if (isStartFlag){
                 if(motorTimer >= Currenttargetime){
                     printf("motorTimer is time out\n");
                     isGrindProgress = false;
                     start_flag = STATUS_IN_GRIND_STOP;
-                    stop_spinner();
+                    if (isAniRunning) {
+                        isAniRunning = false;
+                        stop_spinner();
+                    } 
                     ///@TODO change png to start
                     lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
