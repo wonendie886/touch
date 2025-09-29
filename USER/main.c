@@ -355,7 +355,9 @@ void vGrindingControlTask(void *pvParameters) {
     static uint32_t self_timer_ms = 0;        // 以毫秒为单位的独立计时器
     static bool self_timer_active = false;    // 是否处于自计时状态（只在 register_values[0]==1 时累加）
     uint16_t last_register_running = 0;       // 上一次循环读到的 register_values[0]，用于检测 0 -> 1 的上升沿
-    uint16_t last_weight_running = 0;    
+    uint16_t last_weight_running = 0;   
+    
+    bool isAniRunning = false;
     for (;;) {
 
         if (isGrindMode == MODE_TIME) {
@@ -398,6 +400,10 @@ void vGrindingControlTask(void *pvParameters) {
                      /// check grind motor running status
                     /// running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
                     if (register_values[0] == 1) {
+                        if (!isAniRunning){
+                            isAniRunning = true;
+                            lv_anim_start(&a);
+                        }
                         // 上升沿检测：从 0 -> 1 时启动/复位自计时器
                         if (last_register_running == 0) {
                             self_timer_active = true;
@@ -429,6 +435,10 @@ void vGrindingControlTask(void *pvParameters) {
                         /// update ui
                         
                     } else {
+                        if (isAniRunning) {
+                            isAniRunning = false;
+                            stop_spinner();
+                        }
                         isGrindRunning = false;
                         self_timer_ms = register_values[1];
                         printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
@@ -474,6 +484,10 @@ void vGrindingControlTask(void *pvParameters) {
             if(ret_progress == 0){
                 /// check grind motor running status
                 if (weight_value[0] == 1) {
+                    if (!isAniRunning){
+                        isAniRunning = true;
+                        lv_anim_start(&a);
+                    }
                     isGrindRunning = true;
                     /// update ui
                     if (!container2_status.is_visible) {
@@ -482,6 +496,10 @@ void vGrindingControlTask(void *pvParameters) {
                     }
                     set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);      
                 }else{
+                    if (isAniRunning) {
+                        isAniRunning = false;
+                        stop_spinner();
+                    }
                     isGrindRunning = false;                    
                     set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);   
 
