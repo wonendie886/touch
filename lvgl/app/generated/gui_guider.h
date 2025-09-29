@@ -65,6 +65,7 @@ typedef struct
 	lv_obj_t *screen_cont_2;
 	lv_obj_t *screen_label_8;
 	lv_obj_t *screen_1;
+	lv_obj_t *screen_img_13;
 	bool screen_1_del;
 	lv_obj_t *screen_1_btn_1;
 	lv_obj_t *screen_1_btn_1_label;
@@ -104,13 +105,16 @@ LV_IMG_DECLARE(_SIGMALOGONEW_alpha_200x60);
 LV_IMG_DECLARE(_uxdb_alpha_40x40);
 LV_IMG_DECLARE(_shuangfenL_alpha_114x96);
 LV_IMG_DECLARE(_danfenL_alpha_114x96);
-LV_IMG_DECLARE(_shoudonganniu_alpha_72x72);
+LV_IMG_DECLARE(_shoudongcs_alpha_72x72);
 LV_IMG_DECLARE(_chengzhong_alpha_50x50);
 LV_IMG_DECLARE(_16Bjishi_alpha_50x50);
 LV_IMG_DECLARE(_shezhi_alpha_40x40);
 LV_IMG_DECLARE(_yuyan_alpha_40x40);
 LV_IMG_DECLARE(_danbeies_alpha_63x69);
 LV_IMG_DECLARE(_shuangbeies_alpha_85x71);
+LV_IMG_DECLARE(_upload_alpha_100x100);
+LV_IMG_DECLARE(_shou_alpha_72x72);
+LV_IMG_DECLARE(_yuanquan_alpha_72x72);
 
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)

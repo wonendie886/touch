@@ -399,6 +399,7 @@ void vGrindingControlTask(void *pvParameters) {
                 /// start 3S timer
                 timerStart = true;
                 resetTime = 0;
+                stop_spinner();
                 printf("send stop cmd\r\n");
             }
 
@@ -415,6 +416,7 @@ void vGrindingControlTask(void *pvParameters) {
 
                 isGrindProgress = false;
                 lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
+                
                 vTaskDelay(pdMS_TO_TICKS(20));
             }
             
@@ -435,6 +437,7 @@ void vGrindingControlTask(void *pvParameters) {
                     printf("motorTimer is time out\n");
                     isGrindProgress = false;
                     start_flag = STATUS_IN_GRIND_STOP;
+                    stop_spinner();
                     ///@TODO change png to start
                     lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
