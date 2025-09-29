@@ -374,9 +374,9 @@ void vGrindingControlTask(void *pvParameters) {
     char progress_text[32];
     bool isStartFlag = 0;
     uint16_t motorTimer = 0;
-
+    static uint8_t motor_running_prev = 0; 
     for (;;) {
-
+        motor_running_prev = register_values[INDEX_GRIND_MOTOR_RUNNING]; 
         if(start_flag == STATUS_IN_GRIND_START) {
             isStartMotor = 1;
             if (!register_values[INDEX_GRIND_MOTOR_RUNNING]) {
@@ -385,7 +385,7 @@ void vGrindingControlTask(void *pvParameters) {
                 }
                 timerStart = false;
                 resetTime = 0;
-                    
+     
                 isGrindProgress = true;
                 lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
                 printf("send start cmd\r\n");
@@ -423,11 +423,19 @@ void vGrindingControlTask(void *pvParameters) {
         }
 
         if (isGrindProgress) {
-            ///wait for start
+            ///wait for start   
+            static uint8_t motor_prev_state = 0;            
+           
             if (register_values[0] == 1) {
                 //isGrindRunning = true;
                 isStartFlag = true;
                 motorTimer += 100;
+                // 只有当电机从停止状态转为运行状态时才启动动画
+                
+                if(motor_prev_state == 0 && register_values[0] == 1) {
+                    lv_anim_start(&a);
+                }
+ 
                 /// update ui
                 set_kr_current_time(motorTimer/100);
             } 
@@ -442,6 +450,7 @@ void vGrindingControlTask(void *pvParameters) {
                     lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
+             motor_prev_state = register_values[0];
         }
         if (timerStart){
             resetTime += 100;
