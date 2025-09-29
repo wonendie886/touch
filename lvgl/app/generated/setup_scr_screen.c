@@ -480,6 +480,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_11, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_11, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_11, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_add_flag(ui->screen_img_11, LV_OBJ_FLAG_HIDDEN);
 
     uint32_t paramBgColor = 0x5b514b;
     //Write codes screen_cont_1
