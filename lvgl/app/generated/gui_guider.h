@@ -92,7 +92,10 @@ typedef struct
 	lv_obj_t *screen_1_btn_calibration2_label;	
 	lv_obj_t *screen_1_label_hint1;
 	lv_obj_t *screen_1_label_hint2;
+	lv_obj_t *screen_1_btn_Grindingspeed;
+	lv_obj_t *screen_1_btn_Grindingspeed_label;
 	lv_obj_t *g_kb_top_layer;
+
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);

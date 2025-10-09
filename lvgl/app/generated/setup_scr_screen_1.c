@@ -258,7 +258,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_width(ui->screen_1_spinbox_1, 70);
     lv_obj_set_height(ui->screen_1_spinbox_1, 40);
     lv_spinbox_set_digit_format(ui->screen_1_spinbox_1, 4, 4);
-    lv_spinbox_set_range(ui->screen_1_spinbox_1, 50, 2000);
+    lv_spinbox_set_range(ui->screen_1_spinbox_1, 0, 2000);
     lv_coord_t screen_1_spinbox_1_h = lv_obj_get_height(ui->screen_1_spinbox_1);
     ui->screen_1_spinbox_1_btn_plus = lv_btn_create(ui->screen_1_cont_1);
     lv_obj_set_size(ui->screen_1_spinbox_1_btn_plus, screen_1_spinbox_1_h, screen_1_spinbox_1_h);
@@ -402,11 +402,35 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_pad_right(ui->screen_1_label_hint2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->screen_1_label_hint2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_1_label_hint2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_Grindingspeed
+    ui->screen_1_btn_Grindingspeed = lv_btn_create(ui->screen_1);
+    ui->screen_1_btn_Grindingspeed_label = lv_label_create(ui->screen_1_btn_Grindingspeed);
+    lv_label_set_text(ui->screen_1_btn_Grindingspeed_label, "0");
+    lv_label_set_long_mode(ui->screen_1_btn_Grindingspeed_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_Grindingspeed_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_Grindingspeed, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_Grindingspeed_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_Grindingspeed, 40, 30);
+    lv_obj_set_size(ui->screen_1_btn_Grindingspeed, 50, 20);
+
+    //Write style for screen_1_btn_Grindingspeed, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_btn_Grindingspeed, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_Grindingspeed, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_Grindingspeed, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_Grindingspeed, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_Grindingspeed, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_Grindingspeed, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_Grindingspeed, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_Grindingspeed, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //The custom code of screen_1.
     char string_um[50] = {0};
-    sprintf(string_um, "%d", GrindSetData.grind_thickness);
-    
+    sprintf(string_um, "%d", GrindSetData.grind_thickness);   
     lv_label_set_text_fmt(guider_ui.screen_1_label_thickness, "%s", string_um);
+    char string_g[50] = {0};
+    sprintf(string_g, "%d", GrindSetData.grind_speed);   
+    lv_label_set_text_fmt(guider_ui.screen_1_btn_Grindingspeed_label, "%s", string_g); 
 
     lv_obj_move_foreground(ui->screen_1_cont_1);
     //Update current screen layout.

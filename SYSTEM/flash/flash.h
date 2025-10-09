@@ -20,7 +20,8 @@ typedef enum _HOLDING_REG_OFFSET{
     INDEX_STEP_DIR,
     INDEX_STEP_MODE,
     INDEX_STEP_TIME,
-    INDEX_GRIND_CALIBRATION
+    INDEX_GRIND_CALIBRATION,
+    INDEX_GRIND_SPEED
 } HOLDING_REG_OFFSET;
 
 enum _GRIND_MODE{
@@ -68,6 +69,7 @@ typedef struct _GRIND_DATA{
     uint32_t weight_3;
     uint32_t grind_mode;    //weight or time
     uint32_t grind_thickness;
+    uint32_t grind_speed;
 } GrindData;
 
 extern volatile uint8_t flash_request_flag;

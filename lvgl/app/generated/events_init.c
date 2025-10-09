@@ -623,6 +623,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_15, screen_btn_15_event_handler, LV_EVENT_ALL, ui);
 }
 
+static int Wakeupflag = 0;
 static void screen_1_btn_1_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -690,6 +691,8 @@ static void screen_1_btn_thicknessset_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        //区分按钮唤醒标志
+        Wakeupflag = 1;
         lv_obj_clear_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
 
         char buf[16];
@@ -710,16 +713,33 @@ static void screen_1_btn_confirm_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+        if(Wakeupflag == 1){
+            lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
 
-        const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
-        int thickness = atoi(txt);
-        GrindSetData.grind_thickness = thickness;
+            const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
+            int thickness = atoi(txt);
+            GrindSetData.grind_thickness = thickness;
 
-        char buffer[32];
-        sprintf(buffer, "%d", GrindSetData.grind_thickness);
-        lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
-        lv_label_set_text(guider_ui.screen_label_2, buffer);
+            char buffer[32];
+            sprintf(buffer, "%d", GrindSetData.grind_thickness);
+            lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+            lv_label_set_text(guider_ui.screen_label_2, buffer);
+        }else if(Wakeupflag == 2){
+            lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+          
+            const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
+            int grind_speed = atoi(txt);
+            GrindSetData.grind_speed = grind_speed;
+
+            char buffer[32];
+            sprintf(buffer, "%d", GrindSetData.grind_speed);
+            lv_label_set_text(guider_ui.screen_1_btn_Grindingspeed_label, buffer);
+
+            int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_SPEED, GrindSetData.grind_speed, 100);
+            if (ret != 0){
+                printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
+            }
+        }
         break;
     }
     default:
@@ -733,11 +753,19 @@ static void screen_1_btn_concel_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+        if(Wakeupflag == 1){
+            lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
 
-        char buffer[32];
-        sprintf(buffer, "%d", (int)GrindSetData.grind_thickness);
-        lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+            char buffer[32];
+            sprintf(buffer, "%d", (int)GrindSetData.grind_thickness);
+            lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
+        }else if(Wakeupflag == 2){
+            lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+
+            char buffer[32];
+            sprintf(buffer, "%d", (int)GrindSetData.grind_speed);
+            lv_label_set_text(guider_ui.screen_1_btn_Grindingspeed_label, buffer);
+        }
         break;
     }
     default:
@@ -781,6 +809,28 @@ static void screen_1_btn_calibration2_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_1_btn_Grindingspeed_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        Wakeupflag = 2;
+        //Retrieve container 1
+        lv_obj_clear_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
+
+        char buf[16];
+        sprintf(buf, "%d", (int)GrindSetData.grind_speed);
+        lv_textarea_set_text(guider_ui.screen_1_spinbox_1, buf);
+
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, (int32_t)(GrindSetData.grind_speed));
+
+        break;
+    }
+    default:
+        break;
+    }
+}
 
 void events_init_screen_1 (lv_ui *ui)
 {
@@ -792,6 +842,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_concel, screen_1_btn_concel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_calibration1, screen_1_btn_calibration1_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_calibration2, screen_1_btn_calibration2_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_Grindingspeed, screen_1_btn_Grindingspeed_event_handler, LV_EVENT_ALL, ui);
 }
 
 
