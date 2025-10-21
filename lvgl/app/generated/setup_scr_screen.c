@@ -20,7 +20,7 @@ void setup_scr_screen(lv_ui *ui)
 {
     //Write codes screen
     ui->screen = lv_obj_create(NULL);
-    lv_obj_set_size(ui->screen, 480, 272);
+    lv_obj_set_size(ui->screen, 480, 800);
     lv_obj_set_scrollbar_mode(ui->screen, LV_SCROLLBAR_MODE_OFF);
 
     //Write style for screen, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -28,6 +28,50 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_bg_color(ui->screen, lv_color_hex(0x8e5757), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    ui->screen_label_1 = lv_label_create(ui->screen);
+    lv_label_set_text(ui->screen_label_1, "PT100-Temperature: 000.0 C");
+    lv_label_set_long_mode(ui->screen_label_1, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_label_1, 40, 30);
+    lv_obj_set_size(ui->screen_label_1, 300, 50);
+
+    //Write style for screen_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_label_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_1, &lv_font_Acme_Regular_20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_label_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_label_1, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_label_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    ui->screen_label_2 = lv_label_create(ui->screen);
+    lv_label_set_text(ui->screen_label_2, "K-Temperature: 000.0 C");
+    lv_label_set_long_mode(ui->screen_label_2, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_label_2, 40, 80);
+    lv_obj_set_size(ui->screen_label_2, 300, 50);
+
+    //Write style for screen_label_2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_label_2, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_2, &lv_font_Acme_Regular_20, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_label_2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_label_2, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_label_2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+#if 0
     //Write codes screen_label_1
     ui->screen_label_1 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_1, "时间\n日期");
@@ -233,7 +277,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_imgbtn_2, 255, LV_PART_MAIN|LV_IMGBTN_STATE_RELEASED);
 
     //The custom code of screen.
-
+#endif
 
     //Update current screen layout.
     lv_obj_update_layout(ui->screen);

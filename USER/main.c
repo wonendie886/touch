@@ -11,47 +11,50 @@
 #include "lv_port_disp.h"
 #include "gui_guider.h"
 #include "events_init.h"
+#include "ad7793.h"
+#include "math.h"
+
 lv_ui guider_ui;
 /************************************************
- WKS STM32F407VET6ºËÐÄ°å
- ´¥ÃþÆÁÊµÑé-HAL¿âº¯Êý°æ
+ WKS STM32F407VET6ï¿½ï¿½ï¿½Ä°ï¿½
+ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½-HALï¿½âº¯ï¿½ï¿½ï¿½ï¿½
 ************************************************/
 
-//Çå¿ÕÆÁÄ»²¢ÔÚÓÒÉÏ½ÇÏÔÊ¾"RST"
+//ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½ï¿½ï¿½Ê¾"RST"
 void Load_Drow_Dialog(void)
 {
-	LCD_Clear(WHITE);//ÇåÆÁ   
- 	POINT_COLOR=BLUE;//ÉèÖÃ×ÖÌåÎªÀ¶É« 
-	LCD_ShowString(lcddev.width-24,0,200,16,16,"RST");//ÏÔÊ¾ÇåÆÁÇøÓò
-  	POINT_COLOR=RED;//ÉèÖÃ»­±ÊÀ¶É« 
+	LCD_Clear(WHITE);//ï¿½ï¿½ï¿½ï¿½   
+ 	POINT_COLOR=BLUE;//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½É« 
+	LCD_ShowString(lcddev.width-24,0,200,16,16,"RST");//ï¿½ï¿½Ê¾ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+  	POINT_COLOR=RED;//ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½ï¿½ï¿½É« 
 }////////////////////////////////////////////////////////////////////////////////
 /**
- * ÔÚÆÁÄ»ÉÏ»æÖÆÊµÐÄÕý·½ÐÎ
- * @param x0 Õý·½ÐÎ×óÉÏ½ÇX×ø±ê
- * @param y0 Õý·½ÐÎ×óÉÏ½ÇY×ø±ê
- * @param size Õý·½ÐÎ±ß³¤
- * @param color Õý·½ÐÎÑÕÉ«
+ * ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ï»ï¿½ï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+ * @param x0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½Xï¿½ï¿½ï¿½ï¿½
+ * @param y0 ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½Yï¿½ï¿½ï¿½ï¿½
+ * @param size ï¿½ï¿½ï¿½ï¿½ï¿½Î±ß³ï¿½
+ * @param color ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
  */
 void gui_fill_square(u16 x0, u16 y0, u16 size, u16 color)
 {
-    // Ê¹ÓÃLCD_Fillº¯ÊýÌî³äÒ»¸ö¾ØÐÎÇøÓòÀ´ÊµÏÖÊµÐÄÕý·½ÐÎ
+    // Ê¹ï¿½ï¿½LCD_Fillï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Êµï¿½ï¿½Êµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
     LCD_Fill(x0, y0, x0 + size - 1, y0 + size - 1, color);
 }
 
-//µçÈÝ´¥ÃþÆÁ×¨ÓÐ²¿·Ö
-//»­Ë®Æ½Ïß
-//x0,y0:×ø±ê
-//len:Ïß³¤¶È
-//color:ÑÕÉ«
+//ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½×¨ï¿½Ð²ï¿½ï¿½ï¿½
+//ï¿½ï¿½Ë®Æ½ï¿½ï¿½
+//x0,y0:ï¿½ï¿½ï¿½ï¿½
+//len:ï¿½ß³ï¿½ï¿½ï¿½
+//color:ï¿½ï¿½É«
 void gui_draw_hline(u16 x0,u16 y0,u16 len,u16 color)
 {
 	if(len==0)return;
 	LCD_Fill(x0,y0,x0+len-1,y0,color);	
 }
-//»­ÊµÐÄÔ²
-//x0,y0:×ø±ê
-//r:°ë¾¶
-//color:ÑÕÉ«
+//ï¿½ï¿½Êµï¿½ï¿½Ô²
+//x0,y0:ï¿½ï¿½ï¿½ï¿½
+//r:ï¿½ë¾¶
+//color:ï¿½ï¿½É«
 void gui_fill_circle(u16 x0,u16 y0,u16 r,u16 color)
 {											  
 	u32 i;
@@ -76,19 +79,19 @@ void gui_fill_circle(u16 x0,u16 y0,u16 r,u16 color)
 	}
 }  
 /**
- * ÔÚÆÁÄ»ÉÏ»­¿ÕÐÄÔ²
- * @param x0 Ô²ÐÄX×ø±ê
- * @param y0 Ô²ÐÄY×ø±ê
- * @param r  Ô²µÄ°ë¾¶
+ * ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ï»ï¿½ï¿½ï¿½ï¿½ï¿½Ô²
+ * @param x0 Ô²ï¿½ï¿½Xï¿½ï¿½ï¿½ï¿½
+ * @param y0 Ô²ï¿½ï¿½Yï¿½ï¿½ï¿½ï¿½
+ * @param r  Ô²ï¿½Ä°ë¾¶
  */
 void draw_hollow_circle_on_screen(u16 x0, u16 y0, u16 r)
 {
-    // Ê¹ÓÃBresenhamËã·¨»æÖÆ¿ÕÐÄÔ²
+    // Ê¹ï¿½ï¿½Bresenhamï¿½ã·¨ï¿½ï¿½ï¿½Æ¿ï¿½ï¿½ï¿½Ô²
     int x = 0;
     int y = r;
     int d = 3 - 2 * r;
     
-    // »æÖÆÔ²ÉÏµÄ8¸ö¶Ô³Æµã
+    // ï¿½ï¿½ï¿½ï¿½Ô²ï¿½Ïµï¿½8ï¿½ï¿½ï¿½Ô³Æµï¿½
     while (x <= y) {
         LCD_DrawPoint(x0 + x, y0 + y);
         LCD_DrawPoint(x0 - x, y0 + y);
@@ -108,39 +111,39 @@ void draw_hollow_circle_on_screen(u16 x0, u16 y0, u16 r)
         x++;
     }
 }
-//Á½¸öÊýÖ®²îµÄ¾ø¶ÔÖµ 
-//x1,x2£ºÐèÈ¡²îÖµµÄÁ½¸öÊý
-//·µ»ØÖµ£º|x1-x2|
+//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ö®ï¿½ï¿½Ä¾ï¿½ï¿½ï¿½Öµ 
+//x1,x2ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½Öµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//ï¿½ï¿½ï¿½ï¿½Öµï¿½ï¿½|x1-x2|
 u16 my_abs(u16 x1,u16 x2)
 {			 
 	if(x1>x2)return x1-x2;
 	else return x2-x1;
 }  
-//»­Ò»Ìõ´ÖÏß
-//(x1,y1),(x2,y2):ÏßÌõµÄÆðÊ¼×ø±ê
-//size£ºÏßÌõµÄ´ÖÏ¸³Ì¶È
-//color£ºÏßÌõµÄÑÕÉ«
+//ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+//(x1,y1),(x2,y2):ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½
+//sizeï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä´ï¿½Ï¸ï¿½Ì¶ï¿½
+//colorï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½É«
 void lcd_draw_bline(u16 x1, u16 y1, u16 x2, u16 y2,u8 size,u16 color)
 {
 	u16 t; 
 	int xerr=0,yerr=0,delta_x,delta_y,distance; 
 	int incx,incy,uRow,uCol; 
 	if(x1<size|| x2<size||y1<size|| y2<size)return; 
-	delta_x=x2-x1; //¼ÆËã×ø±êÔöÁ¿ 
+	delta_x=x2-x1; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	delta_y=y2-y1; 
 	uRow=x1; 
 	uCol=y1; 
-	if(delta_x>0)incx=1; //ÉèÖÃµ¥²½·½Ïò 
-	else if(delta_x==0)incx=0;//´¹Ö±Ïß 
+	if(delta_x>0)incx=1; //ï¿½ï¿½ï¿½Ãµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
+	else if(delta_x==0)incx=0;//ï¿½ï¿½Ö±ï¿½ï¿½ 
 	else {incx=-1;delta_x=-delta_x;} 
 	if(delta_y>0)incy=1; 
-	else if(delta_y==0)incy=0;//Ë®Æ½Ïß 
+	else if(delta_y==0)incy=0;//Ë®Æ½ï¿½ï¿½ 
 	else{incy=-1;delta_y=-delta_y;} 
-	if( delta_x>delta_y)distance=delta_x; //Ñ¡È¡»ù±¾ÔöÁ¿×ø±êÖá 
+	if( delta_x>delta_y)distance=delta_x; //Ñ¡È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	else distance=delta_y; 
-	for(t=0;t<=distance+1;t++ )//»­ÏßÊä³ö 
+	for(t=0;t<=distance+1;t++ )//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ 
 	{  
-		gui_fill_circle(uRow,uCol,size,color);//»­µã 
+		gui_fill_circle(uRow,uCol,size,color);//ï¿½ï¿½ï¿½ï¿½ 
 		xerr+=delta_x ; 
 		yerr+=delta_y ; 
 		if(xerr>distance) 
@@ -169,9 +172,9 @@ void Test_Draw_Line(void)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-//5¸ö´¥¿ØµãµÄÑÕÉ«(µçÈÝ´¥ÃþÆÁÓÃ)												 
+//5ï¿½ï¿½ï¿½ï¿½ï¿½Øµï¿½ï¿½ï¿½ï¿½É«(ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½)												 
 const u16 POINT_COLOR_TBL[5]={RED,GREEN,BLUE,BROWN,GRED};  
-//µç×è´¥ÃþÆÁ²âÊÔº¯Êý
+//ï¿½ï¿½ï¿½è´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôºï¿½ï¿½ï¿½
 void rtp_test(void)
 {
 	u8 key;
@@ -180,18 +183,18 @@ void rtp_test(void)
 	{
 	 	key=KEY_Scan(0);
 		tp_dev.scan(0); 		 
-		if(tp_dev.sta&TP_PRES_DOWN)			//´¥ÃþÆÁ±»°´ÏÂ
+		if(tp_dev.sta&TP_PRES_DOWN)			//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		{	
 		 	if(tp_dev.x[0]<lcddev.width&&tp_dev.y[0]<lcddev.height)
 			{	
-				if(tp_dev.x[0]>(lcddev.width-24)&&tp_dev.y[0]<16)Load_Drow_Dialog();//Çå³ý
-				else TP_Draw_Big_Point(tp_dev.x[0],tp_dev.y[0],RED);		//»­Í¼	  			   
+				if(tp_dev.x[0]>(lcddev.width-24)&&tp_dev.y[0]<16)Load_Drow_Dialog();//ï¿½ï¿½ï¿½
+				else TP_Draw_Big_Point(tp_dev.x[0],tp_dev.y[0],RED);		//ï¿½ï¿½Í¼	  			   
 			}
-		}else delay_ms(10);	//Ã»ÓÐ°´¼ü°´ÏÂµÄÊ±ºò 	    
-		if(key==KEY0_PRES)	//KEY0°´ÏÂ,ÔòÖ´ÐÐÐ£×¼³ÌÐò
+		}else delay_ms(10);	//Ã»ï¿½Ð°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Ê±ï¿½ï¿½ 	    
+		if(key==KEY0_PRES)	//KEY0ï¿½ï¿½ï¿½ï¿½,ï¿½ï¿½Ö´ï¿½ï¿½Ð£×¼ï¿½ï¿½ï¿½ï¿½
 		{
-			LCD_Clear(WHITE);	//ÇåÆÁ
-		    TP_Adjust();  		//ÆÁÄ»Ð£×¼ 
+			LCD_Clear(WHITE);	//ï¿½ï¿½ï¿½ï¿½
+		    TP_Adjust();  		//ï¿½ï¿½Ä»Ð£×¼ 
 			TP_Save_Adjdata();	 
 			Load_Drow_Dialog();
 		}
@@ -199,20 +202,20 @@ void rtp_test(void)
 		if(i%20==0)LED0 =!LED0;
 	}
 }
-//µçÈÝ´¥ÃþÆÁ²âÊÔº¯Êý
+//ï¿½ï¿½ï¿½Ý´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ôºï¿½ï¿½ï¿½
 void ctp_test(void)
 {
 	u8 t=0;
 	u8 i=0;	  	    
- 	u16 lastpos[5][2];		//×îºóÒ»´ÎµÄÊý¾Ý 
+ 	u16 lastpos[5][2];		//ï¿½ï¿½ï¿½Ò»ï¿½Îµï¿½ï¿½ï¿½ï¿½ï¿½ 
 	while(1)
 	{
 		tp_dev.scan(0);
-		for(t=0;t<5;t++)   //×î¶à5µã´¥Ãþ
+		for(t=0;t<5;t++)   //ï¿½ï¿½ï¿½5ï¿½ã´¥ï¿½ï¿½
 		{
-			if((tp_dev.sta)&(1<<t))   //ÅÐ¶ÏÊÇ·ñÓÐµã´¥Ãþ
+			if((tp_dev.sta)&(1<<t))   //ï¿½Ð¶ï¿½ï¿½Ç·ï¿½ï¿½Ðµã´¥ï¿½ï¿½
 			{
-                //printf("X×ø±ê:%d,Y×ø±ê:%d\r\n",tp_dev.x[0],tp_dev.y[0]);
+                //printf("Xï¿½ï¿½ï¿½ï¿½:%d,Yï¿½ï¿½ï¿½ï¿½:%d\r\n",tp_dev.x[0],tp_dev.y[0]);
 				if(tp_dev.x[t]<lcddev.width&&tp_dev.y[t]<lcddev.height)
 				{
 					if(lastpos[t][0]==0XFFFF)
@@ -221,12 +224,12 @@ void ctp_test(void)
 						lastpos[t][1] = tp_dev.y[t];
 					}
                     
-					lcd_draw_bline(lastpos[t][0],lastpos[t][1],tp_dev.x[t],tp_dev.y[t],2,POINT_COLOR_TBL[t]);//»­Ïß
+					lcd_draw_bline(lastpos[t][0],lastpos[t][1],tp_dev.x[t],tp_dev.y[t],2,POINT_COLOR_TBL[t]);//ï¿½ï¿½ï¿½ï¿½
 					lastpos[t][0]=tp_dev.x[t];
 					lastpos[t][1]=tp_dev.y[t];
-					if(tp_dev.x[t]>(lcddev.width-24)&&tp_dev.y[t]<20)  //µã»÷ÁËÆÁÄ»ÉÏµÄRST²¿·Ö
+					if(tp_dev.x[t]>(lcddev.width-24)&&tp_dev.y[t]<20)  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä»ï¿½Ïµï¿½RSTï¿½ï¿½ï¿½ï¿½
 					{
-						Load_Drow_Dialog();//Çå³ý
+						Load_Drow_Dialog();//ï¿½ï¿½ï¿½
 					}
 				}
 			}else lastpos[t][0]=0XFFFF;
@@ -241,32 +244,76 @@ void ctp_test(void)
 
 int main(void)
 { 
-	HAL_Init();                   	//³õÊ¼»¯HAL¿â    
-	STM32_Clock_Init(336,25,2,7);  	//ÉèÖÃÊ±ÖÓ,168Mhz
-	delay_init(168);               	//³õÊ¼»¯ÑÓÊ±º¯Êý
-	uart_init(115200);             	//³õÊ¼»¯USART
-	usmart_dev.init(84); 		        //³õÊ¼»¯USMART
-	LED_Init();						          //³õÊ¼»¯LED	
-	KEY_Init();						          //³õÊ¼»¯KEY
-	TIM2_Init();							  // ³õÊ¼»¯TIM2
-	LCD_Init();           			    //³õÊ¼»¯LCD
-	tp_dev.init();				          //´¥ÃþÆÁ³õÊ¼»¯ 
+	HAL_Init();                   	//ï¿½ï¿½Ê¼ï¿½ï¿½HALï¿½ï¿½    
+	STM32_Clock_Init(336,25,2,7);  	//ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½,168Mhz
+	delay_init(168);               	//ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½
+	uart_init(115200);             	//ï¿½ï¿½Ê¼ï¿½ï¿½USART
+	usmart_dev.init(84); 		        //ï¿½ï¿½Ê¼ï¿½ï¿½USMART
+	LED_Init();						          //ï¿½ï¿½Ê¼ï¿½ï¿½LED	
+	KEY_Init();						          //ï¿½ï¿½Ê¼ï¿½ï¿½KEY
+	TIM2_Init();							  // ï¿½ï¿½Ê¼ï¿½ï¿½TIM2
+	LCD_Init();           			    //ï¿½ï¿½Ê¼ï¿½ï¿½LCD
+	tp_dev.init();				          //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¼ï¿½ï¿½ 
 	
 	lv_init();
-	lv_port_disp_init();   // ÄãÒªÊµÏÖµÄÏÔÊ¾½Ó¿Ú
-	lv_port_indev_init();  // ÄãÒªÊµÏÖµÄ´¥¿Ø½Ó¿Ú
+	lv_port_disp_init();   // ï¿½ï¿½ÒªÊµï¿½Öµï¿½ï¿½ï¿½Ê¾ï¿½Ó¿ï¿½
+	lv_port_indev_init();  // ï¿½ï¿½ÒªÊµï¿½ÖµÄ´ï¿½ï¿½Ø½Ó¿ï¿½
 
 	setup_ui(&guider_ui);
 	events_init(&guider_ui);
 
+    uint32_t time = 0;
+
+    uint8_t AD7793_ID = 0;
+    float TC_voltage = 0;
+    float PT100_temp = 0;
+    float temp = 0;
+    double pt100Voltage = 0;
+    double voltage = 0;
+    double temperature = 0;
+    
+    GPIO_Configuration();
+
+    AD7793init();
+    AD7793_ID=Get_AD7793_ID();//Read AD7793 ID(0xXB)
+    
+    printf("AD7793_ID = %d",AD7793_ID);
 	
-    while (1)                                            // whileº¯ÊýËÀÑ­»·£¬²»ÄÜÈÃmainº¯ÊýÔËÐÐ½áÊø£¬·ñÔò»á²úÉúÓ²¼þ´íÎó
-    {                                                  
+    while (1)                                        {                                                  
         lv_task_handler();  
-		HAL_Delay(5);//LVGLÊÂÎï´¦Àí£¬±ØÐë¼Óµ½Ñ­»·ÖÐ
+		HAL_Delay(5);
+        time += 5;
+
+        if (time == 500){
+            time = 0;
+
+            AD7793_GetPT100_init();
+            HAL_Delay(5);
+            PT100_temp = Get_PT100();//è¯»å–PT100æ¸©åº¦
+            
+            pt100Voltage = kTypeTemperature2Voltage(PT100_temp);
+            HAL_Delay(5);
+            
+            AD7793_CS_L;
+            AD7793_thermocouple_init();
+            HAL_Delay(5);
+            TC_voltage = Get_thermocouple_Value();//è¯»å–çƒ­ç”µåŠ¨åŠ¿
+            HAL_Delay(5);
+            
+            voltage = TC_voltage + pt100Voltage;
+            temperature = kTypeVoltage2Temperature(voltage);
+            printf("PT100-temperature = %0.2f  k-temperature = %f\n",PT100_temp,temperature);
+            char buf[200] = {0};
+            sprintf(buf, "PT100-Temperature: %0.2f C", PT100_temp);
+            lv_label_set_text(guider_ui.screen_label_1, buf);
+
+            sprintf(buf, "K-Temperature: %0.2f C", temperature);
+            lv_label_set_text(guider_ui.screen_label_2, buf);
+            LED0 = !LED0;  
+        }
 	}
 	
-	//if(tp_dev.touchtype&0X80)ctp_test();//µçÈÝÆÁ²âÊÔ
-	//else rtp_test(); 					//µç×èÆÁ²âÊÔ  
+	//if(tp_dev.touchtype&0X80)ctp_test();//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+	//else rtp_test(); 					//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½  
 }
 

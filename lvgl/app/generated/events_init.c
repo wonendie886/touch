@@ -32,7 +32,7 @@ static void screen_btn_4_event_handler (lv_event_t *e)
 
 void events_init_screen (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->screen_btn_4, screen_btn_4_event_handler, LV_EVENT_ALL, ui);
+    //lv_obj_add_event_cb(ui->screen_btn_4, screen_btn_4_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_1_btn_1_event_handler (lv_event_t *e)
