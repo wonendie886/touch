@@ -21,7 +21,7 @@ void events_init(lv_ui *ui);
 void events_init_screen(lv_ui *ui);
 void events_init_screen_1(lv_ui *ui);
 void show_multiple_buttons(lv_ui *ui, lv_obj_t *target_btn, int count);
-void stop_spinner(void);
+// void stop_spinner(void);
 
 extern  lv_anim_t a;
 

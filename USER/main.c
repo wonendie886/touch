@@ -41,6 +41,7 @@ bool isGrindRunning = false;
 bool isGrindMode = MODE_TIME;
 bool timerStart = false;
 uint32_t resetTime = 0;
+int runtime = 0;
 
 CanMsg can_msg = {0};
 
@@ -114,9 +115,12 @@ void set_grinding_label_text_by_target_with_value(int target, int value)
 {
     char buffer[32];
     if(isGrindMode == MODE_TIME){
-        sprintf(buffer, "%0.1fs", (float)value/10.0f);
+        sprintf(buffer, "%0.1f", (float)value/10.0f);
+        lv_label_set_text(guider_ui.screen_label_9, "s");
+ 
     }else{
-        sprintf(buffer, "%0.1fg", (float)value/10.0f);
+        sprintf(buffer, "%0.1f", (float)value/10.0f);
+        lv_label_set_text(guider_ui.screen_label_9, "g");
     }
     
     lv_label_set_text(guider_ui.screen_label_8, buffer);
@@ -168,8 +172,6 @@ extern MBRTUMaterTypeDef MbRtu;
 extern uint32_t rxCount;
 extern uint8_t RxBuf[100];
 extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
-extern uint16_t start_flag;              // 按钮4的启动标志位
-
 
 SemaphoreHandle_t xSharedMutex;
 /// 32K offset
@@ -361,14 +363,16 @@ void vGrindingControlTask(void *pvParameters) {
     for (;;) {
 
         if (isGrindMode == MODE_TIME) {
+            // printf(" m start_flag == %d\r\n",start_flag);
             if(start_flag == STATUS_IN_GRIND_START) {
+                // printf("1111111111111111111111111111111111111");
                 sendStartCmd();
             } else {
                 /// ui status stop
                 sendStopCmd();
 
                 /// check resetTime == 3S, then send modbus reset cmd, then resetTime = 0 change png to start,update ui time = 0,isGrindProgress = false
-                if(resetTime == 3000){
+                if(start_flag == STATUS_IN_GRIND_SUSPEND && resetTime >= 2000){
                     int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 1, 100);
                     if (ret != 0){
                         printf("ret == %d\r\n",ret);
@@ -376,15 +380,19 @@ void vGrindingControlTask(void *pvParameters) {
                     resetTime = 0 ; 
                     self_timer_ms = 0;
                     set_all_grinding_labels_text("0");
+                    
+                    runtime = 0;
+                    start_flag = STATUS_IN_GRIND_STOP;
 
                     isGrindProgress = false;
                     container2_status.end_flag = 1;
+                    // printf("超时置1\n");
                     container2_status.hide_counter = 0; 
                     show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
                 }
                 
             }
-
+            
             if (isGrindProgress) {
                 ///grind work progress
                 /// read modbus data,get data
@@ -397,12 +405,14 @@ void vGrindingControlTask(void *pvParameters) {
                         target_ms = GrindSetData.time_3;
                     }
                     printf("register_values[0] == %d\n",register_values[0]);
-                     /// check grind motor running status
-                    /// running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
+                    //  check grind motor running status
+                    //  running is false,,  check running time == target time（time mode）,then change png to start,update ui time = 0,isGrindProgress = false
                     if (register_values[0] == 1) {
+                        runtime += 160;
+                        // printf("runtime = %d\n",runtime);
                         if (!isAniRunning){
                             isAniRunning = true;
-                            lv_anim_start(&a);
+                            // 启动动画
                         }
                         // 上升沿检测：从 0 -> 1 时启动/复位自计时器
                         if (last_register_running == 0) {
@@ -435,36 +445,46 @@ void vGrindingControlTask(void *pvParameters) {
                         /// update ui
                         
                     } else {
+                        // printf("runtime = %d\n",runtime);
+                        if (runtime >= 5000){
+                            start_flag = STATUS_IN_GRIND_STOP;
+                            runtime = 0;
+                            }
                         if (isAniRunning) {
                             isAniRunning = false;
-                            stop_spinner();
+                            // stop_spinner();
                         }
                         isGrindRunning = false;
-                        self_timer_ms = register_values[1];
+                        // self_timer_ms = register_values[1];
                         printf("Currenttargetime = %d,register_values[1] = %d\n",Currenttargetime,register_values[1]);                        
-                        if(register_values[1] == 0){  
-                        /* 停止时：若检测到刚从 1 -> 0（下位机结束），立即显示设定的 GrindSetData.time_1；随后重置自计时器，确保下次从 0 开始累加。 */
-                            if (last_register_running == 1) {
-                                // 下降沿：下位机结束，显示你设置的最终时间（毫秒转 deciseconds）
-                                uint16_t display_value_ds = (uint16_t)(target_ms / 100u);
-                                set_grinding_label_text_by_target_with_value(grinding_target, display_value_ds);
+                        if(register_values[1] == 0){
+                            if(start_flag == STATUS_IN_GRIND_SUSPEND){
+                                isGrindProgress = false;
+                            }else{
+                                /* 停止时：若检测到刚从 1 -> 0（下位机结束），立即显示设定的 GrindSetData.time_1；随后重置自计时器，确保下次从 0 开始累加。 */
+                                if (last_register_running == 1) {
+                                    // 下降沿：下位机结束，显示你设置的最终时间（毫秒转 deciseconds）
+                                    uint16_t display_value_ds = (uint16_t)(target_ms / 100u);
+                                    set_grinding_label_text_by_target_with_value(grinding_target, display_value_ds);
 
-                                // 时间模式正常结束，设置标志位
-                                container2_status.end_flag = 1;
-                                container2_status.hide_counter = 0; // 重置计数器
+                                    // 时间模式正常结束，设置标志位
+                                    container2_status.end_flag = 1;
+                                    // printf("结束置1\n");
+                                    container2_status.hide_counter = 0; // 重置计数器
 
-                            } 
-                            // 重置：保证下次启动从 0 开始累加
-                            self_timer_active = false;
-                            self_timer_ms = 0;      
+                                } 
+                                // 重置：保证下次启动从 0 开始累加
+                                self_timer_active = false;
+                                self_timer_ms = 0;      
 
-                            isGrindProgress = false;
-                            start_flag = STATUS_IN_GRIND_STOP;
+                                isGrindProgress = false;
+                                start_flag = STATUS_IN_GRIND_STOP;
+                                printf(" stop start_flag = %d\r\n",start_flag);
+                            }
                             ///@TODO change png to start
                             show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
                         }
                     }
-
                     // 保存上一次寄存器状态用于下一轮上升沿检测
                     last_register_running = register_values[0];
                 }else{
@@ -486,7 +506,7 @@ void vGrindingControlTask(void *pvParameters) {
                 if (weight_value[0] == 1) {
                     if (!isAniRunning){
                         isAniRunning = true;
-                        lv_anim_start(&a);
+                        // lv_anim_start(&a);
                     }
                     isGrindRunning = true;
                     /// update ui
@@ -498,7 +518,7 @@ void vGrindingControlTask(void *pvParameters) {
                 }else{
                     if (isAniRunning) {
                         isAniRunning = false;
-                        stop_spinner();
+                        // stop_spinner();
                     }
                     isGrindRunning = false;                    
                     set_grinding_label_text_by_target_with_value(grinding_target, weight_value[1]);   
@@ -506,6 +526,7 @@ void vGrindingControlTask(void *pvParameters) {
                     // 只有在从运行状态变为停止状态时才设置结束标志
                     if (last_weight_running == 1) {
                         container2_status.end_flag = 1;
+                        // printf("重量置1\n");
                         container2_status.hide_counter = 0; // 重置计数器
                     }
                 }
@@ -562,10 +583,12 @@ void vGrindingControlTask(void *pvParameters) {
         }
 
         time += 100;
-        
+
+        // printf("container2_status.end_flag = %d\r\n",container2_status.end_flag);
         // 检查是否需要隐藏容器2（只有在结束标志被设置且容器当前可见时才处理）
         if (container2_status.end_flag == 1 && container2_status.is_visible) {
             container2_status.hide_counter += 150; // 每次循环增加100ms
+            printf("Container2 hide counter: %d\n", container2_status.hide_counter);
             if (container2_status.hide_counter >= 2000) {
                 lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                 container2_status.is_visible = 0;
@@ -573,8 +596,7 @@ void vGrindingControlTask(void *pvParameters) {
                 container2_status.hide_counter = 0;
                 printf("Container2 hidden after normal completion\n");
             }
-        }
-        
+        }  
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

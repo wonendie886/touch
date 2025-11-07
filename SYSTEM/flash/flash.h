@@ -34,11 +34,14 @@ enum _STEP_MODE{
 
 enum _GRIND_STATUS{
     STATUS_IN_GRIND_STOP = 0,
+    STATUS_IN_GRIND_SUSPEND,
     STATUS_IN_GRIND_START,
 };
 
 
 extern bool isGrindMode;
+extern uint32_t resetTime;
+extern int runtime;
 
 /* 根据你的芯片型号定义Flash大小和起始地址 */
 #define STM32_FLASH_BASE        0x08000000UL    /* STM32 Flash的起始地址 */

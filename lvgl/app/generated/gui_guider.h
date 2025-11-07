@@ -65,6 +65,10 @@ typedef struct
 	lv_obj_t *screen_label_10;
 	lv_obj_t *screen_cont_2;
 	lv_obj_t *screen_label_8;
+	lv_obj_t *screen_btn_suspend;
+	lv_obj_t *screen_btn_suspend_label;
+	lv_obj_t *screen_btn_cancel;
+	lv_obj_t *screen_btn_cancel_label;
 	lv_obj_t *screen_1;
 	lv_obj_t *screen_img_13;
 	bool screen_1_del;
@@ -139,6 +143,7 @@ LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_25)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_18)
+LV_FONT_DECLARE(lv_font_montserratMedium_50)
 
 
 #ifdef __cplusplus

@@ -338,10 +338,26 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Press the button to directly control the motor via Modbus protocol.
-        if(start_flag == STATUS_IN_GRIND_STOP){
+        start_flag = STATUS_IN_GRIND_START;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_btn_suspend_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //Press the button to directly control the motor via Modbus protocol.
+        if(start_flag == STATUS_IN_GRIND_SUSPEND){
             start_flag = STATUS_IN_GRIND_START;
+            // printf("sus start_flag == %d\n",start_flag);
         } else {
-            start_flag = STATUS_IN_GRIND_STOP;
+            start_flag = STATUS_IN_GRIND_SUSPEND;
         }
         break;
     }
@@ -349,6 +365,27 @@ static void screen_btn_4_event_handler (lv_event_t *e)
         break;
     }
 }
+
+static void screen_btn_cancel_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        start_flag = STATUS_IN_GRIND_STOP;
+        runtime = 0;
+        resetTime += 3000;
+        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 1, 100);
+        if (ret != 0){
+            printf("ret == %d\r\n",ret);
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 
 static void screen_btn_11_event_handler (lv_event_t *e)
 {
@@ -390,6 +427,9 @@ static void screen_btn_11_event_handler (lv_event_t *e)
         printf("isGrindMode: %d\n", isGrindMode);
 
         lv_obj_add_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_suspend, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_cancel, LV_OBJ_FLAG_HIDDEN);
+
         int retdata = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
         if(retdata != 0){
             printf("retdata == %d\n",retdata);
@@ -429,6 +469,7 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         lv_obj_clear_flag(guider_ui.screen_label_3, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_11, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_label_12, LV_OBJ_FLAG_HIDDEN);
+
         
         lv_obj_add_flag(guider_ui.screen_label_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_label_6, LV_OBJ_FLAG_HIDDEN);
@@ -443,6 +484,8 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         printf("isGrindMode: %d\n", isGrindMode);
 
         lv_obj_clear_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_suspend, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_cancel, LV_OBJ_FLAG_HIDDEN);
         int retdata = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
         if (retdata != 0)
         {
@@ -621,6 +664,8 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_13, screen_btn_13_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_14, screen_btn_14_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_15, screen_btn_15_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_suspend, screen_btn_suspend_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_cancel, screen_btn_cancel_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void screen_1_btn_1_event_handler (lv_event_t *e)
