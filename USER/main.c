@@ -446,7 +446,7 @@ void vGrindingControlTask(void *pvParameters) {
                         
                     } else {
                         // printf("runtime = %d\n",runtime);
-                        if (runtime >= 5000){
+                        if (runtime >= Currenttargetime){
                             start_flag = STATUS_IN_GRIND_STOP;
                             runtime = 0;
                             }
@@ -588,8 +588,8 @@ void vGrindingControlTask(void *pvParameters) {
         // 检查是否需要隐藏容器2（只有在结束标志被设置且容器当前可见时才处理）
         if (container2_status.end_flag == 1 && container2_status.is_visible) {
             container2_status.hide_counter += 150; // 每次循环增加100ms
-            printf("Container2 hide counter: %d\n", container2_status.hide_counter);
-            if (container2_status.hide_counter >= 2000) {
+            // printf("Container2 hide counter: %d\n", container2_status.hide_counter);
+            if (container2_status.hide_counter >= 3000) {
                 lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);
                 container2_status.is_visible = 0;
                 container2_status.end_flag = 0;
