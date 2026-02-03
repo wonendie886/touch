@@ -7,6 +7,7 @@
 
 void modbus_init(void);
 void modbus_test(void);
+uint32_t sendData(const void* buf, uint32_t len);
 
 
 extern MBRTUMaterTypeDef MbRtu;

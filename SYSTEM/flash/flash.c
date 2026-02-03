@@ -3,6 +3,7 @@
 #include "FreeRTOS.h"
 #include <stdio.h>
 #include "stdint.h"
+#include "protocol.h"
 
 GrindData GrindSetData ;
 

@@ -17,7 +17,7 @@
 #include "task.h"
 #include "gt911.h"
 #include "mbrtu_master.h"
-#include "modbus.h"
+#include "protocol.h"
 #include "can.h" 
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 #include "main.h"
@@ -28,9 +28,12 @@ void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
 
+void vMainTask(void *pvParameters);
+
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
 TaskHandle_t xGrindingControlTaskHandle = NULL; 
+TaskHandle_t xMainTaskHandle = NULL; 
 lv_ui guider_ui;
 
 
@@ -175,7 +178,7 @@ extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 
 
 SemaphoreHandle_t xSharedMutex;
 /// 32K offset
-#define APP_FLASH_OFFSET 0x8000
+#define APP_FLASH_OFFSET 0x0000
 int main(void)
 { 
     
@@ -196,9 +199,9 @@ int main(void)
     MX_USART6_UART_Init(); 
     
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
-    modbus_init();
 
-    gt911_init();
+    modbus_init();
+    // gt911_init();
 
     flashDataInit();
     
@@ -206,17 +209,36 @@ int main(void)
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
 
-    xSharedMutex = xSemaphoreCreateMutex();
-    xSemaphoreGive(xSharedMutex);
-    
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
-    xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+    // xSharedMutex = xSemaphoreCreateMutex();
+    // xSemaphoreGive(xSharedMutex);
+	// xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
+    xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
 	vTaskStartScheduler();  
 
 
     while (1)                                            
     {           
 	}
+}
+
+static uint8_t buf[FRAME_MAX_LEN];
+static struct Protocol c;
+struct GrindData grindData;
+void vMainTask(void *pvParameters)
+{
+    int len = 0;
+    grindData.mode = MODE_WEIGHT;
+    grindData.target = 180; ///18.0 g
+    grindData.cmd_number = 0;
+    grindData.cmd_state = CMD_STATE_IDLE;
+
+    len = setGrindCmdType(buf, &grindData);
+    while (1){
+        sendData(buf, len);
+        printf("send data");
+        vTaskDelay(pdMS_TO_TICKS(100));
+    }
 }
 
 void vLvglTaskFunction(void *pvParameters) {
@@ -294,7 +316,7 @@ extern uint16_t Currenttargetime;
 // 研磨控制任务
 container2_status_t container2_status = {0, 0, 0};
 
-
+#if 0
 void sendStartCmd()
 {   
     if (!isGrindRunning) {
@@ -600,4 +622,4 @@ void vGrindingControlTask(void *pvParameters) {
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
-
+#endif

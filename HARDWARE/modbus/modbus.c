@@ -9,7 +9,6 @@ static void mutex_unlock(void);
 static void timerStop(void);
 static void timerStart(void);
 static void delayms(uint32_t nms);
-static uint32_t sendData(const void* buf, uint32_t len);
 
 
 UART_HandleTypeDef huart4;
@@ -97,7 +96,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     if(huart->Instance == UART4)
     {
         LED0=!LED0;
-        MBRTUMasterRecvByteISRCallback(&MbRtu,rx_data);
+        //MBRTUMasterRecvByteISRCallback(&MbRtu,rx_data);
         HAL_UART_Receive_IT(&huart4, &rx_data, 1);
     }
 }
@@ -140,7 +139,7 @@ void TIM3_IRQHandler(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim->Instance == TIM3) {
-        MBRTUMasterTimerISRCallback(&MbRtu);
+        //MBRTUMasterTimerISRCallback(&MbRtu);
     } else if(htim->Instance == TIM2) {
         HAL_IncTick();
     }
@@ -149,8 +148,6 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void modbus_init(void)
 {
     uart4_init();
-
-    timer3_init();	
 }
 
 extern SemaphoreHandle_t xSharedMutex;
@@ -182,7 +179,7 @@ static void delayms(uint32_t nms)
     vTaskDelay(pdMS_TO_TICKS(nms));
 }
 
-static uint32_t sendData(const void* buf, uint32_t len)
+uint32_t sendData(const void* buf, uint32_t len)
 {
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
     
@@ -193,45 +190,4 @@ static uint32_t sendData(const void* buf, uint32_t len)
 
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
     return len;
-}
-
-void modbus_test(void)
-{
-
-    int ret = 0;
-    uint16_t usBuf[10] = {0};
-     ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
-    HAL_Delay(100);
-//    // 写多个寄存器
-//    memset(usBuf, 0XFF, 20);
-//    ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 1, 0, 8, usBuf, 500);
-//    printf(" write regs %s. \r\n", ret < 0 ? "failed" : "ok");
-
-//    HAL_Delay(100);
-
-
-//    ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
-//    printf(" read hold regs %s. \r\n", ret < 0 ? "failed" : "ok");
-//    if (ret >= 0){
-//        for(int i = 0; i < 4; i++)
-//            printf("reg[%d] = %d \r\n", i, usBuf[i]);
-//    }
-
-//    memset(usBuf, 0XBB, 20);
-//    ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 1, 0, 2, usBuf, 500);
-//    printf(" write regs %s. \r\n", ret < 0 ? "failed" : "ok");
-
-//    HAL_Delay(100);
-//    ret = MBRTUMasterReadHoldingRegisters(&MbRtu, 1, 0, 4, 100, usBuf);
-//    printf(" read hold regs %s. \r\n", ret < 0 ? "failed" : "ok");
-//    if (ret >= 0){
-//        for(int i = 0; i < 4; i++)
-//            printf("reg[%d] = %d \r\n", i, usBuf[i]);
-//    }
-//    HAL_Delay(100);
-//    
-//    
-//    ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 1, 100);
-
-//    printf(" 1111111 write regs %s. \r\n", ret < 0 ? "failed" : "ok");
 }
