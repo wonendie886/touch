@@ -21,6 +21,7 @@
 #include "can.h" 
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 #include "main.h"
+#include "rtc.h"
 
 extern volatile uint16_t Currenttargeweight;
 
@@ -197,11 +198,29 @@ int main(void)
 	TIM2_Init();	
 	//KEY_Init();
     MX_USART6_UART_Init(); 
+
+    ISL1208_Init();
+
+    ISL1208_Time_t current_time;
+    ISL1208_Time_t time_read;
+    // // 2. 设置时间
+    // current_time.seconds = 30;
+    // current_time.minutes = 55;
+    // current_time.hours = 15;    // 14:45:30
+    // current_time.date = 4;
+    // current_time.month = 2;
+    // current_time.year = 26;     // 2023年
+    // current_time.day = 7;       // 星期天
+    // current_time.format_12h = 0; // 24小时制
+    
+    // ISL1208_SetTime(&current_time);
+
+    // 3. 读取时间
     
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 
     modbus_init();
-    gt911_init();
+    //gt911_init();
 
     flashDataInit();
     
@@ -209,9 +228,9 @@ int main(void)
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
 
-    xSharedMutex = xSemaphoreCreateMutex();
-    xSemaphoreGive(xSharedMutex);
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    //xSharedMutex = xSemaphoreCreateMutex();
+    //xSemaphoreGive(xSharedMutex);
+	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
     xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
 	vTaskStartScheduler();  
@@ -234,9 +253,23 @@ void vMainTask(void *pvParameters)
     grindData.cmd_state = CMD_STATE_IDLE;
 
     len = setGrindCmdType(buf, &grindData);
+
+    ISL1208_Time_t time_read;
+
+    // 3. 读取时间
+    
+    // printf("Time: %02d:%02d:%02d\n", 
+    //        time_read.hours, 
+    //        time_read.minutes, 
+    //        time_read.seconds);
     while (1){
-        sendData(buf, len);
-        printf("send data");
+        ISL1208_GetTime(&time_read);
+        printf("Time: %02d:%02d:%02d\n", 
+           time_read.hours, 
+           time_read.minutes, 
+           time_read.seconds);
+        // ISL1208_test();
+        // sendData(buf, len);
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
