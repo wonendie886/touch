@@ -178,7 +178,7 @@ extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 
 
 SemaphoreHandle_t xSharedMutex;
 /// 32K offset
-#define APP_FLASH_OFFSET 0x0000
+#define APP_FLASH_OFFSET 0x8000
 int main(void)
 { 
     
@@ -201,7 +201,7 @@ int main(void)
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 
     modbus_init();
-    // gt911_init();
+    gt911_init();
 
     flashDataInit();
     
@@ -209,9 +209,9 @@ int main(void)
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
 
-    // xSharedMutex = xSemaphoreCreateMutex();
-    // xSemaphoreGive(xSharedMutex);
-	// xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    xSharedMutex = xSemaphoreCreateMutex();
+    xSemaphoreGive(xSharedMutex);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
     xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
 	vTaskStartScheduler();  
