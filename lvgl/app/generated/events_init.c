@@ -18,6 +18,9 @@
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
 #endif
+
+extern struct GrindRealData GrindDataStr;
+
 static int Textselectionflag = 0;
 volatile int grinding_target = 1;
 volatile uint16_t Currenttargetime = 0;
@@ -338,6 +341,16 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     {
         //Press the button to directly control the motor via Modbus protocol.
         start_flag = STATUS_IN_GRIND_START;
+
+        if(grinding_target == 1) {
+            GrindDataStr.data.target = GrindSetData.time_1;
+        } else {
+            GrindDataStr.data.target = GrindSetData.time_3;
+        } 
+        GrindDataStr.data.cmd_number++;
+        GrindDataStr.data.cmd_state = CMD_STATE_REQUEST;
+        
+        printf("start grind \r\n");
         break;
     }
     default:
@@ -354,9 +367,11 @@ static void screen_btn_suspend_event_handler (lv_event_t *e)
         //Press the button to directly control the motor via Modbus protocol.
         if(start_flag == STATUS_IN_GRIND_SUSPEND){
             start_flag = STATUS_IN_GRIND_START;
+            printf("start contiune grind \r\n");
             // printf("sus start_flag == %d\n",start_flag);
         } else {
             start_flag = STATUS_IN_GRIND_SUSPEND;
+            printf("start pause \r\n");
         }
         break;
     }

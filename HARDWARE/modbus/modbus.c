@@ -3,6 +3,7 @@
 #include "flash.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
+#include "protocol.h"
 
 static void mutex_lock(void);
 static void mutex_unlock(void);
@@ -90,13 +91,60 @@ void UART4_IRQHandler(void)
     HAL_UART_IRQHandler(&huart4);
 }
 
+static uint8_t rFrameBuf[FRAME_MAX_LEN];
+
+volatile uint8_t dataIsReady = 0;
+
+static uint8_t frameLen = 0;
+static uint8_t rxStatus = 0;
+static uint8_t recivedCount = 0;
+static uint8_t redata = 0;
+
+enum _STATUS{
+    RX_NULL = 0,
+    RX_HEAD,
+    RX_RECIVE_LEN,
+    RX_ING,
+};
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart->Instance == UART4)
     {
-        LED0=!LED0;
-        //MBRTUMasterRecvByteISRCallback(&MbRtu,rx_data);
+        redata = rx_data;
+        if (dataIsReady == 0) {
+            if (rxStatus == RX_NULL){
+                if (redata == FRAME_HEAD_1){
+                    recivedCount = 0;
+                    rxStatus = RX_HEAD;
+                    rFrameBuf[recivedCount++] = redata;
+                }
+            } else if (rxStatus == RX_HEAD) {
+                if (redata == FRAME_HEAD_2){
+                    rFrameBuf[recivedCount++] = redata;
+                    rxStatus = RX_RECIVE_LEN;
+                } else {
+                    rxStatus = RX_NULL;
+                }
+            } else if (rxStatus == RX_RECIVE_LEN) {
+				rFrameBuf[recivedCount++] = redata;
+				frameLen = redata;
+				rxStatus = RX_ING;
+			} else if(rxStatus == RX_ING) {
+
+				if (recivedCount >= FRAME_MAX_LEN){
+					rxStatus = RX_NULL;
+				} else {
+					rFrameBuf[recivedCount++] = redata;
+
+					if (recivedCount == frameLen ){
+						dataIsReady = 1; 
+						rxStatus = RX_NULL;
+					}
+				}
+			}
+		}
+
         HAL_UART_Receive_IT(&huart4, &rx_data, 1);
     }
 }

@@ -31,12 +31,15 @@ void vGrindingControlTask(void *pvParameters);
 
 void vMainTask(void *pvParameters);
 
+struct GrindRealData GrindDataStr;
+
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
 TaskHandle_t xGrindingControlTaskHandle = NULL; 
 TaskHandle_t xMainTaskHandle = NULL; 
 lv_ui guider_ui;
 
+//// 新增加变量，放在此行上面 ////
 
 volatile uint8_t flash_request_flag = 0;
 flash_store_t flash_write_data;
@@ -220,7 +223,7 @@ int main(void)
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 
     modbus_init();
-    //gt911_init();
+    gt911_init();
 
     flashDataInit();
     
@@ -232,7 +235,7 @@ int main(void)
     xSemaphoreGive(xSharedMutex);
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-    //xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
+    xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -243,34 +246,31 @@ int main(void)
 
 static uint8_t buf[FRAME_MAX_LEN];
 static struct Protocol c;
-struct GrindData grindData;
+
+extern volatile uint8_t dataIsReady;
 void vMainTask(void *pvParameters)
 {
     int len = 0;
-    grindData.mode = MODE_WEIGHT;
-    grindData.target = 180; ///18.0 g
-    grindData.cmd_number = 0;
-    grindData.cmd_state = CMD_STATE_IDLE;
-
-    len = setGrindCmdType(buf, &grindData);
+    GrindDataStr.data.mode = MODE_TIME;
+    GrindDataStr.data.target = 3000; ///ms
+    GrindDataStr.data.cmd_number = 0;
+    GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
 
     ISL1208_Time_t time_read;
 
-    // 3. 读取时间
-    
-    // printf("Time: %02d:%02d:%02d\n", 
-    //        time_read.hours, 
-    //        time_read.minutes, 
-    //        time_read.seconds);
+    //读取时间
+    ISL1208_GetTime(&time_read);
+    printf("Time: %02d:%02d:%02d\n", 
+        time_read.hours, 
+        time_read.minutes, 
+        time_read.seconds);
     while (1){
-        ISL1208_GetTime(&time_read);
-        printf("Time: %02d:%02d:%02d\n", 
-           time_read.hours, 
-           time_read.minutes, 
-           time_read.seconds);
-        // ISL1208_test();
-        // sendData(buf, len);
-        vTaskDelay(pdMS_TO_TICKS(1000));
+        len = setGrindCmdType(buf, &GrindDataStr.data);
+        sendData(buf, len);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        if (dataIsReady){
+            //printf("dataIsReady \r\n");
+        }
     }
 }
 
@@ -301,7 +301,7 @@ void vLvglTaskFunction(void *pvParameters) {
         lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); 
 
         lv_task_handler();
-printf("aaaa");
+
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }

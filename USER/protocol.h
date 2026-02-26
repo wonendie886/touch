@@ -94,6 +94,13 @@ struct GrindData
 	uint8_t cmd_number;
 };
 
+struct GrindRealData
+{
+	struct GrindData data;
+	uint16_t time; //uint: ms
+	uint16_t weight; //uint: 0.1g
+};
+
 
 struct Frame{
 	uint16_t head;
