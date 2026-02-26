@@ -271,20 +271,20 @@ void vMainTask(void *pvParameters)
         len = setGrindCmdType(buf, &GrindDataStr.data);
         sendData(buf, len);
         timeover = 0;
-        while (!dataIsReady && timeover < 5) {
+        while (!dataIsReady && timeover < 20) {
             timeover++;
             vTaskDelay(pdMS_TO_TICKS(1));
         }
-        if (timeover >= 5) {
+        if (timeover >= 20) {
             printf("timeover line = %d\r\n", __LINE__);
         }
         
         if (dataIsReady){
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
-            printf("1 target = %d recivedCount = %d dataIsReady = %d\r\n",c.frame.target,recivedCount,dataIsReady);
+            // printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
-        vTaskDelay(pdMS_TO_TICKS(50));
+        vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
 

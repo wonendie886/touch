@@ -21,7 +21,7 @@ void uart4_init(void)
     huart4.Init.Parity = UART_PARITY_NONE;
     huart4.Init.Mode = UART_MODE_TX_RX; 
     huart4.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    huart4.Init.OverSampling = UART_OVERSAMPLING_16;
+    huart4.Init.OverSampling = UART_OVERSAMPLING_8;
     
     if (HAL_UART_Init(&huart4) != HAL_OK){
         printf("uart4 init error");
