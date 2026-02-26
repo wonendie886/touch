@@ -205,8 +205,8 @@ int main(void)
     ISL1208_Time_t time_read;
     // // 2. 设置时间
     // current_time.seconds = 30;
-    // current_time.minutes = 55;
-    // current_time.hours = 15;    // 14:45:30
+    // current_time.minutes = 43;
+    // current_time.hours = 16;    // 14:45:30
     // current_time.date = 4;
     // current_time.month = 2;
     // current_time.year = 26;     // 2023年
@@ -228,11 +228,11 @@ int main(void)
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
 
-    //xSharedMutex = xSemaphoreCreateMutex();
-    //xSemaphoreGive(xSharedMutex);
-	//xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    xSharedMutex = xSemaphoreCreateMutex();
+    xSemaphoreGive(xSharedMutex);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-    xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
+    //xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -270,7 +270,7 @@ void vMainTask(void *pvParameters)
            time_read.seconds);
         // ISL1208_test();
         // sendData(buf, len);
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(1000));
     }
 }
 
@@ -301,7 +301,7 @@ void vLvglTaskFunction(void *pvParameters) {
         lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); 
 
         lv_task_handler();
-
+printf("aaaa");
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
