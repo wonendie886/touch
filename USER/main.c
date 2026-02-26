@@ -16,7 +16,6 @@
 #include "semphr.h"
 #include "task.h"
 #include "gt911.h"
-#include "mbrtu_master.h"
 #include "protocol.h"
 #include "can.h" 
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
@@ -174,10 +173,6 @@ int fputc(int ch, FILE *f)
 }
 
 const char version[12] = "MRC_V1.0.0";
-extern UART_HandleTypeDef huart4;
-extern MBRTUMaterTypeDef MbRtu;
-extern uint32_t rxCount;
-extern uint8_t RxBuf[100];
 extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
 
 SemaphoreHandle_t xSharedMutex;
@@ -222,7 +217,7 @@ int main(void)
     
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 
-    modbus_init();
+    uart4_init();
     gt911_init();
 
     flashDataInit();
@@ -233,6 +228,11 @@ int main(void)
 
     xSharedMutex = xSemaphoreCreateMutex();
     xSemaphoreGive(xSharedMutex);
+    /*
+    extern SemaphoreHandle_t xSharedMutex;
+    xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(100));
+    xSemaphoreGive(xSharedMutex);
+    */
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
     xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
@@ -248,9 +248,12 @@ static uint8_t buf[FRAME_MAX_LEN];
 static struct Protocol c;
 
 extern volatile uint8_t dataIsReady;
+extern uint8_t rFrameBuf[FRAME_MAX_LEN];
+extern uint8_t recivedCount;
 void vMainTask(void *pvParameters)
 {
     int len = 0;
+    int timeover = 0;
     GrindDataStr.data.mode = MODE_TIME;
     GrindDataStr.data.target = 3000; ///ms
     GrindDataStr.data.cmd_number = 0;
@@ -267,10 +270,21 @@ void vMainTask(void *pvParameters)
     while (1){
         len = setGrindCmdType(buf, &GrindDataStr.data);
         sendData(buf, len);
-        vTaskDelay(pdMS_TO_TICKS(100));
-        if (dataIsReady){
-            //printf("dataIsReady \r\n");
+        timeover = 0;
+        while (!dataIsReady && timeover < 5) {
+            timeover++;
+            vTaskDelay(pdMS_TO_TICKS(1));
         }
+        if (timeover >= 5) {
+            printf("timeover line = %d\r\n", __LINE__);
+        }
+        
+        if (dataIsReady){
+            dataIsReady = 0;  
+            getProtocol(rFrameBuf,&c);
+            printf("1 target = %d recivedCount = %d dataIsReady = %d\r\n",c.frame.target,recivedCount,dataIsReady);
+        }
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 

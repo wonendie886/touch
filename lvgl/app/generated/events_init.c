@@ -350,7 +350,7 @@ static void screen_btn_4_event_handler (lv_event_t *e)
         GrindDataStr.data.cmd_number++;
         GrindDataStr.data.cmd_state = CMD_STATE_REQUEST;
         
-        printf("start grind \r\n");
+        //printf("start grind \r\n");
         break;
     }
     default:

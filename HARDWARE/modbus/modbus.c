@@ -5,26 +5,8 @@
 #include "semphr.h"
 #include "protocol.h"
 
-static void mutex_lock(void);
-static void mutex_unlock(void);
-static void timerStop(void);
-static void timerStart(void);
-static void delayms(uint32_t nms);
-
 
 UART_HandleTypeDef huart4;
-TIM_HandleTypeDef htim3;
-
-MBRTUMaterTypeDef MbRtu =
-{
-    .delayms                      = delayms,
-    .timerStart                   = timerStart,
-    .timerStop                    = timerStop,
-    .sendData                     = sendData,
-
-    .lock                         = mutex_lock,
-    .unlock                       = mutex_unlock,
-};
 
 static uint8_t rx_data = 0;
 
@@ -42,7 +24,7 @@ void uart4_init(void)
     huart4.Init.OverSampling = UART_OVERSAMPLING_16;
     
     if (HAL_UART_Init(&huart4) != HAL_OK){
-        
+        printf("uart4 init error");
     }
 
     ///enable receive interrupt
@@ -80,7 +62,7 @@ void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
 
         HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
 
-        HAL_NVIC_SetPriority(UART4_IRQn, 3, 3);
+        HAL_NVIC_SetPriority(UART4_IRQn, 1, 0);
         HAL_NVIC_EnableIRQ(UART4_IRQn);
     }
 }
@@ -91,13 +73,13 @@ void UART4_IRQHandler(void)
     HAL_UART_IRQHandler(&huart4);
 }
 
-static uint8_t rFrameBuf[FRAME_MAX_LEN];
+uint8_t rFrameBuf[FRAME_MAX_LEN];
 
 volatile uint8_t dataIsReady = 0;
 
 static uint8_t frameLen = 0;
 static uint8_t rxStatus = 0;
-static uint8_t recivedCount = 0;
+uint8_t recivedCount = 0;
 static uint8_t redata = 0;
 
 enum _STATUS{
@@ -111,6 +93,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     if(huart->Instance == UART4)
     {
+        LED0 = !LED0;
+        
         redata = rx_data;
         if (dataIsReady == 0) {
             if (rxStatus == RX_NULL){
@@ -130,6 +114,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				rFrameBuf[recivedCount++] = redata;
 				frameLen = redata;
 				rxStatus = RX_ING;
+                //printf("len = %d\n", frameLen);
 			} else if(rxStatus == RX_ING) {
 
 				if (recivedCount >= FRAME_MAX_LEN){
@@ -149,6 +134,40 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
     }
 }
 
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+    if(huart->Instance == UART4)
+    {
+        printf("UART4 HAL_UART_ErrorCallback\n");
+        // 清除错误标志
+        __HAL_UART_CLEAR_PEFLAG(huart);  // 清除奇偶校验错误
+        __HAL_UART_CLEAR_FEFLAG(huart);  // 清除帧错误
+        __HAL_UART_CLEAR_NEFLAG(huart);  // 清除噪声错误
+        __HAL_UART_CLEAR_OREFLAG(huart); // 清除溢出错误
+        
+        // 复位状态
+        rxStatus = RX_NULL;
+        recivedCount = 0;
+        
+        // 重新启动接收
+        HAL_UART_Receive_IT(&huart4, &rx_data, 1);
+    }
+}
+
+
+uint32_t sendData(const void* buf, uint32_t len)
+{
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
+
+    if(HAL_UART_Transmit(&huart4, (uint8_t *)buf, len, 100) != HAL_OK) {
+        len = 0;
+    }
+
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
+    return len;
+}
+
+TIM_HandleTypeDef htim3;
 void timer3_init(void)
 {
     TIM_ClockConfigTypeDef sClockSourceConfig = {0};
@@ -187,27 +206,9 @@ void TIM3_IRQHandler(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
     if(htim->Instance == TIM3) {
-        //MBRTUMasterTimerISRCallback(&MbRtu);
     } else if(htim->Instance == TIM2) {
         HAL_IncTick();
     }
-}
-
-void modbus_init(void)
-{
-    uart4_init();
-}
-
-extern SemaphoreHandle_t xSharedMutex;
-static void mutex_lock(void)
-{
-    xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(100));
-}
-
-static void mutex_unlock(void)
-{
-    vTaskDelay(pdMS_TO_TICKS(50));
-    xSemaphoreGive(xSharedMutex);
 }
 
 static void timerStop(void)
@@ -219,23 +220,4 @@ static void timerStart(void)
 {
     __HAL_TIM_SET_COUNTER(&htim3, 0);
     HAL_TIM_Base_Start_IT(&htim3);
-}
-
-static void delayms(uint32_t nms)
-{
-    // HAL_Delay(nms);
-    vTaskDelay(pdMS_TO_TICKS(nms));
-}
-
-uint32_t sendData(const void* buf, uint32_t len)
-{
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
-    
-
-    if(HAL_UART_Transmit(&huart4, (uint8_t *)buf, len, 100) != HAL_OK) {
-        len = 0;
-    }
-
-    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
-    return len;
 }

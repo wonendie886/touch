@@ -42,7 +42,7 @@ void getProtocol(const uint8_t *buf,struct Protocol *ret)
 
         ret->frame.warn = buf[ABNORMALSTATE_OFFSET];
         ret->frame.mode = buf[MODE_OFFSET];
-        ret->frame.target = buf[TARGET_OFFSET];
+        ret->frame.target = buf[TARGET_OFFSET]  | buf[TARGET_OFFSET + 1] << 8;
 
         ret->frame.cmd = buf[CMDTYPE_OFFSET];
         ret->frame.cmd_state = buf[CMDSTATE_OFFSET];
