@@ -193,7 +193,7 @@ int main(void)
 
 	delay_init(168);               
 	LED_Init();					
-	TIM2_Init();	
+	//TIM2_Init();	
 	//KEY_Init();
     MX_USART6_UART_Init(); 
 
@@ -233,9 +233,9 @@ int main(void)
     xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(100));
     xSemaphoreGive(xSharedMutex);
     */
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-    xTaskCreate(vMainTask, "vMainTask", 256, NULL, 2, &xMainTaskHandle);
+    xTaskCreate(vMainTask, "vMainTask", 1024, NULL, 3, &xMainTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -275,14 +275,20 @@ void vMainTask(void *pvParameters)
             timeover++;
             vTaskDelay(pdMS_TO_TICKS(1));
         }
+        #if 1
         if (timeover >= 20) {
             printf("timeover line = %d\r\n", __LINE__);
+            uint32_t error_code;// = huart->ErrorCode;
+            uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
+            
+            // 打印错误信息（如果可以使用printf）
+            printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
         }
-        
+        #endif
         if (dataIsReady){
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
-            // printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
+            printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }

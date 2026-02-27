@@ -12,7 +12,31 @@ static uint8_t rx_data = 0;
 
 void uart4_init(void)
 { 
+     __HAL_RCC_UART4_CLK_ENABLE();
     __HAL_RCC_GPIOA_CLK_ENABLE();
+
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = GPIO_PIN_0;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF8_UART4; 
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitStruct.Pin = GPIO_PIN_1;
+    GPIO_InitStruct.Pull = GPIO_PULLUP;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;       
+    HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
+
+    GPIO_InitTypeDef gpio_initure = {0};
+    
+    gpio_initure.Pin = GPIO_PIN_2;	
+    gpio_initure.Mode = GPIO_MODE_OUTPUT_PP;  
+    gpio_initure.Pull = GPIO_PULLUP;          //GPIO_NOPULL
+    gpio_initure.Speed = GPIO_SPEED_HIGH;
+    HAL_GPIO_Init(GPIOA,&gpio_initure); 
+
+    HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
     
     huart4.Instance = UART4;
     huart4.Init.BaudRate = 115200;
@@ -29,44 +53,10 @@ void uart4_init(void)
 
     ///enable receive interrupt
     HAL_UART_Receive_IT(&huart4, &rx_data, 1);
+
+    HAL_NVIC_SetPriority(UART4_IRQn, 5, 0);
+    HAL_NVIC_EnableIRQ(UART4_IRQn);
 }
-
-void HAL_UART_MspInit(UART_HandleTypeDef* uartHandle)
-{
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-    if(uartHandle->Instance == UART4) {
-        __HAL_RCC_UART4_CLK_ENABLE();
-        __HAL_RCC_GPIOA_CLK_ENABLE();
-
-        GPIO_InitTypeDef GPIO_InitStruct = {0};
-        GPIO_InitStruct.Pin = GPIO_PIN_0;
-        GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
-        GPIO_InitStruct.Pull = GPIO_NOPULL;
-        GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-        GPIO_InitStruct.Alternate = GPIO_AF8_UART4; 
-        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-        GPIO_InitStruct.Pin = GPIO_PIN_1;
-        GPIO_InitStruct.Pull = GPIO_PULLUP;
-        GPIO_InitStruct.Mode = GPIO_MODE_AF_OD;       
-        HAL_GPIO_Init(GPIOA, &GPIO_InitStruct);
-
-        GPIO_InitTypeDef gpio_initure = {0};
-        
-        gpio_initure.Pin = GPIO_PIN_2;	
-        gpio_initure.Mode = GPIO_MODE_OUTPUT_PP;  
-        gpio_initure.Pull = GPIO_PULLUP;          //GPIO_NOPULL
-        gpio_initure.Speed = GPIO_SPEED_HIGH;
-        HAL_GPIO_Init(GPIOA,&gpio_initure); 
-
-        HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
-
-        HAL_NVIC_SetPriority(UART4_IRQn, 1, 0);
-        HAL_NVIC_EnableIRQ(UART4_IRQn);
-    }
-}
-
 
 void UART4_IRQHandler(void)
 {
@@ -138,31 +128,54 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
     if(huart->Instance == UART4)
     {
-        printf("UART4 HAL_UART_ErrorCallback\n");
+        // 读取状态寄存器
+        uint32_t error_code = huart->ErrorCode;
+        uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
+        
+        // 打印错误信息（如果可以使用printf）
+        printf("UART4 Error! ErrorCode: 0x%08lX, SR: 0x%04lX\r\n", error_code, sr_register);
+        
+        // 检查具体错误位
+        if (error_code & HAL_UART_ERROR_PE) {
+            printf("  - Parity Error\r\n");  // 奇偶校验错误
+        }
+        if (error_code & HAL_UART_ERROR_NE) {
+            printf("  - Noise Error\r\n");    // 噪声错误
+        }
+        if (error_code & HAL_UART_ERROR_FE) {
+            printf("  - Frame Error\r\n");    // 帧错误
+        }
+        if (error_code & HAL_UART_ERROR_ORE) {
+            printf("  - Overrun Error\r\n");  // 溢出错误
+        }
+        if (error_code & HAL_UART_ERROR_DMA) {
+            printf("  - DMA Error\r\n");      // DMA错误
+        }
         // 清除错误标志
         __HAL_UART_CLEAR_PEFLAG(huart);  // 清除奇偶校验错误
         __HAL_UART_CLEAR_FEFLAG(huart);  // 清除帧错误
         __HAL_UART_CLEAR_NEFLAG(huart);  // 清除噪声错误
         __HAL_UART_CLEAR_OREFLAG(huart); // 清除溢出错误
         
-        // 复位状态
+        // // 复位状态
         rxStatus = RX_NULL;
         recivedCount = 0;
         
-        // 重新启动接收
+        // // 重新启动接收
         HAL_UART_Receive_IT(&huart4, &rx_data, 1);
     }
 }
 
-
 uint32_t sendData(const void* buf, uint32_t len)
 {
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_SET);
-
-    if(HAL_UART_Transmit(&huart4, (uint8_t *)buf, len, 100) != HAL_OK) {
+    for(int k = 0; k < 6000; k++)
+        ;
+    if(HAL_UART_Transmit_IT(&huart4, (uint8_t *)buf, len) != HAL_OK) {
         len = 0;
     }
-
+    for(int k = 0; k < 50000; k++)
+        ;
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
     return len;
 }
