@@ -28,14 +28,14 @@ void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
 
-void vMainTask(void *pvParameters);
+void thread_serial(void *pvParameters);
 
 struct GrindRealData GrindDataStr;
 
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
 TaskHandle_t xGrindingControlTaskHandle = NULL; 
-TaskHandle_t xMainTaskHandle = NULL; 
+TaskHandle_t xSerialTaskHandle = NULL; 
 lv_ui guider_ui;
 
 //// 新增加变量，放在此行上面 ////
@@ -235,7 +235,7 @@ int main(void)
     */
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
     //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
-    xTaskCreate(vMainTask, "vMainTask", 1024, NULL, 3, &xMainTaskHandle);
+    xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -250,7 +250,7 @@ static struct Protocol c;
 extern volatile uint8_t dataIsReady;
 extern uint8_t rFrameBuf[FRAME_MAX_LEN];
 extern uint8_t recivedCount;
-void vMainTask(void *pvParameters)
+void thread_serial(void *pvParameters)
 {
     int len = 0;
     int timeover = 0;

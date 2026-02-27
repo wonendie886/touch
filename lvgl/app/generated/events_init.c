@@ -193,6 +193,7 @@ static void screen_btn_1_event_handler (lv_event_t *e)
             lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", str);
             if (Currenttargeweight > 0) {
                 printf("Currenttargeweight: %d\n", Currenttargeweight);
+                GrindDataStr.data.target = Currenttargeweight;
                 // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
                 // if (ret != 0){
                 //     printf("ret == %d\n",ret);
@@ -238,6 +239,7 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", str);
             if (Currenttargeweight > 0) {
                 printf("Currenttargeweight: %d\n", Currenttargeweight);
+                GrindDataStr.data.target = Currenttargeweight;
                 // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
                 // if(ret != 0){
                 //     printf("ret == %d\n",ret);
@@ -257,6 +259,7 @@ static void screen_btn_5_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        printf("line: %d\n", __LINE__);
         //Press to open the input box
         show_hide_controls(&guider_ui,1);
 
@@ -299,6 +302,7 @@ static void screen_btn_7_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        printf("line: %d\n", __LINE__);
         //Press to open the input box
         show_hide_controls(&guider_ui,1);
 
@@ -364,6 +368,7 @@ static void screen_btn_suspend_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        printf("line: %d\n", __LINE__);
         //Press the button to directly control the motor via Modbus protocol.
         if(start_flag == STATUS_IN_GRIND_SUSPEND){
             start_flag = STATUS_IN_GRIND_START;
@@ -386,6 +391,7 @@ static void screen_btn_cancel_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        printf("line: %d\n", __LINE__);
         start_flag = STATUS_IN_GRIND_STOP;
         runtime = 0;
         resetTime += 3000;
@@ -409,14 +415,7 @@ static void screen_btn_11_event_handler (lv_event_t *e)
     {
         lv_obj_set_style_img_opa(guider_ui.screen_img_4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_img_opa(guider_ui.screen_img_3, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
-        uint16_t initialization_data[2] = {0};
-        initialization_data[0] = GrindSetData.time_1;
-        initialization_data[1] = GrindSetData.weight_1;
-        printf("initialization_data[0] = %d,initialization_data[1] = %d\n",initialization_data[0],initialization_data[1]);
-        // int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200); 
-        // if(ret != 0){
-        //     printf("ret == %d\n",ret);
-        // }  
+  
         //Weighing mode
         lv_obj_set_style_img_opa(guider_ui.screen_img_9,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_img_opa(guider_ui.screen_img_10,100,LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -432,22 +431,15 @@ static void screen_btn_11_event_handler (lv_event_t *e)
         lv_obj_add_flag(guider_ui.screen_label_11, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_label_12, LV_OBJ_FLAG_HIDDEN);
 
-
-        grinding_target = 1;
+        GrindDataStr.data.target = GrindSetData.weight_1;
         isGrindMode = MODE_WEIGHT;
-        uint16_t mode = 1;
-        GrindSetData.grind_mode = MODE_WEIGHT;
-        flashDataSave();
-        printf("isGrindMode: %d\n", isGrindMode);
+        
+        printf("isGrindMode: %d target: %d\n", isGrindMode,GrindDataStr.data.target);
+        GrindDataStr.data.mode = MODE_WEIGHT;
 
         lv_obj_add_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_suspend, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_cancel, LV_OBJ_FLAG_HIDDEN);
-
-        // int retdata = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
-        // if(retdata != 0){
-        //     printf("retdata == %d\n",retdata);
-        // }
         break;
     }
     default:
@@ -464,15 +456,10 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         lv_obj_set_style_img_opa(guider_ui.screen_img_4, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_img_opa(guider_ui.screen_img_3, 100, LV_PART_MAIN | LV_STATE_DEFAULT);
         
-        uint16_t initialization_data[2] = {0};
+        // uint16_t initialization_data[2] = {0};
 
-        initialization_data[0] = GrindSetData.time_1;
-        initialization_data[1] = GrindSetData.weight_1;
-        
-        // int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_TIME, 2, initialization_data, 200);    
-        // if(ret != 0){
-        //     printf("ret == %d\n",ret);
-        // }
+        // initialization_data[0] = GrindSetData.time_1;
+        // initialization_data[1] = GrindSetData.weight_1;
 
         lv_obj_set_style_img_opa(guider_ui.screen_img_10,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_img_opa(guider_ui.screen_img_9,100,LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -490,12 +477,9 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         lv_obj_add_flag(guider_ui.screen_label_9, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_label_10, LV_OBJ_FLAG_HIDDEN);
 
-        grinding_target = 1;
         isGrindMode = MODE_TIME;
-        uint16_t mode = 0;
-        GrindSetData.grind_mode = MODE_TIME;
-        flashDataSave();
         printf("isGrindMode: %d\n", isGrindMode);
+        GrindDataStr.data.mode = MODE_TIME;
 
         lv_obj_clear_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_suspend, LV_OBJ_FLAG_HIDDEN);
@@ -518,6 +502,7 @@ static void screen_btn_13_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        printf("line: %d\n", __LINE__);
         lv_obj_set_style_img_opa(guider_ui.screen_img_12,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
         break;
@@ -535,7 +520,7 @@ static void screen_btn_14_event_handler (lv_event_t *e)
     {
         //Save the text content and activate the storage
         show_hide_controls(&guider_ui,0);
-
+printf("line: %d\n", __LINE__);
         //flash_store_read(&flash_write_data);
         //Synchronize the content of the input box with the text.
         if (Textselectionflag == 1){
@@ -629,7 +614,7 @@ static void screen_btn_15_event_handler (lv_event_t *e)
     {
         // Cancel text restoration, button restore.
         show_hide_controls(&guider_ui,0);
-
+printf("line: %d\n", __LINE__);
         if (Textselectionflag == 1){
             if (isGrindMode == 0) {
                 char string_data[50] = {0};  // 初始化为全0
