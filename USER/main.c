@@ -258,6 +258,7 @@ void thread_serial(void *pvParameters)
     GrindDataStr.data.target = 3000; ///ms
     GrindDataStr.data.cmd_number = 0;
     GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
+    GrindDataStr.data.cmd = CMDTYPE_GRIND;
 
     ISL1208_Time_t time_read;
 
@@ -268,7 +269,11 @@ void thread_serial(void *pvParameters)
         time_read.minutes, 
         time_read.seconds);
     while (1){
-        len = setGrindCmdType(buf, &GrindDataStr.data);
+        if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
+            len = setGrindCmdType(buf, &GrindDataStr.data);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
+            len = setCalibrationCmdType(buf, &GrindDataStr.data);
+        }
         sendData(buf, len);
         timeover = 0;
         while (!dataIsReady && timeover < 20) {
@@ -288,7 +293,16 @@ void thread_serial(void *pvParameters)
         if (dataIsReady){
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
-            printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
+
+            if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
+
+            } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
+                if (c.frame.cmd_state == CMD_STATE_SUCCESS){
+                    GrindDataStr.data.cmd = CMDTYPE_GRIND;
+                    
+                }
+            }
+            //printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }

@@ -81,6 +81,36 @@ int setGrindCmdType(uint8_t *buf,struct GrindData *pData)
     return len;
 }
 
+int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData)
+{
+    //set m_buf content
+    m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+    m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+    m_buf[LEN_OFFSET] =  FRAME_LEN;
+    m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+    m_buf[MODE_OFFSET] = 0;
+    m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
+    m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
+
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_CALIBRATION;
+    m_buf[CMDSTATE_OFFSET] = 0;
+    m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+
+    m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+    m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+    //set Crc content
+    setCrc();
+
+    uint8_t len = m_buf[LEN_OFFSET];
+    for (int i = 0; i < len; i++) {
+        buf[i] = m_buf[i];
+    }
+
+    return len;
+}
+
 static int setCrc(void)
 {
     //the head and foot is 0xe7 ? is the length valid?

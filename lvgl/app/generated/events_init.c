@@ -795,11 +795,10 @@ static void screen_1_btn_calibration1_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        uint16_t calibration_value = 1 ;
-        // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_CALIBRATION, calibration_value, 100);
-        // if (ret != 0){
-        //     printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        // }
+        printf("line: %d\n", __LINE__);
+        GrindDataStr.data.target = 0;
+        GrindDataStr.data.cmd = CMDTYPE_CALIBRATION;
+        GrindDataStr.data.cmd_number++;
         break;
     }
     default:
@@ -813,11 +812,10 @@ static void screen_1_btn_calibration2_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        uint16_t calibration_value = 2 ;
-        // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_CALIBRATION, calibration_value, 100);
-        // if (ret != 0){
-        //     printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        // }
+        printf("line: %d\n", __LINE__);
+        GrindDataStr.data.target = 1;
+        GrindDataStr.data.cmd = CMDTYPE_CALIBRATION;
+        GrindDataStr.data.cmd_number++;
         break;
     }
     default:

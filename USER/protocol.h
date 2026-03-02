@@ -90,6 +90,7 @@ struct GrindData
 {
 	uint8_t mode;
 	uint16_t target;
+	uint8_t cmd;
 	uint8_t cmd_state;
 	uint8_t cmd_number;
 };
@@ -122,5 +123,6 @@ struct Protocol{
 
 void getProtocol(const uint8_t *buf,struct Protocol *ret);
 int setGrindCmdType(uint8_t *buf,struct GrindData *pData);
+int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData);
 
 #endif
