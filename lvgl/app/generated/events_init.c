@@ -679,11 +679,13 @@ static void screen_1_btn_1_event_handler (lv_event_t *e)
         sprintf(buffer, "%d", GrindSetData.grind_thickness);
         lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
         lv_label_set_text(guider_ui.screen_label_2,buffer);
-        // int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
-        // if(ret != 0)
-        // {
-        //     printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        // }
+
+        printf("line: %d\n", __LINE__);
+        GrindDataStr.data.mode = MODE_FINE;
+        GrindDataStr.data.target = 5; ///10*360C
+        GrindDataStr.data.cmd_number++;
+        GrindDataStr.data.cmd = CMDTYPE_SET_GAP;
+
         break;
     }
     default:
@@ -703,10 +705,13 @@ static void screen_1_btn_2_event_handler (lv_event_t *e)
         sprintf(buffer, "%d", GrindSetData.grind_thickness);
         lv_label_set_text(guider_ui.screen_1_label_thickness, buffer);
         lv_label_set_text(guider_ui.screen_label_2,buffer);
-        // int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
-        // if(ret != 0){
-        //     printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        // }
+
+        GrindDataStr.data.mode = MODE_COARSE;
+        GrindDataStr.data.target = 5;
+        GrindDataStr.data.cmd_number++;
+        GrindDataStr.data.cmd = CMDTYPE_SET_GAP;
+
+        printf("line: %d\n", __LINE__);
         break;
     }
     default:
@@ -795,7 +800,6 @@ static void screen_1_btn_calibration1_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        printf("line: %d\n", __LINE__);
         GrindDataStr.data.target = 0;
         GrindDataStr.data.cmd = CMDTYPE_CALIBRATION;
         GrindDataStr.data.cmd_number++;
@@ -812,7 +816,6 @@ static void screen_1_btn_calibration2_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        printf("line: %d\n", __LINE__);
         GrindDataStr.data.target = 1;
         GrindDataStr.data.cmd = CMDTYPE_CALIBRATION;
         GrindDataStr.data.cmd_number++;

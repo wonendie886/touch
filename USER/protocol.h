@@ -124,5 +124,6 @@ struct Protocol{
 void getProtocol(const uint8_t *buf,struct Protocol *ret);
 int setGrindCmdType(uint8_t *buf,struct GrindData *pData);
 int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData);
+int setGapCmdType(uint8_t *buf,struct GrindData *pData);
 
 #endif

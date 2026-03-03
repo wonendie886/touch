@@ -273,6 +273,8 @@ void thread_serial(void *pvParameters)
             len = setGrindCmdType(buf, &GrindDataStr.data);
         } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
             len = setCalibrationCmdType(buf, &GrindDataStr.data);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_SET_GAP){
+            len = setGapCmdType(buf, &GrindDataStr.data);
         }
         sendData(buf, len);
         timeover = 0;
@@ -297,6 +299,11 @@ void thread_serial(void *pvParameters)
             if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
 
             } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
+                if (c.frame.cmd_state == CMD_STATE_SUCCESS){
+                    GrindDataStr.data.cmd = CMDTYPE_GRIND;
+                    
+                }
+            } else if (GrindDataStr.data.cmd == CMDTYPE_SET_GAP){
                 if (c.frame.cmd_state == CMD_STATE_SUCCESS){
                     GrindDataStr.data.cmd = CMDTYPE_GRIND;
                     
