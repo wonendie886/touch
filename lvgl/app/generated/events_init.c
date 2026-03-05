@@ -361,7 +361,7 @@ static void screen_btn_4_event_handler (lv_event_t *e)
         break;
     }
 }
-
+extern struct GrindData GrindDatarx;
 static void screen_btn_suspend_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -370,14 +370,19 @@ static void screen_btn_suspend_event_handler (lv_event_t *e)
     {
         printf("line: %d\n", __LINE__);
         //Press the button to directly control the motor via Modbus protocol.
-        if(start_flag == STATUS_IN_GRIND_SUSPEND){
-            start_flag = STATUS_IN_GRIND_START;
-            printf("start contiune grind \r\n");
-            // printf("sus start_flag == %d\n",start_flag);
-        } else {
-            start_flag = STATUS_IN_GRIND_SUSPEND;
-            printf("start pause \r\n");
+        if(GrindDatarx.cmd_state == CMD_STATE_EXECUTING){
+            GrindDataStr.data.cmd_state = CMD_STATE_PAUSE;
+        } else if (GrindDatarx.cmd_state == CMD_STATE_PAUSE){
+            GrindDataStr.data.cmd_state = CMD_STATE_EXECUTING;
         }
+        // if(start_flag == STATUS_IN_GRIND_SUSPEND){
+        //     start_flag = STATUS_IN_GRIND_START;
+        //     printf("start contiune grind \r\n");
+        //     // printf("sus start_flag == %d\n",start_flag);
+        // } else {
+        //     start_flag = STATUS_IN_GRIND_SUSPEND;
+        //     printf("start pause \r\n");
+        // }
         break;
     }
     default:

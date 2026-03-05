@@ -31,7 +31,7 @@ void vGrindingControlTask(void *pvParameters);
 void thread_serial(void *pvParameters);
 
 struct GrindRealData GrindDataStr;
-
+struct GrindData GrindDatarx;//GrindData
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
 TaskHandle_t xGrindingControlTaskHandle = NULL; 
@@ -259,6 +259,7 @@ void thread_serial(void *pvParameters)
     GrindDataStr.data.cmd_number = 0;
     GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
     GrindDataStr.data.cmd = CMDTYPE_GRIND;
+    uint8_t laststate = 0;
 
     ISL1208_Time_t time_read;
 
@@ -269,8 +270,9 @@ void thread_serial(void *pvParameters)
         time_read.minutes, 
         time_read.seconds);
     while (1){
+        
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-            len = setGrindCmdType(buf, &GrindDataStr.data);
+            len = setGrindCmdType(buf, &GrindDataStr.data);       
         } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
             len = setCalibrationCmdType(buf, &GrindDataStr.data);
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_GAP){
@@ -295,9 +297,39 @@ void thread_serial(void *pvParameters)
         if (dataIsReady){
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
-
+                GrindDatarx.mode = c.frame.mode;
+                GrindDatarx.target = c.frame.target;
+                GrindDatarx.cmd_state = c.frame.cmd_state;
+                GrindDatarx.cmd_number = c.frame.cmd_number;                        
             if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
+                if (c.frame.cmd_state == CMD_STATE_EXECUTING){
+                    lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN); 
+                    lv_obj_add_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
+                    lv_obj_add_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
 
+                    char time_str[10];  
+                    sprintf(time_str, "%.1f", c.frame.target/1000.0f);
+                    lv_label_set_text(guider_ui.screen_label_8, time_str); 
+                    
+                    if(GrindDataStr.data.mode == MODE_TIME)
+                    lv_label_set_text(guider_ui.screen_label_9, "s"); 
+                    else if(GrindDataStr.data.mode == MODE_WEIGHT)
+                    lv_label_set_text(guider_ui.screen_label_9, "g");
+
+                } else if (c.frame.cmd_state == CMD_STATE_PAUSE){
+                    
+                } else if (c.frame.cmd_state == CMD_STATE_SUCCESS) {
+                    lv_obj_clear_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
+                    lv_obj_clear_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
+                    // char time_str[10]; 
+                    // sprintf(time_str, "%.1f", GrindDataStr.data.target/1000.0f);
+                    // lv_label_set_text(guider_ui.screen_label_8, time_str); 
+
+                    if(laststate == CMD_STATE_EXECUTING)
+                    vTaskDelay(pdMS_TO_TICKS(2000));  // 延迟2000毫秒（2秒）
+                    lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);          
+                } 
+                laststate = c.frame.cmd_state;  
             } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
                 if (c.frame.cmd_state == CMD_STATE_SUCCESS){
                     GrindDataStr.data.cmd = CMDTYPE_GRIND;
