@@ -682,7 +682,7 @@ static void screen_1_btn_1_event_handler (lv_event_t *e)
 
         printf("line: %d\n", __LINE__);
         GrindDataStr.data.mode = MODE_FINE;
-        GrindDataStr.data.target = 5; ///10*360C
+        GrindDataStr.data.target = 1; ///10*360C
         GrindDataStr.data.cmd_number++;
         GrindDataStr.data.cmd = CMDTYPE_SET_GAP;
 
@@ -707,7 +707,7 @@ static void screen_1_btn_2_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_label_2,buffer);
 
         GrindDataStr.data.mode = MODE_COARSE;
-        GrindDataStr.data.target = 5;
+        GrindDataStr.data.target = 1;
         GrindDataStr.data.cmd_number++;
         GrindDataStr.data.cmd = CMDTYPE_SET_GAP;
 
