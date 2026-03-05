@@ -307,14 +307,17 @@ void thread_serial(void *pvParameters)
                     lv_obj_add_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
                     lv_obj_add_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
 
-                    char time_str[10];  
-                    sprintf(time_str, "%.1f", c.frame.target/1000.0f);
-                    lv_label_set_text(guider_ui.screen_label_8, time_str); 
+                    char dataStr[20];  
                     
-                    if(GrindDataStr.data.mode == MODE_TIME)
-                    lv_label_set_text(guider_ui.screen_label_9, "s"); 
-                    else if(GrindDataStr.data.mode == MODE_WEIGHT)
-                    lv_label_set_text(guider_ui.screen_label_9, "g");
+                    if(GrindDataStr.data.mode == MODE_TIME){
+                        sprintf(dataStr, "%.1f", c.frame.target/1000.0f);
+                        lv_label_set_text(guider_ui.screen_label_8, dataStr); 
+                        lv_label_set_text(guider_ui.screen_label_9, "s"); 
+                    } else if(GrindDataStr.data.mode == MODE_WEIGHT){
+                        sprintf(dataStr, "%.1f", c.frame.target/10.0f);
+                        lv_label_set_text(guider_ui.screen_label_8, dataStr); 
+                        lv_label_set_text(guider_ui.screen_label_9, "g");
+                    }
 
                 } else if (c.frame.cmd_state == CMD_STATE_PAUSE){
                     
