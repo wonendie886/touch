@@ -75,6 +75,7 @@ enum CmdGrindState
 	CMD_STATE_EXECUTING,
 	CMD_STATE_PAUSE,
 	CMD_STATE_SUCCESS,
+	CMD_STATE_CANCEL,
 };
 
 //! A enum data Command type{命令类型-枚举}

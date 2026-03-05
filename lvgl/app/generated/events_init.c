@@ -400,6 +400,8 @@ static void screen_btn_cancel_event_handler (lv_event_t *e)
         start_flag = STATUS_IN_GRIND_STOP;
         runtime = 0;
         resetTime += 3000;
+
+        GrindDataStr.data.cmd_state = CMD_STATE_CANCEL;
         // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 1, 100);
         // if (ret != 0){
         //     printf("ret == %d\r\n",ret);
