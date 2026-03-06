@@ -368,10 +368,6 @@ static void screen_btn_cancel_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        printf("line: %d\n", __LINE__);
-        runtime = 0;
-        resetTime += 3000;
-
         GrindDataStr.data.cmd_state = CMD_STATE_CANCEL;
         break;
     }

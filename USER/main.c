@@ -22,10 +22,19 @@
 #include "rtc.h"
 #include "uart.h"
 
+
+/// @brief external variables
 extern volatile uint16_t Currenttargeweight;
+extern volatile uint8_t dataIsReady;
+extern uint8_t rFrameBuf[FRAME_MAX_LEN];
+extern uint8_t recivedCount;
+
+/// @brief static global variables
+static uint8_t buf[FRAME_MAX_LEN];
+static struct Protocol c;
+static const char version[12] = "MRC_V1.0.0";
 
 void vLvglTaskFunction( void * pvParameters );
-void update_time_display(ISL1208_Time_t *time) ;
 void thread_serial(void *pvParameters);
 
 struct GrindRealData GrindDataStr;
@@ -33,18 +42,10 @@ struct GrindData GrindDatarx;//GrindData
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
 TaskHandle_t xSerialTaskHandle = NULL; 
+
 lv_ui guider_ui;
 
-//// 新增加变量，放在此行上面 ////
-
-volatile uint8_t flash_request_flag = 0;
-flash_store_t flash_write_data;
-bool isGrindProgress = false;
-bool isGrindRunning = false;
 bool isGrindMode = MODE_TIME;
-bool timerStart = false;
-uint32_t resetTime = 0;
-int runtime = 0;
 
 CanMsg can_msg = {0};
 
@@ -134,8 +135,6 @@ void DWT_Init(void) {
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;           
 }
 
-const char version[12] = "MRC_V1.0.0";
-
 /// 32K offset
 #define APP_FLASH_OFFSET 0x8000
 int main(void)
@@ -196,12 +195,7 @@ int main(void)
 	}
 }
 
-static uint8_t buf[FRAME_MAX_LEN];
-static struct Protocol c;
 
-extern volatile uint8_t dataIsReady;
-extern uint8_t rFrameBuf[FRAME_MAX_LEN];
-extern uint8_t recivedCount;
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -314,16 +308,6 @@ void thread_serial(void *pvParameters)
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
-}
-
-// 在实现文件中定义
-void update_time_display(ISL1208_Time_t *time) {
-    char time_str[20];
-    char date_str[20];
-    sprintf(time_str, "%02d:%02d", time->hours, time->minutes);
-    sprintf(date_str, "%02d-%02d-%02d", time->year, time->month, time->date);
-    lv_label_set_text(guider_ui.screen_label_time, time_str);
-    lv_label_set_text(guider_ui.screen_label_date, date_str);
 }
 
 void vLvglTaskFunction(void *pvParameters) {

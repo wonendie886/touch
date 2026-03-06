@@ -408,6 +408,11 @@
               <FileType>1</FileType>
               <FilePath>.\protocol.c</FilePath>
             </File>
+            <File>
+              <FileName>lvgl_usr.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lvgl_usr.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
