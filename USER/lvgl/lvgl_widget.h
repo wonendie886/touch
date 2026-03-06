@@ -1,5 +1,5 @@
-#ifndef __LVGL_USR_H
-#define __LVGL_USR_H
+#ifndef __LVGL_WIDGET_H
+#define __LVGL_WIDGET_H
 
 #include "stm32f4xx_hal.h"
 #include "stdint.h"

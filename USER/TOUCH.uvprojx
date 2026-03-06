@@ -409,9 +409,14 @@
               <FilePath>.\protocol.c</FilePath>
             </File>
             <File>
-              <FileName>lvgl_usr.c</FileName>
+              <FileName>lvgl_menu.c</FileName>
               <FileType>1</FileType>
-              <FilePath>.\lvgl_usr.c</FilePath>
+              <FilePath>.\lvgl\lvgl_menu.c</FilePath>
+            </File>
+            <File>
+              <FileName>lvgl_widget.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\lvgl\lvgl_widget.c</FilePath>
             </File>
           </Files>
         </Group>
