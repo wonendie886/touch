@@ -98,37 +98,6 @@ void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
     // 例如：Debug_Printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
 }
 
-/**
- * 将所有研磨进度标签设置为相同的文本
- * @param text 要设置的文本内容
- */
-void set_all_grinding_labels_text(const char* text)
-{
-//    lv_label_set_text(guider_ui.screen_label_7, text);
-    lv_label_set_text(guider_ui.screen_label_8, text);
-//   lv_label_set_text(guider_ui.screen_label_9, text);
-}
-
-
-/**
- * 根据研磨目标和数值设置对应标签的文本
- * @param target 研磨目标 (1=标签7, 2=标签8, 3=标签9)
- * @param value 要显示的数值
- */
-void set_grinding_label_text_by_target_with_value(int target, int value)
-{
-    char buffer[32];
-    if(isGrindMode == MODE_TIME){
-        sprintf(buffer, "%0.1f", (float)value/10.0f);
-        lv_label_set_text(guider_ui.screen_label_9, "s");
- 
-    }else{
-        sprintf(buffer, "%0.1f", (float)value/10.0f);
-        lv_label_set_text(guider_ui.screen_label_9, "g");
-    }
-    
-    lv_label_set_text(guider_ui.screen_label_8, buffer);
-}
 void DWT_Init(void) {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 
     DWT->CYCCNT = 0;                                
