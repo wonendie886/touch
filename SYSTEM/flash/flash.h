@@ -24,13 +24,6 @@ typedef enum _HOLDING_REG_OFFSET{
 } HOLDING_REG_OFFSET;
 
 
-enum _GRIND_STATUS{
-    STATUS_IN_GRIND_STOP = 0,
-    STATUS_IN_GRIND_SUSPEND,
-    STATUS_IN_GRIND_START,
-};
-
-
 extern bool isGrindMode;
 extern uint32_t resetTime;
 extern int runtime;

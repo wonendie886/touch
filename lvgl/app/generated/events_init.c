@@ -25,7 +25,6 @@ static int Textselectionflag = 0;
 volatile int grinding_target = 1;
 volatile uint16_t Currenttargetime = 0;
 volatile uint16_t Currenttargeweight = 0;
-volatile uint8_t start_flag = STATUS_IN_GRIND_STOP;
 
 // 指定的图片对象数组
 static lv_obj_t* target_images[6];   // 直接开一个数组
@@ -343,9 +342,6 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        //Press the button to directly control the motor via Modbus protocol.
-        start_flag = STATUS_IN_GRIND_START;
-
         if(grinding_target == 1) {
             GrindDataStr.data.target = GrindSetData.time_1;
         } else {
@@ -375,14 +371,6 @@ static void screen_btn_suspend_event_handler (lv_event_t *e)
         } else if (GrindDatarx.cmd_state == CMD_STATE_PAUSE){
             GrindDataStr.data.cmd_state = CMD_STATE_EXECUTING;
         }
-        // if(start_flag == STATUS_IN_GRIND_SUSPEND){
-        //     start_flag = STATUS_IN_GRIND_START;
-        //     printf("start contiune grind \r\n");
-        //     // printf("sus start_flag == %d\n",start_flag);
-        // } else {
-        //     start_flag = STATUS_IN_GRIND_SUSPEND;
-        //     printf("start pause \r\n");
-        // }
         break;
     }
     default:
@@ -397,7 +385,6 @@ static void screen_btn_cancel_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         printf("line: %d\n", __LINE__);
-        start_flag = STATUS_IN_GRIND_STOP;
         runtime = 0;
         resetTime += 3000;
 

@@ -25,7 +25,6 @@
 extern volatile uint16_t Currenttargeweight;
 
 void vLvglTaskFunction( void * pvParameters );
-void vGrindingControlTask(void *pvParameters);
 void update_time_display(ISL1208_Time_t *time) ;
 void thread_serial(void *pvParameters);
 
@@ -33,7 +32,6 @@ struct GrindRealData GrindDataStr;
 struct GrindData GrindDatarx;//GrindData
 TaskHandle_t xLvglTaskHandle = NULL;  
 TaskHandle_t xFlashTaskHandle = NULL;
-TaskHandle_t xGrindingControlTaskHandle = NULL; 
 TaskHandle_t xSerialTaskHandle = NULL; 
 lv_ui guider_ui;
 
@@ -232,7 +230,6 @@ int main(void)
     xSemaphoreGive(xSharedMutex);
     
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
-    //xTaskCreate(vGrindingControlTask, "grinding_control_task", 256, NULL, 2, &xGrindingControlTaskHandle);
     xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
 	vTaskStartScheduler();  
 
@@ -410,6 +407,4 @@ void vLvglTaskFunction(void *pvParameters) {
     }
 }
 
-extern uint16_t start_flag;
-extern uint16_t Currenttargetime;
 
