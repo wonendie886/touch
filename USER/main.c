@@ -10,7 +10,6 @@
 #include "lv_port_indev.h"
 #include "gui_guider.h"
 #include "events_init.h"
-#include "modbus.h"
 #include "flash.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
@@ -21,6 +20,7 @@
 #include "stm32f4xx_hal.h"      // 为 CanRxMsgTypeDef 等
 #include "main.h"
 #include "rtc.h"
+#include "uart.h"
 
 extern volatile uint16_t Currenttargeweight;
 
@@ -134,46 +134,8 @@ void DWT_Init(void) {
     DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;           
 }
 
-UART_HandleTypeDef huart6;
-// USART6初始化函数
-static void MX_USART6_UART_Init(void)
-{
-    __HAL_RCC_USART6_CLK_ENABLE();
-    __HAL_RCC_GPIOC_CLK_ENABLE();
-
-    GPIO_InitTypeDef GPIO_InitStruct = {0};
-    GPIO_InitStruct.Pin = GPIO_PIN_6;
-    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
-    GPIO_InitStruct.Pull = GPIO_NOPULL;
-    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
-    GPIO_InitStruct.Alternate = GPIO_AF8_USART6; 
-    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
-
-    huart6.Instance = USART6;
-    huart6.Init.BaudRate = 115200;
-    huart6.Init.WordLength = UART_WORDLENGTH_8B;
-    huart6.Init.StopBits = UART_STOPBITS_1;
-    huart6.Init.Parity = UART_PARITY_NONE;
-    huart6.Init.Mode = UART_MODE_TX; 
-    huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-    huart6.Init.OverSampling = UART_OVERSAMPLING_16;
-    
-    if (HAL_UART_Init(&huart6) != HAL_OK)
-    {
-    }
-}
-// USART6 for printf 
-int fputc(int ch, FILE *f)
-{
-    HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
-    return ch;
-}
-
 const char version[12] = "MRC_V1.0.0";
-extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
 
-SemaphoreHandle_t xSharedMutex;
-SemaphoreHandle_t xTimeUpdateMutex;  // 时间更新互斥锁
 /// 32K offset
 #define APP_FLASH_OFFSET 0x8000
 int main(void)
@@ -193,7 +155,7 @@ int main(void)
 	LED_Init();					
 	//TIM2_Init();	
 	//KEY_Init();
-    MX_USART6_UART_Init(); 
+    uart6_init(); 
 
     ISL1208_Init();
 
@@ -223,11 +185,6 @@ int main(void)
     CAN_Init_IT(500);
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
-
-    
-    xSharedMutex = xSemaphoreCreateMutex();
-    xTimeUpdateMutex = xSemaphoreCreateMutex();
-    xSemaphoreGive(xSharedMutex);
     
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
     xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
@@ -271,16 +228,13 @@ void thread_serial(void *pvParameters)
         if (currentTime - lastUpdateTime >= updateTimePeriod) {
             lastUpdateTime = currentTime;
             
-            if (xSemaphoreTake(xTimeUpdateMutex, portMAX_DELAY) == pdTRUE) {
-                ISL1208_GetTime(&time_read);  // 读取RTC时间
-                xSemaphoreGive(xTimeUpdateMutex);
+            ISL1208_GetTime(&time_read);  // 读取RTC时间
                 
-                update_time_display(&time_read);
+            update_time_display(&time_read);
                 
-                //通过串口打印调试
-                printf("RTC Updated: %02d:%02d:%02d\n", 
-                       time_read.hours, time_read.minutes, time_read.seconds);
-            }
+            //通过串口打印调试
+            printf("RTC Updated: %02d:%02d:%02d\n", 
+                    time_read.hours, time_read.minutes, time_read.seconds);
         }
 
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){

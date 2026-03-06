@@ -1,12 +1,9 @@
-#include "modbus.h"
+#include "uart.h"
 #include "led.h"
-#include "flash.h"
-#include "FreeRTOS.h"
-#include "semphr.h"
 #include "protocol.h"
 
-
 UART_HandleTypeDef huart4;
+UART_HandleTypeDef huart6;
 
 static uint8_t rx_data = 0;
 
@@ -180,57 +177,36 @@ uint32_t sendData(const void* buf, uint32_t len)
     return len;
 }
 
-TIM_HandleTypeDef htim3;
-void timer3_init(void)
+// USART6初始化函数
+void uart6_init(void)
 {
-    TIM_ClockConfigTypeDef sClockSourceConfig = {0};
-    TIM_MasterConfigTypeDef sMasterConfig = {0};
+    __HAL_RCC_USART6_CLK_ENABLE();
+    __HAL_RCC_GPIOC_CLK_ENABLE();
 
-    htim3.Instance = TIM3;
-    htim3.Init.Prescaler = 4199;                  // 84MHz / (4199+1) = 20kHz (50us计数)
-    htim3.Init.CounterMode = TIM_COUNTERMODE_UP;
-    htim3.Init.Period = 80;                       // 初始值70*50us=3.5ms @9600bps
-    htim3.Init.ClockDivision = TIM_CLOCKDIVISION_DIV1;
+    GPIO_InitTypeDef GPIO_InitStruct = {0};
+    GPIO_InitStruct.Pin = GPIO_PIN_6;
+    GPIO_InitStruct.Mode = GPIO_MODE_AF_PP;       
+    GPIO_InitStruct.Pull = GPIO_NOPULL;
+    GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+    GPIO_InitStruct.Alternate = GPIO_AF8_USART6; 
+    HAL_GPIO_Init(GPIOC, &GPIO_InitStruct);
 
-    if (HAL_TIM_Base_Init(&htim3) != HAL_OK) {
-    }
-
-    __HAL_TIM_SET_COUNTER(&htim3, 0);
-    HAL_TIM_Base_Stop_IT(&htim3);
-
-}
-
-void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
-{
-    if(tim_baseHandle->Instance == TIM3)
+    huart6.Instance = USART6;
+    huart6.Init.BaudRate = 115200;
+    huart6.Init.WordLength = UART_WORDLENGTH_8B;
+    huart6.Init.StopBits = UART_STOPBITS_1;
+    huart6.Init.Parity = UART_PARITY_NONE;
+    huart6.Init.Mode = UART_MODE_TX; 
+    huart6.Init.HwFlowCtl = UART_HWCONTROL_NONE;
+    huart6.Init.OverSampling = UART_OVERSAMPLING_16;
+    
+    if (HAL_UART_Init(&huart6) != HAL_OK)
     {
-        __HAL_RCC_TIM3_CLK_ENABLE();
-
-        HAL_NVIC_SetPriority(TIM3_IRQn, 5, 0);  
-        HAL_NVIC_EnableIRQ(TIM3_IRQn);
     }
 }
-
-void TIM3_IRQHandler(void)
+// USART6 for printf 
+int fputc(int ch, FILE *f)
 {
-    HAL_TIM_IRQHandler(&htim3);
-}
-
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
-{
-    if(htim->Instance == TIM3) {
-    } else if(htim->Instance == TIM2) {
-        HAL_IncTick();
-    }
-}
-
-static void timerStop(void)
-{
-    HAL_TIM_Base_Stop_IT(&htim3);
-}
-
-static void timerStart(void)
-{
-    __HAL_TIM_SET_COUNTER(&htim3, 0);
-    HAL_TIM_Base_Start_IT(&htim3);
+    HAL_UART_Transmit(&huart6, (uint8_t *)&ch, 1, HAL_MAX_DELAY);
+    return ch;
 }

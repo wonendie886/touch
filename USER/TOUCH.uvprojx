@@ -619,11 +619,6 @@
               <FilePath>..\HARDWARE\TOUCH\ctiic.c</FilePath>
             </File>
             <File>
-              <FileName>modbus.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\modbus\modbus.c</FilePath>
-            </File>
-            <File>
               <FileName>gt911.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\TOUCH\gt911.c</FilePath>
@@ -632,6 +627,16 @@
               <FileName>rtc.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\rtc.c</FilePath>
+            </File>
+            <File>
+              <FileName>uart.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\uart.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\timer.c</FilePath>
             </File>
           </Files>
         </Group>
