@@ -179,10 +179,6 @@ static void screen_btn_1_event_handler (lv_event_t *e)
             Currenttargetime = GrindSetData.time_1;
             if (Currenttargetime > 0) {
                 printf("Currenttime == %d\n",Currenttargetime);
-                // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
-                // if(ret != 0){
-                //     printf("ret == %d\n",ret);
-                // }
             }
         } else {
             // 模式1: 发送文本4的数值数据
@@ -193,10 +189,6 @@ static void screen_btn_1_event_handler (lv_event_t *e)
             if (Currenttargeweight > 0) {
                 printf("Currenttargeweight: %d\n", Currenttargeweight);
                 GrindDataStr.data.target = Currenttargeweight;
-                // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
-                // if (ret != 0){
-                //     printf("ret == %d\n",ret);
-                // }
             }
         }       
         break;
@@ -225,10 +217,6 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             Currenttargetime = GrindSetData.time_3;
             if (Currenttargetime > 0) {
                 printf("Currenttargetime: %d\n", Currenttargetime);
-                // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
-                // if(ret != 0){
-                //     printf("ret == %d\n",ret);
-                // }
             }
         } else {
             // 模式1: 发送文本6的数值数据
@@ -239,10 +227,6 @@ static void screen_btn_2_event_handler (lv_event_t *e)
             if (Currenttargeweight > 0) {
                 printf("Currenttargeweight: %d\n", Currenttargeweight);
                 GrindDataStr.data.target = Currenttargeweight;
-                // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
-                // if(ret != 0){
-                //     printf("ret == %d\n",ret);
-                // }
             }
         }
         break;
@@ -389,10 +373,6 @@ static void screen_btn_cancel_event_handler (lv_event_t *e)
         resetTime += 3000;
 
         GrindDataStr.data.cmd_state = CMD_STATE_CANCEL;
-        // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_RESET, 1, 100);
-        // if (ret != 0){
-        //     printf("ret == %d\r\n",ret);
-        // }
         break;
     }
     default:
@@ -478,11 +458,7 @@ static void screen_btn_12_event_handler (lv_event_t *e)
         lv_obj_clear_flag(guider_ui.screen_btn_4, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_suspend, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_cancel, LV_OBJ_FLAG_HIDDEN);
-        // int retdata = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_MODE, mode, 100);
-        // if (retdata != 0)
-        // {
-        //     printf("retdata == %d\n",retdata);
-        // }
+
         break;
     }
     default:
