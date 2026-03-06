@@ -27,7 +27,7 @@ extern volatile uint16_t Currenttargeweight;
 void vLvglTaskFunction( void * pvParameters );
 void vflash(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
-
+void update_time_display(ISL1208_Time_t *time) ;
 void thread_serial(void *pvParameters);
 
 struct GrindRealData GrindDataStr;
@@ -176,6 +176,7 @@ const char version[12] = "MRC_V1.0.0";
 extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
 
 SemaphoreHandle_t xSharedMutex;
+SemaphoreHandle_t xTimeUpdateMutex;  // 时间更新互斥锁
 /// 32K offset
 #define APP_FLASH_OFFSET 0x8000
 int main(void)
@@ -227,7 +228,9 @@ int main(void)
     CAN_StartReceive_IT();
 
     xSharedMutex = xSemaphoreCreateMutex();
+    xTimeUpdateMutex = xSemaphoreCreateMutex();
     xSemaphoreGive(xSharedMutex);
+    
     /*
     extern SemaphoreHandle_t xSharedMutex;
     xSemaphoreTake(xSharedMutex, pdMS_TO_TICKS(100));
@@ -261,16 +264,33 @@ void thread_serial(void *pvParameters)
     GrindDataStr.data.cmd = CMDTYPE_GRIND;
     uint8_t laststate = 0;
 
+    static TickType_t lastUpdateTime = 0;
+    const TickType_t updateTimePeriod = pdMS_TO_TICKS(30000); // 30秒周期
+
     ISL1208_Time_t time_read;
 
-    //读取时间
+    // //读取时间
     ISL1208_GetTime(&time_read);
-    printf("Time: %02d:%02d:%02d\n", 
-        time_read.hours, 
-        time_read.minutes, 
-        time_read.seconds);
+
     while (1){
-        
+
+   // 每30秒更新一次时间
+        TickType_t currentTime = xTaskGetTickCount();
+        if (currentTime - lastUpdateTime >= updateTimePeriod) {
+            lastUpdateTime = currentTime;
+            
+            if (xSemaphoreTake(xTimeUpdateMutex, portMAX_DELAY) == pdTRUE) {
+                ISL1208_GetTime(&time_read);  // 读取RTC时间
+                xSemaphoreGive(xTimeUpdateMutex);
+                
+                update_time_display(&time_read);
+                
+                //通过串口打印调试
+                printf("RTC Updated: %02d:%02d:%02d\n", 
+                       time_read.hours, time_read.minutes, time_read.seconds);
+            }
+        }
+
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
             len = setGrindCmdType(buf, &GrindDataStr.data);       
         } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
@@ -347,6 +367,16 @@ void thread_serial(void *pvParameters)
     }
 }
 
+// 在实现文件中定义
+void update_time_display(ISL1208_Time_t *time) {
+    char time_str[20];
+    char date_str[20];
+    sprintf(time_str, "%02d:%02d", time->hours, time->minutes);
+    sprintf(date_str, "%02d-%02d-%02d", time->year, time->month, time->date);
+    lv_label_set_text(guider_ui.screen_label_time, time_str);
+    lv_label_set_text(guider_ui.screen_label_date, date_str);
+}
+
 void vLvglTaskFunction(void *pvParameters) {
     printf("LVGL task is running. \r\n");
 
@@ -364,6 +394,9 @@ void vLvglTaskFunction(void *pvParameters) {
 	events_init(&guider_ui);
     images_init(&guider_ui);
 
+    ISL1208_Time_t time_read;
+    ISL1208_GetTime(&time_read);
+    update_time_display(&time_read);
     while (1) {
 
         static TickType_t xLastTickCount = 0;
@@ -378,6 +411,7 @@ void vLvglTaskFunction(void *pvParameters) {
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
+
 
 void vflash(void *pvParameters) {
         // for (;;) {

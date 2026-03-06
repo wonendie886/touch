@@ -41,6 +41,8 @@ typedef struct
 	lv_obj_t *screen_label_4;
 	lv_obj_t *screen_label_um;
 	lv_obj_t *screen_label_6;
+	lv_obj_t *screen_label_date;
+	lv_obj_t *screen_label_time;
 	lv_obj_t *screen_btn_11;
 	lv_obj_t *screen_btn_11_label;
 	lv_obj_t *screen_btn_12;
