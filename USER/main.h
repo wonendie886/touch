@@ -43,15 +43,6 @@
 #include "stm32f4xx_hal.h"
 #include "stdint.h"
 
-typedef struct {
-    uint8_t is_visible;      // 容器2的显示状态
-    uint8_t end_flag;        // 正常结束标志
-    uint16_t hide_counter;   // 隐藏计数器
-} container2_status_t;
-
-extern volatile uint8_t grind_time_changed;
-extern volatile uint32_t current_grind_time; 
-
 /* Exported types ------------------------------------------------------------*/
 /* Exported constants --------------------------------------------------------*/
 /* Exported macro ------------------------------------------------------------*/
