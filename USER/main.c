@@ -25,7 +25,6 @@
 extern volatile uint16_t Currenttargeweight;
 
 void vLvglTaskFunction( void * pvParameters );
-void vflash(void *pvParameters);
 void vGrindingControlTask(void *pvParameters);
 void update_time_display(ISL1208_Time_t *time) ;
 void thread_serial(void *pvParameters);
@@ -200,16 +199,16 @@ int main(void)
 
     ISL1208_Init();
 
-    ISL1208_Time_t current_time;
-    ISL1208_Time_t time_read;
-    // // 2. 设置时间
-    // current_time.seconds = 30;
-    // current_time.minutes = 43;
-    // current_time.hours = 16;    // 14:45:30
-    // current_time.date = 4;
-    // current_time.month = 2;
-    // current_time.year = 26;     // 2023年
-    // current_time.day = 7;       // 星期天
+    // ISL1208_Time_t current_time;
+    // ISL1208_Time_t time_read;
+    // // // 2. 设置时间
+    // current_time.seconds = 00;
+    // current_time.minutes = 57;
+    // current_time.hours = 11;    // 14:45:30
+    // current_time.date = 6;
+    // current_time.month = 3;
+    // current_time.year = 26;     // 2026年
+    // current_time.day = 5;       // 星期天
     // current_time.format_12h = 0; // 24小时制
     
     // ISL1208_SetTime(&current_time);
@@ -414,44 +413,6 @@ void vLvglTaskFunction(void *pvParameters) {
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
-
-
-void vflash(void *pvParameters) {
-        // for (;;) {
-        // if (flash_request_flag) {
-        //     flash_request_flag = 0;  // 清除标志
-
-        //     /* 解锁 Flash */
-        //     FLASH_Init();
-
-        //     /* 擦除 sector 11 */
-        //     if (FLASH_EraseSector(USER_FLASH_SECTOR) == HAL_OK) {
-        //         if (FLASH_WriteData(USER_FLASH_START_ADDR, (uint32_t*)&flash_write_data, 
-        //                            sizeof(flash_store_t)/4) == HAL_OK) {
-
-        //             printf("FlashTask: write OK\r\n");
-        //         } else {
-        //             printf("FlashTask: write FAIL\r\n");
-        //         }
-        //     } else {
-        //         printf("FlashTask: erase FAIL\r\n");
-        //     }
-        //     // 读回验证
-        //     flash_store_t read_data;
-        //     uint32_t *src = (uint32_t*)USER_FLASH_START_ADDR;
-        //     uint32_t *dst = (uint32_t*)&read_data;
-        //     uint32_t size = sizeof(flash_store_t) / 4;
-        //     for (uint32_t i = 0; i < size; i++) {
-        //         dst[i] = src[i];
-        //     }
-            
-        //     HAL_FLASH_Lock();
-        // }
-        
-        vTaskDelay(pdMS_TO_TICKS(10)); // 避免空转，占用CPU
-    // }
-}
-
 
 extern uint16_t start_flag;
 extern uint16_t Currenttargetime;

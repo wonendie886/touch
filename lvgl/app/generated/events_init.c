@@ -519,6 +519,7 @@ static void screen_btn_13_event_handler (lv_event_t *e)
     }
 }
 
+/// @brief 调整主页面时间和重量数据
 static void screen_btn_14_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -527,8 +528,6 @@ static void screen_btn_14_event_handler (lv_event_t *e)
     {
         //Save the text content and activate the storage
         show_hide_controls(&guider_ui,0);
-printf("line: %d\n", __LINE__);
-        //flash_store_read(&flash_write_data);
         //Synchronize the content of the input box with the text.
         if (Textselectionflag == 1){
             const char *txt = lv_textarea_get_text(guider_ui.screen_spinbox_1);
@@ -537,15 +536,9 @@ printf("line: %d\n", __LINE__);
                 GrindSetData.time_1 = (uint32_t)(atof(txt) * 1000);
                 sprintf(time1_str, "%.1f", (float)GrindSetData.time_1 / 1000.0f);
                 lv_label_set_text_fmt(guider_ui.screen_label_1, "%s", time1_str);
-                // printf("write %d\n", GrindSetData.time_1);
-                // strncpy(flash_write_data.label1_text, txt, MAX_TEXT_LEN);
                 if(grinding_target == 1){
                     Currenttargetime = GrindSetData.time_1;
-                    // printf("write %d\n", Currenttargetime);
-                    // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
-                    // if(ret != 0){
-                    //     printf("ret == %d\n",ret);
-                    // }
+                    GrindDataStr.data.target = Currenttargetime;
                 }
             } else { 
                 GrindSetData.weight_1 = (uint32_t)(atof(txt) * 10);
@@ -554,53 +547,32 @@ printf("line: %d\n", __LINE__);
                 // printf("write %d\n", GrindSetData.weight_1);  
                 if(grinding_target == 1){
                     Currenttargeweight = GrindSetData.weight_1;
-
-                    // printf("write %d\n", Currenttargeweight);
-                    // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
-                    // if(ret != 0){
-                    //     printf("ret == %d\n",ret);
-                    // }
+                    GrindDataStr.data.target = Currenttargeweight;
                 }
             }
         }
         if (Textselectionflag == 3){
             const char * txt = lv_textarea_get_text(guider_ui.screen_spinbox_1);
             char time2_str[50] = {0};
-            //打印txt数据
-            //printf("txt:%s\n", txt);
             if (isGrindMode == 0) {
                 GrindSetData.time_3 = (uint32_t)(atof(txt) * 1000);
                 sprintf(time2_str, "%.1f", (float)GrindSetData.time_3 / 1000.0f);
                 lv_label_set_text_fmt(guider_ui.screen_label_3, "%s", time2_str);
-                // printf("write %d\n", GrindSetData.time_3);
                 if(grinding_target == 3){
                     Currenttargetime = GrindSetData.time_3;
-                    // printf("write %d\n", Currenttargetime);
-                    // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_TIME, Currenttargetime, 100);
-                    // if(ret!= 0){
-                    //     printf("ret == %d\n",ret);
-                    // }
+                    GrindDataStr.data.target = Currenttargetime;
                 }   
             } else {
-                // lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", txt);
                 GrindSetData.weight_3 = (uint32_t)(atof(txt) * 10);
                 sprintf(time2_str, "%.1f", (float)GrindSetData.weight_3 / 10.0f);
                 lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", time2_str);
-                // printf("write %d\n", GrindSetData.weight_3);
                 if(grinding_target == 3){
                     Currenttargeweight = GrindSetData.weight_3;
-                    // printf("write %d\n", Currenttargeweight);
-                    // int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_GRIND_WEIGHT, Currenttargeweight, 100);
-                    // if(ret != 0){
-                    //     printf("ret == %d\n",ret);
-                    // }
+                    GrindDataStr.data.target = Currenttargeweight;
                 }
-                //打印flash_write_data.label6_text
-                //printf("flash_write_data.label6_text:%s\n", flash_write_data.label6_text);
             }
         }
         // 设置标志位，触发flash写入任务
-        // flash_request_flag = 1;
         flashDataSave();
         Textselectionflag = 0;
 
