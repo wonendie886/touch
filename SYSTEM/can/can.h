@@ -35,7 +35,7 @@ extern "C" {
 #define GatewayId 0x2
 #define HmiId 0x1
 #define SEMIID 0x3
-#define WEIGHT_SCALE_ID 0x4
+#define WEIGHTID 0x4
 #define GRINDID 0x5
 #define GRIND_HMI_ID 0x6
 #define PC_TEST_ID 0xa
@@ -46,6 +46,16 @@ enum GRIND_HMI_ID_FUNC_TYPE{
     GRIND_HMI_ID_HEART_BEAT,
     GRIND_HMI_ID_TARGET_WEIGHT,
     GRIND_HMI_ID_CURRENT_WEIGHT,
+};
+
+enum FUNC_RECEIVESCALECOMMANDTYPE {  //Receive
+  FUNC_WEIGHINGCOMMAND = 1,      // 称重命令
+  FUNC_WEIGHINGDATA = 2,         // 称重数据
+  FUNC_INSERT_BASKET, 
+  FUNC_GRIND, 
+  FUNC_CALIBRATIONCOMMAND,   // 校准命令
+  FUNC_HEARTBEATDATA,         // 心跳数据
+  FUNC_CALIBRATIONTEST     //校准测试
 };
 
 typedef struct _can_msg{
@@ -104,6 +114,7 @@ HAL_StatusTypeDef CAN_StartReceive_IT(void);
 HAL_StatusTypeDef CAN_Transmit_IT(uint32_t id, uint8_t *data, uint8_t len);
 
 void sendHeartBeat(uint8_t status);
+void can0SendWeightTestValve(uint16_t data,uint16_t data2);
 
 /** User-overridable callback for received frames.
  *  Override this function in your application to handle incoming frames.

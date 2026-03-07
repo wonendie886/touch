@@ -154,6 +154,7 @@ int main(void)
     CAN_Init_IT(500);
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
+
     MX_DMA_Init();
     MX_ADC1_Init();
 	// xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
@@ -199,7 +200,7 @@ void thread_serial(void *pvParameters)
         }
         #endif
         vol = Get_ADC_Voltage();     
-        
+        can0SendWeightTestValve(vol*100,0);
         printf(" Voltage: %.2f v\r\n",vol);
         #if 0
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
@@ -278,7 +279,7 @@ void thread_serial(void *pvParameters)
             //printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
         #endif
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
 

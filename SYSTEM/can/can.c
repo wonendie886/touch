@@ -158,6 +158,67 @@ void CAN1_SCE_IRQHandler(void)
 {
     HAL_CAN_IRQHandler(&hcan);
 }
+void can0SendWeightTestValve(uint16_t data,uint16_t data2)
+{
+    uint32_t id = (0x000000FF & ((WEIGHTID & 0x0F) << 0)) | ((GRINDID & 0x0F) << 4);
+    uint8_t len = 5;
+    uint8_t data_send[5] = {0};
+
+    data_send[0] = (uint8_t)(data & 0xFF);
+    data_send[1] = (uint8_t)((data >> 8) & 0xFF);
+    data_send[2] = 0;
+    data_send[3] = (uint8_t)(data2 & 0xFF);
+    data_send[4] = (uint8_t)((data2 >> 8) & 0xFF);
+
+    uint8_t crc = 0;
+    for(uint8_t i = 0; i < len; i++){
+        crc += data_send[i];
+    }
+
+    id = id | (FUNC_WEIGHINGDATA << 8 & 0xFF00);
+    id = id | ((crc << 16) & 0xFF0000);
+
+    CAN_Transmit_IT(id,data_send,len);
+}
+
+// void can0SendWeightTestValve(uint16_t data,uint16_t data2)
+// {
+//     // 初始化CAN发送消息结构体
+//     can_struct_para_init(CAN_TX_MESSAGE_STRUCT, &CanTransmitMsg); 
+
+//     // 构造扩展帧标识符
+//     CanTransmitMsg.tx_efid = (0x000000FF & ((WEIGHTID & 0x0F) << 0)) | ((GRINDID & 0x0F) << 4);
+    
+//     // 设置消息类型为数据帧
+//     CanTransmitMsg.tx_ft = CAN_FT_DATA; 
+    
+//     // 设置帧格式为扩展帧
+//     CanTransmitMsg.tx_ff = CAN_FF_EXTENDED; 
+    
+//     // 设置数据长度为4字节
+//     CanTransmitMsg.tx_dlen = 5; 
+    
+//     // 填充数据字段
+//     CanTransmitMsg.tx_data[0] = (uint8_t)(data & 0xFF);
+//     CanTransmitMsg.tx_data[1] = (uint8_t)((data >> 8) & 0xFF);
+//     CanTransmitMsg.tx_data[2] = 0;
+//     CanTransmitMsg.tx_data[3] = (uint8_t)(data2 & 0xFF);
+//     CanTransmitMsg.tx_data[4] = (uint8_t)((data2 >> 8) & 0xFF);
+
+//     // 计算CRC校验值
+//     uint8_t crc = 0;
+//     for(uint8_t i = 0; i < CanTransmitMsg.tx_dlen; i++){
+//         crc += CanTransmitMsg.tx_data[i];
+//     }
+    
+//     // 将CRC值加入扩展帧标识符
+//     CanTransmitMsg.tx_efid = CanTransmitMsg.tx_efid | (FUNC_WEIGHINGDATA << 8 & 0xFF00);
+//     CanTransmitMsg.tx_efid = CanTransmitMsg.tx_efid | ((crc << 16) & 0xFF0000);
+    
+//     // 发送CAN消息
+//     can_message_transmit(CAN0, &CanTransmitMsg);
+// }
+
 
 void sendHeartBeat(uint8_t status)
 {
