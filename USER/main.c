@@ -21,6 +21,7 @@
 #include "main.h"
 #include "rtc.h"
 #include "uart.h"
+#include "adc.h"
 
 
 /// @brief external variables
@@ -120,7 +121,7 @@ int main(void)
 	STM32_Clock_Init(336,25,2,7);  	
 
 	delay_init(168);               
-	LED_Init();					
+	// LED_Init();					
 	//TIM2_Init();	
 	//KEY_Init();
     uart6_init(); 
@@ -153,8 +154,9 @@ int main(void)
     CAN_Init_IT(500);
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
-    
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
+    MX_DMA_Init();
+    MX_ADC1_Init();
+	// xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
     xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
 	vTaskStartScheduler();  
 
@@ -163,7 +165,6 @@ int main(void)
     {           
 	}
 }
-
 
 void thread_serial(void *pvParameters)
 {
@@ -177,29 +178,30 @@ void thread_serial(void *pvParameters)
     uint8_t laststate = 0;
 
     static TickType_t lastUpdateTime = 0;
-    const TickType_t updateTimePeriod = pdMS_TO_TICKS(30000); // 30秒周期
+    const TickType_t updateTimePeriod = pdMS_TO_TICKS(1000); // 30秒周期
 
     ISL1208_Time_t time_read;
 
     // //读取时间
     ISL1208_GetTime(&time_read);
-
+    float vol = 0;
     while (1){
-
-   // 每30秒更新一次时间
+        #if 0
+        // 每30秒更新一次时间
         TickType_t currentTime = xTaskGetTickCount();
         if (currentTime - lastUpdateTime >= updateTimePeriod) {
             lastUpdateTime = currentTime;
             
             ISL1208_GetTime(&time_read);  // 读取RTC时间
-                
-            update_time_display(&time_read);
-                
             //通过串口打印调试
-            printf("RTC Updated: %02d:%02d:%02d\n", 
-                    time_read.hours, time_read.minutes, time_read.seconds);
+            // printf("RTC Updated: %02d:%02d:%02d\n", 
+            //         time_read.hours, time_read.minutes, time_read.seconds);
         }
-
+        #endif
+        vol = Get_ADC_Voltage();     
+        
+        printf(" Voltage: %.2f v\r\n",vol);
+        #if 0
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
             len = setGrindCmdType(buf, &GrindDataStr.data);       
         } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
@@ -275,6 +277,7 @@ void thread_serial(void *pvParameters)
             }
             //printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
+        #endif
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

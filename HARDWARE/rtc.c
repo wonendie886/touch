@@ -209,7 +209,6 @@ HAL_StatusTypeDef ISL1208_GetTime(ISL1208_Time_t *time)
     // 解析数据
     time->seconds = BCD_to_DEC(data[0] & ISL1208_SECONDS_MASK);
     time->minutes = BCD_to_DEC(data[1] & ISL1208_MINUTES_MASK);
-    printf("ISL1208 RTC seconds = %d\n",time->seconds);
     // 检查是否为24小时制
     if (data[2] & ISL1208_HR_MIL) {
         // 24小时制
