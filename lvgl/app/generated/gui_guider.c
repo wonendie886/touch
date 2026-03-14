@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2026 NXP
 * NXP Proprietary. This software is owned or controlled by NXP and may only be used strictly in
 * accordance with the applicable license terms. By expressly accepting such terms or by downloading, installing,
 * activating and/or otherwise using the software, you are agreeing that you have read, and that you agree to
@@ -76,7 +76,6 @@ void init_scr_del_flag(lv_ui *ui)
 {
 
     ui->screen_del = true;
-    ui->screen_1_del = true;
 }
 
 void setup_ui(lv_ui *ui)
@@ -89,8 +88,5 @@ void setup_ui(lv_ui *ui)
 
 void init_keyboard(lv_ui *ui)
 {
-    ui->g_kb_top_layer = lv_keyboard_create(lv_layer_top());
-    lv_obj_add_event_cb(ui->g_kb_top_layer, kb_event_cb, LV_EVENT_ALL, NULL);
-    lv_obj_add_flag(ui->g_kb_top_layer, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_set_style_text_font(ui->g_kb_top_layer, &lv_font_SourceHanSerifSC_Regular_18, LV_PART_MAIN|LV_STATE_DEFAULT);
+
 }

@@ -16,7 +16,7 @@ const uint8_t SYSTEMSTATE_STEAM_BOILER_FILLWATER = 0x01;
 void getProtocol(const uint8_t *buf,struct Protocol *ret)
 {
     //the head and foot is 0xe7 ? is the length valid?
-    if (buf[HEAD_OFFSET] != FRAME_HEAD_1 || buf[HEAD_OFFSET+1] != FRAME_HEAD_2 || buf[LEN_OFFSET] != FRAME_LEN
+    if (buf[HEAD_OFFSET] != FRAME_HEAD_1 || buf[HEAD_OFFSET+1] != FRAME_HEAD_2 || buf[LEN_OFFSET] != FRAME_MIN_LEN
         || buf[buf[LEN_OFFSET] - 2] != FRAME_FOOT_1 || buf[buf[LEN_OFFSET] - 1] != FRAME_FOOT_2) {
         ret->frameState = FRAME_INVALID;
     } else {
@@ -40,32 +40,56 @@ void getProtocol(const uint8_t *buf,struct Protocol *ret)
             return;
         }
 
-        ret->frame.warn = buf[ABNORMALSTATE_OFFSET];
-        ret->frame.mode = buf[MODE_OFFSET];
-        ret->frame.target = buf[TARGET_OFFSET]  | buf[TARGET_OFFSET + 1] << 8;
+        // ret->frame.warn = buf[ABNORMALSTATE_OFFSET];
+        // ret->frame.mode = buf[MODE_OFFSET];
+        // ret->frame.target = buf[TARGET_OFFSET]  | buf[TARGET_OFFSET + 1] << 8;
 
         ret->frame.cmd = buf[CMDTYPE_OFFSET];
-        ret->frame.cmd_state = buf[CMDSTATE_OFFSET];
+        // ret->frame.cmd_state = buf[CMDSTATE_OFFSET];
         ret->frame.cmd_number = buf[CMDNUMBER_OFFSET];
     }
 }
 
 static uint8_t m_buf[FRAME_MAX_LEN];
-int setGrindCmdType(uint8_t *buf,struct GrindData *pData)
+// int setGrindCmdType(uint8_t *buf,struct GrindData *pData)
+// {
+//     //set m_buf content
+//     m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+//     m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+//     m_buf[LEN_OFFSET] =  FRAME_LEN;
+//     m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+//     m_buf[MODE_OFFSET] = pData->mode;
+//     m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
+//     m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
+
+//     m_buf[CMDTYPE_OFFSET] = CMDTYPE_GRIND;
+//     m_buf[CMDSTATE_OFFSET] = pData->cmd_state;
+//     m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+
+//     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+//     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+//     //set Crc content
+//     setCrc();
+
+//     uint8_t len = m_buf[LEN_OFFSET];
+//     for (int i = 0; i < len; i++) {
+//         buf[i] = m_buf[i];
+//     }
+
+//     return len;
+// }
+
+int setFillwater(uint8_t *buf,struct GrindData *pData)
 {
     //set m_buf content
     m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
     m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
-    m_buf[LEN_OFFSET] =  FRAME_LEN;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN;
     m_buf[ABNORMALSTATE_OFFSET] = 0;
 
-    m_buf[MODE_OFFSET] = pData->mode;
-    m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
-    m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
-
-    m_buf[CMDTYPE_OFFSET] = CMDTYPE_GRIND;
-    m_buf[CMDSTATE_OFFSET] = pData->cmd_state;
-    m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_SYSTEM_FILL_WATER;
 
     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
@@ -77,31 +101,39 @@ int setGrindCmdType(uint8_t *buf,struct GrindData *pData)
     for (int i = 0; i < len; i++) {
         buf[i] = m_buf[i];
     }
-
     return len;
 }
-
-int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData)
+extern uint16_t volume;
+int setdosteam(uint8_t *buf,struct GrindData *pData)
 {
     //set m_buf content
     m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
     m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
-    m_buf[LEN_OFFSET] =  FRAME_LEN;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN +STEAM_BYTE + 2;
     m_buf[ABNORMALSTATE_OFFSET] = 0;
 
-    m_buf[MODE_OFFSET] = 0;
-    m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
-    m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
+    // m_buf[MODE_OFFSET] = 0;
+    // m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
+    // m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
 
-    m_buf[CMDTYPE_OFFSET] = CMDTYPE_CALIBRATION;
-    m_buf[CMDSTATE_OFFSET] = 0;
-    m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+    // m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
 
     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
-
+    m_buf[PARAM_OFFSET + 0] = 1;
+    m_buf[PARAM_OFFSET + 1] = 1;
+    m_buf[PARAM_OFFSET + 2] = TYPE_STEAM;
+    m_buf[PARAM_OFFSET + 2 + 1] = 0;
+    m_buf[PARAM_OFFSET + 2 + 2] = volume & 0x00FF;
+    m_buf[PARAM_OFFSET + 2 + 3] = volume & 0xFF00;
+    m_buf[PARAM_OFFSET + 2 + 4] = 0;
+    m_buf[PARAM_OFFSET + 2 + 5] = 0;
+    m_buf[PARAM_OFFSET + 2 + 6] = 0;
+    m_buf[PARAM_OFFSET + 2 + 7] = 0;
+    m_buf[PARAM_OFFSET + 2 + 8] = 0;
     //set Crc content
-    setCrc();
+     setCrc();
 
     uint8_t len = m_buf[LEN_OFFSET];
     for (int i = 0; i < len; i++) {
@@ -111,27 +143,25 @@ int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData)
     return len;
 }
 
-int setGapCmdType(uint8_t *buf,struct GrindData *pData)
+int setcancel(uint8_t *buf,struct GrindData *pData)
 {
     //set m_buf content
     m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
     m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
-    m_buf[LEN_OFFSET] =  FRAME_LEN;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN +1;
     m_buf[ABNORMALSTATE_OFFSET] = 0;
 
-    m_buf[MODE_OFFSET] = pData->mode;
-    m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
-    m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
+    // m_buf[MODE_OFFSET] = 0;
+    // m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
+    // m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
 
-    m_buf[CMDTYPE_OFFSET] = CMDTYPE_SET_GAP;
-    m_buf[CMDSTATE_OFFSET] = 0;
-    m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
+    // m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
 
     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
-
     //set Crc content
-    setCrc();
+     setCrc();
 
     uint8_t len = m_buf[LEN_OFFSET];
     for (int i = 0; i < len; i++) {
@@ -140,11 +170,70 @@ int setGapCmdType(uint8_t *buf,struct GrindData *pData)
 
     return len;
 }
+// int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData)
+// {
+//     //set m_buf content
+//     m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+//     m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+//     m_buf[LEN_OFFSET] =  FRAME_LEN;
+//     m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+//     m_buf[MODE_OFFSET] = 0;
+//     m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
+//     m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
+
+//     m_buf[CMDTYPE_OFFSET] = CMDTYPE_CALIBRATION;
+//     m_buf[CMDSTATE_OFFSET] = 0;
+//     m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+
+//     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+//     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+//     //set Crc content
+//     setCrc();
+
+//     uint8_t len = m_buf[LEN_OFFSET];
+//     for (int i = 0; i < len; i++) {
+//         buf[i] = m_buf[i];
+//     }
+
+//     return len;
+// }
+
+// int setGapCmdType(uint8_t *buf,struct GrindData *pData)
+// {
+//     //set m_buf content
+//     m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+//     m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+//     m_buf[LEN_OFFSET] =  FRAME_LEN;
+//     m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+//     m_buf[MODE_OFFSET] = pData->mode;
+//     m_buf[TARGET_OFFSET] = pData->target & 0x00FF;
+//     m_buf[TARGET_OFFSET+1] = (pData->target >> 8) & 0x00FF;
+
+//     m_buf[CMDTYPE_OFFSET] = CMDTYPE_SET_GAP;
+//     m_buf[CMDSTATE_OFFSET] = 0;
+//     m_buf[CMDNUMBER_OFFSET] = pData->cmd_number;
+
+//     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+//     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+//     //set Crc content
+//     setCrc();
+
+//     uint8_t len = m_buf[LEN_OFFSET];
+//     for (int i = 0; i < len; i++) {
+//         buf[i] = m_buf[i];
+//     }
+
+//     return len;
+// }
 
 static int setCrc(void)
 {
     //the head and foot is 0xe7 ? is the length valid?
-    if (m_buf[HEAD_OFFSET] != FRAME_HEAD_1 || m_buf[HEAD_OFFSET+1] != FRAME_HEAD_2 || m_buf[LEN_OFFSET] != FRAME_LEN
+    if (m_buf[HEAD_OFFSET] != FRAME_HEAD_1 || m_buf[HEAD_OFFSET+1] != FRAME_HEAD_2 || m_buf[LEN_OFFSET] < FRAME_MIN_LEN
         || m_buf[m_buf[LEN_OFFSET] - 2] != FRAME_FOOT_1 || m_buf[m_buf[LEN_OFFSET] - 1] != FRAME_FOOT_2) {
         return -1;
     } else {
@@ -156,6 +245,7 @@ static int setCrc(void)
 
         //crc offset is 2 from behind
         m_buf[m_buf[LEN_OFFSET] - 3] = sum & 0xFF;
+
     }
 
     return m_buf[LEN_OFFSET];

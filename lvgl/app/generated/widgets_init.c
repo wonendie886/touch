@@ -1,5 +1,5 @@
 /*
-* Copyright 2025 NXP
+* Copyright 2026 NXP
 * NXP Proprietary. This software is owned or controlled by NXP and may only be used strictly in
 * accordance with the applicable license terms. By expressly accepting such terms or by downloading, installing,
 * activating and/or otherwise using the software, you are agreeing that you have read, and that you agree to
@@ -76,32 +76,4 @@ void clock_count(int *hour, int *min, int *sec)
 }
 #endif
 
-void lv_screen_spinbox_1_increment_event_cb(lv_event_t * event)
-{
-    lv_event_code_t code = lv_event_get_code(event);
-    if(code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LONG_PRESSED_REPEAT) {
-        lv_spinbox_increment(guider_ui.screen_spinbox_1);
-    }
-}
-void lv_screen_spinbox_1_decrement_event_cb(lv_event_t * event)
-{
-    lv_event_code_t code = lv_event_get_code(event);
-    if(code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LONG_PRESSED_REPEAT) {
-        lv_spinbox_decrement(guider_ui.screen_spinbox_1);
-    }
-}
-void lv_screen_1_spinbox_1_increment_event_cb(lv_event_t * event)
-{
-    lv_event_code_t code = lv_event_get_code(event);
-    if(code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LONG_PRESSED_REPEAT) {
-        lv_spinbox_increment(guider_ui.screen_1_spinbox_1);
-    }
-}
-void lv_screen_1_spinbox_1_decrement_event_cb(lv_event_t * event)
-{
-    lv_event_code_t code = lv_event_get_code(event);
-    if(code == LV_EVENT_SHORT_CLICKED || code == LV_EVENT_LONG_PRESSED_REPEAT) {
-        lv_spinbox_decrement(guider_ui.screen_1_spinbox_1);
-    }
-}
 

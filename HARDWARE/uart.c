@@ -110,6 +110,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 					rFrameBuf[recivedCount++] = redata;
 
 					if (recivedCount == frameLen ){
+                        // for(int i=0;i<frameLen;i++)
+                        // {
+                        //     printf("%02X ",rFrameBuf[i]);
+                        // }
+                        // printf("\n");                        
 						dataIsReady = 1; 
 						rxStatus = RX_NULL;
 					}
@@ -171,7 +176,7 @@ uint32_t sendData(const void* buf, uint32_t len)
     if(HAL_UART_Transmit_IT(&huart4, (uint8_t *)buf, len) != HAL_OK) {
         len = 0;
     }
-    for(int k = 0; k < 50000; k++)
+    for(int k = 0; k < 200000; k++)
         ;
     HAL_GPIO_WritePin(GPIOA,GPIO_PIN_2,GPIO_PIN_RESET);
     return len;

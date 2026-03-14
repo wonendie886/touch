@@ -177,37 +177,39 @@ void thread_serial(void *pvParameters)
     uint8_t laststate = 0;
 
     static TickType_t lastUpdateTime = 0;
-    const TickType_t updateTimePeriod = pdMS_TO_TICKS(30000); // 30秒周期
-
+    const TickType_t updateTimePeriod = pdMS_TO_TICKS(5000); // 30秒周期
+    int time = 0;
     ISL1208_Time_t time_read;
-
+    bool isfillwater = false;
     // //读取时间
-    ISL1208_GetTime(&time_read);
+    // ISL1208_GetTime(&time_read);
 
     while (1){
 
-   // 每30秒更新一次时间
+   // 开机5s后补一次水
         TickType_t currentTime = xTaskGetTickCount();
-        if (currentTime - lastUpdateTime >= updateTimePeriod) {
-            lastUpdateTime = currentTime;
-            
-            ISL1208_GetTime(&time_read);  // 读取RTC时间
-                
-            update_time_display(&time_read);
-                
-            //通过串口打印调试
-            printf("RTC Updated: %02d:%02d:%02d\n", 
-                    time_read.hours, time_read.minutes, time_read.seconds);
-        }
-
+        if (currentTime - lastUpdateTime >= updateTimePeriod && time < 2 ) {           
+            GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
+            printf("11111");
+            time++;
+        } 
+        
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-            len = setGrindCmdType(buf, &GrindDataStr.data);       
-        } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
-            len = setCalibrationCmdType(buf, &GrindDataStr.data);
-        } else if (GrindDataStr.data.cmd == CMDTYPE_SET_GAP){
-            len = setGapCmdType(buf, &GrindDataStr.data);
+
+        } else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
+            len = setFillwater(buf,&GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM){
+            len = setdosteam(buf, &GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB ){
+            len = setcancel(buf, &GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
         }
-        sendData(buf, len);
+        
         timeover = 0;
         while (!dataIsReady && timeover < 20) {
             timeover++;
@@ -215,65 +217,58 @@ void thread_serial(void *pvParameters)
         }
         #if 1
         if (timeover >= 20) {
-            printf("timeover line = %d\r\n", __LINE__);
+            // printf("timeover line = %d\r\n", __LINE__);
             uint32_t error_code;// = huart->ErrorCode;
             uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
             
             // 打印错误信息（如果可以使用printf）
-            printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
+            // printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
         }
         #endif
         if (dataIsReady){
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
-                GrindDatarx.mode = c.frame.mode;
-                GrindDatarx.target = c.frame.target;
-                GrindDatarx.cmd_state = c.frame.cmd_state;
-                GrindDatarx.cmd_number = c.frame.cmd_number;                        
-            if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-                if (c.frame.cmd_state == CMD_STATE_EXECUTING){
-                    lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN); 
-                    lv_obj_add_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
-                    lv_obj_add_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
+            if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
+            
+            } 
+            //     GrindDatarx.mode = c.frame.mode;
+            //     GrindDatarx.target = c.frame.target;
+            //     GrindDatarx.cmd_state = c.frame.cmd_state;
+            //     GrindDatarx.cmd_number = c.frame.cmd_number;                        
+            // if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
+            //     if (c.frame.cmd_state == CMD_STATE_EXECUTING){
+            //         lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN); 
+            //         lv_obj_add_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
+            //         lv_obj_add_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
 
-                    char dataStr[20];  
+            //         char dataStr[20];  
                     
-                    if(GrindDataStr.data.mode == MODE_TIME){
-                        sprintf(dataStr, "%.1f", c.frame.target/1000.0f);
-                        lv_label_set_text(guider_ui.screen_label_8, dataStr); 
-                        lv_label_set_text(guider_ui.screen_label_9, "s"); 
-                    } else if(GrindDataStr.data.mode == MODE_WEIGHT){
-                        sprintf(dataStr, "%.1f", c.frame.target/10.0f);
-                        lv_label_set_text(guider_ui.screen_label_8, dataStr); 
-                        lv_label_set_text(guider_ui.screen_label_9, "g");
-                    }
+            //         if(GrindDataStr.data.mode == MODE_TIME){
+            //             sprintf(dataStr, "%.1f", c.frame.target/1000.0f);
+            //             lv_label_set_text(guider_ui.screen_label_8, dataStr); 
+            //             lv_label_set_text(guider_ui.screen_label_9, "s"); 
+            //         } else if(GrindDataStr.data.mode == MODE_WEIGHT){
+            //             sprintf(dataStr, "%.1f", c.frame.target/10.0f);
+            //             lv_label_set_text(guider_ui.screen_label_8, dataStr); 
+            //             lv_label_set_text(guider_ui.screen_label_9, "g");
+            //         }
 
-                } else if (c.frame.cmd_state == CMD_STATE_PAUSE){
+            //     } else if (c.frame.cmd_state == CMD_STATE_PAUSE){
                     
-                } else if (c.frame.cmd_state == CMD_STATE_SUCCESS) {
-                    lv_obj_clear_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
-                    lv_obj_clear_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
-                    // char time_str[10]; 
-                    // sprintf(time_str, "%.1f", GrindDataStr.data.target/1000.0f);
-                    // lv_label_set_text(guider_ui.screen_label_8, time_str); 
+            //     } else if (c.frame.cmd_state == CMD_STATE_SUCCESS) {
+            //         lv_obj_clear_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
+            //         lv_obj_clear_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
+            //         // char time_str[10]; 
+            //         // sprintf(time_str, "%.1f", GrindDataStr.data.target/1000.0f);
+            //         // lv_label_set_text(guider_ui.screen_label_8, time_str); 
 
-                    if(laststate == CMD_STATE_EXECUTING)
-                    vTaskDelay(pdMS_TO_TICKS(2000));  // 延迟2000毫秒（2秒）
-                    lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);          
-                } 
-                laststate = c.frame.cmd_state;  
-            } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
-                if (c.frame.cmd_state == CMD_STATE_SUCCESS){
-                    GrindDataStr.data.cmd = CMDTYPE_GRIND;
-                    
-                }
-            } else if (GrindDataStr.data.cmd == CMDTYPE_SET_GAP){
-                if (c.frame.cmd_state == CMD_STATE_SUCCESS){
-                    GrindDataStr.data.cmd = CMDTYPE_GRIND;
-                    
-                }
-            }
-            //printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
+            //         if(laststate == CMD_STATE_EXECUTING)
+            //         vTaskDelay(pdMS_TO_TICKS(2000));  // 延迟2000毫秒（2秒）
+            //         lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);          
+            //     } 
+            //     laststate = c.frame.cmd_state;  
+            // } 
+
         }
         vTaskDelay(pdMS_TO_TICKS(100));
     }
@@ -294,11 +289,11 @@ void vLvglTaskFunction(void *pvParameters) {
 
 	setup_ui(&guider_ui);
 	events_init(&guider_ui);
-    images_init(&guider_ui);
+    // images_init(&guider_ui);
 
     ISL1208_Time_t time_read;
     ISL1208_GetTime(&time_read);
-    update_time_display(&time_read);
+    // update_time_display(&time_read);
     while (1) {
 
         static TickType_t xLastTickCount = 0;
