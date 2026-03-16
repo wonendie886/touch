@@ -190,7 +190,6 @@ void thread_serial(void *pvParameters)
         TickType_t currentTime = xTaskGetTickCount();
         if (currentTime - lastUpdateTime >= updateTimePeriod && time < 2 ) {           
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
-            printf("11111");
             time++;
         } 
         

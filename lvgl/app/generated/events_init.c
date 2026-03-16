@@ -11,19 +11,21 @@
 #include <stdio.h>
 #include "lvgl.h"
 #include "protocol.h"
+
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
 #endif
+
 extern struct GrindRealData GrindDataStr;
 uint16_t volume;
+
 static void screen_btn_cancel_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
-    {  
+    {
         GrindDataStr.data.cmd = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
-        
         break;
     }
     default:
@@ -76,7 +78,7 @@ static void screen_btn_steam2_event_handler (lv_event_t *e)
     }
 }
 
-static void screen_btn_steam1_event_handler (lv_event_t *e)
+static void screen_btn_rinse_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -97,7 +99,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_steam4, screen_btn_steam4_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_steam3, screen_btn_steam3_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_steam2, screen_btn_steam2_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_btn_steam1, screen_btn_steam1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_rinse, screen_btn_rinse_event_handler, LV_EVENT_ALL, ui);
 }
 
 
