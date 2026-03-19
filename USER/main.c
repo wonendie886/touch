@@ -150,9 +150,19 @@ int main(void)
 
     flashDataInit();
     
-    CAN_Init_IT(500);
-    CAN_ConfigFilterAcceptAll();
-    CAN_StartReceive_IT();
+    // CAN_Init_IT(500);
+    // CAN_ConfigFilterAcceptAll();
+    // CAN_StartReceive_IT();
+
+    if (CAN_Init_IT(500) != HAL_OK) {
+        printf("CAN Init failed!\n");
+    }
+    if (CAN_ConfigFilterAcceptAll() != HAL_OK) {
+        printf("CAN Filter Config failed!\n");
+    }
+    if (CAN_StartReceive_IT() != HAL_OK) {
+        printf("CAN Start Receive failed!\n");
+    }
     
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
     xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
@@ -175,6 +185,8 @@ void thread_serial(void *pvParameters)
     GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
     GrindDataStr.data.cmd = CMDTYPE_GRIND;
     uint8_t laststate = 0;
+    uint32_t time = 0 ;
+
 
     static TickType_t lastUpdateTime = 0;
     const TickType_t updateTimePeriod = pdMS_TO_TICKS(30000); // 30秒周期
@@ -201,7 +213,10 @@ void thread_serial(void *pvParameters)
         }
 
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-            len = setGrindCmdType(buf, &GrindDataStr.data);       
+            len = setGrindCmdType(buf, &GrindDataStr.data);    
+            // if (time >= 3000) {
+            //     sendHeartBeat(0);
+            // }    
         } else if (GrindDataStr.data.cmd == CMDTYPE_CALIBRATION){
             len = setCalibrationCmdType(buf, &GrindDataStr.data);
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_GAP){
@@ -275,6 +290,44 @@ void thread_serial(void *pvParameters)
             }
             //printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
+
+        if (can_msg.data_is_ready){
+            can_msg.data_is_ready = 0;
+            uint8_t crc = 0;
+            for(int i = 0;i < can_msg.rx_dlen;i++){
+                crc += can_msg.rx_data[i];
+            }
+            if (getCrc(can_msg.rx_efid)  == crc ) {
+                if (getDestId(can_msg.rx_efid)  == GRIND_HMI_ID ) {
+                    if ( getCmdType(can_msg.rx_efid) == GRIND_HMI_ID_TARGET_WEIGHT) {
+                        int weight = (can_msg.rx_data[3] << 24) | (can_msg.rx_data[2] << 16) 
+                                    | (can_msg.rx_data[1] << 8) | can_msg.rx_data[0];
+                        char str[50] = {0};
+
+                        GrindDataStr.weight = weight;
+
+                        sprintf(str, "%.1f", (float)GrindDataStr.weight / 10.0f);
+                        lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", str);
+                        lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", str);
+                    } 
+                }
+            } else {
+                printf("crc failed\r\n");
+            }
+
+        }
+
+        if(time >= 3000){
+            if ( GrindDataStr.data.mode == MODE_TIME )
+            sendHeartBeat(0);
+            else if (GrindDataStr.data.mode == MODE_WEIGHT)
+            sendHeartBeat(1);
+            printf("11111");
+            time = 0;
+        }
+
+        time += 100;
+
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }

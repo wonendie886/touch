@@ -173,7 +173,11 @@ void sendHeartBeat(uint8_t status)
     id = id | (GRIND_HMI_ID_HEART_BEAT << 8 & 0xFF00);
     id = id | ((crc << 16) & 0xFF0000);
 
-    CAN_Transmit_IT(id,data,len);
+    // CAN_Transmit_IT(id,data,len);
+    HAL_StatusTypeDef result = CAN_Transmit_IT(id, data, len);
+    if(result != HAL_OK) {
+        printf("CAN Transmit failed! Status: %d\n", result);
+    }
 }
 
 uint8_t getSrcId(uint32_t canId)
