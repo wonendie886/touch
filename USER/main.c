@@ -67,6 +67,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 #ifdef CAN_Id_Extended
     if (r->IDE == CAN_Id_Extended) {
         can_msg.rx_efid = r->ExtId;
+        printf("11111");
         can_msg.data_is_ready = 1;
     } 
 #else
