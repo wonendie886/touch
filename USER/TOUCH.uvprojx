@@ -365,11 +365,7 @@
               <MiscControls></MiscControls>
               <Define>USE_HAL_DRIVER,STM32F407xx</Define>
               <Undefine></Undefine>
-<<<<<<< Updated upstream
               <IncludePath>..\CORE;..\OBJ;..\USER;..\USMART;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\24CXX;..\HARDWARE\IIC;..\HARDWARE\TOUCH;..\lvgl;..\lvgl\app\generated;..\lvgl\app\generated\guider_customer_fonts;..\lvgl\porting;..\lvgl\src;..\lvgl\src\core;..\lvgl\src\draw;..\lvgl\src\draw\arm2d;..\lvgl\src\draw\nxp;..\lvgl\src\draw\nxp\pxp;..\lvgl\src\draw\nxp\vglite;..\lvgl\src\draw\renesas;..\lvgl\src\draw\sdl;..\lvgl\src\draw\stm32_dma2d;..\lvgl\src\draw\sw;..\lvgl\src\draw\swm341_dma2d;..\lvgl\src\extra;..\lvgl\src\extra\layouts;..\lvgl\src\extra\layouts\flex;..\lvgl\src\extra\layouts\grid;..\lvgl\src\extra\libs;..\lvgl\src\extra\libs\bmp;..\lvgl\src\extra\libs\ffmpeg;..\lvgl\src\extra\libs\freetype;..\lvgl\src\extra\libs\fsdrv;..\lvgl\src\extra\libs\gif;..\lvgl\src\extra\libs\png;..\lvgl\src\extra\libs\qrcode;..\lvgl\src\extra\libs\rlottie;..\lvgl\src\extra\libs\sjpg;..\lvgl\src\extra\libs\tiny_ttf;..\lvgl\src\extra\others;..\lvgl\src\extra\others\fragment;..\lvgl\src\extra\others\gridnav;..\lvgl\src\extra\others\ime;..\lvgl\src\extra\others\imgfont;..\lvgl\src\extra\others\monkey;..\lvgl\src\extra\others\msg;..\lvgl\src\extra\others\snapshot;..\lvgl\src\extra\themes;..\lvgl\src\extra\themes\basic;..\lvgl\src\extra\themes\default;..\lvgl\src\extra\themes\mono;..\lvgl\src\extra\widgets;..\lvgl\src\extra\widgets\animimg;..\lvgl\src\extra\widgets\calendar;..\lvgl\src\extra\widgets\chart;..\lvgl\src\extra\widgets\colorwheel;..\lvgl\src\extra\widgets\imgbtn;..\lvgl\src\extra\widgets\keyboard;..\lvgl\src\extra\widgets\led;..\lvgl\src\extra\widgets\list;..\lvgl\src\extra\widgets\menu;..\lvgl\src\extra\widgets\meter;..\lvgl\src\extra\widgets\msgbox;..\lvgl\src\extra\widgets\span;..\lvgl\src\extra\widgets\spinbox;..\lvgl\src\extra\widgets\spinner;..\lvgl\src\extra\widgets\tabview;..\lvgl\src\extra\widgets\tileview;..\lvgl\src\extra\widgets\win;..\lvgl\src\font;..\lvgl\src\hal;..\lvgl\src\misc;..\lvgl\src\widgets;..\SYSTEM\timer;..\lvgl\app\custom;..\SYSTEM\flash;..\HARDWARE\modbus;..\FreeRTOS\include;..\FreeRTOS\port;..\SYSTEM\can;..\HARDWARE</IncludePath>
-=======
-              <IncludePath>..\CORE;..\OBJ;..\USER;..\USMART;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HALLIB\STM32F4xx_HAL_Driver\Inc;..\HARDWARE\LED;..\HARDWARE\KEY;..\HARDWARE\LCD;..\HARDWARE\24CXX;..\HARDWARE\IIC;..\HARDWARE\TOUCH;..\lvgl;..\lvgl\app\generated;..\lvgl\app\generated\guider_customer_fonts;..\lvgl\porting;..\lvgl\src;..\lvgl\src\core;..\lvgl\src\draw;..\lvgl\src\draw\arm2d;..\lvgl\src\draw\nxp;..\lvgl\src\draw\nxp\pxp;..\lvgl\src\draw\nxp\vglite;..\lvgl\src\draw\renesas;..\lvgl\src\draw\sdl;..\lvgl\src\draw\stm32_dma2d;..\lvgl\src\draw\sw;..\lvgl\src\draw\swm341_dma2d;..\lvgl\src\extra;..\lvgl\src\extra\layouts;..\lvgl\src\extra\layouts\flex;..\lvgl\src\extra\layouts\grid;..\lvgl\src\extra\libs;..\lvgl\src\extra\libs\bmp;..\lvgl\src\extra\libs\ffmpeg;..\lvgl\src\extra\libs\freetype;..\lvgl\src\extra\libs\fsdrv;..\lvgl\src\extra\libs\gif;..\lvgl\src\extra\libs\png;..\lvgl\src\extra\libs\qrcode;..\lvgl\src\extra\libs\rlottie;..\lvgl\src\extra\libs\sjpg;..\lvgl\src\extra\libs\tiny_ttf;..\lvgl\src\extra\others;..\lvgl\src\extra\others\fragment;..\lvgl\src\extra\others\gridnav;..\lvgl\src\extra\others\ime;..\lvgl\src\extra\others\imgfont;..\lvgl\src\extra\others\monkey;..\lvgl\src\extra\others\msg;..\lvgl\src\extra\others\snapshot;..\lvgl\src\extra\themes;..\lvgl\src\extra\themes\basic;..\lvgl\src\extra\themes\default;..\lvgl\src\extra\themes\mono;..\lvgl\src\extra\widgets;..\lvgl\src\extra\widgets\animimg;..\lvgl\src\extra\widgets\calendar;..\lvgl\src\extra\widgets\chart;..\lvgl\src\extra\widgets\colorwheel;..\lvgl\src\extra\widgets\imgbtn;..\lvgl\src\extra\widgets\keyboard;..\lvgl\src\extra\widgets\led;..\lvgl\src\extra\widgets\list;..\lvgl\src\extra\widgets\menu;..\lvgl\src\extra\widgets\meter;..\lvgl\src\extra\widgets\msgbox;..\lvgl\src\extra\widgets\span;..\lvgl\src\extra\widgets\spinbox;..\lvgl\src\extra\widgets\spinner;..\lvgl\src\extra\widgets\tabview;..\lvgl\src\extra\widgets\tileview;..\lvgl\src\extra\widgets\win;..\lvgl\src\font;..\lvgl\src\hal;..\lvgl\src\misc;..\lvgl\src\widgets;..\SYSTEM\timer;..\lvgl\app\custom;..\SYSTEM\flash;..\HARDWARE\modbus;..\FreeRTOS\include;..\FreeRTOS\port;..\SYSTEM\can</IncludePath>
->>>>>>> Stashed changes
             </VariousControls>
           </Cads>
           <Aads>
@@ -592,14 +588,11 @@
               <FileType>1</FileType>
               <FilePath>..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_can.c</FilePath>
             </File>
-<<<<<<< Updated upstream
             <File>
               <FileName>stm32f4xx_hal_i2c.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HALLIB\STM32F4xx_HAL_Driver\Src\stm32f4xx_hal_i2c.c</FilePath>
             </File>
-=======
->>>>>>> Stashed changes
           </Files>
         </Group>
         <Group>
@@ -1719,6 +1712,26 @@
               <FileName>_loge_alpha_100x30.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_loge_alpha_100x30.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_16.c</FilePath>
+            </File>
+            <File>
+              <FileName>_loge_alpha_200x60.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_loge_alpha_200x60.c</FilePath>
+            </File>
+            <File>
+              <FileName>_sheshidu_alpha_20x20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_sheshidu_alpha_20x20.c</FilePath>
+            </File>
+            <File>
+              <FileName>_sheshidu_alpha_10x10.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_sheshidu_alpha_10x10.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -31,6 +31,8 @@ typedef struct
 	lv_obj_t *screen_btn_steam2_label;
 	lv_obj_t *screen_btn_rinse;
 	lv_obj_t *screen_btn_rinse_label;
+	lv_obj_t *screen_label_temp;
+	lv_obj_t *screen_img_1;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -56,9 +58,11 @@ extern lv_ui guider_ui;
 
 void setup_scr_screen(lv_ui *ui);
 LV_IMG_DECLARE(_loge_alpha_200x60);
+LV_IMG_DECLARE(_sheshidu_alpha_10x10);
 
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 
 
 #ifdef __cplusplus

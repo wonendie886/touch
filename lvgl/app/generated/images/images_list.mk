@@ -1,1 +1,1 @@
-GEN_CSRCS += _loge_alpha_200x60.c
+GEN_CSRCS += _loge_alpha_200x60.c _sheshidu_alpha_10x10.c

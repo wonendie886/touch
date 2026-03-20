@@ -9,7 +9,6 @@
 
 #include "events_init.h"
 #include <stdio.h>
-#include "lvgl.h"
 #include "protocol.h"
 
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
@@ -18,7 +17,6 @@
 
 extern struct GrindRealData GrindDataStr;
 uint16_t volume;
-
 static void screen_btn_cancel_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);

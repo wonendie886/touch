@@ -67,7 +67,6 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 #ifdef CAN_Id_Extended
     if (r->IDE == CAN_Id_Extended) {
         can_msg.rx_efid = r->ExtId;
-        printf("11111");
         can_msg.data_is_ready = 1;
     } 
 #else
@@ -165,7 +164,7 @@ int main(void)
 	}
 }
 
-
+float blocktemp = 0;
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -184,7 +183,7 @@ void thread_serial(void *pvParameters)
     bool isfillwater = false;
     // //读取时间
     // ISL1208_GetTime(&time_read);
-
+    uint32_t runtime = 0;
     while (1){
 
    // 开机5s后补一次水
@@ -268,8 +267,32 @@ void thread_serial(void *pvParameters)
             //     } 
             //     laststate = c.frame.cmd_state;  
             // } 
+        }
+
+        if (can_msg.data_is_ready){
+            can_msg.data_is_ready = 0;
+            uint8_t crc = 0;
+            for(int i = 0;i < can_msg.rx_dlen;i++){
+                crc += can_msg.rx_data[i];
+            }
+            if (getCrc(can_msg.rx_efid)  == crc ) {
+                if (getDestId(can_msg.rx_efid)  == HMI_ID ) {
+                    if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
+                        int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
+                        blocktemp = (float)ret/10;
+                        if(runtime >= 1000){
+                             char temp_str[20];
+                            sprintf(temp_str, "%.1f", blocktemp);
+                            lv_label_set_text(guider_ui.screen_label_temp, temp_str);
+                        }
+                    } 
+                }
+            } else {
+                printf("crc failed\r\n");
+            }
 
         }
+        runtime += 100;
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
