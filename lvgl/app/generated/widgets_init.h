@@ -26,8 +26,8 @@ extern lv_obj_t * screen_spinbox_1;
 void lv_screen_spinbox_1_increment_event_cb(lv_event_t * event);
 void lv_screen_spinbox_1_decrement_event_cb(lv_event_t * event);
 extern lv_obj_t * screen_1_spinbox_1;
-void lv_screen_1_spinbox_1_increment_event_cb(lv_event_t * event);
-void lv_screen_1_spinbox_1_decrement_event_cb(lv_event_t * event);
+void lv_screen_1_spinbox_grindsize_increment_event_cb(lv_event_t * event);
+void lv_screen_1_spinbox_grindsize_decrement_event_cb(lv_event_t * event);
 
 
 #ifdef __cplusplus

@@ -605,7 +605,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_cancel, screen_btn_cancel_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void screen_1_btn_1_event_handler (lv_event_t *e)
+static void screen_1_btn_thinner_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -631,7 +631,7 @@ static void screen_1_btn_1_event_handler (lv_event_t *e)
     }
 }
 
-static void screen_1_btn_2_event_handler (lv_event_t *e)
+static void screen_1_btn_coarser_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -656,7 +656,7 @@ static void screen_1_btn_2_event_handler (lv_event_t *e)
         break;
     }
 }
-static void screen_1_btn_3_event_handler (lv_event_t *e)
+static void screen_1_btn_back_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -671,7 +671,7 @@ static void screen_1_btn_3_event_handler (lv_event_t *e)
     }
 }
 
-static void screen_1_btn_thicknessset_event_handler (lv_event_t *e)
+static void screen_1_btn_grindsize_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
@@ -681,9 +681,9 @@ static void screen_1_btn_thicknessset_event_handler (lv_event_t *e)
 
         char buf[16];
         sprintf(buf, "%d", (int)GrindSetData.grind_thickness);
-        lv_textarea_set_text(guider_ui.screen_1_spinbox_1, buf);
+        lv_textarea_set_text(guider_ui.screen_1_spinbox_grindsize, buf);
 
-        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, (int32_t)(GrindSetData.grind_thickness));
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_grindsize, (int32_t)(GrindSetData.grind_thickness));
         break;
     }
     default:
@@ -699,7 +699,7 @@ static void screen_1_btn_confirm_event_handler (lv_event_t *e)
     {
         lv_obj_add_flag(guider_ui.screen_1_cont_1, LV_OBJ_FLAG_HIDDEN);
 
-        const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
+        const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_grindsize);
         int thickness = atoi(txt);
         GrindSetData.grind_thickness = thickness;
 
@@ -767,14 +767,14 @@ static void screen_1_btn_calibration2_event_handler (lv_event_t *e)
 
 void events_init_screen_1 (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->screen_1_btn_1, screen_1_btn_1_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_btn_2, screen_1_btn_2_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_btn_3, screen_1_btn_3_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_btn_thicknessset, screen_1_btn_thicknessset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_thinner, screen_1_btn_thinner_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_coarser, screen_1_btn_coarser_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_back, screen_1_btn_back_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_grindsize, screen_1_btn_grindsize_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_confirm, screen_1_btn_confirm_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_concel, screen_1_btn_concel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_calibration1, screen_1_btn_calibration1_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_btn_calibration2, screen_1_btn_calibration2_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn__calibration2, screen_1_btn_calibration2_event_handler, LV_EVENT_ALL, ui);
 }
 
 
