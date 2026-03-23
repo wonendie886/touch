@@ -131,12 +131,12 @@ int main(void)
     // ISL1208_Time_t time_read;
     // // // 2. 设置时间
     // current_time.seconds = 00;
-    // current_time.minutes = 57;
-    // current_time.hours = 11;    // 14:45:30
-    // current_time.date = 6;
+    // current_time.minutes = 41;
+    // current_time.hours = 13;    // 14:45:30
+    // current_time.date = 23;
     // current_time.month = 3;
     // current_time.year = 26;     // 2026年
-    // current_time.day = 5;       // 星期天
+    // current_time.day = 1;       // 星期天
     // current_time.format_12h = 0; // 24小时制
     
     // ISL1208_SetTime(&current_time);
@@ -230,12 +230,12 @@ void thread_serial(void *pvParameters)
         }
         #if 1
         if (timeover >= 20) {
-            printf("timeover line = %d\r\n", __LINE__);
+            // printf("timeover line = %d\r\n", __LINE__);
             uint32_t error_code;// = huart->ErrorCode;
             uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
             
             // 打印错误信息（如果可以使用printf）
-            printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
+            // printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
         }
         #endif
         if (dataIsReady){
@@ -322,7 +322,6 @@ void thread_serial(void *pvParameters)
             sendHeartBeat(0);
             else if (GrindDataStr.data.mode == MODE_WEIGHT)
             sendHeartBeat(1);
-            printf("11111");
             time = 0;
         }
 
@@ -332,9 +331,10 @@ void thread_serial(void *pvParameters)
     }
 }
 
+extern bool calibration1_flag;
 void vLvglTaskFunction(void *pvParameters) {
     printf("LVGL task is running. \r\n");
-
+    uint16_t time = 0;
     TickType_t xLastWakeTime = xTaskGetTickCount();
     const TickType_t xPeriod = pdMS_TO_TICKS(5); 
 
@@ -352,8 +352,20 @@ void vLvglTaskFunction(void *pvParameters) {
     ISL1208_Time_t time_read;
     ISL1208_GetTime(&time_read);
     update_time_display(&time_read);
-    while (1) {
-
+    while (1) { 
+        if(calibration1_flag){
+            char str[50] = {0};
+            sprintf(str, "%d", time/1000);
+            if(time % 1000 == 0){
+                lv_label_set_text_fmt(guider_ui.screen_1_label_calibrationtime, "%s", str);
+                if(time >= 5000){
+                    calibration1_flag = false;
+                    lv_obj_add_flag(guider_ui.screen_1_label_calibrationtime, LV_OBJ_FLAG_HIDDEN);
+                    time = 0;
+                }
+            }
+            time += 5;
+        }
         static TickType_t xLastTickCount = 0;
         TickType_t xCurrentTickCount = xTaskGetTickCount();
         uint32_t elapsed_ticks = xCurrentTickCount - xLastTickCount;

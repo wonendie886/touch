@@ -671,6 +671,7 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
     }
 }
 
+
 static void screen_1_btn_grindsize_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -731,7 +732,7 @@ static void screen_1_btn_concel_event_handler (lv_event_t *e)
         break;
     }
 }
-
+bool calibration1_flag = false;
 static void screen_1_btn_calibration1_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -741,6 +742,10 @@ static void screen_1_btn_calibration1_event_handler (lv_event_t *e)
         GrindDataStr.data.target = 0;
         GrindDataStr.data.cmd = CMDTYPE_CALIBRATION;
         GrindDataStr.data.cmd_number++;
+
+        calibration1_flag = true;
+        lv_label_set_text(guider_ui.screen_1_label_calibrationtime, "0");
+        lv_obj_clear_flag(guider_ui.screen_1_label_calibrationtime, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:

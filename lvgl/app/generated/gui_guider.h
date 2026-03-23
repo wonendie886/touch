@@ -99,6 +99,7 @@ typedef struct
 	lv_obj_t *screen_1_btn_concel_label;
 	lv_obj_t *screen_1_btn_calibration1;
 	lv_obj_t *screen_1_btn_calibration1_label;
+	lv_obj_t *screen_1_label_calibrationtime;
 	lv_obj_t *screen_1_btn__calibration2;
 	lv_obj_t *screen_1_btn__calibration2_label;	
 	lv_obj_t *screen_1_label_calibration1;
