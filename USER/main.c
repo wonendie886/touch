@@ -46,7 +46,7 @@ TaskHandle_t xSerialTaskHandle = NULL;
 lv_ui guider_ui;
 
 bool isGrindMode = MODE_TIME;
-
+#if 1
 CanMsg can_msg = {0};
 
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
@@ -78,7 +78,7 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
     }
 #endif
     // 转给我们封装的用户回调（由用户覆盖）
-    //CAN_UserRxCb(is_ext, id, r->DLC, data);
+    // CAN_UserRxCb(is_ext, id, r->DLC, data);
 
     // 重新使能接收（legacy HAL 的 Receive_IT 是一次性的）
     HAL_CAN_Receive_IT(hcan_if, CAN_FIFO0);
@@ -95,8 +95,9 @@ void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan_if)
 void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
 {
     // 用户可覆盖 HAL_CAN_ErrorCallback 或实现 CAN_UserXXX 来打印错误
-    // 例如：Debug_Printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
+    printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
 }
+#endif
 
 void DWT_Init(void) {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 
@@ -164,8 +165,8 @@ int main(void)
         printf("CAN Start Receive failed!\n");
     }
     
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
-    xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 2, &xSerialTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -290,7 +291,7 @@ void thread_serial(void *pvParameters)
             }
             //printf("1 target = %d recivedCount = %d timeover = %d\r\n",c.frame.target,recivedCount,timeover);
         }
-
+#if 1
         if (can_msg.data_is_ready){
             can_msg.data_is_ready = 0;
             uint8_t crc = 0;
@@ -316,7 +317,7 @@ void thread_serial(void *pvParameters)
             }
 
         }
-
+#endif
         if(time >= 3000){
             if ( GrindDataStr.data.mode == MODE_TIME )
             sendHeartBeat(0);
