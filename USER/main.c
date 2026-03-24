@@ -304,9 +304,9 @@ void thread_serial(void *pvParameters)
                                     | (can_msg.rx_data[1] << 8) | can_msg.rx_data[0];
                         char str[50] = {0};
 
-                        GrindDataStr.weight = weight;
+                        GrindDataStr.data.target = weight;
 
-                        sprintf(str, "%.1f", (float)GrindDataStr.weight / 10.0f);
+                        sprintf(str, "%.1f", (float)GrindDataStr.data.target / 10.0f);
                         lv_label_set_text_fmt(guider_ui.screen_label_4, "%s", str);
                         lv_label_set_text_fmt(guider_ui.screen_label_6, "%s", str);
                     } 
