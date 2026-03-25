@@ -69,16 +69,13 @@ HAL_StatusTypeDef CAN_ConfigFilterAcceptAll(void)
 {
     CAN_FilterConfTypeDef sFilterConfig;
 
-    ///set filter id
-    uint32_t ExtId = 0x00000061;
-
     sFilterConfig.FilterNumber = 0;
     sFilterConfig.FilterMode = CAN_FILTERMODE_IDMASK;
     sFilterConfig.FilterScale = CAN_FILTERSCALE_32BIT;
-    sFilterConfig.FilterIdHigh = (ExtId >> 13) & 0xFFFF;  // 高16位：ID[28:13]
-    sFilterConfig.FilterIdLow = ((ExtId & 0x1FFF) << 3) | CAN_ID_EXT; // 低16位：ID[12:0] + 扩展ID标志
-    sFilterConfig.FilterMaskIdHigh = 0x0000;
-    sFilterConfig.FilterMaskIdLow = 0x07F8 | 0x0004; // 低13位全匹配，IDE位必须匹配扩展ID
+    sFilterConfig.FilterIdHigh = 0x0000;  // ID 高16位设为0
+    sFilterConfig.FilterIdLow = 0x0000;   // ID 低16位设为0
+    sFilterConfig.FilterMaskIdHigh = 0x0000; // 掩码高16位设为0，接受所有
+    sFilterConfig.FilterMaskIdLow = 0x0000;  // 掩码低16位设为0，接受所有
     sFilterConfig.FilterFIFOAssignment = CAN_FIFO0;
     sFilterConfig.FilterActivation = ENABLE;
 #ifdef __HAL_RCC_CAN2_CLK_ENABLE

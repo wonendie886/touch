@@ -33,6 +33,7 @@ extern uint8_t recivedCount;
 static uint8_t buf[FRAME_MAX_LEN];
 static struct Protocol c;
 static const char version[12] = "MRC_V1.0.0";
+static IWDG_HandleTypeDef hiwdg;
 
 void vLvglTaskFunction( void * pvParameters );
 void thread_serial(void *pvParameters);
@@ -47,7 +48,7 @@ lv_ui guider_ui;
 
 bool isGrindMode = MODE_TIME;
 #if 1
-CanMsg can_msg = {0};
+volatile CanMsg can_msg = {0};
 
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
@@ -56,27 +57,18 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 
     uint8_t i = 0;
 
-    can_msg.rx_dlen = r->DLC;
+    if ((r->ExtId & 0xFF) == 0x61) {
+        can_msg.rx_dlen = r->DLC;
+        for (i = 0; i < r->DLC && i < 8; i++) 
+            can_msg.rx_data[i] = r->Data[i];
 
-    for (i = 0; i < r->DLC && i < 8; i++) 
-        can_msg.rx_data[i] = r->Data[i];
-
-    for (; i < 8; i++) 
-        can_msg.rx_data[i] = 0x00;
-
-#ifdef CAN_Id_Extended
-    if (r->IDE == CAN_Id_Extended) {
+        for (; i < 8; i++) 
+            can_msg.rx_data[i] = 0x00;
+            
         can_msg.rx_efid = r->ExtId;
         can_msg.data_is_ready = 1;
     } 
-#else
-    // 如果你的 HAL 没有 CAN_Id_Extended 宏，使用常见数值判断：0x04 表示扩展（老 HAL 习惯）
-    if (r->IDE == 0x04U) {
-        is_ext = 1; id = r->ExtId;
-    } else {
-        is_ext = 0; id = r->StdId;
-    }
-#endif
+
     // 转给我们封装的用户回调（由用户覆盖）
     // CAN_UserRxCb(is_ext, id, r->DLC, data);
 
@@ -95,9 +87,22 @@ void HAL_CAN_TxCpltCallback(CAN_HandleTypeDef *hcan_if)
 void HAL_CAN_ErrorCallback(CAN_HandleTypeDef *hcan_if)
 {
     // 用户可覆盖 HAL_CAN_ErrorCallback 或实现 CAN_UserXXX 来打印错误
-    printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
+    // printf("CAN err 0x%08lX\n", hcan_if->ErrorCode);
 }
 #endif
+
+void initWatchdog(void)
+{
+    hiwdg.Instance = IWDG;
+    hiwdg.Init.Prescaler = IWDG_PRESCALER_64;
+    hiwdg.Init.Reload = 2000; // 约 4s (f_LSI ~32kHz)
+    HAL_IWDG_Init(&hiwdg);
+}
+
+void feedWatchdog(void)
+{
+    HAL_IWDG_Refresh(&hiwdg);
+}
 
 void DWT_Init(void) {
     CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk; 
@@ -164,7 +169,9 @@ int main(void)
     if (CAN_StartReceive_IT() != HAL_OK) {
         printf("CAN Start Receive failed!\n");
     }
-    
+
+    initWatchdog();
+
 	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
     xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 2, &xSerialTaskHandle);
 	vTaskStartScheduler();  
@@ -327,7 +334,7 @@ void thread_serial(void *pvParameters)
         }
 
         time += 100;
-
+        feedWatchdog();
         vTaskDelay(pdMS_TO_TICKS(100));
     }
 }
