@@ -16,7 +16,7 @@
 #endif
 
 extern struct GrindRealData GrindDataStr;
-uint16_t volume;
+volatile uint16_t volume;
 static void screen_btn_cancel_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -37,7 +37,7 @@ static void screen_btn_steam4_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 60;
         break;
     }
@@ -52,7 +52,7 @@ static void screen_btn_steam3_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 45;
         break;
     }
@@ -67,7 +67,7 @@ static void screen_btn_steam2_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 30;
         break;
     }
@@ -82,7 +82,7 @@ static void screen_btn_rinse_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 1;
         break;
     }

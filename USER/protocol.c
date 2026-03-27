@@ -103,7 +103,7 @@ int setFillwater(uint8_t *buf,struct GrindData *pData)
     }
     return len;
 }
-extern uint16_t volume;
+extern volatile uint16_t volume;
 int setdosteam(uint8_t *buf,struct GrindData *pData)
 {
     //set m_buf content

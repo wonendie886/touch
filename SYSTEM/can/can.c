@@ -176,6 +176,103 @@ void CAN1_SCE_IRQHandler(void)
 //    CAN_Transmit_IT(id,data,len);
 //}
 
+void canSendLeftSteam(uint8_t enable,uint16_t seconds)
+{
+   uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
+   uint8_t len = 3;
+   uint8_t data[3];
+   data[0] = enable;
+   data[1] = seconds & 0x00FF;
+   data[2] = (seconds >> 8) & 0x00FF;
+
+   uint8_t crc = 0;
+   for(uint8_t i = 0; i < len; i++){
+       crc += data[i];
+   }
+
+   id = id | (FUNC_LEFTSTEAM << 8 & 0xFF00);
+   id = id | ((crc << 16) & 0xFF0000);
+
+   CAN_Transmit_IT(id,data,len);
+}
+
+void canSendRightSteam(uint8_t enable,uint16_t seconds)
+{
+   uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
+   uint8_t len = 3;
+   uint8_t data[3];
+   data[0] = enable;
+   data[1] = seconds & 0x00FF;
+   data[2] = (seconds >> 8) & 0x00FF;
+
+   uint8_t crc = 0;
+   for(uint8_t i = 0; i < len; i++){
+       crc += data[i];
+   }
+
+   id = id | (FUNC_RIGHTSTEAM << 8 & 0xFF00);
+   id = id | ((crc << 16) & 0xFF0000);
+
+   CAN_Transmit_IT(id,data,len);
+}
+
+void canSendFillWater()
+{
+   uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
+   uint8_t len = 1;
+   uint8_t data[1] = {1};
+
+   uint8_t crc = 0;
+   for(uint8_t i = 0; i < len; i++){
+       crc += data[i];
+   }
+
+   id = id | (FUNC_FILLWATER << 8 & 0xFF00);
+   id = id | ((crc << 16) & 0xFF0000);
+
+   CAN_Transmit_IT(id,data,len);
+}
+
+void canSendLeftCoffee(uint8_t enable,uint16_t seconds)
+{
+   uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
+   uint8_t len = 3;
+   uint8_t data[3];
+   data[0] = enable;
+   data[1] = seconds & 0x00FF;
+   data[2] = (seconds >> 8) & 0x00FF;
+
+   uint8_t crc = 0;
+   for(uint8_t i = 0; i < len; i++){
+       crc += data[i];
+   }
+
+   id = id | (FUNC_LEFTCOFFEE << 8 & 0xFF00);
+   id = id | ((crc << 16) & 0xFF0000);
+
+   CAN_Transmit_IT(id,data,len);
+}
+
+void canSendRightCoffee(uint8_t enable,uint16_t seconds)
+{
+   uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
+   uint8_t len = 3;
+   uint8_t data[3];
+   data[0] = enable;
+   data[1] = seconds & 0x00FF;
+   data[2] = (seconds >> 8) & 0x00FF;
+
+   uint8_t crc = 0;
+   for(uint8_t i = 0; i < len; i++){
+       crc += data[i];
+   }
+
+   id = id | (FUNC_RIGHTCOFFEE << 8 & 0xFF00);
+   id = id | ((crc << 16) & 0xFF0000);
+
+   CAN_Transmit_IT(id,data,len);
+}
+
 uint8_t getSrcId(uint32_t canId)
 {
     return (canId & 0xF);
