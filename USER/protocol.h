@@ -2,6 +2,10 @@
 #define __PROTOCOL_H__
 #include "stdint.h"
 
+#define LEFT 0
+#define RIGHT 1
+#define LEFT_OR_COFFEE RIGHT
+
 /// \def the max length of one frame data
 #define FRAME_MAX_LEN 200
 

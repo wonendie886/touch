@@ -10,6 +10,7 @@
 #include "events_init.h"
 #include <stdio.h>
 #include "protocol.h"
+#include "can.h"
 
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
@@ -37,8 +38,8 @@ static void screen_btn_steam4_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 60;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
     default:
@@ -52,8 +53,8 @@ static void screen_btn_steam3_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 45;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
     default:
@@ -67,8 +68,8 @@ static void screen_btn_steam2_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         volume = 30;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
     default:
@@ -76,14 +77,29 @@ static void screen_btn_steam2_event_handler (lv_event_t *e)
     }
 }
 
+uint8_t steamEnable = 0;
 static void screen_btn_rinse_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
-        volume = 1;
+        if(steamEnable) {
+            steamEnable = 0;
+            #if (LEFT_OR_COFFEE == LEFT)
+                canSendLeftSteam(0,volume);
+            #else
+                canSendRightSteam(0,volume);
+            #endif
+            // lv_label_set_text(guider_ui.screen_label_temp, temp_str);
+            lv_label_set_text(guider_ui.screen_btn_rinse_label, "Steam");
+        } else {
+            volume = 30;
+            GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
+            steamEnable = 1;
+            lv_label_set_text(guider_ui.screen_btn_rinse_label, "Cancel");
+        }
+        
         break;
     }
     default:

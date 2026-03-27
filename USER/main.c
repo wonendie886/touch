@@ -164,10 +164,6 @@ int main(void)
 	}
 }
 
-#define LEFT 0
-#define RIGHT 1
-#define LEFT_OR_COFFEE RIGHT
-
 extern volatile uint16_t volume;
 float blocktemp = 0;
 void thread_serial(void *pvParameters)
@@ -209,7 +205,14 @@ void thread_serial(void *pvParameters)
                 canSendRightCoffee(1,volume);
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-        } 
+        } else if(GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM) {
+            #if (LEFT_OR_COFFEE == LEFT)
+                canSendLeftSteam(1,volume);
+            #else
+                canSendRightSteam(1,volume);
+            #endif
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        }
         #if 0
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
 
