@@ -60,7 +60,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_4
     ui->screen_label_4 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_4, "0");
+    lv_label_set_text(ui->screen_label_4, "5");
     lv_label_set_long_mode(ui->screen_label_4, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_4, 125, 80);
     lv_obj_set_size(ui->screen_label_4, 60, 30);
@@ -85,7 +85,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_6
     ui->screen_label_6 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_6, "0");
+    lv_label_set_text(ui->screen_label_6, "15");
     lv_label_set_long_mode(ui->screen_label_6, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_6, 305, 80);
     lv_obj_set_size(ui->screen_label_6, 60, 30);

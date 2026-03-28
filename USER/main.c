@@ -309,6 +309,8 @@ void vLvglTaskFunction(void *pvParameters) {
     ISL1208_Time_t time_read;
     ISL1208_GetTime(&time_read);
     // update_time_display(&time_read);
+    GrindSetData.weight_1 = 5;
+    GrindSetData.weight_3 = 15;
     while (1) {
 
         static TickType_t xLastTickCount = 0;
