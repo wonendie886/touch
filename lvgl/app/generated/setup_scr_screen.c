@@ -174,7 +174,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_cancel_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_cancel, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_cancel_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_cancel, 215, 180);
+    lv_obj_set_pos(ui->screen_btn_cancel, 215, 218);
     lv_obj_set_size(ui->screen_btn_cancel, 60, 50);
 
     //Write style for screen_btn_cancel, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -244,7 +244,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_rinse_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_rinse, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_rinse_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_rinse, 100, 218);
+    lv_obj_set_pos(ui->screen_btn_rinse, 20, 218);
     lv_obj_set_size(ui->screen_btn_rinse, 100, 47);
 
     //Write style for screen_btn_rinse, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -262,12 +262,12 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_wash
     ui->screen_btn_wash = lv_btn_create(ui->screen);
     ui->screen_btn_wash_label = lv_label_create(ui->screen_btn_wash);
-    lv_label_set_text(ui->screen_btn_wash_label, "Wash");
+    lv_label_set_text(ui->screen_btn_wash_label, "Rinse");
     lv_label_set_long_mode(ui->screen_btn_wash_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_wash_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_wash, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_wash_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_wash, 280, 218);
+    lv_obj_set_pos(ui->screen_btn_wash, 360, 218);
     lv_obj_set_size(ui->screen_btn_wash, 100, 47);
 
     //Write style for screen_btn_wash, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
