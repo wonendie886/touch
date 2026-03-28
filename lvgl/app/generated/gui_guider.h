@@ -81,6 +81,8 @@ typedef struct
 	lv_obj_t *screen_1_tabview_1_tab_4;
 	lv_obj_t *screen_1_btn_thinner;
 	lv_obj_t *screen_1_btn_thinner_label;
+	lv_obj_t *screen_1_btn_rouse;
+	lv_obj_t *screen_1_btn_rouse_label;
 	lv_obj_t *screen_1_btn_coarser;
 	lv_obj_t *screen_1_btn_coarser_label;
 	lv_obj_t *screen_1_btn_back;

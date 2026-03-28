@@ -630,6 +630,28 @@ static void screen_1_btn_thinner_event_handler (lv_event_t *e)
         break;
     }
 }
+bool rouseflag = false;
+static void screen_1_btn_rouse_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:{
+        if( rouseflag == false ){
+            lv_obj_clear_flag(guider_ui.screen_1_btn_thinner, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_btn_coarser, LV_OBJ_FLAG_HIDDEN);
+            rouseflag = true;
+        } else if(rouseflag == true){
+            lv_obj_add_flag(guider_ui.screen_1_btn_thinner, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_1_btn_coarser, LV_OBJ_FLAG_HIDDEN);
+            rouseflag = false;
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 
 static void screen_1_btn_coarser_event_handler (lv_event_t *e)
 {
@@ -773,6 +795,7 @@ static void screen_1_btn_calibration2_event_handler (lv_event_t *e)
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_thinner, screen_1_btn_thinner_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_rouse, screen_1_btn_rouse_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_coarser, screen_1_btn_coarser_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_back, screen_1_btn_back_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_grindsize, screen_1_btn_grindsize_event_handler, LV_EVENT_ALL, ui);
@@ -780,6 +803,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_concel, screen_1_btn_concel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_calibration1, screen_1_btn_calibration1_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn__calibration2, screen_1_btn_calibration2_event_handler, LV_EVENT_ALL, ui);
+    
 }
 
 
