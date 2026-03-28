@@ -70,7 +70,7 @@ static void screen_btn_wash_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        volume = 1;
+        volume = 2;
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
