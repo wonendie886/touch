@@ -13,8 +13,8 @@
 #include "events_init.h"
 #include "widgets_init.h"
 #include "custom.h"
-
-
+#include "protocol.h"
+lv_img_dsc_t logoc;
 
 void setup_scr_screen(lv_ui *ui)
 {
@@ -150,11 +150,15 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_btn_7, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_7, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-
+    #if (logo == 0)
+        logoc = _loge_alpha_200x60;
+    #elif (logo == 1)
+        logoc = _logo_alpha_200x60;
+    #endif
     //Write codes screen_img_logo1
     ui->screen_img_logo1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_logo1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_logo1, &_logo_alpha_200x60);
+    lv_img_set_src(ui->screen_img_logo1, &logoc);
     lv_img_set_pivot(ui->screen_img_logo1, 50,50);
     lv_img_set_angle(ui->screen_img_logo1, 0);
     lv_obj_set_pos(ui->screen_img_logo1, 140, 10);

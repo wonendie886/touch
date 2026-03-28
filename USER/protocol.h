@@ -4,8 +4,8 @@
 
 #define LEFT 0
 #define RIGHT 1
-#define LEFT_OR_COFFEE LEFT
-
+#define LEFT_OR_COFFEE RIGHT
+#define logo 0
 /// \def the max length of one frame data
 #define FRAME_MAX_LEN 200
 
