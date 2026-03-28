@@ -1733,6 +1733,21 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_sheshidu_alpha_10x10.c</FilePath>
             </File>
+            <File>
+              <FileName>_danbeies_alpha_63x69.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_danbeies_alpha_63x69.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shuangbeies_alpha_85x71.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shuangbeies_alpha_85x71.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_alpha_200x60.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_alpha_200x60.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

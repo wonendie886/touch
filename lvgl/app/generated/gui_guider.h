@@ -75,6 +75,7 @@ extern lv_ui guider_ui;
 
 
 void setup_scr_screen(lv_ui *ui);
+LV_IMG_DECLARE(_logo_alpha_200x60);
 LV_IMG_DECLARE(_loge_alpha_200x60);
 LV_IMG_DECLARE(_sheshidu_alpha_10x10);
 LV_IMG_DECLARE(_danbeies_alpha_63x69);
