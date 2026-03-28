@@ -28,6 +28,36 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_bg_color(ui->screen, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes screen_img_3
+    ui->screen_img_3 = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_3, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_3, &_shuangbeies_alpha_85x71);
+    lv_img_set_pivot(ui->screen_img_3, 50,50);
+    lv_img_set_angle(ui->screen_img_3, 0);
+    lv_obj_set_pos(ui->screen_img_3, 345, 120);
+    lv_obj_set_size(ui->screen_img_3, 85, 71);
+
+    //Write style for screen_img_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_3, 100, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_3, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_img_4
+    ui->screen_img_4 = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_4, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_4, &_danbeies_alpha_63x69);
+    lv_img_set_pivot(ui->screen_img_4, 50,50);
+    lv_img_set_angle(ui->screen_img_4, 0);
+    lv_obj_set_pos(ui->screen_img_4, 78, 120);
+    lv_obj_set_size(ui->screen_img_4, 63, 69);
+
+    //Write style for screen_img_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_4, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_4, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //Write codes screen_label_4
     ui->screen_label_4 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_4, "0");
@@ -121,20 +151,20 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_align(ui->screen_btn_7, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
 
-    //Write codes screen_img_logo1
-    ui->screen_img_logo1 = lv_img_create(ui->screen);
-    lv_obj_add_flag(ui->screen_img_logo1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_logo1, &_loge_alpha_200x60);
-    lv_img_set_pivot(ui->screen_img_logo1, 50,50);
-    lv_img_set_angle(ui->screen_img_logo1, 0);
-    lv_obj_set_pos(ui->screen_img_logo1, 140, 10);
-    lv_obj_set_size(ui->screen_img_logo1, 200, 60);
+    // //Write codes screen_img_logo1
+    // ui->screen_img_logo1 = lv_img_create(ui->screen);
+    // lv_obj_add_flag(ui->screen_img_logo1, LV_OBJ_FLAG_CLICKABLE);
+    // lv_img_set_src(ui->screen_img_logo1, &_loge_alpha_200x60);
+    // lv_img_set_pivot(ui->screen_img_logo1, 50,50);
+    // lv_img_set_angle(ui->screen_img_logo1, 0);
+    // lv_obj_set_pos(ui->screen_img_logo1, 140, 10);
+    // lv_obj_set_size(ui->screen_img_logo1, 200, 60);
 
-    //Write style for screen_img_logo1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->screen_img_logo1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->screen_img_logo1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_img_logo1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->screen_img_logo1, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // //Write style for screen_img_logo1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    // lv_obj_set_style_img_recolor_opa(ui->screen_img_logo1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_img_opa(ui->screen_img_logo1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_radius(ui->screen_img_logo1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_clip_corner(ui->screen_img_logo1, true, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_btn_cancel
     ui->screen_btn_cancel = lv_btn_create(ui->screen);
@@ -163,16 +193,16 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam3
     ui->screen_btn_steam3 = lv_btn_create(ui->screen);
     ui->screen_btn_steam3_label = lv_label_create(ui->screen_btn_steam3);
-    lv_label_set_text(ui->screen_btn_steam3_label, "Espresso");
+    lv_label_set_text(ui->screen_btn_steam3_label, "");
     lv_label_set_long_mode(ui->screen_btn_steam3_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam3_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam3, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_steam3_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_steam3, 285, 110);
+    lv_obj_set_pos(ui->screen_btn_steam3, 325, 110);
     lv_obj_set_size(ui->screen_btn_steam3, 100, 80);
 
     //Write style for screen_btn_steam3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_btn_steam3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_btn_steam3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_btn_steam3, lv_color_hex(0xD9C7A8), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_btn_steam3, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->screen_btn_steam3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -186,16 +216,16 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam2
     ui->screen_btn_steam2 = lv_btn_create(ui->screen);
     ui->screen_btn_steam2_label = lv_label_create(ui->screen_btn_steam2);
-    lv_label_set_text(ui->screen_btn_steam2_label, "Espresso");
+    lv_label_set_text(ui->screen_btn_steam2_label, "");
     lv_label_set_long_mode(ui->screen_btn_steam2_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam2_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam2, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_steam2_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_btn_steam2, 105, 110);
+    lv_obj_set_pos(ui->screen_btn_steam2, 65, 110);
     lv_obj_set_size(ui->screen_btn_steam2, 100, 80);
 
     //Write style for screen_btn_steam2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_btn_steam2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_btn_steam2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_btn_steam2, lv_color_hex(0xF5F0E6), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_btn_steam2, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->screen_btn_steam2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

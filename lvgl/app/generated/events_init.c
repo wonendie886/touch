@@ -64,6 +64,20 @@ static void screen_btn_steam2_event_handler (lv_event_t *e)
         break;
     }
 }
+static void screen_btn_wash_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        volume = 1;
+        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+        break;
+    }
+    default:
+        break;
+    }
+}
 
 uint8_t steamEnable = 0;
 static void screen_btn_rinse_event_handler (lv_event_t *e)
@@ -240,6 +254,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_steam3, screen_btn_steam3_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_steam2, screen_btn_steam2_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_rinse, screen_btn_rinse_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_wash, screen_btn_wash_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_5, screen_btn_5_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_7, screen_btn_7_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_14, screen_btn_14_event_handler, LV_EVENT_ALL, ui);
