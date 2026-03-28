@@ -268,6 +268,7 @@ void thread_serial(void *pvParameters)
                 crc += can_msg.rx_data[i];
             }
             if (getCrc(can_msg.rx_efid)  == crc ) {
+                
                 if (getDestId(can_msg.rx_efid)  == HMI_ID ) {
                     if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
                         int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
@@ -277,7 +278,26 @@ void thread_serial(void *pvParameters)
                             sprintf(temp_str, "%.1f", blocktemp);
                             lv_label_set_text(guider_ui.screen_label_temp, temp_str);
                         }
-                    } 
+                    } else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){
+                        #if (LEFT_OR_COFFEE == LEFT)
+                        int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
+                        blocktemp = (float)ret/10;
+                        if(runtime >= 1000){
+                             char temp_str[20];
+                            sprintf(temp_str, "%.1f", blocktemp);
+                            lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
+                        }                            
+                        #else
+                        int ret = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
+                        blocktemp = (float)ret/10;
+                        if(runtime >= 1000){
+                             char temp_str[20];
+
+                            sprintf(temp_str, "%.1f", blocktemp);
+                            lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
+                        }                               
+                        #endif
+                    }
                 }
             } else {
                 printf("crc failed\r\n");

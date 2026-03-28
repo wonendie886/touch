@@ -305,6 +305,30 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_label_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_label_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes screen_label_coffeetemp
+    ui->screen_label_coffeetemp = lv_label_create(ui->screen);
+    lv_label_set_text(ui->screen_label_coffeetemp, "Label");
+    lv_label_set_long_mode(ui->screen_label_coffeetemp, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_label_coffeetemp, 358, 15);
+    lv_obj_set_size(ui->screen_label_coffeetemp, 69, 20);
+
+    //Write style for screen_label_coffeetemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_label_coffeetemp, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_coffeetemp, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_label_coffeetemp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_label_coffeetemp, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+
     //Write codes screen_img_1
     ui->screen_img_1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
@@ -319,6 +343,21 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_1, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write codes screen_img_oc
+    ui->screen_img_oc = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_oc, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_oc, &_sheshidu_alpha_10x10);
+    lv_img_set_pivot(ui->screen_img_oc, 50,50);
+    lv_img_set_angle(ui->screen_img_oc, 0);
+    lv_obj_set_pos(ui->screen_img_oc, 422, 19);
+    lv_obj_set_size(ui->screen_img_oc, 10, 10);
+
+    //Write style for screen_img_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_1, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
 
     uint32_t paramBgColor = 0x5b514b;
     //Write codes screen_cont_1

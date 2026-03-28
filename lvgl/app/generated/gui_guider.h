@@ -36,7 +36,9 @@ typedef struct
 	lv_obj_t *screen_btn_wash;
 	lv_obj_t *screen_btn_wash_label;
 	lv_obj_t *screen_label_temp;
+	lv_obj_t *screen_label_coffeetemp;
 	lv_obj_t *screen_img_1;
+	lv_obj_t *screen_img_oc;
 	lv_obj_t *screen_label_4;
 	lv_obj_t *screen_label_6;
 	lv_obj_t *screen_btn_5;
