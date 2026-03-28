@@ -178,7 +178,7 @@ void thread_serial(void *pvParameters)
     uint8_t laststate = 0;
 
     static TickType_t lastUpdateTime = 0;
-    const TickType_t updateTimePeriod = pdMS_TO_TICKS(5000); // 30秒周期
+    const TickType_t updateTimePeriod = pdMS_TO_TICKS(5000); 
     int time = 0;
     ISL1208_Time_t time_read;
     bool isfillwater = false;
@@ -209,7 +209,15 @@ void thread_serial(void *pvParameters)
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftSteam(1,volume);
             #else
-                canSendRightSteam(1,volume);
+            canSendRightSteam(1,volume);
+            #endif
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB){
+            #if (LEFT_OR_COFFEE == LEFT)
+                canSendLeftCoffee(0,volume);
+            #else
+            printf("cancel steam\n");
+                canSendRightCoffee(0,volume);
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         }

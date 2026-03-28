@@ -31,8 +31,24 @@ typedef struct
 	lv_obj_t *screen_btn_steam2_label;
 	lv_obj_t *screen_btn_rinse;
 	lv_obj_t *screen_btn_rinse_label;
+	lv_obj_t *screen_btn_wash;
+	lv_obj_t *screen_btn_wash_label;
 	lv_obj_t *screen_label_temp;
 	lv_obj_t *screen_img_1;
+	lv_obj_t *screen_label_4;
+	lv_obj_t *screen_label_6;
+	lv_obj_t *screen_btn_5;
+	lv_obj_t *screen_btn_5_label;
+	lv_obj_t *screen_btn_7;
+	lv_obj_t *screen_btn_7_label;
+	lv_obj_t *screen_cont_1;
+	lv_obj_t *screen_spinbox_1;
+	lv_obj_t *screen_spinbox_1_btn_plus;
+	lv_obj_t *screen_spinbox_1_btn_minus;
+	lv_obj_t *screen_btn_14;
+	lv_obj_t *screen_btn_14_label;
+	lv_obj_t *screen_btn_15;
+	lv_obj_t *screen_btn_15_label;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
