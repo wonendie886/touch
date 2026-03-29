@@ -147,6 +147,7 @@ LV_IMG_DECLARE(_SIGMALOGONEW_alpha_200x60);
 LV_IMG_DECLARE(_upload_alpha_100x100);
 LV_IMG_DECLARE(_shou_alpha_72x72);
 LV_IMG_DECLARE(_yuanquan_alpha_72x72);
+LV_IMG_DECLARE(_izs_200_alpha_200x60);
 
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)

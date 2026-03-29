@@ -35,7 +35,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_1
     ui->screen_img_1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_1, &_SIGMALOGONEW_alpha_200x60);
+    lv_img_set_src(ui->screen_img_1, &_izs_200_alpha_200x60);
     lv_img_set_pivot(ui->screen_img_1, 50,50);
     lv_img_set_angle(ui->screen_img_1, 0);
     lv_obj_set_pos(ui->screen_img_1, 147, 0);
