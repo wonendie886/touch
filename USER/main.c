@@ -164,11 +164,6 @@ int main(void)
 	}
 }
 
-#define LEFT 0
-#define RIGHT 1
-#define LEFT_OR_COFFEE RIGHT
-
-extern volatile uint16_t volume;
 float blocktemp = 0;
 void thread_serial(void *pvParameters)
 {
@@ -197,20 +192,7 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
             time++;
         } 
-        else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            #if (LEFT_OR_COFFEE == RIGHT)
-            canSendFillWater();
-            #endif
-            GrindDataStr.data.cmd = CMDTYPE_GRIND;
-        } else if (GrindDataStr.data.cmd == CMDTYPE_BEVERAGEMAKE_CHANNELB){
-            #if (LEFT_OR_COFFEE == LEFT)
-                canSendLeftCoffee(1,volume);
-            #else
-                canSendRightCoffee(1,volume);
-            #endif
-            GrindDataStr.data.cmd = CMDTYPE_GRIND;
-        } 
-        #if 0
+        
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
 
         } else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
@@ -248,8 +230,45 @@ void thread_serial(void *pvParameters)
             if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
             
             } 
+            //     GrindDatarx.mode = c.frame.mode;
+            //     GrindDatarx.target = c.frame.target;
+            //     GrindDatarx.cmd_state = c.frame.cmd_state;
+            //     GrindDatarx.cmd_number = c.frame.cmd_number;                        
+            // if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
+            //     if (c.frame.cmd_state == CMD_STATE_EXECUTING){
+            //         lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN); 
+            //         lv_obj_add_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
+            //         lv_obj_add_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
+
+            //         char dataStr[20];  
+                    
+            //         if(GrindDataStr.data.mode == MODE_TIME){
+            //             sprintf(dataStr, "%.1f", c.frame.target/1000.0f);
+            //             lv_label_set_text(guider_ui.screen_label_8, dataStr); 
+            //             lv_label_set_text(guider_ui.screen_label_9, "s"); 
+            //         } else if(GrindDataStr.data.mode == MODE_WEIGHT){
+            //             sprintf(dataStr, "%.1f", c.frame.target/10.0f);
+            //             lv_label_set_text(guider_ui.screen_label_8, dataStr); 
+            //             lv_label_set_text(guider_ui.screen_label_9, "g");
+            //         }
+
+            //     } else if (c.frame.cmd_state == CMD_STATE_PAUSE){
+                    
+            //     } else if (c.frame.cmd_state == CMD_STATE_SUCCESS) {
+            //         lv_obj_clear_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
+            //         lv_obj_clear_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
+            //         // char time_str[10]; 
+            //         // sprintf(time_str, "%.1f", GrindDataStr.data.target/1000.0f);
+            //         // lv_label_set_text(guider_ui.screen_label_8, time_str); 
+
+            //         if(laststate == CMD_STATE_EXECUTING)
+            //         vTaskDelay(pdMS_TO_TICKS(2000));  // 延迟2000毫秒（2秒）
+            //         lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);          
+            //     } 
+            //     laststate = c.frame.cmd_state;  
+            // } 
         }
-        #endif
+
         if (can_msg.data_is_ready){
             can_msg.data_is_ready = 0;
             uint8_t crc = 0;

@@ -64,15 +64,7 @@ enum FUNC_DATA{
 	FUNC_BLDC_SPEED,
 	FUNC_WARN,
 	FUNC_ERROR,
-	FUNC_TEST,
-	FUNC_RINSE_RIGHTCOFFEE,
-    FUNC_RINSE_STEAM,
-	FUNC_PRESSUREFLOW,
-	FUNC_FILLWATER,
-	FUNC_LEFTCOFFEE,
-	FUNC_RIGHTCOFFEE,
-	FUNC_LEFTSTEAM,
-	FUNC_RIGHTSTEAM,
+	FUNC_TEST
 };
 
 typedef struct _can_msg{
@@ -87,9 +79,6 @@ uint8_t getDestId(uint32_t canId);
 uint8_t getCmdType(uint32_t canId);
 uint8_t getCrc(uint32_t canId);
 
-void canSendFillWater();
-void canSendLeftCoffee(uint8_t enable,uint16_t seconds);
-void canSendRightCoffee(uint8_t enable,uint16_t seconds);
 // ----- Change these if your hardware differs -----
 #ifndef CAN_INSTANCE
 #define CAN_INSTANCE             CAN1
