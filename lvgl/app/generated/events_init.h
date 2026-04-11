@@ -15,10 +15,19 @@ extern "C" {
 #endif
 
 #include "gui_guider.h"
+typedef struct
+{
+    uint8_t time1;
+    uint8_t time2;
+    uint8_t time3;
+} TimeDataStruct;
+
+extern TimeDataStruct TimeDataStr;
 
 void events_init(lv_ui *ui);
 
 void events_init_screen(lv_ui *ui);
+void events_init_screen_1(lv_ui *ui);
 
 #ifdef __cplusplus
 }

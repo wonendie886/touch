@@ -190,6 +190,7 @@ enum CmdType
     CMDTYPE_SET_PCB_VERSION = 0x30,
     CMDTYPE_GET_PCB_VERSION = 0x31,
     CMDTYPE_GRIND = 0x32,
+    CMDTYPE_TEMP = 0x33,
 };
 
 enum BEVERAGE_TYPE
@@ -265,4 +266,7 @@ int setGapCmdType(uint8_t *buf,struct GrindData *pData);
 int setFillwater(uint8_t *buf,struct GrindData *pData);
 int setdosteam(uint8_t *buf,struct GrindData *pData);
 int setcancel(uint8_t *buf,struct GrindData *pData);
+int settemp(uint8_t *buf,struct GrindData *pData);
+int setdescale(uint8_t *buf,struct GrindData *pData);
+
 #endif

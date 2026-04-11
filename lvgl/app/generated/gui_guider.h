@@ -32,7 +32,33 @@ typedef struct
 	lv_obj_t *screen_btn_rinse;
 	lv_obj_t *screen_btn_rinse_label;
 	lv_obj_t *screen_label_temp;
-	lv_obj_t *screen_img_1;
+	lv_obj_t *screen_img_celsius;
+	lv_obj_t *screen_img_menu;
+	lv_obj_t *screen_btn_menu;
+	lv_obj_t *screen_btn_menu_label;
+	lv_obj_t *screen_1;
+	bool screen_1_del;
+	lv_obj_t *screen_1_btn_back;
+	lv_obj_t *screen_1_btn_back_label;
+	lv_obj_t *screen_1_menu;
+	lv_obj_t *screen_1_menu_tab_1;
+	lv_obj_t *screen_1_label_set;
+	lv_obj_t *screen_1_btn_set;
+	lv_obj_t *screen_1_btn_set_label;
+	lv_obj_t *screen_1_btn_settime1;
+	lv_obj_t *screen_1_btn_settime1_label;
+	lv_obj_t *screen_1_btn_settime2;
+	lv_obj_t *screen_1_btn_settime2_label;
+	lv_obj_t *screen_1_btn_settime3;
+	lv_obj_t *screen_1_btn_settime3_label;
+	lv_obj_t *screen_1_cont_set;
+	lv_obj_t *screen_1_spinbox_set;
+	lv_obj_t *screen_1_spinbox_set_btn_plus;
+	lv_obj_t *screen_1_spinbox_set_btn_minus;
+	lv_obj_t *screen_1_btn_certain;
+	lv_obj_t *screen_1_btn_certain_label;
+	lv_obj_t *screen_1_btn_cancel;
+	lv_obj_t *screen_1_btn_cancel_label;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -57,9 +83,12 @@ extern lv_ui guider_ui;
 
 
 void setup_scr_screen(lv_ui *ui);
-LV_IMG_DECLARE(_loge_alpha_200x60);
+void setup_scr_screen_1(lv_ui *ui);
+LV_IMG_DECLARE(_logo_alpha_200x60);
 LV_IMG_DECLARE(_sheshidu_alpha_10x10);
+LV_IMG_DECLARE(_shezhi_alpha_34x31);
 
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)

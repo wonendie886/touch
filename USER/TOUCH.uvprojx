@@ -1733,6 +1733,31 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_sheshidu_alpha_10x10.c</FilePath>
             </File>
+            <File>
+              <FileName>setup_scr_screen_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\setup_scr_screen_1.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_alpha_200x60.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_alpha_200x60.c</FilePath>
+            </File>
+            <File>
+              <FileName>_shezhi_alpha_34x31.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_shezhi_alpha_34x31.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_montserratMedium_18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

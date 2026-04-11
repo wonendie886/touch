@@ -31,10 +31,10 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_logo1
     ui->screen_img_logo1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_logo1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_logo1, &_loge_alpha_200x60);
+    lv_img_set_src(ui->screen_img_logo1, &_logo_alpha_200x60);
     lv_img_set_pivot(ui->screen_img_logo1, 50,50);
     lv_img_set_angle(ui->screen_img_logo1, 0);
-    lv_obj_set_pos(ui->screen_img_logo1, 140, 10);
+    lv_obj_set_pos(ui->screen_img_logo1, 140, 9);
     lv_obj_set_size(ui->screen_img_logo1, 200, 60);
 
     //Write style for screen_img_logo1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -46,13 +46,13 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_cancel
     ui->screen_btn_cancel = lv_btn_create(ui->screen);
     ui->screen_btn_cancel_label = lv_label_create(ui->screen_btn_cancel);
-    lv_label_set_text(ui->screen_btn_cancel_label, "cancel");
+    lv_label_set_text(ui->screen_btn_cancel_label, "取消");
     lv_label_set_long_mode(ui->screen_btn_cancel_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_cancel_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_cancel, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_cancel_label, LV_PCT(100));
     lv_obj_set_pos(ui->screen_btn_cancel, 276, 218);
-    lv_obj_set_size(ui->screen_btn_cancel, 100, 50);
+    lv_obj_set_size(ui->screen_btn_cancel, 100, 47);
 
     //Write style for screen_btn_cancel, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_cancel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -62,14 +62,14 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_radius(ui->screen_btn_cancel, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_btn_cancel, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_btn_cancel, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_btn_cancel, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_cancel, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_cancel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_cancel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_btn_steam4
     ui->screen_btn_steam4 = lv_btn_create(ui->screen);
     ui->screen_btn_steam4_label = lv_label_create(ui->screen_btn_steam4);
-    lv_label_set_text(ui->screen_btn_steam4_label, "60s");
+    lv_label_set_text(ui->screen_btn_steam4_label, "060s");
     lv_label_set_long_mode(ui->screen_btn_steam4_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam4_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam4, 0, LV_STATE_DEFAULT);
@@ -92,7 +92,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam3
     ui->screen_btn_steam3 = lv_btn_create(ui->screen);
     ui->screen_btn_steam3_label = lv_label_create(ui->screen_btn_steam3);
-    lv_label_set_text(ui->screen_btn_steam3_label, "45s");
+    lv_label_set_text(ui->screen_btn_steam3_label, "045s");
     lv_label_set_long_mode(ui->screen_btn_steam3_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam3_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam3, 0, LV_STATE_DEFAULT);
@@ -115,7 +115,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam2
     ui->screen_btn_steam2 = lv_btn_create(ui->screen);
     ui->screen_btn_steam2_label = lv_label_create(ui->screen_btn_steam2);
-    lv_label_set_text(ui->screen_btn_steam2_label, "30s");
+    lv_label_set_text(ui->screen_btn_steam2_label, "030s");
     lv_label_set_long_mode(ui->screen_btn_steam2_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam2_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam2, 0, LV_STATE_DEFAULT);
@@ -138,7 +138,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_rinse
     ui->screen_btn_rinse = lv_btn_create(ui->screen);
     ui->screen_btn_rinse_label = lv_label_create(ui->screen_btn_rinse);
-    lv_label_set_text(ui->screen_btn_rinse_label, "rinse");
+    lv_label_set_text(ui->screen_btn_rinse_label, "冲洗");
     lv_label_set_long_mode(ui->screen_btn_rinse_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_rinse_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_rinse, 0, LV_STATE_DEFAULT);
@@ -154,7 +154,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_radius(ui->screen_btn_rinse, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_btn_rinse, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_btn_rinse, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_btn_rinse, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_rinse, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_rinse, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_rinse, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
@@ -181,20 +181,56 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_label_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_label_temp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_img_1
-    ui->screen_img_1 = lv_img_create(ui->screen);
-    lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_1, &_sheshidu_alpha_10x10);
-    lv_img_set_pivot(ui->screen_img_1, 50,50);
-    lv_img_set_angle(ui->screen_img_1, 0);
-    lv_obj_set_pos(ui->screen_img_1, 422, 39);
-    lv_obj_set_size(ui->screen_img_1, 10, 10);
+    //Write codes screen_img_celsius
+    ui->screen_img_celsius = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_celsius, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_celsius, &_sheshidu_alpha_10x10);
+    lv_img_set_pivot(ui->screen_img_celsius, 50,50);
+    lv_img_set_angle(ui->screen_img_celsius, 0);
+    lv_obj_set_pos(ui->screen_img_celsius, 422, 39);
+    lv_obj_set_size(ui->screen_img_celsius, 10, 10);
 
-    //Write style for screen_img_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->screen_img_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->screen_img_1, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for screen_img_celsius, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_celsius, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_celsius, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_celsius, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_celsius, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_img_menu
+    ui->screen_img_menu = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_menu, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_menu, &_shezhi_alpha_34x31);
+    lv_img_set_pivot(ui->screen_img_menu, 50,50);
+    lv_img_set_angle(ui->screen_img_menu, 0);
+    lv_obj_set_pos(ui->screen_img_menu, 445, 3);
+    lv_obj_set_size(ui->screen_img_menu, 34, 31);
+
+    //Write style for screen_img_menu, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_menu, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_menu, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_menu
+    ui->screen_btn_menu = lv_btn_create(ui->screen);
+    ui->screen_btn_menu_label = lv_label_create(ui->screen_btn_menu);
+    lv_label_set_text(ui->screen_btn_menu_label, "");
+    lv_label_set_long_mode(ui->screen_btn_menu_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_menu_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_menu, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_menu_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_menu, 445, 3);
+    lv_obj_set_size(ui->screen_btn_menu, 34, 31);
+
+    //Write style for screen_btn_menu, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_menu, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_menu, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_menu, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_menu, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_menu, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of screen.
 

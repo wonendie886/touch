@@ -15,10 +15,18 @@ const uint8_t SYSTEMSTATE_STEAM_BOILER_FILLWATER = 0x01;
 
 void getProtocol(const uint8_t *buf,struct Protocol *ret)
 {
+    // 打印接收到的完整数据帧
+    // printf("Received frame: ");
+    // for(int i = 0; i < buf[LEN_OFFSET]; i++) {
+    //     printf("%02X ", buf[i]);
+    // }
+    // printf("\nFrame length: %d\n", buf[LEN_OFFSET]);
+
     //the head and foot is 0xe7 ? is the length valid?
-    if (buf[HEAD_OFFSET] != FRAME_HEAD_1 || buf[HEAD_OFFSET+1] != FRAME_HEAD_2 || buf[LEN_OFFSET] != FRAME_MIN_LEN
+    if (buf[HEAD_OFFSET] != FRAME_HEAD_1 || buf[HEAD_OFFSET+1] != FRAME_HEAD_2 || buf[LEN_OFFSET] < FRAME_MIN_LEN
         || buf[buf[LEN_OFFSET] - 2] != FRAME_FOOT_1 || buf[buf[LEN_OFFSET] - 1] != FRAME_FOOT_2) {
         ret->frameState = FRAME_INVALID;
+        printf("Frame is invalid");
     } else {
         ret->frame.head = FRAME_HEAD_1;
         ret->frame.foot = FRAME_FOOT_2;
@@ -45,6 +53,7 @@ void getProtocol(const uint8_t *buf,struct Protocol *ret)
         // ret->frame.target = buf[TARGET_OFFSET]  | buf[TARGET_OFFSET + 1] << 8;
 
         ret->frame.cmd = buf[CMDTYPE_OFFSET];
+        printf("CMD: %d\n", buf[CMDTYPE_OFFSET]);
         // ret->frame.cmd_state = buf[CMDSTATE_OFFSET];
         ret->frame.cmd_number = buf[CMDNUMBER_OFFSET];
     }
@@ -168,6 +177,52 @@ int setcancel(uint8_t *buf,struct GrindData *pData)
         buf[i] = m_buf[i];
     }
 
+    return len;
+}
+
+int setdescale(uint8_t *buf,struct GrindData *pData)
+{
+    //set m_buf content
+    m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+    m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN;
+    m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_DESCALE;
+
+    m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+    m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+    //set Crc content
+    setCrc();
+
+    uint8_t len = m_buf[LEN_OFFSET];
+    for (int i = 0; i < len; i++) {
+        buf[i] = m_buf[i];
+    }
+    return len;
+}
+int settemp(uint8_t *buf,struct GrindData *pData)
+{
+    //set m_buf content
+    m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+    m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN + 1;
+    m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_TEMP;
+
+    m_buf[m_buf[LEN_OFFSET] - 4] = pData->target;
+    m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+    m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+    //set Crc content
+    setCrc();
+
+    uint8_t len = m_buf[LEN_OFFSET];
+    for (int i = 0; i < len; i++) {
+        buf[i] = m_buf[i];
+    }
     return len;
 }
 // int setCalibrationCmdType(uint8_t *buf,struct GrindData *pData)

@@ -163,7 +163,7 @@ int main(void)
     {           
 	}
 }
-
+bool screen_flag = true;
 float blocktemp = 0;
 void thread_serial(void *pvParameters)
 {
@@ -207,7 +207,16 @@ void thread_serial(void *pvParameters)
             len = setcancel(buf, &GrindDataStr.data);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
             sendData(buf, len);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_DESCALE){
+            len = setdescale(buf, &GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
+        } else if ( GrindDataStr.data.cmd == CMDTYPE_TEMP ){
+            len = settemp(buf, &GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
         }
+        
         
         timeover = 0;
         while (!dataIsReady && timeover < 20) {
@@ -227,9 +236,12 @@ void thread_serial(void *pvParameters)
         if (dataIsReady){
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
+            // printf("cmd = %d\r\n", c.frame.cmd);
             if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
             
-            } 
+            } else if (c.frame.cmd == CMDTYPE_DESCALE){ 
+                
+            }
             //     GrindDatarx.mode = c.frame.mode;
             //     GrindDatarx.target = c.frame.target;
             //     GrindDatarx.cmd_state = c.frame.cmd_state;
@@ -268,30 +280,32 @@ void thread_serial(void *pvParameters)
             //     laststate = c.frame.cmd_state;  
             // } 
         }
-
-        if (can_msg.data_is_ready){
-            can_msg.data_is_ready = 0;
-            uint8_t crc = 0;
-            for(int i = 0;i < can_msg.rx_dlen;i++){
-                crc += can_msg.rx_data[i];
-            }
-            if (getCrc(can_msg.rx_efid)  == crc ) {
-                if (getDestId(can_msg.rx_efid)  == HMI_ID ) {
-                    if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
-                        int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
-                        blocktemp = (float)ret/10;
-                        if(runtime >= 1000){
-                             char temp_str[20];
-                            sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_temp, temp_str);
-                        }
-                    } 
+        if(screen_flag){
+            if (can_msg.data_is_ready){
+                can_msg.data_is_ready = 0;
+                uint8_t crc = 0;
+                for(int i = 0;i < can_msg.rx_dlen;i++){
+                    crc += can_msg.rx_data[i];
                 }
-            } else {
-                printf("crc failed\r\n");
-            }
+                if (getCrc(can_msg.rx_efid)  == crc ) {
+                    if (getDestId(can_msg.rx_efid)  == HMI_ID ) {
+                        if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
+                            int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
+                            blocktemp = (float)ret/10;
+                            if(runtime >= 1000){
+                                char temp_str[20];
+                                sprintf(temp_str, "%.1f", blocktemp);
+                                lv_label_set_text(guider_ui.screen_label_temp, temp_str);
+                            }
+                        } 
+                    }
+                } else {
+                    printf("crc failed\r\n");
+                }
 
+            }
         }
+
         runtime += 100;
         vTaskDelay(pdMS_TO_TICKS(100));
     }
