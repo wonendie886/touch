@@ -4,27 +4,13 @@
 #include <stdio.h>
 #include "stdint.h"
 #include "protocol.h"
+#include "events_init.h"
 
 GrindData GrindSetData ;
-
+extern struct GrindRealData GrindDataStr;
 void flashDataInit(void) 
 {
-    ///read flash data
-    getGrindDataFromFlash();
-
-    if (GrindSetData.time_1 == 0xFFFFFFFF) {
-        ///write default data
-        GrindSetData.time_1 = 5000;
-        GrindSetData.time_2 = 6000;
-        GrindSetData.time_3 = 7000;
-        GrindSetData.weight_1 = 160;
-        GrindSetData.weight_2 = 180;
-        GrindSetData.weight_3 = 190;
-        GrindSetData.grind_mode = MODE_TIME;
-        GrindSetData.grind_thickness = 300;
-        flashDataSave();
-    }
-
+    loadCustomDataFromFlash();
 }
 
 void flashDataSave(void)
@@ -41,6 +27,54 @@ void flashDataSave(void)
     //printf("BUFFER[0] == %d\n",buffer[0]);
     FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
 }
+
+// 新增：保存自定义数据到Flash
+void saveCustomDataToFlash(void)
+{
+    uint32_t buffer[5] = {0}; // 存储GrindDataStr.data.target(1个) + TimeDataStr的3个字段共4个值，加1个校验值
+    buffer[0] = GrindDataStr.data.target;  // GrindDataStr.data.target
+    buffer[1] = TimeDataStr.time1;         // TimeDataStr.time1
+    buffer[2] = TimeDataStr.time2;         // TimeDataStr.time2
+    buffer[3] = TimeDataStr.time3;         // TimeDataStr.time3
+    buffer[4] = 0xDEADBEEF;               // 校验值，用于确认数据有效
+
+    FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
+}
+
+// 新增：从Flash加载自定义数据
+void loadCustomDataFromFlash(void)
+{
+    uint32_t buffer[5] = {0};
+    uint32_t *src = (uint32_t*)USER_FLASH_DATA_ADDR;
+    uint32_t size = sizeof(buffer) / sizeof(buffer[0]);
+
+    for (uint32_t i = 0; i < size; i++) {
+        buffer[i] = src[i];
+    }
+
+    // 检查校验值是否匹配，确保数据有效性
+    if (buffer[4] == 0xDEADBEEF) {
+        GrindDataStr.data.target = buffer[0];
+        TimeDataStr.time1 = (uint8_t)buffer[1];
+        TimeDataStr.time2 = (uint8_t)buffer[2];
+        TimeDataStr.time3 = (uint8_t)buffer[3];
+    } else {
+        // 如果数据无效，使用默认值
+        GrindDataStr.data.target = 125; // 默认3秒
+        TimeDataStr.time1 = 30;          // 默认值
+        TimeDataStr.time2 = 45;          // 默认值
+        TimeDataStr.time3 = 60;          // 默认值
+        // 并保存默认值到Flash
+        saveCustomDataToFlash();
+    }
+
+    printf("time_1: %d\n", TimeDataStr.time1);
+    printf("time_2: %d\n", TimeDataStr.time2);
+    printf("time_3: %d\n", TimeDataStr.time3);
+    printf("target: %d\n", GrindDataStr.data.target);
+}
+
+
 
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector) {
     HAL_StatusTypeDef status;

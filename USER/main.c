@@ -169,16 +169,18 @@ void thread_serial(void *pvParameters)
 {
     int len = 0;
     int timeover = 0;
-    GrindDataStr.data.mode = MODE_TIME;
-    GrindDataStr.data.target = 3000; ///ms
-    GrindDataStr.data.cmd_number = 0;
-    GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
+    // GrindDataStr.data.mode = MODE_TIME;
+    // GrindDataStr.data.target = 3000; ///ms
+    // GrindDataStr.data.cmd_number = 0;
+    // GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
     GrindDataStr.data.cmd = CMDTYPE_GRIND;
     uint8_t laststate = 0;
 
     static TickType_t lastUpdateTime = 0;
-    const TickType_t updateTimePeriod = pdMS_TO_TICKS(5000); // 30秒周期
+    const TickType_t updateTimePeriod = pdMS_TO_TICKS(5000); 
+    const TickType_t tempTimePeriod = pdMS_TO_TICKS(6000); 
     int time = 0;
+    int temptime = 0;
     ISL1208_Time_t time_read;
     bool isfillwater = false;
     // //读取时间
@@ -192,6 +194,11 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
             time++;
         } 
+
+        if(currentTime - lastUpdateTime >= tempTimePeriod  && temptime < 2){
+            GrindDataStr.data.cmd = CMDTYPE_TEMP;
+            temptime++;
+        }
         
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
 

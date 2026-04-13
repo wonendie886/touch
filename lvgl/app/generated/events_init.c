@@ -13,6 +13,7 @@
 #include "protocol.h"
 #include <string.h>
 #include <stdlib.h>
+#include "flash.h"
 
 #if LV_USE_GUIDER_SIMULATOR && LV_USE_FREEMASTER
 #include "freemaster_client.h"
@@ -21,7 +22,6 @@
 extern struct GrindRealData GrindDataStr;
 extern bool screen_flag;
 uint16_t volume;
-
 TimeDataStruct TimeDataStr = {30, 45, 60};  // 默认值
 
 static uint8_t active_time_setting = 0; 
@@ -47,6 +47,7 @@ static void screen_btn_steam4_event_handler (lv_event_t *e)
     {
         GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
         volume = TimeDataStr.time3;
+        break;
     }
     default:
         break;
@@ -138,61 +139,12 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
     }
 }
 
-
-
-static void screen_1_btn_certain_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_CLICKED:
-    {
-        const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_set);
-        if(active_time_setting == 4){
-            lv_label_set_text_fmt(guider_ui.screen_1_label_set, "%s", txt);  
-            GrindDataStr.data.target = atoi(txt);
-            GrindDataStr.data.cmd = CMDTYPE_TEMP;
-        } else if (active_time_setting == 1){
-            lv_label_set_text_fmt(guider_ui.screen_btn_steam2_label, "%ss", txt); 
-            lv_label_set_text_fmt(guider_ui.screen_1_btn_settime1_label, "%s", txt); 
-            TimeDataStr.time1 = atoi(txt);
-        } else if (active_time_setting == 2){
-            lv_label_set_text_fmt(guider_ui.screen_btn_steam3_label, "%ss", txt); 
-            lv_label_set_text_fmt(guider_ui.screen_1_btn_settime2_label, "%s", txt); 
-            TimeDataStr.time2 = atoi(txt);
-        } else if (active_time_setting == 3){
-            lv_label_set_text_fmt(guider_ui.screen_btn_steam4_label, "%ss", txt); 
-            lv_label_set_text_fmt(guider_ui.screen_1_btn_settime3_label, "%s", txt); 
-            TimeDataStr.time3 = atoi(txt);
-        } 
-
-        lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN); 
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-static void screen_1_btn_cancel_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_CLICKED:
-    {
-        lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);  
-        break;
-    }
-    default:
-        break;
-    }
-}
-
 static void screen_1_btn_set_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
-    {
+    { //锅炉温度
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         const char* current_text = lv_label_get_text(guider_ui.screen_1_label_set);
         lv_textarea_set_text(guider_ui.screen_1_spinbox_set, current_text);
@@ -258,6 +210,55 @@ static void screen_1_btn_settime3_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_1_btn_certain_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //确定修改，更新flash
+        const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_set);
+        if(active_time_setting == 4){
+            lv_label_set_text_fmt(guider_ui.screen_1_label_set, "%s", txt);  
+            GrindDataStr.data.target = atoi(txt);
+            GrindDataStr.data.cmd = CMDTYPE_TEMP;
+        } else if (active_time_setting == 1){
+            lv_label_set_text_fmt(guider_ui.screen_btn_steam2_label, "%ss", txt); 
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_settime1_label, "%s", txt); 
+            TimeDataStr.time1 = atoi(txt);
+        } else if (active_time_setting == 2){
+            lv_label_set_text_fmt(guider_ui.screen_btn_steam3_label, "%ss", txt); 
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_settime2_label, "%s", txt); 
+            TimeDataStr.time2 = atoi(txt);
+        } else if (active_time_setting == 3){
+            lv_label_set_text_fmt(guider_ui.screen_btn_steam4_label, "%ss", txt); 
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_settime3_label, "%s", txt); 
+            TimeDataStr.time3 = atoi(txt);
+        } 
+        saveCustomDataToFlash();
+        lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN); 
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_cancel_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //取消修改，数值不变
+        lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);  
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_back, screen_1_btn_back_event_handler, LV_EVENT_ALL, ui);
@@ -266,7 +267,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_settime2, screen_1_btn_settime2_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_settime3, screen_1_btn_settime3_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_certain, screen_1_btn_certain_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_btn_cancel, screen_1_btn_cancel_event_handler, LV_EVENT_ALL, ui);    
+    lv_obj_add_event_cb(ui->screen_1_btn_cancel, screen_1_btn_cancel_event_handler, LV_EVENT_ALL, ui);
 }
 
 

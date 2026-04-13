@@ -37,6 +37,9 @@ extern int runtime;
 #define USER_FLASH_DATA_ADDR   0x08004000      /* Sector 1 */
 #define USER_FLASH_SECTOR       FLASH_SECTOR_1  /* 对应扇区编号 */
 #define MAX_TEXT_LEN  8
+
+#define CUSTOM_USER_FLASH_DATA_ADDR   0x08005000      /* Sector 2 */
+#define CUSTOM_USER_FLASH_SECTOR      FLASH_SECTOR_2  /* 对应扇区编号 */
 typedef struct {
     char label1_text[MAX_TEXT_LEN];
     char label2_text[MAX_TEXT_LEN];
@@ -64,6 +67,9 @@ extern flash_store_t grindsetdata;
 void flashDataInit(void);
 void flashDataSave(void);
 void getGrindDataFromFlash();
+// 新增函数用于保存GrindDataStr和TimeDataStr数据
+void saveCustomDataToFlash(void);
+void loadCustomDataFromFlash(void);
 
 uint32_t FLASH_ReadWord(uint32_t Address);
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector);

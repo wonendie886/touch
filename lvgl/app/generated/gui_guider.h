@@ -42,6 +42,7 @@ typedef struct
 	lv_obj_t *screen_1_btn_back_label;
 	lv_obj_t *screen_1_menu;
 	lv_obj_t *screen_1_menu_tab_1;
+	lv_obj_t *screen_1_label_boilertemp;
 	lv_obj_t *screen_1_label_set;
 	lv_obj_t *screen_1_btn_set;
 	lv_obj_t *screen_1_btn_set_label;
@@ -51,6 +52,9 @@ typedef struct
 	lv_obj_t *screen_1_btn_settime2_label;
 	lv_obj_t *screen_1_btn_settime3;
 	lv_obj_t *screen_1_btn_settime3_label;
+	lv_obj_t *screen_1_label_time1;
+	lv_obj_t *screen_1_label_time2;
+	lv_obj_t *screen_1_label_time3;
 	lv_obj_t *screen_1_cont_set;
 	lv_obj_t *screen_1_spinbox_set;
 	lv_obj_t *screen_1_spinbox_set_btn_plus;
@@ -84,7 +88,7 @@ extern lv_ui guider_ui;
 
 void setup_scr_screen(lv_ui *ui);
 void setup_scr_screen_1(lv_ui *ui);
-LV_IMG_DECLARE(_logo_alpha_200x60);
+LV_IMG_DECLARE(_loge_alpha_200x60);
 LV_IMG_DECLARE(_sheshidu_alpha_10x10);
 LV_IMG_DECLARE(_shezhi_alpha_34x31);
 

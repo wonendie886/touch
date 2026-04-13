@@ -31,7 +31,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_logo1
     ui->screen_img_logo1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_logo1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_logo1, &_logo_alpha_200x60);
+    lv_img_set_src(ui->screen_img_logo1, &_loge_alpha_200x60);
     lv_img_set_pivot(ui->screen_img_logo1, 50,50);
     lv_img_set_angle(ui->screen_img_logo1, 0);
     lv_obj_set_pos(ui->screen_img_logo1, 140, 9);
@@ -69,7 +69,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam4
     ui->screen_btn_steam4 = lv_btn_create(ui->screen);
     ui->screen_btn_steam4_label = lv_label_create(ui->screen_btn_steam4);
-    lv_label_set_text(ui->screen_btn_steam4_label, "060s");
+    lv_label_set_text(ui->screen_btn_steam4_label, "60s");
     lv_label_set_long_mode(ui->screen_btn_steam4_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam4_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam4, 0, LV_STATE_DEFAULT);
@@ -92,7 +92,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam3
     ui->screen_btn_steam3 = lv_btn_create(ui->screen);
     ui->screen_btn_steam3_label = lv_label_create(ui->screen_btn_steam3);
-    lv_label_set_text(ui->screen_btn_steam3_label, "045s");
+    lv_label_set_text(ui->screen_btn_steam3_label, "45s");
     lv_label_set_long_mode(ui->screen_btn_steam3_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam3_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam3, 0, LV_STATE_DEFAULT);
@@ -115,7 +115,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_steam2
     ui->screen_btn_steam2 = lv_btn_create(ui->screen);
     ui->screen_btn_steam2_label = lv_label_create(ui->screen_btn_steam2);
-    lv_label_set_text(ui->screen_btn_steam2_label, "030s");
+    lv_label_set_text(ui->screen_btn_steam2_label, "30s");
     lv_label_set_long_mode(ui->screen_btn_steam2_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_steam2_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam2, 0, LV_STATE_DEFAULT);
@@ -233,7 +233,18 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_align(ui->screen_btn_menu, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of screen.
+    char string_data[50] = {0};  
+    sprintf(string_data, "%d", TimeDataStr.time1);
 
+    char string_data1[50] = {0};  
+    sprintf(string_data1, "%d", TimeDataStr.time2);
+
+    char string_data2[50] = {0};  
+    sprintf(string_data2, "%d", TimeDataStr.time3);
+
+    lv_label_set_text_fmt(guider_ui.screen_btn_steam2_label, "0%ss", string_data);
+    lv_label_set_text_fmt(guider_ui.screen_btn_steam3_label, "0%ss", string_data1);
+    lv_label_set_text_fmt(guider_ui.screen_btn_steam4_label, "0%ss", string_data2);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->screen);
