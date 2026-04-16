@@ -341,8 +341,8 @@ static void screen_1_btn_maintenancebegins_event_handler (lv_event_t *e)
     {
         //维护确认，根据触发按钮开始维护操作。
         if(matain_setting == 1){
-            GrindDataStr.data.cmd = CMDTYPE_DESCALE;
             currentstep = 1;
+            GrindDataStr.data.cmd = CMDTYPE_DESCALE;
             matain_setting = 0;
         } else if (matain_setting == 2) {
             GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
@@ -356,9 +356,11 @@ static void screen_1_btn_maintenancebegins_event_handler (lv_event_t *e)
             currentstep = 2;
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;
             waiting_ack = 1;
+            descale_setting = 0;
         } else if (descale_setting == 2){
             currentstep = 3;
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;
+            descale_setting = 0;
         }
         lv_obj_add_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
         lv_label_set_text(guider_ui.screen_1_label_hint, "正在维护中...");

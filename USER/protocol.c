@@ -214,7 +214,7 @@ int setdescale(uint8_t *buf,struct GrindData *pData)
 
     m_buf[CMDTYPE_OFFSET] = CMDTYPE_DESCALE;
     m_buf[CMDSTEP_OFFSET] = currentstep;
-    // printf("step = %d\n",m_buf[CMDSTEP_OFFSET]);
+    printf("step = %d\n",m_buf[CMDSTEP_OFFSET]);
     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
 
