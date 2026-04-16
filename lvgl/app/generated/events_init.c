@@ -342,6 +342,7 @@ static void screen_1_btn_maintenancebegins_event_handler (lv_event_t *e)
         //维护确认，根据触发按钮开始维护操作。
         if(matain_setting == 1){
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;
+            currentstep = 1;
             matain_setting = 0;
         } else if (matain_setting == 2) {
             GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
