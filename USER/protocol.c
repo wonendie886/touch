@@ -1,6 +1,6 @@
 #include "protocol.h"
 #include <stdio.h>
-
+#include "events_init.h"
 static int setCrc(void);
 
 const uint64_t	WARN_NONE                         =    0x0000000000000000; ///< {无故障}
@@ -53,8 +53,11 @@ void getProtocol(const uint8_t *buf,struct Protocol *ret)
         // ret->frame.target = buf[TARGET_OFFSET]  | buf[TARGET_OFFSET + 1] << 8;
 
         ret->frame.cmd = buf[CMDTYPE_OFFSET];
-        printf("CMD: %d\n", buf[CMDTYPE_OFFSET]);
+        // printf("CMD: %d\n", buf[CMDTYPE_OFFSET]);
         // ret->frame.cmd_state = buf[CMDSTATE_OFFSET];
+        ret->frame.cmd_channelA_state = buf[CMDCHANNELA_STATE_OFFSET]; 
+        ret->frame.cmd_channelA_progress = buf[CMDCHANNELA_PROGRESS_OFFSET];
+        // printf("state: %d  progress : %d\n", buf[CMDCHANNELA_STATE_OFFSET],buf[CMDCHANNELA_PROGRESS_OFFSET]);
         ret->frame.cmd_number = buf[CMDNUMBER_OFFSET];
     }
 }
@@ -89,7 +92,28 @@ static uint8_t m_buf[FRAME_MAX_LEN];
 
 //     return len;
 // }
+int setPoll(uint8_t *buf,struct GrindData *pData)
+{
+    //set m_buf content
+    m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+    m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN;
+    m_buf[ABNORMALSTATE_OFFSET] = 0;
 
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_POLL;
+
+    m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+    m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+    //set Crc content
+    setCrc();
+
+    uint8_t len = m_buf[LEN_OFFSET];
+    for (int i = 0; i < len; i++) {
+        buf[i] = m_buf[i];
+    }
+    return len;
+}
 int setFillwater(uint8_t *buf,struct GrindData *pData)
 {
     //set m_buf content
@@ -189,6 +213,53 @@ int setdescale(uint8_t *buf,struct GrindData *pData)
     m_buf[ABNORMALSTATE_OFFSET] = 0;
 
     m_buf[CMDTYPE_OFFSET] = CMDTYPE_DESCALE;
+    m_buf[CMDSTEP_OFFSET] = currentstep;
+    // printf("step = %d\n",m_buf[CMDSTEP_OFFSET]);
+    m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+    m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+    //set Crc content
+    setCrc();
+
+    uint8_t len = m_buf[LEN_OFFSET];
+    for (int i = 0; i < len; i++) {
+        buf[i] = m_buf[i];
+    }
+    return len;
+}
+
+int setemptywater(uint8_t *buf,struct GrindData *pData)
+{
+    //set m_buf content
+    m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+    m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN;
+    m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_EMPTY_WATER;
+
+    m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
+    m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;
+
+    //set Crc content
+    setCrc();
+
+    uint8_t len = m_buf[LEN_OFFSET];
+    for (int i = 0; i < len; i++) {
+        buf[i] = m_buf[i];
+    }
+    return len;
+}
+
+int setchangewater(uint8_t *buf,struct GrindData *pData)
+{
+    //set m_buf content
+    m_buf[HEAD_OFFSET] = FRAME_HEAD_1;
+    m_buf[HEAD_OFFSET+1] = FRAME_HEAD_2;
+    m_buf[LEN_OFFSET] =  FRAME_MIN_LEN;
+    m_buf[ABNORMALSTATE_OFFSET] = 0;
+
+    m_buf[CMDTYPE_OFFSET] = CMDTYPE_CHANGE_WATER;
 
     m_buf[m_buf[LEN_OFFSET] - 2] = FRAME_FOOT_1;
     m_buf[m_buf[LEN_OFFSET] - 1] = FRAME_FOOT_2;

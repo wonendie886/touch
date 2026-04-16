@@ -165,6 +165,8 @@ int main(void)
 }
 bool screen_flag = true;
 float blocktemp = 0;
+bool emptysuccess = false;
+
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -201,7 +203,8 @@ void thread_serial(void *pvParameters)
         }
         
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-
+            len = setPoll(buf,&GrindDataStr.data);
+            sendData(buf, len);
         } else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
             len = setFillwater(buf,&GrindDataStr.data);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
@@ -220,6 +223,14 @@ void thread_serial(void *pvParameters)
             sendData(buf, len);
         } else if ( GrindDataStr.data.cmd == CMDTYPE_TEMP ){
             len = settemp(buf, &GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
+        } else  if ( GrindDataStr.data.cmd == CMDTYPE_CHANGE_WATER ){
+            len = setchangewater(buf, &GrindDataStr.data);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+            sendData(buf, len);
+        } else if ( GrindDataStr.data.cmd == CMDTYPE_EMPTY_WATER ){
+            len = setemptywater(buf, &GrindDataStr.data);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
             sendData(buf, len);
         }
@@ -244,48 +255,49 @@ void thread_serial(void *pvParameters)
             dataIsReady = 0;  
             getProtocol(rFrameBuf,&c);
             // printf("cmd = %d\r\n", c.frame.cmd);
-            if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            
-            } else if (c.frame.cmd == CMDTYPE_DESCALE){ 
-                
+            if (c.frameState == FRAME_OK){
+                if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
+                    
+                } else if (c.frame.cmd == CMDTYPE_DESCALE){ 
+                    if (c.frame.cmd_channelA_state == STAGE_SUCCESS){
+                        if(waiting_ack == 0){
+                            if(currentstep == 1){
+                                // printf("111111");
+                                descale_setting = 1;
+                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤1结束,请给清洗容器加入2L水后,点击确定进入步骤2:再次清洗;");
+                                lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
+                            } else if (currentstep == 2){
+                                descale_setting = 2;
+                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤2结束,请清空蓄水盘,点击确定进入步骤3:锅炉换水;");
+                                lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
+                            }
+                        }
+                    } else if (c.frame.cmd_channelA_state == ALL_SUCCESS){ 
+                        lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
+                        lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
+                    } else if (c.frame.cmd_channelA_state == EXECUTING){
+                        waiting_ack = 0;
+                    }
+                } else if (c.frame.cmd == CMDTYPE_CHANGE_WATER){ 
+                    if(c.frame.cmd_channelA_state == ALL_SUCCESS){
+                        lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
+                        lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
+                    }
+                } else if (c.frame.cmd == CMDTYPE_EMPTY_WATER){ 
+                    if(c.frame.cmd_channelA_state == ALL_SUCCESS){
+                        const char txt[] = {
+                        0xE8,0xAF,0xB7,
+                        0xE5,0x85,0xB3,
+                        0xE6,0x9C,0xBA,
+                        0
+                        };
+                        emptysuccess = true;
+                        lv_label_set_text(guider_ui.screen_1_label_hint, "请关机;");
+                        // lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
+                        // lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
+                    }
+                }
             }
-            //     GrindDatarx.mode = c.frame.mode;
-            //     GrindDatarx.target = c.frame.target;
-            //     GrindDatarx.cmd_state = c.frame.cmd_state;
-            //     GrindDatarx.cmd_number = c.frame.cmd_number;                        
-            // if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-            //     if (c.frame.cmd_state == CMD_STATE_EXECUTING){
-            //         lv_obj_clear_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN); 
-            //         lv_obj_add_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
-            //         lv_obj_add_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
-
-            //         char dataStr[20];  
-                    
-            //         if(GrindDataStr.data.mode == MODE_TIME){
-            //             sprintf(dataStr, "%.1f", c.frame.target/1000.0f);
-            //             lv_label_set_text(guider_ui.screen_label_8, dataStr); 
-            //             lv_label_set_text(guider_ui.screen_label_9, "s"); 
-            //         } else if(GrindDataStr.data.mode == MODE_WEIGHT){
-            //             sprintf(dataStr, "%.1f", c.frame.target/10.0f);
-            //             lv_label_set_text(guider_ui.screen_label_8, dataStr); 
-            //             lv_label_set_text(guider_ui.screen_label_9, "g");
-            //         }
-
-            //     } else if (c.frame.cmd_state == CMD_STATE_PAUSE){
-                    
-            //     } else if (c.frame.cmd_state == CMD_STATE_SUCCESS) {
-            //         lv_obj_clear_flag(guider_ui.screen_btn_11, LV_OBJ_FLAG_HIDDEN);
-            //         lv_obj_clear_flag(guider_ui.screen_btn_12, LV_OBJ_FLAG_HIDDEN);
-            //         // char time_str[10]; 
-            //         // sprintf(time_str, "%.1f", GrindDataStr.data.target/1000.0f);
-            //         // lv_label_set_text(guider_ui.screen_label_8, time_str); 
-
-            //         if(laststate == CMD_STATE_EXECUTING)
-            //         vTaskDelay(pdMS_TO_TICKS(2000));  // 延迟2000毫秒（2秒）
-            //         lv_obj_add_flag(guider_ui.screen_cont_2, LV_OBJ_FLAG_HIDDEN);          
-            //     } 
-            //     laststate = c.frame.cmd_state;  
-            // } 
         }
         if(screen_flag){
             if (can_msg.data_is_ready){

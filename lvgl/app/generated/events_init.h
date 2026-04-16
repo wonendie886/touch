@@ -23,6 +23,9 @@ typedef struct
 } TimeDataStruct;
 
 extern TimeDataStruct TimeDataStr;
+extern uint16_t currentstep;
+extern uint8_t descale_setting;
+extern uint8_t waiting_ack;
 void events_init(lv_ui *ui);
 
 void events_init_screen(lv_ui *ui);

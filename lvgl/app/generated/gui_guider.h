@@ -42,6 +42,7 @@ typedef struct
 	lv_obj_t *screen_1_btn_back_label;
 	lv_obj_t *screen_1_menu;
 	lv_obj_t *screen_1_menu_tab_1;
+	lv_obj_t *screen_1_menu_tab_2;
 	lv_obj_t *screen_1_label_boilertemp;
 	lv_obj_t *screen_1_label_set;
 	lv_obj_t *screen_1_btn_set;
@@ -63,6 +64,18 @@ typedef struct
 	lv_obj_t *screen_1_btn_certain_label;
 	lv_obj_t *screen_1_btn_cancel;
 	lv_obj_t *screen_1_btn_cancel_label;
+	lv_obj_t *screen_1_btn_descale;
+	lv_obj_t *screen_1_btn_descale_label;
+	lv_obj_t *screen_1_btn_waterempty;
+	lv_obj_t *screen_1_btn_waterempty_label;
+	lv_obj_t *screen_1_btn_waterchange;
+	lv_obj_t *screen_1_btn_waterchange_label;
+	lv_obj_t *screen_1_cont_matain;
+	lv_obj_t *screen_1_label_hint;
+	lv_obj_t *screen_1_btn_maintenancecancellation;
+	lv_obj_t *screen_1_btn_maintenancecancellation_label;
+	lv_obj_t *screen_1_btn_maintenancebegins;
+	lv_obj_t *screen_1_btn_maintenancebegins_label;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);

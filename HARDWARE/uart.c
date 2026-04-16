@@ -170,7 +170,7 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 
 uint32_t sendData(const void* buf, uint32_t len)
 {
-    // // 打印要发送的数据
+    // 打印要发送的数据
     // printf("准备发送数据，长度: %lu\n", len);
     // printf("发送的数据: ");
     // const uint8_t* byte_buf = (const uint8_t*)buf;

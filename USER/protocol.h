@@ -240,6 +240,13 @@ struct GrindRealData
 	uint16_t weight; //uint: 0.1g
 };
 
+enum CmdState{
+    CMDSTATE_IDLE = 0,
+    EXECUTING = 1,
+    STAGE_SUCCESS = 2,
+    ALL_SUCCESS = 3,
+    FAIL = 4,
+};
 
 struct Frame{
 	uint16_t head;
@@ -250,6 +257,8 @@ struct Frame{
 	uint8_t cmd;
 	uint8_t cmd_state;
     uint8_t cmd_number;
+    volatile uint8_t cmd_channelA_state;
+    volatile uint8_t cmd_channelA_progress;
 	uint8_t crc;
 	uint16_t foot;
 };
@@ -268,5 +277,8 @@ int setdosteam(uint8_t *buf,struct GrindData *pData);
 int setcancel(uint8_t *buf,struct GrindData *pData);
 int settemp(uint8_t *buf,struct GrindData *pData);
 int setdescale(uint8_t *buf,struct GrindData *pData);
+int setPoll(uint8_t *buf,struct GrindData *pData);
+int setchangewater(uint8_t *buf,struct GrindData *pData);
+int setemptywater(uint8_t *buf,struct GrindData *pData);
 
 #endif
