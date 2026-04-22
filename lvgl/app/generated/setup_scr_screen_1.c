@@ -626,7 +626,27 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_font(ui->screen_1_btn_maintenancebegins, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_1_btn_maintenancebegins, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_btn_maintenancebegins, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    
+    //Write codes screen_1_bar_maintain
+    ui->screen_1_bar_maintain = lv_bar_create(ui->screen_1_cont_matain);
+    lv_obj_set_style_anim_time(ui->screen_1_bar_maintain, 10000, 0);
+    lv_bar_set_mode(ui->screen_1_bar_maintain, LV_BAR_MODE_NORMAL);
+    lv_bar_set_range(ui->screen_1_bar_maintain, 0, 100);
+    lv_bar_set_value(ui->screen_1_bar_maintain, 50, LV_ANIM_OFF);
+    lv_obj_set_pos(ui->screen_1_bar_maintain, 68, 154);
+    lv_obj_set_size(ui->screen_1_bar_maintain, 352, 14);
 
+    //Write style for screen_1_bar_maintain, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_bar_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_bar_maintain, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_bar_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_1_bar_maintain, Part: LV_PART_INDICATOR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_bar_maintain, 255, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_bar_maintain, lv_color_hex(0x2195f6), LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_bar_maintain, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_bar_maintain, 10, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_add_flag(ui->screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
     //The custom code of screen_1.
     char string_data[50] = {0};  
     sprintf(string_data, "%d", TimeDataStr.time1);

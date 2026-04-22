@@ -259,38 +259,42 @@ void thread_serial(void *pvParameters)
                 if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
                     
                 } else if (c.frame.cmd == CMDTYPE_DESCALE){ 
+                    lv_bar_set_value(guider_ui.screen_1_bar_maintain, c.frame.cmd_channelA_progress, LV_ANIM_OFF);
                     if (c.frame.cmd_channelA_state == STAGE_SUCCESS){
                         if(waiting_ack == 0){
                             if(currentstep == 1){
                                 // printf("111111");
                                 descale_setting = 1;
-                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤1结束,请给清洗容器加入2L水后,点击确定进入步骤2:再次清洗;");
+                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤1结束,清空蓄水盘并给清洗容器加入1L清水后,点击确定进入步骤2:继续清洗;");
                                 lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
                             } else if (currentstep == 2){
                                 descale_setting = 2;
-                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤2结束,请清空蓄水盘,点击确定进入步骤3:锅炉换水;");
+                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤2结束,点击确定进入步骤3:锅炉换水;");
                                 lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
                             }
                         }
                     } else if (c.frame.cmd_channelA_state == ALL_SUCCESS){ 
+                        printf("descale end \n");
                         lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
                         lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
+                        lv_obj_add_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);                        
                     } else if (c.frame.cmd_channelA_state == EXECUTING){
                         waiting_ack = 0;
                     }
                 } else if (c.frame.cmd == CMDTYPE_CHANGE_WATER){ 
+                    lv_bar_set_value(guider_ui.screen_1_bar_maintain, c.frame.cmd_channelA_progress, LV_ANIM_OFF);
+                    // printf("state = %d\r\n",c.frame.cmd_channelA_state);
                     if(c.frame.cmd_channelA_state == ALL_SUCCESS){
+                        printf("changewater end \n");
                         lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
                         lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
+                        lv_obj_add_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);  
                     }
                 } else if (c.frame.cmd == CMDTYPE_EMPTY_WATER){ 
+                    lv_bar_set_value(guider_ui.screen_1_bar_maintain, c.frame.cmd_channelA_progress, LV_ANIM_OFF);
                     if(c.frame.cmd_channelA_state == ALL_SUCCESS){
-                        const char txt[] = {
-                        0xE8,0xAF,0xB7,
-                        0xE5,0x85,0xB3,
-                        0xE6,0x9C,0xBA,
-                        0
-                        };
+                        printf("waterempty end \n");
+                        lv_obj_add_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);  
                         emptysuccess = true;
                         lv_label_set_text(guider_ui.screen_1_label_hint, "请关机;");
                         // lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);

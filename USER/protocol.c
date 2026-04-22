@@ -15,7 +15,7 @@ const uint8_t SYSTEMSTATE_STEAM_BOILER_FILLWATER = 0x01;
 
 void getProtocol(const uint8_t *buf,struct Protocol *ret)
 {
-    // 打印接收到的完整数据帧
+    // // 打印接收到的完整数据帧
     // printf("Received frame: ");
     // for(int i = 0; i < buf[LEN_OFFSET]; i++) {
     //     printf("%02X ", buf[i]);

@@ -271,7 +271,7 @@ static void screen_1_btn_descale_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //除垢
-        lv_label_set_text(guider_ui.screen_1_label_hint, "步骤1:清空蓄水盘,并给清洗容器添加2包除垢粉+2L水,点击确定进入除垢;");
+        lv_label_set_text(guider_ui.screen_1_label_hint, "步骤1:清空蓄水盘,并给清洗容器添加1包除垢粉+1L水,点击确定进入除垢;");
         lv_obj_add_flag(guider_ui.screen_1_btn_maintenancecancellation, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
         matain_setting = 1;
@@ -307,7 +307,7 @@ static void screen_1_btn_waterchange_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //锅炉换水
-        lv_label_set_text(guider_ui.screen_1_label_hint, "清空蓄水盘,点击确定进入锅炉换水;");
+        lv_label_set_text(guider_ui.screen_1_label_hint, "清空蓄水盘,给清洗容器加入0.8L水,点击确定进入锅炉换水;");
         lv_obj_add_flag(guider_ui.screen_1_btn_maintenancecancellation, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
         matain_setting = 3;
@@ -342,28 +342,42 @@ static void screen_1_btn_maintenancebegins_event_handler (lv_event_t *e)
         //维护确认，根据触发按钮开始维护操作。
         if(matain_setting == 1){
             currentstep = 1;
+            lv_label_set_text(guider_ui.screen_1_label_hint, "除垢时间大约10分钟;");
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_bar_set_range(guider_ui.screen_1_bar_maintain, 0, 140);
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain, 0, LV_ANIM_OFF);
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;
             matain_setting = 0;
         } else if (matain_setting == 2) {
+            lv_label_set_text(guider_ui.screen_1_label_hint, "清空水路大约10分钟;");
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_bar_set_range(guider_ui.screen_1_bar_maintain, 0, 100);
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain, 0, LV_ANIM_OFF);
             GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
             matain_setting = 0;
         } else if (matain_setting == 3) {
+            lv_label_set_text(guider_ui.screen_1_label_hint, "锅炉换水大约10分钟;");
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_bar_set_range(guider_ui.screen_1_bar_maintain, 0, 90);
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain, 0, LV_ANIM_OFF);
             GrindDataStr.data.cmd = CMDTYPE_CHANGE_WATER;
             matain_setting = 0;
         }
 
         if (descale_setting == 1){
             currentstep = 2;
+            lv_label_set_text(guider_ui.screen_1_label_hint, "继续清洗大约2分钟;");
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;
             waiting_ack = 1;
             descale_setting = 0;
         } else if (descale_setting == 2){
             currentstep = 3;
+            lv_label_set_text(guider_ui.screen_1_label_hint, "锅炉换水大约10分钟;");
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;
             descale_setting = 0;
         }
         lv_obj_add_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
-        lv_label_set_text(guider_ui.screen_1_label_hint, "正在维护中...");
+        // lv_label_set_text(guider_ui.screen_1_label_hint, "正在维护中...");
         break;
     }
     default:

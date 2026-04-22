@@ -76,6 +76,7 @@ typedef struct
 	lv_obj_t *screen_1_btn_maintenancecancellation_label;
 	lv_obj_t *screen_1_btn_maintenancebegins;
 	lv_obj_t *screen_1_btn_maintenancebegins_label;
+	lv_obj_t *screen_1_bar_maintain;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
