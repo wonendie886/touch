@@ -147,7 +147,7 @@
             <RestoreSysVw>1</RestoreSysVw>
           </Target>
           <RunDebugAfterBuild>0</RunDebugAfterBuild>
-          <TargetSelection>6</TargetSelection>
+          <TargetSelection>11</TargetSelection>
           <SimDlls>
             <CpuDll></CpuDll>
             <CpuDllArguments></CpuDllArguments>
@@ -161,7 +161,7 @@
             <PeripheralDll></PeripheralDll>
             <PeripheralDllArguments></PeripheralDllArguments>
             <InitializationFile></InitializationFile>
-            <Driver>Segger\JL2CM3.dll</Driver>
+            <Driver>STLink\ST-LINKIII-KEIL_SWO.dll</Driver>
           </TargetDlls>
         </DebugOption>
         <Utilities>
@@ -309,7 +309,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8008000</StartAddress>
+                <StartAddress>0x8000000</StartAddress>
                 <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -1699,6 +1699,251 @@
               <FilePath>..\lvgl\app\generated\widgets_init.c</FilePath>
             </File>
             <File>
+              <FileName>_2_188x99.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_2_188x99.c</FilePath>
+            </File>
+            <File>
+              <FileName>_2_alpha_188x99.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_2_alpha_188x99.c</FilePath>
+            </File>
+            <File>
+              <FileName>_6_38x38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_6_38x38.c</FilePath>
+            </File>
+            <File>
+              <FileName>_6_alpha_38x38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_6_alpha_38x38.c</FilePath>
+            </File>
+            <File>
+              <FileName>_7_38x38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_7_38x38.c</FilePath>
+            </File>
+            <File>
+              <FileName>_7_alpha_38x38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_7_alpha_38x38.c</FilePath>
+            </File>
+            <File>
+              <FileName>_9_14x13.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_9_14x13.c</FilePath>
+            </File>
+            <File>
+              <FileName>_9_alpha_14x13.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_9_alpha_14x13.c</FilePath>
+            </File>
+            <File>
+              <FileName>_11_47x47.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_11_47x47.c</FilePath>
+            </File>
+            <File>
+              <FileName>_11_alpha_47x47.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_11_alpha_47x47.c</FilePath>
+            </File>
+            <File>
+              <FileName>_17_63x63.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_17_63x63.c</FilePath>
+            </File>
+            <File>
+              <FileName>_17_68x67.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_17_68x67.c</FilePath>
+            </File>
+            <File>
+              <FileName>_17_alpha_63x63.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_17_alpha_63x63.c</FilePath>
+            </File>
+            <File>
+              <FileName>_17_alpha_68x67.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_17_alpha_68x67.c</FilePath>
+            </File>
+            <File>
+              <FileName>_18_54x206.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_18_54x206.c</FilePath>
+            </File>
+            <File>
+              <FileName>_18_alpha_54x206.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_18_alpha_54x206.c</FilePath>
+            </File>
+            <File>
+              <FileName>_19_54x206.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_19_54x206.c</FilePath>
+            </File>
+            <File>
+              <FileName>_19_alpha_54x206.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_19_alpha_54x206.c</FilePath>
+            </File>
+            <File>
+              <FileName>_20_480x272.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_20_480x272.c</FilePath>
+            </File>
+            <File>
+              <FileName>_caidan_8x7.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_caidan_8x7.c</FilePath>
+            </File>
+            <File>
+              <FileName>_caidan_alpha_8x7.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_caidan_alpha_8x7.c</FilePath>
+            </File>
+            <File>
+              <FileName>_jingdiankafei_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_jingdiankafei_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_jingdiankafei_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_jingdiankafei_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_juxing_65x38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_juxing_65x38.c</FilePath>
+            </File>
+            <File>
+              <FileName>_juxing_alpha_65x38.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_juxing_alpha_65x38.c</FilePath>
+            </File>
+            <File>
+              <FileName>_juxing9_78x70.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_juxing9_78x70.c</FilePath>
+            </File>
+            <File>
+              <FileName>_juxing9_alpha_78x70.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_juxing9_alpha_78x70.c</FilePath>
+            </File>
+            <File>
+              <FileName>_kafeibei_14x13.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_kafeibei_14x13.c</FilePath>
+            </File>
+            <File>
+              <FileName>_kafeibei_alpha_14x13.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_kafeibei_alpha_14x13.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_47x19.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_47x19.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_alpha_47x19.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_alpha_47x19.c</FilePath>
+            </File>
+            <File>
+              <FileName>_meishikafei_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_meishikafei_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_meishikafei_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_meishikafei_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_tuoyuanxing_375x73.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_tuoyuanxing_375x73.c</FilePath>
+            </File>
+            <File>
+              <FileName>_tuoyuanxing_alpha_375x73.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_tuoyuanxing_alpha_375x73.c</FilePath>
+            </File>
+            <File>
+              <FileName>_weitu_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_weitu_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_weitu_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_weitu_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_weitu1_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_weitu1_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_weitu1_alpha_40x40.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_weitu1_alpha_40x40.c</FilePath>
+            </File>
+            <File>
+              <FileName>_yuyan_8x8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_yuyan_8x8.c</FilePath>
+            </File>
+            <File>
+              <FileName>_yuyan_alpha_8x8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_yuyan_alpha_8x8.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Acme_Regular_7.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Acme_Regular_7.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Amiko_Regular_20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Amiko_Regular_20.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Antonio_Regular_7.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_7.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Antonio_Regular_8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_8.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Antonio_Regular_9.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_9.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Antonio_Regular_26.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_26.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_montserratMedium_9.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_9.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_montserratMedium_10.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_10.c</FilePath>
+            </File>
+            <File>
               <FileName>lv_font_montserratMedium_12.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_12.c</FilePath>
@@ -1709,44 +1954,24 @@
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_16.c</FilePath>
             </File>
             <File>
-              <FileName>_loge_alpha_100x30.c</FileName>
+              <FileName>lv_font_SourceHanSerifSC_Regular_6.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_loge_alpha_100x30.c</FilePath>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_6.c</FilePath>
             </File>
             <File>
-              <FileName>lv_font_SourceHanSerifSC_Regular_16.c</FileName>
+              <FileName>lv_font_SourceHanSerifSC_Regular_7.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_16.c</FilePath>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_7.c</FilePath>
             </File>
             <File>
-              <FileName>_loge_alpha_200x60.c</FileName>
+              <FileName>lv_font_SourceHanSerifSC_Regular_8.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_loge_alpha_200x60.c</FilePath>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_8.c</FilePath>
             </File>
             <File>
-              <FileName>_sheshidu_alpha_20x20.c</FileName>
+              <FileName>lv_font_Antonio_Regular_10.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_sheshidu_alpha_20x20.c</FilePath>
-            </File>
-            <File>
-              <FileName>_sheshidu_alpha_10x10.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_sheshidu_alpha_10x10.c</FilePath>
-            </File>
-            <File>
-              <FileName>_danbeies_alpha_63x69.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_danbeies_alpha_63x69.c</FilePath>
-            </File>
-            <File>
-              <FileName>_shuangbeies_alpha_85x71.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_shuangbeies_alpha_85x71.c</FilePath>
-            </File>
-            <File>
-              <FileName>_logo_alpha_200x60.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\lvgl\app\generated\images\_logo_alpha_200x60.c</FilePath>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_10.c</FilePath>
             </File>
           </Files>
         </Group>

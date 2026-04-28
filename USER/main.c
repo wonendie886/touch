@@ -109,7 +109,7 @@ void DWT_Init(void) {
 int main(void)
 { 
     
-    SCB->VTOR = FLASH_BASE | APP_FLASH_OFFSET;
+    // SCB->VTOR = FLASH_BASE | APP_FLASH_OFFSET;
 	DWT_Init();
 	BaseType_t xReturned;
 	HAL_Init();      
@@ -276,7 +276,8 @@ void thread_serial(void *pvParameters)
                         if(runtime >= 1000){
                              char temp_str[20];
                             sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_temp, temp_str);
+                            lv_label_set_text(guider_ui.screen_label_3, temp_str);
+                            // lv_label_set_text(guider_ui.screen_label_temp, temp_str);
                         }
                     } else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){
                         #if (LEFT_OR_COFFEE == LEFT)
@@ -285,7 +286,7 @@ void thread_serial(void *pvParameters)
                         if(runtime >= 1000){
                              char temp_str[20];
                             sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
+                            lv_label_set_text(guider_ui.screen_label_4, temp_str);
                         }                            
                         #else
                         int ret = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
@@ -294,7 +295,8 @@ void thread_serial(void *pvParameters)
                              char temp_str[20];
 
                             sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
+                            lv_label_set_text(guider_ui.screen_label_4, temp_str);
+                            // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
                         }                               
                         #endif
                     }
