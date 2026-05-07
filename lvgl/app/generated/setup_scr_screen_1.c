@@ -32,7 +32,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_back
     ui->screen_1_btn_back = lv_btn_create(ui->screen_1);
     ui->screen_1_btn_back_label = lv_label_create(ui->screen_1_btn_back);
-    lv_label_set_text(ui->screen_1_btn_back_label, "返回");
+    lv_label_set_text(ui->screen_1_btn_back_label, "Back");
     lv_label_set_long_mode(ui->screen_1_btn_back_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_back_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_back, 0, LV_STATE_DEFAULT);
@@ -109,22 +109,22 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_add_style(lv_tabview_get_tab_btns(ui->screen_1_menu), &style_screen_1_menu_extra_btnm_items_checked, LV_PART_ITEMS|LV_STATE_CHECKED);
 
     //Write codes set
-    ui->screen_1_menu_tab_1 = lv_tabview_add_tab(ui->screen_1_menu,"设置");
+    ui->screen_1_menu_tab_1 = lv_tabview_add_tab(ui->screen_1_menu,"Set");
     lv_obj_t * screen_1_menu_tab_1_label = lv_label_create(ui->screen_1_menu_tab_1);
     lv_label_set_text(screen_1_menu_tab_1_label, "");
 
     //Write codes screen_1_label_boilertemp
     ui->screen_1_label_boilertemp = lv_label_create(ui->screen_1_menu_tab_1);
-    lv_label_set_text(ui->screen_1_label_boilertemp, "蒸汽锅炉温度");
+    lv_label_set_text(ui->screen_1_label_boilertemp, "Steam boiler temperature");
     lv_label_set_long_mode(ui->screen_1_label_boilertemp, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_boilertemp, 0, 20);
-    lv_obj_set_size(ui->screen_1_label_boilertemp, 100, 32);
+    lv_obj_set_size(ui->screen_1_label_boilertemp, 120, 32);
 
     //Write style for screen_1_label_boilertemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_boilertemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_1_label_boilertemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_1_label_boilertemp, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_boilertemp, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_boilertemp, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_1_label_boilertemp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_1_label_boilertemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_1_label_boilertemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -158,7 +158,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_line_space(ui->screen_1_label_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_label_set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->screen_1_label_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_set, 7, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->screen_1_label_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->screen_1_label_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_1_label_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -259,7 +259,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time1
     ui->screen_1_label_time1 = lv_label_create(ui->screen_1_menu_tab_1);
-    lv_label_set_text(ui->screen_1_label_time1, "时间1");
+    lv_label_set_text(ui->screen_1_label_time1, "Time 1");
     lv_label_set_long_mode(ui->screen_1_label_time1, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_time1, 1, 75);
     lv_obj_set_size(ui->screen_1_label_time1, 100, 32);
@@ -282,7 +282,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time2
     ui->screen_1_label_time2 = lv_label_create(ui->screen_1_menu_tab_1);
-    lv_label_set_text(ui->screen_1_label_time2, "时间2");
+    lv_label_set_text(ui->screen_1_label_time2, "Time 2");
     lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_time2, 3, 127);
     lv_obj_set_size(ui->screen_1_label_time2, 100, 32);
@@ -305,7 +305,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time3
     ui->screen_1_label_time3 = lv_label_create(ui->screen_1_menu_tab_1);
-    lv_label_set_text(ui->screen_1_label_time3, "时间3");
+    lv_label_set_text(ui->screen_1_label_time3, "Time 3");
     lv_label_set_long_mode(ui->screen_1_label_time3, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_time3, 3, 184);
     lv_obj_set_size(ui->screen_1_label_time3, 100, 32);
@@ -414,7 +414,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_certain
     ui->screen_1_btn_certain = lv_btn_create(ui->screen_1_cont_set);
     ui->screen_1_btn_certain_label = lv_label_create(ui->screen_1_btn_certain);
-    lv_label_set_text(ui->screen_1_btn_certain_label, "确定");
+    lv_label_set_text(ui->screen_1_btn_certain_label, "Confirm");
     lv_label_set_long_mode(ui->screen_1_btn_certain_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_certain_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_certain, 0, LV_STATE_DEFAULT);
@@ -437,7 +437,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_cancel
     ui->screen_1_btn_cancel = lv_btn_create(ui->screen_1_cont_set);
     ui->screen_1_btn_cancel_label = lv_label_create(ui->screen_1_btn_cancel);
-    lv_label_set_text(ui->screen_1_btn_cancel_label, "取消");
+    lv_label_set_text(ui->screen_1_btn_cancel_label, "Cancel");
     lv_label_set_long_mode(ui->screen_1_btn_cancel_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_cancel_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_cancel, 0, LV_STATE_DEFAULT);
@@ -458,14 +458,14 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_align(ui->screen_1_btn_cancel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes maintain
-    ui->screen_1_menu_tab_2 = lv_tabview_add_tab(ui->screen_1_menu,"维护");
+    ui->screen_1_menu_tab_2 = lv_tabview_add_tab(ui->screen_1_menu,"Maintenance");
     lv_obj_t * screen_1_menu_tab_2_label = lv_label_create(ui->screen_1_menu_tab_2);
     lv_label_set_text(screen_1_menu_tab_2_label, "");
 
     //Write codes screen_1_btn_descale
     ui->screen_1_btn_descale = lv_btn_create(ui->screen_1_menu_tab_2);
     ui->screen_1_btn_descale_label = lv_label_create(ui->screen_1_btn_descale);
-    lv_label_set_text(ui->screen_1_btn_descale_label, "除垢");
+    lv_label_set_text(ui->screen_1_btn_descale_label, "Descaling");
     lv_label_set_long_mode(ui->screen_1_btn_descale_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_descale_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_descale, 0, LV_STATE_DEFAULT);
@@ -489,13 +489,13 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_waterempty
     ui->screen_1_btn_waterempty = lv_btn_create(ui->screen_1_menu_tab_2);
     ui->screen_1_btn_waterempty_label = lv_label_create(ui->screen_1_btn_waterempty);
-    lv_label_set_text(ui->screen_1_btn_waterempty_label, "清空水路");
+    lv_label_set_text(ui->screen_1_btn_waterempty_label, "Water Draining");
     lv_label_set_long_mode(ui->screen_1_btn_waterempty_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_waterempty_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_waterempty, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_waterempty_label, LV_PCT(100));
     lv_obj_set_pos(ui->screen_1_btn_waterempty, 153, 20);
-    lv_obj_set_size(ui->screen_1_btn_waterempty, 100, 50);
+    lv_obj_set_size(ui->screen_1_btn_waterempty, 130, 50);
 
     //Write style for screen_1_btn_waterempty, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_waterempty, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -513,13 +513,13 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_waterchange
     ui->screen_1_btn_waterchange = lv_btn_create(ui->screen_1_menu_tab_2);
     ui->screen_1_btn_waterchange_label = lv_label_create(ui->screen_1_btn_waterchange);
-    lv_label_set_text(ui->screen_1_btn_waterchange_label, "锅炉换水");
+    lv_label_set_text(ui->screen_1_btn_waterchange_label, "Change Steam Boiler Water");
     lv_label_set_long_mode(ui->screen_1_btn_waterchange_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_waterchange_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_waterchange, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_waterchange_label, LV_PCT(100));
     lv_obj_set_pos(ui->screen_1_btn_waterchange, 18, 104);
-    lv_obj_set_size(ui->screen_1_btn_waterchange, 100, 50);
+    lv_obj_set_size(ui->screen_1_btn_waterchange, 130, 50);
 
     //Write style for screen_1_btn_waterchange, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_waterchange, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -582,7 +582,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_maintenancecancellation
     ui->screen_1_btn_maintenancecancellation = lv_btn_create(ui->screen_1_cont_matain);
     ui->screen_1_btn_maintenancecancellation_label = lv_label_create(ui->screen_1_btn_maintenancecancellation);
-    lv_label_set_text(ui->screen_1_btn_maintenancecancellation_label, "取消");
+    lv_label_set_text(ui->screen_1_btn_maintenancecancellation_label, "Cancel");
     lv_label_set_long_mode(ui->screen_1_btn_maintenancecancellation_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_maintenancecancellation_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_maintenancecancellation, 0, LV_STATE_DEFAULT);
@@ -606,7 +606,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_maintenancebegins
     ui->screen_1_btn_maintenancebegins = lv_btn_create(ui->screen_1_cont_matain);
     ui->screen_1_btn_maintenancebegins_label = lv_label_create(ui->screen_1_btn_maintenancebegins);
-    lv_label_set_text(ui->screen_1_btn_maintenancebegins_label, "确认");
+    lv_label_set_text(ui->screen_1_btn_maintenancebegins_label, "Confirm");
     lv_label_set_long_mode(ui->screen_1_btn_maintenancebegins_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_maintenancebegins_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_maintenancebegins, 0, LV_STATE_DEFAULT);

@@ -46,7 +46,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_cancel
     ui->screen_btn_cancel = lv_btn_create(ui->screen);
     ui->screen_btn_cancel_label = lv_label_create(ui->screen_btn_cancel);
-    lv_label_set_text(ui->screen_btn_cancel_label, "取消");
+    lv_label_set_text(ui->screen_btn_cancel_label, "Cancel");
     lv_label_set_long_mode(ui->screen_btn_cancel_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_cancel_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_cancel, 0, LV_STATE_DEFAULT);
@@ -138,7 +138,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_btn_rinse
     ui->screen_btn_rinse = lv_btn_create(ui->screen);
     ui->screen_btn_rinse_label = lv_label_create(ui->screen_btn_rinse);
-    lv_label_set_text(ui->screen_btn_rinse_label, "冲洗");
+    lv_label_set_text(ui->screen_btn_rinse_label, "Rinse");
     lv_label_set_long_mode(ui->screen_btn_rinse_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_btn_rinse_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_rinse, 0, LV_STATE_DEFAULT);

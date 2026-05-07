@@ -265,11 +265,11 @@ void thread_serial(void *pvParameters)
                             if(currentstep == 1){
                                 // printf("111111");
                                 descale_setting = 1;
-                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤1结束,清空蓄水盘并给清洗容器加入1L清水后,点击确定进入步骤2:继续清洗;");
+                                lv_label_set_text(guider_ui.screen_1_label_hint, "Step 1 complete. Empty the drip tray and add 1L of water to the cleaning container, then press OK to proceed to Step 2: Continue cleaning.");
                                 lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
                             } else if (currentstep == 2){
                                 descale_setting = 2;
-                                lv_label_set_text(guider_ui.screen_1_label_hint, "步骤2结束,点击确定进入步骤3:锅炉换水;");
+                                lv_label_set_text(guider_ui.screen_1_label_hint, "Step 2 complete. Press OK to proceed to Step 3: Boiler water replacement.");
                                 lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
                             }
                         }
@@ -296,7 +296,7 @@ void thread_serial(void *pvParameters)
                         printf("waterempty end \n");
                         lv_obj_add_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);  
                         emptysuccess = true;
-                        lv_label_set_text(guider_ui.screen_1_label_hint, "请关机;");
+                        lv_label_set_text(guider_ui.screen_1_label_hint, "Please power off.");
                         // lv_obj_add_flag(guider_ui.screen_1_cont_matain, LV_OBJ_FLAG_HIDDEN);
                         // lv_obj_clear_flag(guider_ui.screen_1_btn_maintenancebegins, LV_OBJ_FLAG_HIDDEN);
                     }
