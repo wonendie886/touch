@@ -6,20 +6,19 @@
 #include "protocol.h"
 
 GrindData GrindSetData ;
-
+extern volatile uint16_t volume;
 void flashDataInit(void) 
 {
     ///read flash data
     getGrindDataFromFlash();
-
     if (GrindSetData.time_1 == 0xFFFFFFFF) {
         ///write default data
-        GrindSetData.time_1 = 5000;
-        GrindSetData.time_2 = 6000;
-        GrindSetData.time_3 = 7000;
-        GrindSetData.weight_1 = 160;
-        GrindSetData.weight_2 = 180;
-        GrindSetData.weight_3 = 190;
+        GrindSetData.time_1 = 15;
+        GrindSetData.time_2 = 20;
+        GrindSetData.time_3 = 30;
+        GrindSetData.time_4 = 40;
+        GrindSetData.temp_steam = 125;
+        GrindSetData.temp_coffee = 92;
         GrindSetData.grind_mode = MODE_TIME;
         GrindSetData.grind_thickness = 300;
         flashDataSave();
@@ -33,9 +32,9 @@ void flashDataSave(void)
     buffer[0] = GrindSetData.time_1;
     buffer[1] = GrindSetData.time_2;
     buffer[2] = GrindSetData.time_3;
-    buffer[3] = GrindSetData.weight_1;
-    buffer[4] = GrindSetData.weight_2;
-    buffer[5] = GrindSetData.weight_3;
+    buffer[3] = GrindSetData.time_4;
+    buffer[4] = GrindSetData.temp_steam;
+    buffer[5] = GrindSetData.temp_coffee;
     buffer[6] = GrindSetData.grind_mode;
     buffer[7] = GrindSetData.grind_thickness;
     //printf("BUFFER[0] == %d\n",buffer[0]);
@@ -112,9 +111,9 @@ void getGrindDataFromFlash()
     GrindSetData.time_1 = buffer[0];
     GrindSetData.time_2 = buffer[1];
     GrindSetData.time_3 = buffer[2];
-    GrindSetData.weight_1 = buffer[3];
-    GrindSetData.weight_2 = buffer[4];
-    GrindSetData.weight_3 = buffer[5];
+    GrindSetData.time_4 = buffer[3];
+    GrindSetData.temp_steam = buffer[4];
+    GrindSetData.temp_coffee = buffer[5];
     GrindSetData.grind_mode = buffer[6];
     GrindSetData.grind_thickness = buffer[7]; 
     /*

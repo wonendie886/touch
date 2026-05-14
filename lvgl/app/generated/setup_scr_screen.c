@@ -13,7 +13,7 @@
 #include "events_init.h"
 #include "widgets_init.h"
 #include "custom.h"
-
+#include "flash.h"
 
 
 void setup_scr_screen(lv_ui *ui)
@@ -110,7 +110,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_3, &_9_14x13);
     lv_img_set_pivot(ui->screen_img_3, 50,50);
     lv_img_set_angle(ui->screen_img_3, 0);
-    lv_obj_set_pos(ui->screen_img_3, 381, 11);
+    lv_obj_set_pos(ui->screen_img_3, 362, 11);
     lv_obj_set_size(ui->screen_img_3, 14, 13);
 
     //Write style for screen_img_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -121,10 +121,10 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_3
     ui->screen_label_3 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_3, "85°");
+    lv_label_set_text(ui->screen_label_3, "");
     lv_label_set_long_mode(ui->screen_label_3, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_3, 396, 11);
-    lv_obj_set_size(ui->screen_label_3, 17, 9);
+    lv_obj_set_pos(ui->screen_label_3, 381, 11);
+    lv_obj_set_size(ui->screen_label_3, 24, 9);
 
     //Write style for screen_label_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -148,7 +148,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_4, &_kafeibei_14x13);
     lv_img_set_pivot(ui->screen_img_4, 50,50);
     lv_img_set_angle(ui->screen_img_4, 0);
-    lv_obj_set_pos(ui->screen_img_4, 414, 11);
+    lv_obj_set_pos(ui->screen_img_4, 412, 11);
     lv_obj_set_size(ui->screen_img_4, 14, 13);
 
     //Write style for screen_img_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -159,10 +159,10 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_4
     ui->screen_label_4 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_4, "085°");
+    lv_label_set_text(ui->screen_label_4, "");
     lv_label_set_long_mode(ui->screen_label_4, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_4, 431, 11);
-    lv_obj_set_size(ui->screen_label_4, 23, 9);
+    lv_obj_set_pos(ui->screen_label_4, 428, 11);
+    lv_obj_set_size(ui->screen_label_4, 26, 9);
 
     //Write style for screen_label_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -299,7 +299,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_label_set_text(ui->screen_label_8, "steam temp");
     lv_label_set_long_mode(ui->screen_label_8, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_8, 310, 92);
-    lv_obj_set_size(ui->screen_label_8, 64, 9);
+    lv_obj_set_size(ui->screen_label_8, 62, 9);
 
     //Write style for screen_label_8, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -770,21 +770,6 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_label_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_label_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_img_19
-    ui->screen_img_19 = lv_img_create(ui->screen);
-    lv_obj_add_flag(ui->screen_img_19, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_19, &_tuoyuanxing_alpha_375x73);
-    lv_img_set_pivot(ui->screen_img_19, 50,50);
-    lv_img_set_angle(ui->screen_img_19, 0);
-    lv_obj_set_pos(ui->screen_img_19, 53, 199);
-    lv_obj_set_size(ui->screen_img_19, 375, 73);
-
-    //Write style for screen_img_19, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_img_recolor_opa(ui->screen_img_19, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_img_opa(ui->screen_img_19, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_img_19, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_clip_corner(ui->screen_img_19, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-
     //Write codes screen_img_20
     ui->screen_img_20 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_20, LV_OBJ_FLAG_CLICKABLE);
@@ -1221,8 +1206,44 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_btn_cancel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_cancel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //The custom code of screen.
+    //Write codes screen_btn_menu
+    ui->screen_btn_menu = lv_btn_create(ui->screen);
+    ui->screen_btn_menu_label = lv_label_create(ui->screen_btn_menu);
+    lv_label_set_text(ui->screen_btn_menu_label, "");
+    lv_label_set_long_mode(ui->screen_btn_menu_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_menu_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_menu, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_menu_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_menu, 457, 9);
+    lv_obj_set_size(ui->screen_btn_menu, 15, 15);
 
+    //Write style for screen_btn_menu, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_menu, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_menu, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_menu, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_menu, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_menu, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_menu, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //The custom code of screen.
+    char string_data[50] = {0};  
+    sprintf(string_data, "%d", GrindSetData.time_1);
+
+    char string_data1[50] = {0};  
+    sprintf(string_data1, "%d", GrindSetData.time_2);
+
+    char string_data2[50] = {0};  
+    sprintf(string_data2, "%d", GrindSetData.time_3);
+
+    char string_data3[50] = {0};  
+    sprintf(string_data3, "%d", GrindSetData.time_4);
+
+    lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", string_data);
+    lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", string_data1);
+    lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", string_data2);
+    lv_label_set_text_fmt(guider_ui.screen_label_20, "%ss", string_data3);
 
     //Update current screen layout.
     lv_obj_update_layout(ui->screen);

@@ -51,9 +51,9 @@ typedef struct _GRIND_DATA{
     uint32_t time_1;    // unit: ms
     uint32_t time_2;
     uint32_t time_3;
-    uint32_t weight_1;  // unit: g  scale:10
-    uint32_t weight_2;
-    uint32_t weight_3;
+    uint32_t time_4;  // unit: g  scale:10
+    uint32_t temp_steam;
+    uint32_t temp_coffee;
     uint32_t grind_mode;    //weight or time
     uint32_t grind_thickness;
 } GrindData;

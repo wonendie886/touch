@@ -109,7 +109,7 @@ void DWT_Init(void) {
 int main(void)
 { 
     
-    // SCB->VTOR = FLASH_BASE | APP_FLASH_OFFSET;
+    SCB->VTOR = FLASH_BASE | APP_FLASH_OFFSET;
 	DWT_Init();
 	BaseType_t xReturned;
 	HAL_Init();      
@@ -154,8 +154,8 @@ int main(void)
     CAN_ConfigFilterAcceptAll();
     CAN_StartReceive_IT();
     
-	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,2,&xLvglTaskHandle);
-    xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 3, &xSerialTaskHandle);
+	xTaskCreate(vLvglTaskFunction,"lvgl_task",4096,NULL,3,&xLvglTaskHandle);
+    xTaskCreate(thread_serial, "thread_serial", 1024, NULL, 2, &xSerialTaskHandle);
 	vTaskStartScheduler();  
 
 
@@ -178,20 +178,29 @@ void thread_serial(void *pvParameters)
     uint8_t laststate = 0;
 
     static TickType_t lastUpdateTime = 0;
-    const TickType_t updateTimePeriod = pdMS_TO_TICKS(5000); 
+    const TickType_t updateTimePeriod = pdMS_TO_TICKS(8000); 
+    #if (LEFT_OR_COFFEE == RIGHT)
+    const TickType_t machineInfoupdateTimePeriod = pdMS_TO_TICKS(7000); 
+    #else
+    const TickType_t machineInfoupdateTimePeriod = pdMS_TO_TICKS(6500); 
+    #endif
     int time = 0;
+    int machinetime = 0;
     ISL1208_Time_t time_read;
     bool isfillwater = false;
     // //读取时间
     // ISL1208_GetTime(&time_read);
     uint32_t runtime = 0;
     while (1){
-
    // 开机5s后补一次水
         TickType_t currentTime = xTaskGetTickCount();
-        if (currentTime - lastUpdateTime >= updateTimePeriod && time < 2 ) {           
+        if (currentTime - lastUpdateTime >= updateTimePeriod && time < 1 ) {           
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
             time++;
+        } 
+        if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 2 ) {           
+            GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
+            machinetime++;
         } 
         else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
             #if (LEFT_OR_COFFEE == RIGHT)
@@ -206,6 +215,7 @@ void thread_serial(void *pvParameters)
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if(GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM) {
+            
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftSteam(1,volume);
             #else
@@ -216,9 +226,21 @@ void thread_serial(void *pvParameters)
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(0,volume);
             #else
-            printf("cancel steam\n");
                 canSendRightCoffee(0,volume);
             #endif
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_SET_STEAMBLOCK) { 
+            volume = GrindSetData.temp_steam;
+            canSendsteamtemp(0,volume);
+            GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_SET_COFFEEBLOCK) { 
+            #if(LEFT_OR_COFFEE == LEFT)
+            int target = 0;
+            #else
+            int target = 1;
+            #endif
+            volume = GrindSetData.temp_coffee;
+            canSendcoffeetemp(target,volume);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         }
         #if 0
@@ -274,7 +296,7 @@ void thread_serial(void *pvParameters)
                         int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
                         blocktemp = (float)ret/10;
                         if(runtime >= 1000){
-                             char temp_str[20];
+                            char temp_str[20];
                             sprintf(temp_str, "%.1f", blocktemp);
                             lv_label_set_text(guider_ui.screen_label_3, temp_str);
                             // lv_label_set_text(guider_ui.screen_label_temp, temp_str);
@@ -331,8 +353,6 @@ void vLvglTaskFunction(void *pvParameters) {
     ISL1208_Time_t time_read;
     ISL1208_GetTime(&time_read);
     // update_time_display(&time_read);
-    GrindSetData.weight_1 = 25;
-    GrindSetData.weight_3 = 30;
     while (1) {
 
         static TickType_t xLastTickCount = 0;

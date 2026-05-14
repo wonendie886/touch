@@ -309,7 +309,7 @@
               </OCR_RVCT3>
               <OCR_RVCT4>
                 <Type>1</Type>
-                <StartAddress>0x8000000</StartAddress>
+                <StartAddress>0x8008000</StartAddress>
                 <Size>0x80000</Size>
               </OCR_RVCT4>
               <OCR_RVCT5>
@@ -1972,6 +1972,16 @@
               <FileName>lv_font_Antonio_Regular_10.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_10.c</FilePath>
+            </File>
+            <File>
+              <FileName>setup_scr_screen_1.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\setup_scr_screen_1.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_Antonio_Regular_20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_20.c</FilePath>
             </File>
           </Files>
         </Group>

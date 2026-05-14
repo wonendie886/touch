@@ -22,7 +22,7 @@ static int Textselectionflag = 0;
 extern struct GrindRealData GrindDataStr;
 volatile uint16_t volume;
 
-
+static uint8_t active_time_setting = 0; 
 static void screen_btn_coffee1_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -30,7 +30,7 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //coffee1做咖啡
-        volume = 20;
+        volume = GrindSetData.time_1;
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
@@ -46,7 +46,7 @@ static void screen_btn_coffee3_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //coffee3
-        volume = 40;
+        volume = GrindSetData.time_3;
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
@@ -62,7 +62,7 @@ static void screen_btn_coffee2_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //coffee2
-        volume = 30;
+        volume = GrindSetData.time_2;
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
@@ -78,7 +78,7 @@ static void screen_btn_coffee4_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //coffee4
-        volume = 50;
+        volume = GrindSetData.time_4;
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
@@ -111,8 +111,6 @@ static void screen_btn_steam_event_handler (lv_event_t *e)
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 128, LV_PART_MAIN|LV_STATE_DEFAULT);
             // lv_label_set_text(guider_ui.screen_btn_rinse_label, "Cancel");
         }
-        
-        break;
     }
     default:
         break;
@@ -128,6 +126,7 @@ static void screen_btn_rinse_event_handler (lv_event_t *e)
         //rinse
         volume = 2;
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+        break;
         break;
     }
     default:
@@ -150,6 +149,20 @@ static void screen_btn_cancel_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_btn_menu_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_coffee1, screen_btn_coffee1_event_handler, LV_EVENT_ALL, ui);
@@ -159,6 +172,205 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_steam, screen_btn_steam_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_rinse, screen_btn_rinse_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_cancel, screen_btn_cancel_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_menu, screen_btn_menu_event_handler, LV_EVENT_ALL, ui);
+}
+
+static void screen_1_btn_steamtempset_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //获取旧设置值到微调器上，唤醒容器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_steam);
+
+        active_time_setting = 5;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_coffeetempset_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //唤醒容器，获取设置温度值并显示在微调器上
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_coffee);
+
+        active_time_setting = 6;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_back_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_time1set_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //time1的值获取到给微调器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_1);
+
+        active_time_setting = 1;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_time2set_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //time2的值给微调器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_2);
+
+        active_time_setting = 2;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_time3set_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //time3的值给微调器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_3);
+
+        active_time_setting = 3;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_time4set_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //time4的值给微调器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_4);
+
+        active_time_setting = 4;
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_cancel_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //取消修改，不做修改，隐藏容器
+        lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);  
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_certain_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //确认修改，新值下发，隐藏容器
+        int32_t spinbox_value = lv_spinbox_get_value(guider_ui.screen_1_spinbox_1);
+
+        char str_value[16];
+        sprintf(str_value, "%ld", (long)spinbox_value); 
+        // const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
+        if(active_time_setting == 1){
+            lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", str_value);  
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_time1set_label, "%s", str_value);
+            GrindSetData.time_1 = spinbox_value;
+        } else if (active_time_setting == 2){
+            lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", str_value);  
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_time2set_label, "%s", str_value);
+            GrindSetData.time_2 = spinbox_value;            
+        } else if (active_time_setting == 3){
+            lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", str_value);  
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_time3set_label, "%s", str_value);
+            GrindSetData.time_3 = spinbox_value;               
+        } else if (active_time_setting == 4){
+            lv_label_set_text_fmt(guider_ui.screen_label_20, "%ss", str_value);  
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_time4set_label, "%s", str_value);
+            GrindSetData.time_4 = spinbox_value;               
+        } else if (active_time_setting == 5){ 
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_steamtempset_label, "%s", str_value);
+            GrindSetData.temp_steam = spinbox_value;      
+            volume = GrindSetData.temp_steam;
+            GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
+        } else if (active_time_setting == 6){
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_coffeetempset_label, "%s", str_value);
+            GrindSetData.temp_coffee = spinbox_value;
+            volume = GrindSetData.temp_coffee;
+            GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
+        }
+        flashDataSave();
+        lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN); 
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void events_init_screen_1 (lv_ui *ui)
+{
+    lv_obj_add_event_cb(ui->screen_1_btn_steamtempset, screen_1_btn_steamtempset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_coffeetempset, screen_1_btn_coffeetempset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_back, screen_1_btn_back_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_time1set, screen_1_btn_time1set_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_time2set, screen_1_btn_time2set_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_time3set, screen_1_btn_time3set_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_time4set, screen_1_btn_time4set_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_cancel, screen_1_btn_cancel_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_certain, screen_1_btn_certain_event_handler, LV_EVENT_ALL, ui);
 }
 
 

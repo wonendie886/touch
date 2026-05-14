@@ -156,7 +156,7 @@ enum CmdType
     CMDTYPE_RINSE_POWDER = 0x04,  ///< rinse powder tube system{冲洗粉料系统管理-命令}
 
     CMDTYPE_CLEAN_BREWBLOCK = 0x05,  ///< wash coffee tube system{清洗咖啡冲煮头-命令}
-    CMDTYPE_CLEAN_COFFEE = 0x06, ///< clean coffee tube system{清洗咖啡冲煮系统管路-命令}
+    CMDTYPE_SET_COFFEEBLOCK = 0x06, ///< clean coffee tube system{清洗咖啡冲煮系统管路-命令}
     CMDTYPE_CLEAN_MILK = 0x07,   ///< clean milk tube system{清洗牛奶系统管路-命令}
 
     CMDTYPE_DESCALE = 0x08, ///< descale{除垢-命令}
@@ -189,7 +189,7 @@ enum CmdType
     CMDTYPE_RINSE_BREWBLOCK = 0x23,  ///< quick wash coffee tube system{快速冲洗咖啡冲煮头-命令}
     CMDTYPE_WAKEUP = 0x24,  ///wake up machine{唤醒-命令}
     CMDTYPE_STOP_MACHINE = 0x25,    ///machine stop work{机器停止工作-命令}
-    CMDTYPE_RELEASE_STEAM = 0x26,   ///release steam{释放蒸汽-命令}，用于停止蒸汽，停止加热
+    CMDTYPE_SET_STEAMBLOCK = 0x26,   ///release steam{释放蒸汽-命令}，用于停止蒸汽，停止加热
 
     CMDTYPE_SET_PCB_VERSION = 0x30,
     CMDTYPE_GET_PCB_VERSION = 0x31,

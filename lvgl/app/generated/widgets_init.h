@@ -22,6 +22,9 @@ __attribute__((unused)) void ta_event_cb(lv_event_t *e);
 void clock_count(int *hour, int *min, int *sec);
 #endif
 
+extern lv_obj_t * screen_1_spinbox_1;
+void lv_screen_1_spinbox_1_increment_event_cb(lv_event_t * event);
+void lv_screen_1_spinbox_1_decrement_event_cb(lv_event_t * event);
 
 
 #ifdef __cplusplus
