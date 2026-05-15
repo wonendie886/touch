@@ -292,7 +292,25 @@ void canSendcoffeetemp(uint8_t enable,uint16_t seconds)
 
    CAN_Transmit_IT(id,data,len);
 }
+void canSendhotwater(uint8_t enable,uint16_t seconds)
+{
+   uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
+   uint8_t len = 3;
+   uint8_t data[3];
+   data[0] = enable;
+   data[1] = seconds & 0x00FF;
+   data[2] = (seconds >> 8) & 0x00FF;
 
+   uint8_t crc = 0;
+   for(uint8_t i = 0; i < len; i++){
+       crc += data[i];
+   }
+
+   id = id | (FUNC_HOTWATER << 8 & 0xFF00);
+   id = id | ((crc << 16) & 0xFF0000);
+
+   CAN_Transmit_IT(id,data,len);
+}
 void canSendsteamtemp(uint8_t enable,uint16_t seconds)
 {
    uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);

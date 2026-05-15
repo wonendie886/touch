@@ -19,7 +19,7 @@ void flashDataInit(void)
         GrindSetData.time_4 = 40;
         GrindSetData.temp_steam = 125;
         GrindSetData.temp_coffee = 92;
-        GrindSetData.grind_mode = MODE_TIME;
+        GrindSetData.time_hotwater = MODE_TIME;
         GrindSetData.grind_thickness = 300;
         flashDataSave();
     }
@@ -35,7 +35,7 @@ void flashDataSave(void)
     buffer[3] = GrindSetData.time_4;
     buffer[4] = GrindSetData.temp_steam;
     buffer[5] = GrindSetData.temp_coffee;
-    buffer[6] = GrindSetData.grind_mode;
+    buffer[6] = GrindSetData.time_hotwater;
     buffer[7] = GrindSetData.grind_thickness;
     //printf("BUFFER[0] == %d\n",buffer[0]);
     FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
@@ -114,7 +114,7 @@ void getGrindDataFromFlash()
     GrindSetData.time_4 = buffer[3];
     GrindSetData.temp_steam = buffer[4];
     GrindSetData.temp_coffee = buffer[5];
-    GrindSetData.grind_mode = buffer[6];
+    GrindSetData.time_hotwater = buffer[6];
     GrindSetData.grind_thickness = buffer[7]; 
     /*
     printf("time_1: %d\n", GrindSetData.time_1);

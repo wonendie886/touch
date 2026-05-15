@@ -75,6 +75,7 @@ enum FUNC_DATA{
 	FUNC_RIGHTSTEAM,
 	FUNC_STEAMBLOCK,
 	FUNC_COFFEEBLOCK,
+	FUNC_HOTWATER,
 };
 
 typedef struct _can_msg{
@@ -94,6 +95,7 @@ void canSendLeftCoffee(uint8_t enable,uint16_t seconds);
 void canSendRightCoffee(uint8_t enable,uint16_t seconds);
 void canSendcoffeetemp(uint8_t enable,uint16_t seconds);
 void canSendsteamtemp(uint8_t enable,uint16_t seconds);
+void canSendhotwater(uint8_t enable,uint16_t seconds);
 
 // ----- Change these if your hardware differs -----
 #ifndef CAN_INSTANCE

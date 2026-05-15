@@ -1983,6 +1983,11 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_Antonio_Regular_20.c</FilePath>
             </File>
+            <File>
+              <FileName>_hotwater_alpha_35x35.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_hotwater_alpha_35x35.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

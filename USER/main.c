@@ -166,6 +166,36 @@ int main(void)
 
 extern volatile uint16_t volume;
 float blocktemp = 0;
+volatile uint8_t coffee_run_flag = 0;
+
+void CoffeeVolumeProcess(void)
+{
+    static TickType_t lastTick = 0;
+
+    // 没启动则直接返回
+    if(coffee_run_flag == 0)
+    {
+        return;
+    }
+
+    // 每1s减一次
+    if(xTaskGetTickCount() - lastTick >= pdMS_TO_TICKS(1000))
+    {
+        lastTick = xTaskGetTickCount();
+
+        if(volume > 0){
+            volume--;
+            printf("volume = %d\r\n", volume);
+
+        } else {
+            volume = 0;
+            coffee_run_flag = 0;
+            printf("Coffee volume finished\r\n");
+        }       
+        lv_label_set_text_fmt(guider_ui.screen_label_18, "%d", volume); 
+    }
+
+}
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -208,6 +238,7 @@ void thread_serial(void *pvParameters)
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_BEVERAGEMAKE_CHANNELB){
+            coffee_run_flag = 1;
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(1,volume);
             #else
@@ -223,6 +254,9 @@ void thread_serial(void *pvParameters)
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB){
+            coffee_run_flag = 0;
+            volume = 0;
+            lv_label_set_text_fmt(guider_ui.screen_label_18, "%d", volume); 
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(0,volume);
             #else
@@ -242,7 +276,14 @@ void thread_serial(void *pvParameters)
             volume = GrindSetData.temp_coffee;
             canSendcoffeetemp(target,volume);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } 
+        #if (LEFT_OR_COFFEE == RIGHT)
+        else if (GrindDataStr.data.cmd == CMDTYPE_HOTWATER) { 
+            coffee_run_flag = 1;
+            canSendhotwater(1,volume);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
         }
+        #endif
         #if 0
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
 
@@ -328,6 +369,7 @@ void thread_serial(void *pvParameters)
             }
 
         }
+        CoffeeVolumeProcess();
         runtime += 100;
         vTaskDelay(pdMS_TO_TICKS(100));
     }

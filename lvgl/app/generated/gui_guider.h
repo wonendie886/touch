@@ -49,7 +49,6 @@ typedef struct
 	lv_obj_t *screen_label_14;
 	lv_obj_t *screen_label_15;
 	lv_obj_t *screen_label_16;
-	lv_obj_t *screen_label_17;
 	lv_obj_t *screen_label_18;
 	lv_obj_t *screen_img_14;
 	lv_obj_t *screen_img_15;
@@ -89,6 +88,9 @@ typedef struct
 	lv_obj_t *screen_btn_cancel_label;
 	lv_obj_t *screen_btn_menu;
 	lv_obj_t *screen_btn_menu_label;
+	lv_obj_t *screen_img_hotwater;
+	lv_obj_t *screen_btn_hotwater;
+	lv_obj_t *screen_btn_hotwater_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -119,6 +121,9 @@ typedef struct
 	lv_obj_t *screen_1_spinbox_1;
 	lv_obj_t *screen_1_spinbox_1_btn_plus;
 	lv_obj_t *screen_1_spinbox_1_btn_minus;
+	lv_obj_t *screen_1_label_hotwater;
+	lv_obj_t *screen_1_btn_hotwaterset;
+	lv_obj_t *screen_1_btn_hotwaterset_label;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -168,6 +173,7 @@ LV_IMG_DECLARE(_6_alpha_38x38);
 LV_IMG_DECLARE(_juxing_alpha_65x38);
 LV_IMG_DECLARE(_juxing_alpha_65x38);
 LV_IMG_DECLARE(_juxing_alpha_65x38);
+LV_IMG_DECLARE(_hotwater_alpha_35x35);
 
 LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)

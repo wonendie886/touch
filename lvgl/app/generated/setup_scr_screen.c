@@ -14,7 +14,7 @@
 #include "widgets_init.h"
 #include "custom.h"
 #include "flash.h"
-
+#include "protocol.h"
 
 void setup_scr_screen(lv_ui *ui)
 {
@@ -124,7 +124,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_label_set_text(ui->screen_label_3, "");
     lv_label_set_long_mode(ui->screen_label_3, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_3, 381, 11);
-    lv_obj_set_size(ui->screen_label_3, 24, 9);
+    lv_obj_set_size(ui->screen_label_3, 27, 9);
 
     //Write style for screen_label_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -162,7 +162,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_label_set_text(ui->screen_label_4, "");
     lv_label_set_long_mode(ui->screen_label_4, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_4, 428, 11);
-    lv_obj_set_size(ui->screen_label_4, 26, 9);
+    lv_obj_set_size(ui->screen_label_4, 27, 9);
 
     //Write style for screen_label_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -299,7 +299,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_label_set_text(ui->screen_label_8, "steam temp");
     lv_label_set_long_mode(ui->screen_label_8, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_8, 310, 92);
-    lv_obj_set_size(ui->screen_label_8, 62, 9);
+    lv_obj_set_size(ui->screen_label_8, 62, 10);
 
     //Write style for screen_label_8, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_8, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -595,37 +595,12 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_label_16, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_label_16, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_label_17
-    ui->screen_label_17 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_17, "-");
-    lv_label_set_long_mode(ui->screen_label_17, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_17, 215, 163);
-    lv_obj_set_size(ui->screen_label_17, 16, 16);
-
-    //Write style for screen_label_17, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_label_17, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_label_17, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_label_17, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_label_17, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_label_17, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->screen_label_17, lv_color_hex(0x5e5347), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->screen_label_17, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_label_17, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
     //Write codes screen_label_18
     ui->screen_label_18 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_18, "+");
+    lv_label_set_text(ui->screen_label_18, "");
     lv_label_set_long_mode(ui->screen_label_18, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_18, 250, 162);
-    lv_obj_set_size(ui->screen_label_18, 16, 16);
+    lv_obj_set_pos(ui->screen_label_18, 215, 143);
+    lv_obj_set_size(ui->screen_label_18, 48, 32);
 
     //Write style for screen_label_18, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -639,7 +614,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_bg_opa(ui->screen_label_18, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_label_18, lv_color_hex(0x5e5347), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_label_18, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_label_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_label_18, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->screen_label_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->screen_label_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_label_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1226,7 +1201,43 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_font(ui->screen_btn_menu, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_menu, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_menu, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    #if (LEFT_OR_COFFEE == RIGHT)
+    //Write codes screen_img_hotwater
+    ui->screen_img_hotwater = lv_img_create(ui->screen);
+    lv_obj_add_flag(ui->screen_img_hotwater, LV_OBJ_FLAG_CLICKABLE);
+    lv_img_set_src(ui->screen_img_hotwater, &_hotwater_alpha_35x35);
+    lv_img_set_pivot(ui->screen_img_hotwater, 50,50);
+    lv_img_set_angle(ui->screen_img_hotwater, 0);
+    lv_obj_set_pos(ui->screen_img_hotwater, 343, 221);
+    lv_obj_set_size(ui->screen_img_hotwater, 35, 35);
 
+    //Write style for screen_img_hotwater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_img_recolor_opa(ui->screen_img_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_img_opa(ui->screen_img_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_img_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_clip_corner(ui->screen_img_hotwater, true, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_hotwater
+    ui->screen_btn_hotwater = lv_btn_create(ui->screen);
+    ui->screen_btn_hotwater_label = lv_label_create(ui->screen_btn_hotwater);
+    lv_label_set_text(ui->screen_btn_hotwater_label, "");
+    lv_label_set_long_mode(ui->screen_btn_hotwater_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_hotwater_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_hotwater, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_hotwater_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_hotwater, 343, 221);
+    lv_obj_set_size(ui->screen_btn_hotwater, 35, 35);
+
+    //Write style for screen_btn_hotwater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_hotwater, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_hotwater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_hotwater, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_hotwater, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    #endif
     //The custom code of screen.
     char string_data[50] = {0};  
     sprintf(string_data, "%d", GrindSetData.time_1);
