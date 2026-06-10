@@ -192,7 +192,7 @@ void thread_serial(void *pvParameters)
 
    // 开机5s后补一次水
         TickType_t currentTime = xTaskGetTickCount();
-        if (currentTime - lastUpdateTime >= updateTimePeriod && time < 2 ) {           
+        if (currentTime - lastUpdateTime >= updateTimePeriod && time == 0 ) {           
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
             time++;
         } 
