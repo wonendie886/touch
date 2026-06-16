@@ -363,6 +363,19 @@ void thread_serial(void *pvParameters)
                         }                               
                         #endif
                     }
+                    #if (LEFT_OR_COFFEE == RIGHT)
+                    else if (getCmdType(can_msg.rx_efid) == FUNC_PRESSURE_CURRENT){ 
+                        float ret = (float)can_msg.rx_data[0]/10;
+                        // printf("ret %.1f\n",ret);
+                        if(runtime >= 1000){
+                             char temp_str[20];
+
+                            sprintf(temp_str, "%.1f", ret);
+                            lv_label_set_text(guider_ui.screen_label_16, temp_str);
+                            // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
+                        }   
+                    }
+                    #endif
                 }
             } else {
                 printf("crc failed\r\n");

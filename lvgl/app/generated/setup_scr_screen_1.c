@@ -540,6 +540,11 @@ void setup_scr_screen_1(lv_ui *ui)
     #if (LEFT_OR_COFFEE == RIGHT)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);
     #endif
+    #if (LEFT_OR_COFFEE == LEFT)
+    lv_obj_add_flag(ui->screen_1_label_steamtemp, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->screen_1_btn_steamtempset, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->screen_1_btn_steamtempset_label, LV_OBJ_FLAG_HIDDEN);
+    #endif
     //Update current screen layout.
     lv_obj_update_layout(ui->screen_1);
 

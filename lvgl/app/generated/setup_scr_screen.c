@@ -574,7 +574,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_16
     ui->screen_label_16 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_16, "92°C");
+    lv_label_set_text(ui->screen_label_16, "0.0");
     lv_label_set_long_mode(ui->screen_label_16, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_16, 217, 118);
     lv_obj_set_size(ui->screen_label_16, 46, 32);
