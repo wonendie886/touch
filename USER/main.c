@@ -275,6 +275,15 @@ void thread_serial(void *pvParameters)
             #endif
             volume = GrindSetData.temp_coffee;
             canSendcoffeetemp(target,volume);
+            GrindDataStr.data.cmd = CMDTYPE_SET_BREWBLOCK;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_SET_BREWBLOCK) { 
+            #if(LEFT_OR_COFFEE == LEFT)
+            int target = 0;
+            #else
+            int target = 1;
+            #endif
+            volume = GrindSetData.temp_brew;
+            canSendbrewtemp(target,volume);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } 
         #if (LEFT_OR_COFFEE == RIGHT)

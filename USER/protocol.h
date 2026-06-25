@@ -4,7 +4,7 @@
 
 #define LEFT 0
 #define RIGHT 1
-#define LEFT_OR_COFFEE LEFT
+#define LEFT_OR_COFFEE RIGHT
 #define logo 0
 /// \def the max length of one frame data
 #define FRAME_MAX_LEN 200
@@ -155,7 +155,7 @@ enum CmdType
     CMDTYPE_RINSE_MILK = 0x03,    ///< rinse milk tube system{冲洗牛奶系统管路-命令}
     CMDTYPE_RINSE_POWDER = 0x04,  ///< rinse powder tube system{冲洗粉料系统管理-命令}
 
-    CMDTYPE_CLEAN_BREWBLOCK = 0x05,  ///< wash coffee tube system{清洗咖啡冲煮头-命令}
+    CMDTYPE_SET_BREWBLOCK = 0x05,  ///< wash coffee tube system{下发冲煮头温度-命令}
     CMDTYPE_SET_COFFEEBLOCK = 0x06, ///< clean coffee tube system{清洗咖啡冲煮系统管路-命令}
     CMDTYPE_CLEAN_MILK = 0x07,   ///< clean milk tube system{清洗牛奶系统管路-命令}
 

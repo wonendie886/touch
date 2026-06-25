@@ -124,6 +124,9 @@ typedef struct
 	lv_obj_t *screen_1_label_hotwater;
 	lv_obj_t *screen_1_btn_hotwaterset;
 	lv_obj_t *screen_1_btn_hotwaterset_label;
+	lv_obj_t *screen_1_label_brewblock;
+	lv_obj_t *screen_1_btn_brewblock;
+	lv_obj_t *screen_1_btn_brewblock_label;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);

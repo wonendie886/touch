@@ -33,7 +33,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_label_set_text(ui->screen_1_label_steamtemp, "Steam Block(°C)");
     lv_label_set_long_mode(ui->screen_1_label_steamtemp, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_steamtemp, 10, 0);
-    lv_obj_set_size(ui->screen_1_label_steamtemp, 100, 32);
+    lv_obj_set_size(ui->screen_1_label_steamtemp, 100, 28);
 
     //Write style for screen_1_label_steamtemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -60,7 +60,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_pad_all(ui->screen_1_btn_steamtempset, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_steamtempset_label, LV_PCT(100));
     lv_obj_set_pos(ui->screen_1_btn_steamtempset, 250, 0);
-    lv_obj_set_size(ui->screen_1_btn_steamtempset, 100, 32);
+    lv_obj_set_size(ui->screen_1_btn_steamtempset, 100, 28);
 
     //Write style for screen_1_btn_steamtempset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_steamtempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -79,8 +79,8 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_coffeetemp = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_coffeetemp, "Coffee Block(°C)");
     lv_label_set_long_mode(ui->screen_1_label_coffeetemp, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_coffeetemp, 10, 38);
-    lv_obj_set_size(ui->screen_1_label_coffeetemp, 100, 32);
+    lv_obj_set_pos(ui->screen_1_label_coffeetemp, 10, 34);
+    lv_obj_set_size(ui->screen_1_label_coffeetemp, 100, 28);
 
     //Write style for screen_1_label_coffeetemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -106,8 +106,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_coffeetempset_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_coffeetempset, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_coffeetempset_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_coffeetempset, 250, 38);
-    lv_obj_set_size(ui->screen_1_btn_coffeetempset, 100, 32);
+    lv_obj_set_pos(ui->screen_1_btn_coffeetempset, 250, 34);
+    lv_obj_set_size(ui->screen_1_btn_coffeetempset, 100, 28);
 
     //Write style for screen_1_btn_coffeetempset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_coffeetempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -150,8 +150,8 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_time1 = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_time1, "Time1(s)");
     lv_label_set_long_mode(ui->screen_1_label_time1, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time1, 10, 76);
-    lv_obj_set_size(ui->screen_1_label_time1, 100, 32);
+    lv_obj_set_pos(ui->screen_1_label_time1, 10, 70);
+    lv_obj_set_size(ui->screen_1_label_time1, 100, 28);
 
     //Write style for screen_1_label_time1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -173,8 +173,8 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_time2 = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_time2, "Time2(s)");
     lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time2, 10, 114);
-    lv_obj_set_size(ui->screen_1_label_time2, 100, 32);
+    lv_obj_set_pos(ui->screen_1_label_time2, 10, 102);
+    lv_obj_set_size(ui->screen_1_label_time2, 100, 28);
 
     //Write style for screen_1_label_time2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -196,8 +196,8 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_time3 = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_time3, "Time3(s)");
     lv_label_set_long_mode(ui->screen_1_label_time3, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time3, 10, 152);
-    lv_obj_set_size(ui->screen_1_label_time3, 100, 32);
+    lv_obj_set_pos(ui->screen_1_label_time3, 10, 136);
+    lv_obj_set_size(ui->screen_1_label_time3, 100, 28);
 
     //Write style for screen_1_label_time3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -219,8 +219,8 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_time4 = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_time4, "Time4(s)");
     lv_label_set_long_mode(ui->screen_1_label_time4, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time4, 10, 190);
-    lv_obj_set_size(ui->screen_1_label_time4, 100, 32);
+    lv_obj_set_pos(ui->screen_1_label_time4, 10, 170);
+    lv_obj_set_size(ui->screen_1_label_time4, 100, 28);
 
     //Write style for screen_1_label_time4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_time4, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -246,8 +246,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_time1set_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_time1set, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_time1set_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_time1set, 250, 76);
-    lv_obj_set_size(ui->screen_1_btn_time1set, 100, 32);
+    lv_obj_set_pos(ui->screen_1_btn_time1set, 250, 70);
+    lv_obj_set_size(ui->screen_1_btn_time1set, 100, 28);
 
     //Write style for screen_1_btn_time1set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_time1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -270,8 +270,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_time2set_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_time2set, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_time2set_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_time2set, 250, 114);
-    lv_obj_set_size(ui->screen_1_btn_time2set, 100, 32);
+    lv_obj_set_pos(ui->screen_1_btn_time2set, 250, 102);
+    lv_obj_set_size(ui->screen_1_btn_time2set, 100, 28);
 
     //Write style for screen_1_btn_time2set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_time2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -294,8 +294,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_time3set_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_time3set, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_time3set_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_time3set, 250, 152);
-    lv_obj_set_size(ui->screen_1_btn_time3set, 100, 32);
+    lv_obj_set_pos(ui->screen_1_btn_time3set, 250, 136);
+    lv_obj_set_size(ui->screen_1_btn_time3set, 100, 28);
 
     //Write style for screen_1_btn_time3set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_time3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -318,8 +318,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_time4set_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_time4set, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_time4set_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_time4set, 250, 190);
-    lv_obj_set_size(ui->screen_1_btn_time4set, 100, 32);
+    lv_obj_set_pos(ui->screen_1_btn_time4set, 250, 170);
+    lv_obj_set_size(ui->screen_1_btn_time4set, 100, 28);
 
     //Write style for screen_1_btn_time4set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_time4set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -466,8 +466,8 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_hotwater = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_hotwater, "Hotwater(s)");
     lv_label_set_long_mode(ui->screen_1_label_hotwater, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_hotwater, 10, 228);
-    lv_obj_set_size(ui->screen_1_label_hotwater, 100, 32);
+    lv_obj_set_pos(ui->screen_1_label_hotwater, 10, 204);
+    lv_obj_set_size(ui->screen_1_label_hotwater, 100, 28);
 
     //Write style for screen_1_label_hotwater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -493,8 +493,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_hotwaterset_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_hotwaterset, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_hotwaterset_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_hotwaterset, 250, 228);
-    lv_obj_set_size(ui->screen_1_btn_hotwaterset, 100, 32);
+    lv_obj_set_pos(ui->screen_1_btn_hotwaterset, 250, 204);
+    lv_obj_set_size(ui->screen_1_btn_hotwaterset, 100, 28);
 
     //Write style for screen_1_btn_hotwaterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_btn_hotwaterset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -509,6 +509,53 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_1_btn_hotwaterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_btn_hotwaterset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
     #endif
+
+    //Write codes screen_1_label_brewblock
+    ui->screen_1_label_brewblock = lv_label_create(ui->screen_1);
+    lv_label_set_text(ui->screen_1_label_brewblock, "Brew Block(°C)");
+    lv_label_set_long_mode(ui->screen_1_label_brewblock, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_brewblock, 10, 236);
+    lv_obj_set_size(ui->screen_1_label_brewblock, 100, 28);
+
+    //Write style for screen_1_label_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_brewblock, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_brewblock, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_brewblock, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_brewblock
+    ui->screen_1_btn_brewblock = lv_btn_create(ui->screen_1);
+    ui->screen_1_btn_brewblock_label = lv_label_create(ui->screen_1_btn_brewblock);
+    lv_label_set_text(ui->screen_1_btn_brewblock_label, "");
+    lv_label_set_long_mode(ui->screen_1_btn_brewblock_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_brewblock_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_brewblock, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_brewblock_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_brewblock, 250, 236);
+    lv_obj_set_size(ui->screen_1_btn_brewblock, 100, 28);
+
+    //Write style for screen_1_btn_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_btn_brewblock, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_brewblock, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_brewblock, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_brewblock, &lv_font_montserratMedium_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_brewblock, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     //The custom code of screen_1.
     char string_data[50] = {0};  
     sprintf(string_data, "%d", GrindSetData.time_1);
@@ -531,12 +578,16 @@ void setup_scr_screen_1(lv_ui *ui)
     char string_data6[50] = {0};  
     sprintf(string_data6, "%d", GrindSetData.time_hotwater);
 
+    char string_data7[50] = {0};  
+    sprintf(string_data7, "%d", GrindSetData.temp_brew);
+
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time1set_label, "%s", string_data);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time2set_label, "%s", string_data1);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time3set_label, "%s", string_data2);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time4set_label, "%s", string_data3);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_steamtempset_label, "%s", string_data4);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_coffeetempset_label, "%s", string_data5);
+    lv_label_set_text_fmt(guider_ui.screen_1_btn_brewblock_label, "%s", string_data7);
     #if (LEFT_OR_COFFEE == RIGHT)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);
     #endif

@@ -375,6 +375,12 @@ static void screen_1_btn_certain_event_handler (lv_event_t *e)
             GrindSetData.time_hotwater = spinbox_value;
         }
         #endif
+        else if (active_time_setting == 8){
+            lv_label_set_text_fmt(guider_ui.screen_1_btn_brewblock_label, "%s", str_value);
+            GrindSetData.temp_brew = spinbox_value;
+            volume = GrindSetData.temp_brew;
+            GrindDataStr.data.cmd = CMDTYPE_SET_BREWBLOCK;
+        }
         flashDataSave();
         lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN); 
         break;
@@ -400,6 +406,24 @@ static void screen_1_btn_hotwaterset_event_handler (lv_event_t *e)
         break;
     }
 }
+
+static void screen_1_btn_brewblock_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //唤醒容器，获取冲煮头温度值
+        lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_brew);
+
+        active_time_setting = 8;   
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_steamtempset, screen_1_btn_steamtempset_event_handler, LV_EVENT_ALL, ui);
@@ -414,6 +438,7 @@ void events_init_screen_1 (lv_ui *ui)
     #if (LEFT_OR_COFFEE == RIGHT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
     #endif
+    lv_obj_add_event_cb(ui->screen_1_btn_brewblock, screen_1_btn_brewblock_event_handler, LV_EVENT_ALL, ui);
 }
 
 
