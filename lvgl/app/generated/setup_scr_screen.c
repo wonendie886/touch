@@ -45,7 +45,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_1
     ui->screen_label_1 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_1, "02:23");
+    lv_label_set_text(ui->screen_label_1, "");
     lv_label_set_long_mode(ui->screen_label_1, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_1, 27, 11);
     lv_obj_set_size(ui->screen_label_1, 27, 9);
@@ -68,7 +68,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_label_2
     ui->screen_label_2 = lv_label_create(ui->screen);
-    lv_label_set_text(ui->screen_label_2, "PM");
+    lv_label_set_text(ui->screen_label_2, "°C");
     lv_label_set_long_mode(ui->screen_label_2, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_label_2, 57, 11);
     lv_obj_set_size(ui->screen_label_2, 17, 9);
@@ -1256,6 +1256,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", string_data2);
     lv_label_set_text_fmt(guider_ui.screen_label_20, "%ss", string_data3);
 
+    // lv_obj_add_flag(ui->screen_label_2, LV_OBJ_FLAG_HIDDEN);
     //Update current screen layout.
     lv_obj_update_layout(ui->screen);
 

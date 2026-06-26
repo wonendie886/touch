@@ -166,6 +166,7 @@ int main(void)
 
 extern volatile uint16_t volume;
 float blocktemp = 0;
+float brewtemp = 0;
 volatile uint8_t coffee_run_flag = 0;
 
 void CoffeeVolumeProcess(void)
@@ -354,12 +355,18 @@ void thread_serial(void *pvParameters)
                     } else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){
                         #if (LEFT_OR_COFFEE == LEFT)
                         int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
+                        int ret2 = can_msg.rx_data[3] << 8 | can_msg.rx_data[2];   
+                        brewtemp = (float)ret2/10;   
                         blocktemp = (float)ret/10;
                         if(runtime >= 1000){
-                             char temp_str[20];
+                            char temp_str[20];
+                            char temp_str1[20];
                             sprintf(temp_str, "%.1f", blocktemp);
                             lv_label_set_text(guider_ui.screen_label_4, temp_str);
-                        }                            
+                            sprintf(temp_str1, "%.1f", brewtemp);
+                            lv_label_set_text(guider_ui.screen_label_1, temp_str1);
+                        }      
+                
                         #else
                         int ret = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
                         blocktemp = (float)ret/10;
@@ -371,8 +378,7 @@ void thread_serial(void *pvParameters)
                             // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
                         }                               
                         #endif
-                    }
-                    else if (getCmdType(can_msg.rx_efid) == FUNC_PRESSURE_CURRENT){ 
+                    } else if (getCmdType(can_msg.rx_efid) == FUNC_PRESSURE_CURRENT){ 
                         float ret = (float)can_msg.rx_data[0]/10;
                         // printf("ret %.1f\n",ret);
                         if(runtime >= 1000){
@@ -382,7 +388,20 @@ void thread_serial(void *pvParameters)
                             lv_label_set_text(guider_ui.screen_label_16, temp_str);
                             // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
                         }   
+                    } 
+                    #if (LEFT_OR_COFFEE == RIGHT)
+                    else if (getCmdType(can_msg.rx_efid) == FUNC_VALVE){ 
+                        int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
+                        // printf("ret %.1f\n",ret);
+                        brewtemp = (float)ret/10;
+                        if(runtime >= 1000){
+                            char temp_str[20];
+                            sprintf(temp_str, "%.1f", brewtemp);
+                            lv_label_set_text(guider_ui.screen_label_1, temp_str);
+                            // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
+                        }   
                     }
+                    #endif
                 }
             } else {
                 printf("crc failed\r\n");

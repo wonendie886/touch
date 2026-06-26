@@ -514,8 +514,13 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_brewblock = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_brewblock, "Brew Block(°C)");
     lv_label_set_long_mode(ui->screen_1_label_brewblock, LV_LABEL_LONG_WRAP);
+    #if (LEFT_OR_COFFEE == RIGHT)    
     lv_obj_set_pos(ui->screen_1_label_brewblock, 10, 236);
     lv_obj_set_size(ui->screen_1_label_brewblock, 100, 28);
+    #else
+    lv_obj_set_pos(ui->screen_1_label_brewblock, 10, 204);
+    lv_obj_set_size(ui->screen_1_label_brewblock, 100, 28);
+    #endif
 
     //Write style for screen_1_label_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -541,9 +546,13 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_brewblock_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_brewblock, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_brewblock_label, LV_PCT(100));
+    #if (LEFT_OR_COFFEE == RIGHT)     
     lv_obj_set_pos(ui->screen_1_btn_brewblock, 250, 236);
     lv_obj_set_size(ui->screen_1_btn_brewblock, 100, 28);
-
+    #else
+    lv_obj_set_pos(ui->screen_1_btn_brewblock, 250, 204);
+    lv_obj_set_size(ui->screen_1_btn_brewblock, 100, 28);
+    #endif
     //Write style for screen_1_btn_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_btn_brewblock, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -585,11 +594,11 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time2set_label, "%s", string_data1);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time3set_label, "%s", string_data2);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_time4set_label, "%s", string_data3);
-    lv_label_set_text_fmt(guider_ui.screen_1_btn_steamtempset_label, "%s", string_data4);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_coffeetempset_label, "%s", string_data5);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_brewblock_label, "%s", string_data7);
     #if (LEFT_OR_COFFEE == RIGHT)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);
+    lv_label_set_text_fmt(guider_ui.screen_1_btn_steamtempset_label, "%s", string_data4);
     #endif
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_flag(ui->screen_1_label_steamtemp, LV_OBJ_FLAG_HIDDEN);
