@@ -56,6 +56,7 @@ typedef struct _GRIND_DATA{
     uint32_t temp_coffee;
     uint32_t time_hotwater;    //weight or time
     uint32_t temp_brew;
+    uint8_t extract_time[4][10];  //tea time
 } GrindData;
 
 extern volatile uint8_t flash_request_flag;

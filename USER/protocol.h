@@ -126,6 +126,11 @@ enum STEPMODE{
     MODE_FINE,
 };
 
+enum MAKEMODE{
+    MODE_COFFEE,
+    MODE_TEA,
+};
+
 enum CmdGrindState
 {
 	CMD_STATE_IDLE = 0,
@@ -195,6 +200,7 @@ enum CmdType
     CMDTYPE_GET_PCB_VERSION = 0x31,
     CMDTYPE_GRIND = 0x32,
     CMDTYPE_HOTWATER = 0x33,
+    CMDTYPE_MAKE_TEA = 0x34,
 };
 
 enum BEVERAGE_TYPE

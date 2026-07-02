@@ -197,6 +197,7 @@ void CoffeeVolumeProcess(void)
     }
 
 }
+extern uint8_t teasetflag ;
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -245,6 +246,18 @@ void thread_serial(void *pvParameters)
             #else
                 canSendRightCoffee(1,volume);
             #endif
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_TEA){
+            // coffee_run_flag = 1;
+            printf("do tea");
+            #if (LEFT_OR_COFFEE == LEFT)
+            
+            #else
+                canSendRightTeaProfile(GrindSetData.extract_time[teasetflag]);
+            #endif
+            vTaskDelay(3 / portTICK_RATE_MS);
+
+            canSendRightTeaStart(1);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if(GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM) {
             

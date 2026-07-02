@@ -91,6 +91,43 @@ typedef struct
 	lv_obj_t *screen_img_hotwater;
 	lv_obj_t *screen_btn_hotwater;
 	lv_obj_t *screen_btn_hotwater_label;
+	lv_obj_t *screen_btnm_choosemode;
+	lv_obj_t *screen_btnm_choosemode_label;
+	lv_obj_t *screen_img_tea1;
+	lv_obj_t *screen_img_tea2;
+	lv_obj_t *screen_img_tea3;
+	lv_obj_t *screen_img_tea4;
+	lv_obj_t *screen_cont_M;
+	lv_obj_t *screen_btn_teaset1;
+	lv_obj_t *screen_btn_teaset1_label;
+	lv_obj_t *screen_btn_teaset2;
+	lv_obj_t *screen_btn_teaset2_label;
+	lv_obj_t *screen_btn_teaset3;
+	lv_obj_t *screen_btn_teaset3_label;
+	lv_obj_t *screen_btn_teaset4;
+	lv_obj_t *screen_btn_teaset4_label;
+	lv_obj_t *screen_cont_teaset;
+	lv_obj_t *screen_label_startime;
+	lv_obj_t *screen_label_suspendtime;
+	lv_obj_t *screen_label_one;
+	lv_obj_t *screen_label_two;
+	lv_obj_t *screen_label_three;
+	lv_obj_t *screen_label_four;
+	lv_obj_t *screen_label_five;
+	lv_obj_t *screen_ta_1stepoff;
+	lv_obj_t *screen_ta_1stepon;
+	lv_obj_t *screen_ta_2stepon;
+	lv_obj_t *screen_ta_2stepoff;
+	lv_obj_t *screen_ta_3;
+	lv_obj_t *screen_ta_4;
+	lv_obj_t *screen_ta_5;
+	lv_obj_t *screen_ta_6;
+	lv_obj_t *screen_ta_7;
+	lv_obj_t *screen_ta_8;
+	lv_obj_t *screen_btn_save;
+	lv_obj_t *screen_btn_save_label;
+	lv_obj_t *screen_btn_teacancel;
+	lv_obj_t *screen_btn_teacancel_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -127,6 +164,7 @@ typedef struct
 	lv_obj_t *screen_1_label_brewblock;
 	lv_obj_t *screen_1_btn_brewblock;
 	lv_obj_t *screen_1_btn_brewblock_label;
+	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
 typedef void (*ui_setup_scr_t)(lv_ui * ui);
@@ -177,11 +215,23 @@ LV_IMG_DECLARE(_juxing_alpha_65x38);
 LV_IMG_DECLARE(_juxing_alpha_65x38);
 LV_IMG_DECLARE(_juxing_alpha_65x38);
 LV_IMG_DECLARE(_hotwater_alpha_35x35);
+LV_IMG_DECLARE(_1tea_alpha_25x45);
+LV_IMG_DECLARE(_2tea_alpha_25x47);
+LV_IMG_DECLARE(_3tea_alpha_25x47);
+LV_IMG_DECLARE(_4tea_alpha_24x44);
+LV_IMG_DECLARE(_1coffee_alpha_52x52);
+LV_IMG_DECLARE(_3coffee_alpha_52x52);
+LV_IMG_DECLARE(_2coffee_alpha_52x52);
+LV_IMG_DECLARE(_4coffee_alpha_52x52);
+LV_IMG_DECLARE(_btn1_alpha_104x100);
+LV_IMG_DECLARE(_hotwater24_alpha_30x37);
+LV_IMG_DECLARE(_start_alpha_32x32);
+LV_IMG_DECLARE(_steam_alpha_27x32);
 
-LV_FONT_DECLARE(lv_font_montserratMedium_10)
+// LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
-
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_10)
 
 #ifdef __cplusplus
 }

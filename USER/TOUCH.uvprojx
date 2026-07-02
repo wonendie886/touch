@@ -1988,6 +1988,71 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_hotwater_alpha_35x35.c</FilePath>
             </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_10.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_10.c</FilePath>
+            </File>
+            <File>
+              <FileName>_1tea_alpha_25x45.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_1tea_alpha_25x45.c</FilePath>
+            </File>
+            <File>
+              <FileName>_2tea_alpha_25x47.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_2tea_alpha_25x47.c</FilePath>
+            </File>
+            <File>
+              <FileName>_3tea_alpha_25x47.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_3tea_alpha_25x47.c</FilePath>
+            </File>
+            <File>
+              <FileName>_4tea_alpha_24x44.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_4tea_alpha_24x44.c</FilePath>
+            </File>
+            <File>
+              <FileName>_1coffee_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_1coffee_alpha_52x52.c</FilePath>
+            </File>
+            <File>
+              <FileName>_2coffee_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_2coffee_alpha_52x52.c</FilePath>
+            </File>
+            <File>
+              <FileName>_3coffee_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_3coffee_alpha_52x52.c</FilePath>
+            </File>
+            <File>
+              <FileName>_4coffee_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_4coffee_alpha_52x52.c</FilePath>
+            </File>
+            <File>
+              <FileName>_btn1_alpha_104x100.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_btn1_alpha_104x100.c</FilePath>
+            </File>
+            <File>
+              <FileName>_hotwater24_alpha_30x37.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_hotwater24_alpha_30x37.c</FilePath>
+            </File>
+            <File>
+              <FileName>_start_alpha_32x32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_start_alpha_32x32.c</FilePath>
+            </File>
+            <File>
+              <FileName>_steam_alpha_27x32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_steam_alpha_27x32.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
