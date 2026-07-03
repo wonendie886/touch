@@ -2053,6 +2053,36 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_steam_alpha_27x32.c</FilePath>
             </File>
+            <File>
+              <FileName>_btnnew_alpha_104x100.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_btnnew_alpha_104x100.c</FilePath>
+            </File>
+            <File>
+              <FileName>_stop_alpha_32x32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_stop_alpha_32x32.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_montserratMedium_25.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_montserratMedium_25.c</FilePath>
+            </File>
+            <File>
+              <FileName>_brew_alpha_8x8.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_brew_alpha_8x8.c</FilePath>
+            </File>
+            <File>
+              <FileName>_coffeebock_alpha_14x13.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_coffeebock_alpha_14x13.c</FilePath>
+            </File>
+            <File>
+              <FileName>_steamblock_alpha_14x13.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_steamblock_alpha_14x13.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

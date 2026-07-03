@@ -89,6 +89,7 @@ typedef struct
 	lv_obj_t *screen_btn_menu;
 	lv_obj_t *screen_btn_menu_label;
 	lv_obj_t *screen_img_hotwater;
+	lv_obj_t *screen_img_stop;
 	lv_obj_t *screen_btn_hotwater;
 	lv_obj_t *screen_btn_hotwater_label;
 	lv_obj_t *screen_btnm_choosemode;
@@ -128,6 +129,7 @@ typedef struct
 	lv_obj_t *screen_btn_save_label;
 	lv_obj_t *screen_btn_teacancel;
 	lv_obj_t *screen_btn_teacancel_label;
+	lv_obj_t *screen_arc_1;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -227,12 +229,17 @@ LV_IMG_DECLARE(_btn1_alpha_104x100);
 LV_IMG_DECLARE(_hotwater24_alpha_30x37);
 LV_IMG_DECLARE(_start_alpha_32x32);
 LV_IMG_DECLARE(_steam_alpha_27x32);
+LV_IMG_DECLARE(_stop_alpha_32x32);
+LV_IMG_DECLARE(_btnnew_alpha_104x100);
+LV_IMG_DECLARE(_brew_alpha_8x8);
+LV_IMG_DECLARE(_steamblock_alpha_14x13);
+LV_IMG_DECLARE(_coffeebock_alpha_14x13);
 
 // LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_10)
-
+LV_FONT_DECLARE(lv_font_montserratMedium_25)
 #ifdef __cplusplus
 }
 #endif

@@ -168,36 +168,48 @@ extern volatile uint16_t volume;
 float blocktemp = 0;
 float brewtemp = 0;
 volatile uint8_t coffee_run_flag = 0;
-
+extern uint8_t teasetflag ;
+bool startflag;
+extern uint8_t scheduleall;
 void CoffeeVolumeProcess(void)
 {
     static TickType_t lastTick = 0;
-
+    static int schedule = 0;
     // 没启动则直接返回
     if(coffee_run_flag == 0)
     {
         return;
     }
-
+    
     // 每1s减一次
     if(xTaskGetTickCount() - lastTick >= pdMS_TO_TICKS(1000))
     {
         lastTick = xTaskGetTickCount();
-
+        if(volume > 9)
+        lv_label_set_text_fmt(guider_ui.screen_label_18, "00:%d", volume); 
+        else if(volume >= 0)
+        lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", volume);
         if(volume > 0){
+            schedule = (volume*100)/scheduleall;
             volume--;
-            printf("volume = %d\r\n", volume);
-
+            lv_arc_set_value(guider_ui.screen_arc_1, schedule);
+            printf("scheduieall = %d volume = %d  schedule = %d\r\n", scheduleall,volume,schedule);
         } else {
+            startflag = false;
             volume = 0;
+            schedule = (volume*100)/scheduleall;
+            lv_arc_set_value(guider_ui.screen_arc_1, schedule);
             coffee_run_flag = 0;
             printf("Coffee volume finished\r\n");
         }       
-        lv_label_set_text_fmt(guider_ui.screen_label_18, "%d", volume); 
+        // if(schedule > 9)
+        // lv_label_set_text_fmt(guider_ui.screen_label_18, "00:%d", schedule); 
+        // else if(schedule >= 0)
+        // lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", schedule);
     }
 
 }
-extern uint8_t teasetflag ;
+
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -234,10 +246,14 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
             machinetime++;
         } 
+        if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
+
+        }
         else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
             #if (LEFT_OR_COFFEE == RIGHT)
             canSendFillWater();
             #endif
+            
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_BEVERAGEMAKE_CHANNELB){
             coffee_run_flag = 1;
@@ -246,6 +262,7 @@ void thread_serial(void *pvParameters)
             #else
                 canSendRightCoffee(1,volume);
             #endif
+            
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_TEA){
             // coffee_run_flag = 1;
@@ -270,7 +287,8 @@ void thread_serial(void *pvParameters)
         } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB){
             coffee_run_flag = 0;
             volume = 0;
-            lv_label_set_text_fmt(guider_ui.screen_label_18, "%d", volume); 
+            lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", volume); 
+            lv_arc_set_value(guider_ui.screen_arc_1, 0);
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(0,volume);
             #else
@@ -280,6 +298,7 @@ void thread_serial(void *pvParameters)
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_STEAMBLOCK) { 
             volume = GrindSetData.temp_steam;
             canSendsteamtemp(0,volume);
+            volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_COFFEEBLOCK) { 
             #if(LEFT_OR_COFFEE == LEFT)
@@ -289,6 +308,7 @@ void thread_serial(void *pvParameters)
             #endif
             volume = GrindSetData.temp_coffee;
             canSendcoffeetemp(target,volume);
+            volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_SET_BREWBLOCK;
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_BREWBLOCK) { 
             #if(LEFT_OR_COFFEE == LEFT)
@@ -298,6 +318,7 @@ void thread_serial(void *pvParameters)
             #endif
             volume = GrindSetData.temp_brew;
             canSendbrewtemp(target,volume);
+            volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } 
         #if (LEFT_OR_COFFEE == RIGHT)
@@ -397,7 +418,7 @@ void thread_serial(void *pvParameters)
                         if(runtime >= 1000){
                              char temp_str[20];
 
-                            sprintf(temp_str, "%.1f", ret);
+                            sprintf(temp_str, "%.1f bar", ret);
                             lv_label_set_text(guider_ui.screen_label_16, temp_str);
                             // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
                         }   
@@ -419,8 +440,30 @@ void thread_serial(void *pvParameters)
             } else {
                 printf("crc failed\r\n");
             }
-
         }
+        // if(runtime % 500 == 0){
+        //     printf("volume %d\r\n",volume);
+        // }
+        if(!startflag){
+            lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
+            startflag = true;
+        }
+        //  else {
+        //     lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        //     lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+        //     lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        //     lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        //     lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        //     lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        //     lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
+        // }
         CoffeeVolumeProcess();
         runtime += 100;
         vTaskDelay(pdMS_TO_TICKS(100));

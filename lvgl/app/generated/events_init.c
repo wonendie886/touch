@@ -20,10 +20,11 @@
 #endif
 static int Textselectionflag = 0;
 extern struct GrindRealData GrindDataStr;
-volatile uint16_t volume;
+volatile uint16_t volume = 0;
 bool current_mode = MODE_COFFEE;
 static uint8_t active_time_setting = 0; 
 uint8_t teasetflag = 0;
+uint8_t scheduleall = 0;
 
 static void SaveTeaParam(uint8_t index);
 static void ShowTeaParam(uint8_t index);
@@ -37,7 +38,16 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
         //coffee1做咖啡
         if(current_mode == MODE_COFFEE){
             volume = GrindSetData.time_1;
+            scheduleall = volume;
+            lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
             GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+            
         } else if (current_mode == MODE_TEA){
             GrindDataStr.data.cmd = CMDTYPE_MAKE_TEA;
         }
@@ -57,7 +67,16 @@ static void screen_btn_coffee3_event_handler (lv_event_t *e)
     {
         //coffee3
         volume = GrindSetData.time_3;
+        scheduleall = volume;
+        lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+        
         break;
     }
     default:
@@ -73,6 +92,14 @@ static void screen_btn_coffee2_event_handler (lv_event_t *e)
     {
         //coffee2
         volume = GrindSetData.time_2;
+        scheduleall = volume;
+        lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
@@ -89,6 +116,14 @@ static void screen_btn_coffee4_event_handler (lv_event_t *e)
     {
         //coffee4
         volume = GrindSetData.time_4;
+        scheduleall = volume;
+        lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
         GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         break;
     }
@@ -115,7 +150,7 @@ static void screen_btn_steam_event_handler (lv_event_t *e)
             // lv_label_set_text(guider_ui.screen_label_temp, temp_str);
             // lv_label_set_text(guider_ui.screen_btn_rinse_label, "Steam");
         } else {
-            volume = 30;
+            // volume = 30;
             GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
             steamEnable = 1;
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 128, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -134,8 +169,37 @@ static void screen_btn_rinse_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //rinse
-        volume = 2;
-        GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+        if(volume == 0){
+            volume = 10000;
+            lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
+            // GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
+            #if (LEFT_OR_COFFEE == LEFT)
+                canSendLeftCoffee(1,volume);
+            #else
+                canSendRightCoffee(1,volume);
+            #endif
+            // lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+            // lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        } else {
+            // lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+            // lv_obj_clear_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+            GrindDataStr.data.cmd = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
+            lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
+        }
+
         break;
     }
     default:
@@ -180,6 +244,14 @@ static void screen_btn_hotwater_event_handler (lv_event_t *e)
     {
         //做热水can下发
         volume = GrindSetData.time_hotwater;
+        scheduleall = volume;
+        lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
         printf("volume %d\n",volume);
         GrindDataStr.data.cmd = CMDTYPE_HOTWATER;
         break;
