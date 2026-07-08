@@ -194,7 +194,7 @@ void canSendRightTeaProfile(uint8_t profile[10])
                             //     printf("%d\n ", data[i]);  // 16进制打印，补0
                             // }
     canSendFrame(FUNC_RIGHT_TEA_PROFILE, data, 8);
-    vTaskDelay(5 / portTICK_RATE_MS);
+    vTaskDelay(10 / portTICK_RATE_MS);
     /* 第二包 */
     data[0] = 2;
     data[1] = 1;

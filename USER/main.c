@@ -169,6 +169,7 @@ float blocktemp = 0;
 float brewtemp = 0;
 volatile uint8_t coffee_run_flag = 0;
 extern uint8_t teasetflag ;
+extern uint8_t teaflag ;
 bool startflag;
 extern uint8_t scheduleall;
 void CoffeeVolumeProcess(void)
@@ -193,7 +194,7 @@ void CoffeeVolumeProcess(void)
             schedule = (volume*100)/scheduleall;
             volume--;
             lv_arc_set_value(guider_ui.screen_arc_1, schedule);
-            printf("scheduieall = %d volume = %d  schedule = %d\r\n", scheduleall,volume,schedule);
+            // printf("scheduieall = %d volume = %d  schedule = %d\r\n", scheduleall,volume,schedule);
         } else {
             startflag = false;
             volume = 0;
@@ -238,10 +239,10 @@ void thread_serial(void *pvParameters)
     while (1){
    // 开机5s后补一次水
         TickType_t currentTime = xTaskGetTickCount();
-        if (currentTime - lastUpdateTime >= updateTimePeriod && time < 1 ) {           
-            GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
-            time++;
-        } 
+        // if (currentTime - lastUpdateTime >= updateTimePeriod && time < 1 ) {           
+        //     GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
+        //     time++;
+        // } 
         if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 2 ) {           
             GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
             machinetime++;
@@ -265,16 +266,16 @@ void thread_serial(void *pvParameters)
             
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_TEA){
-            // coffee_run_flag = 1;
+            coffee_run_flag = 1;
             printf("do tea");
             #if (LEFT_OR_COFFEE == LEFT)
-            
-            #else
-                canSendRightTeaProfile(GrindSetData.extract_time[teasetflag]);
-            #endif
-            vTaskDelay(3 / portTICK_RATE_MS);
 
-            canSendRightTeaStart(1);
+            #else
+                canSendRightTeaProfile(GrindSetData.extract_time[teaflag]);
+                vTaskDelay(10 / portTICK_RATE_MS);
+                canSendRightTeaStart(1);
+            #endif
+
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if(GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM) {
             
