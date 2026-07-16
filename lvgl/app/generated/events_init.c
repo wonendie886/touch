@@ -529,7 +529,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_rinse, screen_btn_rinse_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_cancel, screen_btn_cancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_menu, screen_btn_menu_event_handler, LV_EVENT_ALL, ui);
-    #if (LEFT_OR_COFFEE == RIGHT)
+    #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_btn_hotwater, screen_btn_hotwater_event_handler, LV_EVENT_ALL, ui);
     #endif
     lv_obj_add_event_cb(ui->screen_btnm_choosemode,screen_btnm_choosemode_event_cb,LV_EVENT_VALUE_CHANGED,NULL);
@@ -717,7 +717,7 @@ static void screen_1_btn_certain_event_handler (lv_event_t *e)
             volume = GrindSetData.temp_coffee;
             GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
         } 
-        #if (LEFT_OR_COFFEE == RIGHT)
+        #if (LEFT_OR_COFFEE == LEFT)
         else if (active_time_setting == 7){
             lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", str_value);
             GrindSetData.time_hotwater = spinbox_value;
@@ -783,7 +783,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_time4set, screen_1_btn_time4set_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_cancel, screen_1_btn_cancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_certain, screen_1_btn_certain_event_handler, LV_EVENT_ALL, ui);
-    #if (LEFT_OR_COFFEE == RIGHT)
+    #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
     #endif
     lv_obj_add_event_cb(ui->screen_1_btn_brewblock, screen_1_btn_brewblock_event_handler, LV_EVENT_ALL, ui);

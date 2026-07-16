@@ -209,11 +209,51 @@ void canSendRightTeaProfile(uint8_t profile[10])
                         //     }
     canSendFrame(FUNC_RIGHT_TEA_PROFILE, data, 6);
 }
+void canSendLeftTeaProfile(uint8_t profile[10])
+{
+    uint8_t data[8];
+
+    /* 第一包 */
+    data[0] = 2;      //总包数
+    data[1] = 0;      //包号
+    for (uint8_t i = 2;i < 8 ;i++)
+    {
+        data[i] = profile[i-2];
+    }
+                            // printf("data 0 - 5 : ");
+                            // for (uint8_t i = 0; i < 8; i++)
+                            // {
+                            //     printf("%d\n ", data[i]);  // 16进制打印，补0
+                            // }
+    canSendFrame(FUNC_LEFT_TEA_PROFILE, data, 8);
+    vTaskDelay(10 / portTICK_RATE_MS);
+    /* 第二包 */
+    data[0] = 2;
+    data[1] = 1;
+    for (uint8_t i = 2;i < 6 ;i++)
+    {
+        data[i] = profile[i+4];
+    }
+                        // printf("data 6 - 9 : ");
+                        //     for (uint8_t i = 0; i < 8; i++)
+                        //     {
+                        //         printf("%d\n ", data[i]);  // 16进制打印，补0
+                        //     }
+    canSendFrame(FUNC_LEFT_TEA_PROFILE, data, 6);
+}
+
 void canSendRightTeaStart(uint8_t start)
 {
     uint8_t data[1];
     data[0] = start;
     canSendFrame(FUNC_RIGHT_TEA_START, data, 1);
+}
+
+void canSendLeftTeaStart(uint8_t start)
+{
+    uint8_t data[1];
+    data[0] = start;
+    canSendFrame(FUNC_LEFT_TEA_START, data, 1);
 }
 
 void canSendLeftSteam(uint8_t enable,uint16_t seconds)

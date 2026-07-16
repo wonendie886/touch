@@ -984,7 +984,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_20, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_20, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-#if (LEFT_OR_COFFEE == RIGHT)
+#if (LEFT_OR_COFFEE == LEFT)
     //Write codes screen_img_hotwater
     ui->screen_img_hotwater = lv_img_create(ui->screen_cont_M);
     lv_obj_add_flag(ui->screen_img_hotwater, LV_OBJ_FLAG_CLICKABLE);
@@ -1030,7 +1030,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_21, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_21, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_21, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-#if (LEFT_OR_COFFEE == RIGHT)
+#if (LEFT_OR_COFFEE == LEFT)
     //Write codes screen_btn_hotwater
     ui->screen_btn_hotwater = lv_btn_create(ui->screen_cont_M);
     ui->screen_btn_hotwater_label = lv_label_create(ui->screen_btn_hotwater);

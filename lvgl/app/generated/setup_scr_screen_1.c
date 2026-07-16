@@ -461,7 +461,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_style_set_shadow_width(&style_screen_1_spinbox_1_extra_btns_main_default, 0);
     lv_obj_add_style(ui->screen_1_spinbox_1_btn_plus, &style_screen_1_spinbox_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_add_style(ui->screen_1_spinbox_1_btn_minus, &style_screen_1_spinbox_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
-    #if (LEFT_OR_COFFEE == RIGHT)
+    #if (LEFT_OR_COFFEE == LEFT)
     //Write codes screen_1_label_hotwater
     ui->screen_1_label_hotwater = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_hotwater, "热水(s)");
@@ -514,7 +514,7 @@ void setup_scr_screen_1(lv_ui *ui)
     ui->screen_1_label_brewblock = lv_label_create(ui->screen_1);
     lv_label_set_text(ui->screen_1_label_brewblock, "冲煮头(°C)");
     lv_label_set_long_mode(ui->screen_1_label_brewblock, LV_LABEL_LONG_WRAP);
-    #if (LEFT_OR_COFFEE == RIGHT)    
+    #if (LEFT_OR_COFFEE == LEFT)    
     lv_obj_set_pos(ui->screen_1_label_brewblock, 10, 236);
     lv_obj_set_size(ui->screen_1_label_brewblock, 100, 28);
     #else
@@ -546,7 +546,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_brewblock_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_brewblock, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_brewblock_label, LV_PCT(100));
-    #if (LEFT_OR_COFFEE == RIGHT)     
+    #if (LEFT_OR_COFFEE == LEFT)     
     lv_obj_set_pos(ui->screen_1_btn_brewblock, 250, 236);
     lv_obj_set_size(ui->screen_1_btn_brewblock, 100, 28);
     #else
@@ -597,10 +597,10 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_coffeetempset_label, "%s", string_data5);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_brewblock_label, "%s", string_data7);
     #if (LEFT_OR_COFFEE == RIGHT)
-    lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_steamtempset_label, "%s", string_data4);
     #endif
     #if (LEFT_OR_COFFEE == LEFT)
+    lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);
     lv_obj_add_flag(ui->screen_1_label_steamtemp, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->screen_1_btn_steamtempset, LV_OBJ_FLAG_HIDDEN);
     lv_obj_add_flag(ui->screen_1_btn_steamtempset_label, LV_OBJ_FLAG_HIDDEN);

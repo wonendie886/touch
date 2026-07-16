@@ -239,10 +239,10 @@ void thread_serial(void *pvParameters)
     while (1){
    // 开机5s后补一次水
         TickType_t currentTime = xTaskGetTickCount();
-        // if (currentTime - lastUpdateTime >= updateTimePeriod && time < 1 ) {           
-        //     GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
-        //     time++;
-        // } 
+        if (currentTime - lastUpdateTime >= updateTimePeriod && time < 1 ) {           
+            GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
+            time++;
+        } 
         if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 2 ) {           
             GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
             machinetime++;
@@ -251,7 +251,7 @@ void thread_serial(void *pvParameters)
 
         }
         else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            #if (LEFT_OR_COFFEE == RIGHT)
+            #if (LEFT_OR_COFFEE == LEFT)
             canSendFillWater();
             #endif
             
@@ -269,7 +269,9 @@ void thread_serial(void *pvParameters)
             coffee_run_flag = 1;
             printf("do tea");
             #if (LEFT_OR_COFFEE == LEFT)
-
+                canSendLeftTeaProfile(GrindSetData.extract_time[teasetflag]);
+                vTaskDelay(10 / portTICK_RATE_MS);
+                canSendLeftTeaStart(1);
             #else
                 canSendRightTeaProfile(GrindSetData.extract_time[teaflag]);
                 vTaskDelay(10 / portTICK_RATE_MS);
@@ -322,7 +324,7 @@ void thread_serial(void *pvParameters)
             volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } 
-        #if (LEFT_OR_COFFEE == RIGHT)
+        #if (LEFT_OR_COFFEE == LEFT)
         else if (GrindDataStr.data.cmd == CMDTYPE_HOTWATER) { 
             coffee_run_flag = 1;
             canSendhotwater(1,volume);
@@ -357,7 +359,7 @@ void thread_serial(void *pvParameters)
             uint32_t error_code;// = huart->ErrorCode;
             uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
             
-            // 打印错误信息（如果可以使用printf）
+            // 打印错误信息（如果可以使用printf）=
             // printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
         }
         #endif
@@ -447,7 +449,9 @@ void thread_serial(void *pvParameters)
         // }
         if(!startflag){
             lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+            #if (LEFT_OR_COFFEE == LEFT)
             lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            #endif
             lv_obj_clear_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
