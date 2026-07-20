@@ -130,6 +130,7 @@ typedef struct
 	lv_obj_t *screen_btn_teacancel;
 	lv_obj_t *screen_btn_teacancel_label;
 	lv_obj_t *screen_arc_1;
+	lv_obj_t *screen_cont_countdown;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -234,6 +235,8 @@ LV_IMG_DECLARE(_btnnew_alpha_104x100);
 LV_IMG_DECLARE(_brew_alpha_8x8);
 LV_IMG_DECLARE(_steamblock_alpha_14x13);
 LV_IMG_DECLARE(_coffeebock_alpha_14x13);
+LV_IMG_DECLARE(_cofe_alpha_52x52);
+LV_IMG_DECLARE(_tea_alpha_45x45);
 
 // LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)

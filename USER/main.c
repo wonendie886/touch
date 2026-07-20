@@ -142,7 +142,6 @@ int main(void)
     // ISL1208_SetTime(&current_time);
 
     // 3. 读取时间
-    
     printf("App is running.Version:%s Compiled on %s %s\n",version,__DATE__,__TIME__);
 
     uart4_init();
@@ -179,9 +178,10 @@ void CoffeeVolumeProcess(void)
     // 没启动则直接返回
     if(coffee_run_flag == 0)
     {
+        lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         return;
     }
-    
+    lv_obj_clear_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
     // 每1s减一次
     if(xTaskGetTickCount() - lastTick >= pdMS_TO_TICKS(1000))
     {
@@ -193,13 +193,12 @@ void CoffeeVolumeProcess(void)
         if(volume > 0){
             schedule = (volume*100)/scheduleall;
             volume--;
-            lv_arc_set_value(guider_ui.screen_arc_1, schedule);
             // printf("scheduieall = %d volume = %d  schedule = %d\r\n", scheduleall,volume,schedule);
         } else {
+            lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
             startflag = false;
             volume = 0;
             schedule = (volume*100)/scheduleall;
-            lv_arc_set_value(guider_ui.screen_arc_1, schedule);
             coffee_run_flag = 0;
             printf("Coffee volume finished\r\n");
         }       
@@ -291,7 +290,6 @@ void thread_serial(void *pvParameters)
             coffee_run_flag = 0;
             volume = 0;
             lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", volume); 
-            lv_arc_set_value(guider_ui.screen_arc_1, 0);
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(0,volume);
             #else
@@ -457,7 +455,6 @@ void thread_serial(void *pvParameters)
             lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
-            lv_obj_clear_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
             startflag = true;
         }
         //  else {
@@ -467,7 +464,6 @@ void thread_serial(void *pvParameters)
         //     lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
         //     lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
         //     lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
         // }
         CoffeeVolumeProcess();
         runtime += 100;
