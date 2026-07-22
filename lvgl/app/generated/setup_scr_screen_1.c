@@ -16,6 +16,7 @@
 #include "flash.h"
 #include "protocol.h"
 
+
 void setup_scr_screen_1(lv_ui *ui)
 {
     //Write codes screen_1
@@ -27,100 +28,6 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_bg_opa(ui->screen_1, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_1, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_label_steamtemp
-    ui->screen_1_label_steamtemp = lv_label_create(ui->screen_1);
-    lv_label_set_text(ui->screen_1_label_steamtemp, "Steam Boiler(°C)");
-    lv_label_set_long_mode(ui->screen_1_label_steamtemp, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_steamtemp, 10, 0);
-    lv_obj_set_size(ui->screen_1_label_steamtemp, 100, 28);
-
-    //Write style for screen_1_label_steamtemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_label_steamtemp, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_steamtemp, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_label_steamtemp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_label_steamtemp, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_steamtemp, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_btn_steamtempset
-    ui->screen_1_btn_steamtempset = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_steamtempset_label = lv_label_create(ui->screen_1_btn_steamtempset);
-    lv_label_set_text(ui->screen_1_btn_steamtempset_label, "");
-    lv_label_set_long_mode(ui->screen_1_btn_steamtempset_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_steamtempset_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_steamtempset, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_steamtempset_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_steamtempset, 250, 0);
-    lv_obj_set_size(ui->screen_1_btn_steamtempset, 100, 28);
-
-    //Write style for screen_1_btn_steamtempset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_steamtempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_1_btn_steamtempset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_1_btn_steamtempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_1_btn_steamtempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_1_btn_steamtempset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_steamtempset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_steamtempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_steamtempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_steamtempset, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_steamtempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_steamtempset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_label_coffeetemp
-    ui->screen_1_label_coffeetemp = lv_label_create(ui->screen_1);
-    lv_label_set_text(ui->screen_1_label_coffeetemp, "Coffee boiler(°C)");
-    lv_label_set_long_mode(ui->screen_1_label_coffeetemp, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_coffeetemp, 10, 34);
-    lv_obj_set_size(ui->screen_1_label_coffeetemp, 100, 28);
-
-    //Write style for screen_1_label_coffeetemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_label_coffeetemp, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_coffeetemp, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_label_coffeetemp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_label_coffeetemp, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_coffeetemp, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_btn_coffeetempset
-    ui->screen_1_btn_coffeetempset = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_coffeetempset_label = lv_label_create(ui->screen_1_btn_coffeetempset);
-    lv_label_set_text(ui->screen_1_btn_coffeetempset_label, "");
-    lv_label_set_long_mode(ui->screen_1_btn_coffeetempset_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_coffeetempset_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_coffeetempset, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_coffeetempset_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_coffeetempset, 250, 34);
-    lv_obj_set_size(ui->screen_1_btn_coffeetempset, 100, 28);
-
-    //Write style for screen_1_btn_coffeetempset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_coffeetempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_1_btn_coffeetempset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_1_btn_coffeetempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_1_btn_coffeetempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_1_btn_coffeetempset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_coffeetempset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_coffeetempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_coffeetempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_coffeetempset, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_coffeetempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_coffeetempset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_1_btn_back
     ui->screen_1_btn_back = lv_btn_create(ui->screen_1);
@@ -146,12 +53,199 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_1_btn_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_btn_back, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes screen_1_menu_1
+    ui->screen_1_menu_1 = lv_menu_create(ui->screen_1);
+
+    //Create sidebar page for menu screen_1_menu_1
+    ui->screen_1_menu_1_sidebar_page = lv_menu_page_create(ui->screen_1_menu_1, "Menu");
+    lv_menu_set_sidebar_page(ui->screen_1_menu_1, ui->screen_1_menu_1_sidebar_page);
+    lv_obj_set_scrollbar_mode(ui->screen_1_menu_1_sidebar_page, LV_SCROLLBAR_MODE_AUTO);
+
+    //Create subpage for screen_1_menu_1
+    ui->screen_1_menu_1_subpage_1 = lv_menu_page_create(ui->screen_1_menu_1, NULL);
+    ui->screen_1_menu_1_cont_1 = lv_menu_cont_create(ui->screen_1_menu_1_sidebar_page);
+    ui->screen_1_menu_1_label_1 = lv_label_create(ui->screen_1_menu_1_cont_1);
+    lv_label_set_text(ui->screen_1_menu_1_label_1, "Settings");
+    lv_obj_set_size(ui->screen_1_menu_1_label_1, LV_PCT(100), LV_SIZE_CONTENT);
+    lv_obj_set_scrollbar_mode(ui->screen_1_menu_1_subpage_1, LV_SCROLLBAR_MODE_AUTO);
+    lv_menu_set_load_page_event(ui->screen_1_menu_1, ui->screen_1_menu_1_cont_1, ui->screen_1_menu_1_subpage_1);
+
+    //Create subpage for screen_1_menu_1
+    ui->screen_1_menu_1_subpage_2 = lv_menu_page_create(ui->screen_1_menu_1, NULL);
+    ui->screen_1_menu_1_cont_2 = lv_menu_cont_create(ui->screen_1_menu_1_sidebar_page);
+    ui->screen_1_menu_1_label_2 = lv_label_create(ui->screen_1_menu_1_cont_2);
+    lv_label_set_text(ui->screen_1_menu_1_label_2, "Maintainance");
+    lv_obj_set_size(ui->screen_1_menu_1_label_2, LV_PCT(100), LV_SIZE_CONTENT);
+    lv_obj_set_scrollbar_mode(ui->screen_1_menu_1_subpage_2, LV_SCROLLBAR_MODE_AUTO);
+    lv_menu_set_load_page_event(ui->screen_1_menu_1, ui->screen_1_menu_1_cont_2, ui->screen_1_menu_1_subpage_2);
+    lv_event_send(ui->screen_1_menu_1_cont_1, LV_EVENT_CLICKED, NULL);
+    lv_obj_set_pos(ui->screen_1_menu_1, 0, 0);
+    lv_obj_set_size(ui->screen_1_menu_1, 420, 272);
+    lv_obj_set_scrollbar_mode(ui->screen_1_menu_1, LV_SCROLLBAR_MODE_AUTO);
+
+    //Write style for screen_1_menu_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_menu_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_menu_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_menu_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style state: LV_STATE_DEFAULT for &style_screen_1_menu_1_extra_sidebar_page_main_default
+    static lv_style_t style_screen_1_menu_1_extra_sidebar_page_main_default;
+    ui_init_style(&style_screen_1_menu_1_extra_sidebar_page_main_default);
+
+    lv_style_set_bg_opa(&style_screen_1_menu_1_extra_sidebar_page_main_default, 71);
+    lv_style_set_bg_color(&style_screen_1_menu_1_extra_sidebar_page_main_default, lv_color_hex(0xdaf2f8));
+    lv_style_set_bg_grad_dir(&style_screen_1_menu_1_extra_sidebar_page_main_default, LV_GRAD_DIR_NONE);
+    lv_style_set_radius(&style_screen_1_menu_1_extra_sidebar_page_main_default, 0);
+    lv_obj_add_style(ui->screen_1_menu_1_sidebar_page, &style_screen_1_menu_1_extra_sidebar_page_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style state: LV_STATE_DEFAULT for &style_screen_1_menu_1_extra_option_btns_main_default
+    static lv_style_t style_screen_1_menu_1_extra_option_btns_main_default;
+    ui_init_style(&style_screen_1_menu_1_extra_option_btns_main_default);
+
+    lv_style_set_text_color(&style_screen_1_menu_1_extra_option_btns_main_default, lv_color_hex(0xffffff));
+    lv_style_set_text_font(&style_screen_1_menu_1_extra_option_btns_main_default, &lv_font_montserratMedium_12);
+    lv_style_set_text_opa(&style_screen_1_menu_1_extra_option_btns_main_default, 255);
+    lv_style_set_text_align(&style_screen_1_menu_1_extra_option_btns_main_default, LV_TEXT_ALIGN_CENTER);
+    lv_style_set_pad_top(&style_screen_1_menu_1_extra_option_btns_main_default, 10);
+    lv_style_set_pad_bottom(&style_screen_1_menu_1_extra_option_btns_main_default, 10);
+    lv_obj_add_style(ui->screen_1_menu_1_cont_2, &style_screen_1_menu_1_extra_option_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_add_style(ui->screen_1_menu_1_cont_1, &style_screen_1_menu_1_extra_option_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style state: LV_STATE_CHECKED for &style_screen_1_menu_1_extra_option_btns_main_checked
+    static lv_style_t style_screen_1_menu_1_extra_option_btns_main_checked;
+    ui_init_style(&style_screen_1_menu_1_extra_option_btns_main_checked);
+
+    lv_style_set_text_color(&style_screen_1_menu_1_extra_option_btns_main_checked, lv_color_hex(0x9ab700));
+    lv_style_set_text_font(&style_screen_1_menu_1_extra_option_btns_main_checked, &lv_font_montserratMedium_12);
+    lv_style_set_text_opa(&style_screen_1_menu_1_extra_option_btns_main_checked, 255);
+    lv_style_set_text_align(&style_screen_1_menu_1_extra_option_btns_main_checked, LV_TEXT_ALIGN_CENTER);
+    lv_style_set_border_width(&style_screen_1_menu_1_extra_option_btns_main_checked, 0);
+    lv_style_set_radius(&style_screen_1_menu_1_extra_option_btns_main_checked, 0);
+    lv_style_set_bg_opa(&style_screen_1_menu_1_extra_option_btns_main_checked, 60);
+    lv_style_set_bg_color(&style_screen_1_menu_1_extra_option_btns_main_checked, lv_color_hex(0x00e0b8));
+    lv_style_set_bg_grad_dir(&style_screen_1_menu_1_extra_option_btns_main_checked, LV_GRAD_DIR_NONE);
+    lv_obj_add_style(ui->screen_1_menu_1_cont_2, &style_screen_1_menu_1_extra_option_btns_main_checked, LV_PART_MAIN|LV_STATE_CHECKED);
+    lv_obj_add_style(ui->screen_1_menu_1_cont_1, &style_screen_1_menu_1_extra_option_btns_main_checked, LV_PART_MAIN|LV_STATE_CHECKED);
+
+    //Write style state: LV_STATE_DEFAULT for &style_screen_1_menu_1_extra_main_title_main_default
+    static lv_style_t style_screen_1_menu_1_extra_main_title_main_default;
+    ui_init_style(&style_screen_1_menu_1_extra_main_title_main_default);
+
+    lv_style_set_text_color(&style_screen_1_menu_1_extra_main_title_main_default, lv_color_hex(0xffffff));
+    lv_style_set_text_font(&style_screen_1_menu_1_extra_main_title_main_default, &lv_font_montserratMedium_12);
+    lv_style_set_text_opa(&style_screen_1_menu_1_extra_main_title_main_default, 255);
+    lv_style_set_text_align(&style_screen_1_menu_1_extra_main_title_main_default, LV_TEXT_ALIGN_CENTER);
+    lv_style_set_bg_opa(&style_screen_1_menu_1_extra_main_title_main_default, 0);
+    lv_style_set_pad_top(&style_screen_1_menu_1_extra_main_title_main_default, 0);
+    lv_style_set_pad_bottom(&style_screen_1_menu_1_extra_main_title_main_default, 0);
+    lv_menu_t * screen_1_menu_1_menu= (lv_menu_t *)ui->screen_1_menu_1;
+    lv_obj_t * screen_1_menu_1_title = screen_1_menu_1_menu->sidebar_header_title;
+    lv_obj_set_size(screen_1_menu_1_title, LV_PCT(100), LV_SIZE_CONTENT);
+    lv_obj_add_style(lv_menu_get_sidebar_header(ui->screen_1_menu_1), &style_screen_1_menu_1_extra_main_title_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
+    #if (LEFT_OR_COFFEE == RIGHT)
+    // 隐藏 Maintain 页面里的一个容器
+    lv_obj_add_flag(ui->screen_1_menu_1_subpage_2, LV_OBJ_FLAG_HIDDEN);
+    #endif
+    //Write codes screen_1_label_steamtemp
+    ui->screen_1_label_steamtemp = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    lv_label_set_text(ui->screen_1_label_steamtemp, "Steam Boiler Temp(°C)");
+    lv_label_set_long_mode(ui->screen_1_label_steamtemp, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_steamtemp, 97, 0);
+    lv_obj_set_size(ui->screen_1_label_steamtemp, 125, 18);
+
+    //Write style for screen_1_label_steamtemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_steamtemp, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_steamtemp, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_steamtemp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_steamtemp, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_steamtemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_steamtempset
+    ui->screen_1_btn_steamtempset = lv_btn_create(ui->screen_1_menu_1_subpage_1);
+    ui->screen_1_btn_steamtempset_label = lv_label_create(ui->screen_1_btn_steamtempset);
+    lv_label_set_text(ui->screen_1_btn_steamtempset_label, "");
+    lv_label_set_long_mode(ui->screen_1_btn_steamtempset_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_steamtempset_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_steamtempset, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_steamtempset_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_steamtempset, 28, 49);
+    lv_obj_set_size(ui->screen_1_btn_steamtempset, 100, 29);
+
+    //Write style for screen_1_btn_steamtempset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_steamtempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_steamtempset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_steamtempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_steamtempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_steamtempset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_steamtempset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_steamtempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_steamtempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_steamtempset, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_steamtempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_steamtempset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_label_coffeetemp
+    ui->screen_1_label_coffeetemp = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    lv_label_set_text(ui->screen_1_label_coffeetemp, "Coffee Boiler Temp(°C)");
+    lv_label_set_long_mode(ui->screen_1_label_coffeetemp, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_coffeetemp, 10, 34);
+    lv_obj_set_size(ui->screen_1_label_coffeetemp, 125, 18);
+
+    //Write style for screen_1_label_coffeetemp, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_coffeetemp, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_coffeetemp, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_coffeetemp, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_coffeetemp, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_coffeetemp, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_coffeetemp, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_coffeetempset
+    ui->screen_1_btn_coffeetempset = lv_btn_create(ui->screen_1_menu_1_subpage_1);
+    ui->screen_1_btn_coffeetempset_label = lv_label_create(ui->screen_1_btn_coffeetempset);
+    lv_label_set_text(ui->screen_1_btn_coffeetempset_label, "");
+    lv_label_set_long_mode(ui->screen_1_btn_coffeetempset_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_coffeetempset_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_coffeetempset, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_coffeetempset_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_coffeetempset, 250, 34);
+    lv_obj_set_size(ui->screen_1_btn_coffeetempset, 100, 28);
+
+    //Write style for screen_1_btn_coffeetempset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_coffeetempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_coffeetempset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_coffeetempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_coffeetempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_coffeetempset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_coffeetempset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_coffeetempset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_coffeetempset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_coffeetempset, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_coffeetempset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_coffeetempset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //Write codes screen_1_label_time1
-    ui->screen_1_label_time1 = lv_label_create(ui->screen_1);
+    ui->screen_1_label_time1 = lv_label_create(ui->screen_1_menu_1_subpage_1);
     lv_label_set_text(ui->screen_1_label_time1, "Time1(s)");
     lv_label_set_long_mode(ui->screen_1_label_time1, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time1, 10, 70);
-    lv_obj_set_size(ui->screen_1_label_time1, 100, 28);
+    lv_obj_set_pos(ui->screen_1_label_time1, 10, 68);
+    lv_obj_set_size(ui->screen_1_label_time1, 100, 18);
 
     //Write style for screen_1_label_time1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -163,61 +257,14 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_line_space(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_label_time1, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_time1, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_time1, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_right(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_bottom(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_pad_left(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_1_label_time1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_1_label_time2
-    ui->screen_1_label_time2 = lv_label_create(ui->screen_1);
-    lv_label_set_text(ui->screen_1_label_time2, "Time3(s)");
-    lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time2, 10, 136);
-    lv_obj_set_size(ui->screen_1_label_time2, 100, 28);
-
-    //Write style for screen_1_label_time2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_label_time2, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_time2, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_label_time2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_label_time2, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_time2, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_label_time3
-    ui->screen_1_label_time3 = lv_label_create(ui->screen_1);
-    lv_label_set_text(ui->screen_1_label_time3, "Time2(s)");
-    lv_label_set_long_mode(ui->screen_1_label_time3, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_time3, 10, 102);
-    lv_obj_set_size(ui->screen_1_label_time3, 100, 28);
-
-    //Write style for screen_1_label_time3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_label_time3, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_time3, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_label_time3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_label_time3, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_time3, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-
     //Write codes screen_1_btn_time1set
-    ui->screen_1_btn_time1set = lv_btn_create(ui->screen_1);
+    ui->screen_1_btn_time1set = lv_btn_create(ui->screen_1_menu_1_subpage_1);
     ui->screen_1_btn_time1set_label = lv_label_create(ui->screen_1_btn_time1set);
     lv_label_set_text(ui->screen_1_btn_time1set_label, "");
     lv_label_set_long_mode(ui->screen_1_btn_time1set_label, LV_LABEL_LONG_WRAP);
@@ -240,15 +287,131 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_1_btn_time1set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_btn_time1set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    // //Write codes screen_1_label_time2
+    // ui->screen_1_label_time2 = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    // lv_label_set_text(ui->screen_1_label_time2, "Time2(s)");
+    // lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
+    // lv_obj_set_pos(ui->screen_1_label_time2, 10, 102);
+    // lv_obj_set_size(ui->screen_1_label_time2, 100, 18);
+
+    // //Write style for screen_1_label_time2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    // lv_obj_set_style_border_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_radius(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_color(ui->screen_1_label_time2, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui->screen_1_label_time2, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_opa(ui->screen_1_label_time2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_letter_space(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_line_space(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_align(ui->screen_1_label_time2, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_bg_opa(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_pad_top(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_pad_right(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_pad_bottom(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_pad_left(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_shadow_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    // //Write codes screen_1_btn_time2set
+    // ui->screen_1_btn_time2set = lv_btn_create(ui->screen_1_menu_1_subpage_1);
+    // ui->screen_1_btn_time2set_label = lv_label_create(ui->screen_1_btn_time2set);
+    // lv_label_set_text(ui->screen_1_btn_time2set_label, "");
+    // lv_label_set_long_mode(ui->screen_1_btn_time2set_label, LV_LABEL_LONG_WRAP);
+    // lv_obj_align(ui->screen_1_btn_time2set_label, LV_ALIGN_CENTER, 0, 0);
+    // lv_obj_set_style_pad_all(ui->screen_1_btn_time2set, 0, LV_STATE_DEFAULT);
+    // lv_obj_set_width(ui->screen_1_btn_time2set_label, LV_PCT(100));
+    // lv_obj_set_pos(ui->screen_1_btn_time2set, 250, 102);
+    // lv_obj_set_size(ui->screen_1_btn_time2set, 100, 28);
+
+    // //Write style for screen_1_btn_time2set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    // lv_obj_set_style_bg_opa(ui->screen_1_btn_time2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_border_width(ui->screen_1_btn_time2set, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_border_opa(ui->screen_1_btn_time2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_border_color(ui->screen_1_btn_time2set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_border_side(ui->screen_1_btn_time2set, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_radius(ui->screen_1_btn_time2set, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_shadow_width(ui->screen_1_btn_time2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_color(ui->screen_1_btn_time2set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_font(ui->screen_1_btn_time2set, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_opa(ui->screen_1_btn_time2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    // lv_obj_set_style_text_align(ui->screen_1_btn_time2set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_label_time3
+    ui->screen_1_label_time3 = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    lv_label_set_text(ui->screen_1_label_time3, "Time2(s)");
+    lv_label_set_long_mode(ui->screen_1_label_time3, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_time3, 10, 136);
+    lv_obj_set_size(ui->screen_1_label_time3, 100, 18);
+
+    //Write style for screen_1_label_time3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_time3, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_time3, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_time3, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_time3, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_time3, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_time3set
+    ui->screen_1_btn_time3set = lv_btn_create(ui->screen_1_menu_1_subpage_1);
+    ui->screen_1_btn_time3set_label = lv_label_create(ui->screen_1_btn_time3set);
+    lv_label_set_text(ui->screen_1_btn_time3set_label, "");
+    lv_label_set_long_mode(ui->screen_1_btn_time3set_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_time3set_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_time3set, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_time3set_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_time3set, 250, 136);
+    lv_obj_set_size(ui->screen_1_btn_time3set, 100, 28);
+
+    //Write style for screen_1_btn_time3set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_time3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_time3set, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_time3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_time3set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_time3set, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_time3set, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_time3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_time3set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_time3set, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_time3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_time3set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write codes screen_1_label_time2
+    ui->screen_1_label_time2 = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    lv_label_set_text(ui->screen_1_label_time2, "Time3(s)");
+    lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_time2, 10, 102);
+    lv_obj_set_size(ui->screen_1_label_time2, 100, 18);
+
+    //Write style for screen_1_label_time2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_time2, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_time2, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_time2, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_time2, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_time2, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //Write codes screen_1_btn_time2set
-    ui->screen_1_btn_time2set = lv_btn_create(ui->screen_1);
+    ui->screen_1_btn_time2set = lv_btn_create(ui->screen_1_menu_1_subpage_1);
     ui->screen_1_btn_time2set_label = lv_label_create(ui->screen_1_btn_time2set);
     lv_label_set_text(ui->screen_1_btn_time2set_label, "");
     lv_label_set_long_mode(ui->screen_1_btn_time2set_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_time2set_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_time2set, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_time2set_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_time2set, 250, 136);
+    lv_obj_set_pos(ui->screen_1_btn_time2set, 250, 102);
     lv_obj_set_size(ui->screen_1_btn_time2set, 100, 28);
 
     //Write style for screen_1_btn_time2set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -264,36 +427,205 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_1_btn_time2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_btn_time2set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_1_btn_time3set
-    ui->screen_1_btn_time3set = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_time3set_label = lv_label_create(ui->screen_1_btn_time3set);
-    lv_label_set_text(ui->screen_1_btn_time3set_label, "");
-    lv_label_set_long_mode(ui->screen_1_btn_time3set_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_time3set_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_time3set, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_time3set_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_time3set, 250, 102);
-    lv_obj_set_size(ui->screen_1_btn_time3set, 100, 28);
+    #if (LEFT_OR_COFFEE == LEFT)
+    //Write codes screen_1_label_hotwater
+    ui->screen_1_label_hotwater = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    lv_label_set_text(ui->screen_1_label_hotwater, "Hot Water(s)");
+    lv_label_set_long_mode(ui->screen_1_label_hotwater, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_hotwater, 10, 204);
+    lv_obj_set_size(ui->screen_1_label_hotwater, 100, 28);
 
-    //Write style for screen_1_btn_time3set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_time3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_1_btn_time3set, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_1_btn_time3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_1_btn_time3set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_1_btn_time3set, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_time3set, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_time3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_time3set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_time3set, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_time3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_time3set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    //Write style for screen_1_label_hotwater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_hotwater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_hotwater, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_hotwater, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_hotwater, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_hotwaterset
+    ui->screen_1_btn_hotwaterset = lv_btn_create(ui->screen_1_menu_1_subpage_1);
+    ui->screen_1_btn_hotwaterset_label = lv_label_create(ui->screen_1_btn_hotwaterset);
+    lv_label_set_text(ui->screen_1_btn_hotwaterset_label, "");
+    lv_label_set_long_mode(ui->screen_1_btn_hotwaterset_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_hotwaterset_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_hotwaterset, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_hotwaterset_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_hotwaterset, 250, 204);
+    lv_obj_set_size(ui->screen_1_btn_hotwaterset, 100, 28);
+
+    //Write style for screen_1_btn_hotwaterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_hotwaterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_hotwaterset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_hotwaterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_hotwaterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_hotwaterset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_hotwaterset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_hotwaterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_hotwaterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_hotwaterset, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_hotwaterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_hotwaterset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+#endif
+    //Write codes screen_1_label_brewblock
+    ui->screen_1_label_brewblock = lv_label_create(ui->screen_1_menu_1_subpage_1);
+    lv_label_set_text(ui->screen_1_label_brewblock, "Brew Block Temp(°C)");
+    lv_label_set_long_mode(ui->screen_1_label_brewblock, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_brewblock, 10, 236);
+    lv_obj_set_size(ui->screen_1_label_brewblock, 125, 28);
+
+    //Write style for screen_1_label_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_brewblock, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_brewblock, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_brewblock, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_brewblock
+    ui->screen_1_btn_brewblock = lv_btn_create(ui->screen_1_menu_1_subpage_1);
+    ui->screen_1_btn_brewblock_label = lv_label_create(ui->screen_1_btn_brewblock);
+    lv_label_set_text(ui->screen_1_btn_brewblock_label, "");
+    lv_label_set_long_mode(ui->screen_1_btn_brewblock_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_brewblock_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_brewblock, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_brewblock_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_brewblock, 250, 236);
+    lv_obj_set_size(ui->screen_1_btn_brewblock, 100, 28);
+
+    //Write style for screen_1_btn_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_brewblock, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_brewblock, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_brewblock, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_brewblock, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_brewblock, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+
+    //Write codes screen_1_btn_rinsebrew
+    ui->screen_1_btn_rinsebrew = lv_btn_create(ui->screen_1_menu_1_subpage_2);
+    ui->screen_1_btn_rinsebrew_label = lv_label_create(ui->screen_1_btn_rinsebrew);
+    lv_label_set_text(ui->screen_1_btn_rinsebrew_label, "Brew Head Backflush");
+    lv_label_set_long_mode(ui->screen_1_btn_rinsebrew_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_rinsebrew_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_rinsebrew, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_rinsebrew_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_rinsebrew, 63, 27);
+    lv_obj_set_size(ui->screen_1_btn_rinsebrew, 130, 50);
+
+    //Write style for screen_1_btn_rinsebrew, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_rinsebrew, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_rinsebrew, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_rinsebrew, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_rinsebrew, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_rinsebrew, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_rinsebrew, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_rinsebrew, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_rinsebrew, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_rinsebrew, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_rinsebrew, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_rinsebrew, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_descale
+    ui->screen_1_btn_descale = lv_btn_create(ui->screen_1_menu_1_subpage_2);
+    ui->screen_1_btn_descale_label = lv_label_create(ui->screen_1_btn_descale);
+    lv_label_set_text(ui->screen_1_btn_descale_label, "Descaling");
+    lv_label_set_long_mode(ui->screen_1_btn_descale_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_descale_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_descale, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_descale_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_descale, 98, 44);
+    lv_obj_set_size(ui->screen_1_btn_descale, 130, 50);
+
+    //Write style for screen_1_btn_descale, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_descale, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_descale, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_descale, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_descale, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_descale, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_descale, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_descale, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_descale, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_descale, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_descale, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_descale, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_changewater
+    ui->screen_1_btn_changewater = lv_btn_create(ui->screen_1_menu_1_subpage_2);
+    ui->screen_1_btn_changewater_label = lv_label_create(ui->screen_1_btn_changewater);
+    lv_label_set_text(ui->screen_1_btn_changewater_label, "Change Boiler Water");
+    lv_label_set_long_mode(ui->screen_1_btn_changewater_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_changewater_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_changewater, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_changewater_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_changewater, 90, 39);
+    lv_obj_set_size(ui->screen_1_btn_changewater, 130, 50);
+
+    //Write style for screen_1_btn_changewater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_changewater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_changewater, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_changewater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_changewater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_changewater, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_changewater, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_changewater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_changewater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_changewater, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_changewater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_changewater, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_emptywater
+    ui->screen_1_btn_emptywater = lv_btn_create(ui->screen_1_menu_1_subpage_2);
+    ui->screen_1_btn_emptywater_label = lv_label_create(ui->screen_1_btn_emptywater);
+    lv_label_set_text(ui->screen_1_btn_emptywater_label, "Water Draining");
+    lv_label_set_long_mode(ui->screen_1_btn_emptywater_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_emptywater_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_emptywater, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_emptywater_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_emptywater, 73, 64);
+    lv_obj_set_size(ui->screen_1_btn_emptywater, 130, 50);
+
+    //Write style for screen_1_btn_emptywater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_emptywater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_emptywater, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_1_btn_emptywater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_1_btn_emptywater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_1_btn_emptywater, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_emptywater, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_emptywater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_emptywater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_emptywater, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_emptywater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_emptywater, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
 
     //Write codes screen_1_cont_set
     ui->screen_1_cont_set = lv_obj_create(ui->screen_1);
     lv_obj_set_pos(ui->screen_1_cont_set, 110, 137);
     lv_obj_set_size(ui->screen_1_cont_set, 275, 40);
     lv_obj_set_scrollbar_mode(ui->screen_1_cont_set, LV_SCROLLBAR_MODE_OFF);
-    lv_obj_add_flag(ui->screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->screen_1_cont_set,LV_OBJ_FLAG_HIDDEN);
 
     //Write style for screen_1_cont_set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_cont_set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -310,7 +642,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_cancel
     ui->screen_1_btn_cancel = lv_btn_create(ui->screen_1_cont_set);
     ui->screen_1_btn_cancel_label = lv_label_create(ui->screen_1_btn_cancel);
-    lv_label_set_text(ui->screen_1_btn_cancel_label, "取消");
+    lv_label_set_text(ui->screen_1_btn_cancel_label, "Cancel");
     lv_label_set_long_mode(ui->screen_1_btn_cancel_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_cancel_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_cancel, 0, LV_STATE_DEFAULT);
@@ -333,7 +665,7 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_btn_certain
     ui->screen_1_btn_certain = lv_btn_create(ui->screen_1_cont_set);
     ui->screen_1_btn_certain_label = lv_label_create(ui->screen_1_btn_certain);
-    lv_label_set_text(ui->screen_1_btn_certain_label, "确认");
+    lv_label_set_text(ui->screen_1_btn_certain_label, "Certain");
     lv_label_set_long_mode(ui->screen_1_btn_certain_label, LV_LABEL_LONG_WRAP);
     lv_obj_align(ui->screen_1_btn_certain_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_certain, 0, LV_STATE_DEFAULT);
@@ -415,102 +747,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_style_set_shadow_width(&style_screen_1_spinbox_1_extra_btns_main_default, 0);
     lv_obj_add_style(ui->screen_1_spinbox_1_btn_plus, &style_screen_1_spinbox_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_add_style(ui->screen_1_spinbox_1_btn_minus, &style_screen_1_spinbox_1_extra_btns_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
-    #if (LEFT_OR_COFFEE == LEFT)
-    //Write codes screen_1_label_hotwater
-    ui->screen_1_label_hotwater = lv_label_create(ui->screen_1);
-    lv_label_set_text(ui->screen_1_label_hotwater, "Hotwater(s)");
-    lv_label_set_long_mode(ui->screen_1_label_hotwater, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_1_label_hotwater, 10, 204);
-    lv_obj_set_size(ui->screen_1_label_hotwater, 100, 28);
 
-    //Write style for screen_1_label_hotwater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_label_hotwater, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_hotwater, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_label_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_label_hotwater, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_hotwater, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_btn_hotwaterset
-    ui->screen_1_btn_hotwaterset = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_hotwaterset_label = lv_label_create(ui->screen_1_btn_hotwaterset);
-    lv_label_set_text(ui->screen_1_btn_hotwaterset_label, "");
-    lv_label_set_long_mode(ui->screen_1_btn_hotwaterset_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_hotwaterset_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_hotwaterset, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_hotwaterset_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_hotwaterset, 250, 204);
-    lv_obj_set_size(ui->screen_1_btn_hotwaterset, 100, 28);
-
-    //Write style for screen_1_btn_hotwaterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_btn_hotwaterset, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_1_btn_hotwaterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_1_btn_hotwaterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_1_btn_hotwaterset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_hotwaterset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_hotwaterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_hotwaterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_hotwaterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_hotwaterset, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_hotwaterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_hotwaterset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    #endif
-
-    //Write codes screen_1_label_brewblock
-    ui->screen_1_label_brewblock = lv_label_create(ui->screen_1);
-    lv_label_set_text(ui->screen_1_label_brewblock, "Brew Block(°C)");
-    lv_label_set_long_mode(ui->screen_1_label_brewblock, LV_LABEL_LONG_WRAP);   
-    lv_obj_set_pos(ui->screen_1_label_brewblock, 10, 170);
-    lv_obj_set_size(ui->screen_1_label_brewblock, 100, 28);
-
-
-    //Write style for screen_1_label_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_label_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_label_brewblock, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_label_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_letter_space(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_line_space(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_label_brewblock, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_top(ui->screen_1_label_brewblock, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_right(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_bottom(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_left(ui->screen_1_label_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-
-    //Write codes screen_1_btn_brewblock
-    ui->screen_1_btn_brewblock = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_brewblock_label = lv_label_create(ui->screen_1_btn_brewblock);
-    lv_label_set_text(ui->screen_1_btn_brewblock_label, "");
-    lv_label_set_long_mode(ui->screen_1_btn_brewblock_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_brewblock_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_brewblock, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_brewblock_label, LV_PCT(100));   
-    lv_obj_set_pos(ui->screen_1_btn_brewblock, 250, 170);
-    lv_obj_set_size(ui->screen_1_btn_brewblock, 100, 28);
-
-    //Write style for screen_1_btn_brewblock, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_border_width(ui->screen_1_btn_brewblock, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_1_btn_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_1_btn_brewblock, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_brewblock, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_brewblock, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_brewblock, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_brewblock, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_brewblock, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_brewblock, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     //The custom code of screen_1.
     char string_data[50] = {0};  
     sprintf(string_data, "%d", GrindSetData.time_1);

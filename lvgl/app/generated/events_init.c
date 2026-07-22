@@ -252,24 +252,38 @@ static void screen_btn_menu_event_handler (lv_event_t *e)
         break;
     }
 }
-
+bool hotwaterenable = false;
 static void screen_btn_hotwater_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        //做热水can下发
-        volume = GrindSetData.time_hotwater;
-        scheduleall = volume;
-        lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
-        printf("volume %d\n",volume);
-        GrindDataStr.data.cmd = CMDTYPE_HOTWATER;
+        if(!hotwaterenable){
+            //做热水can下发
+            volume = GrindSetData.time_hotwater;
+            scheduleall = volume;
+            lv_obj_add_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+            printf("volume %d\n",volume);
+            hotwaterenable = true;
+            lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 128, LV_PART_MAIN|LV_STATE_DEFAULT);
+            GrindDataStr.data.cmd = CMDTYPE_HOTWATER;
+        } else {
+            //取消热水can下发
+            volume = 0;
+            hotwaterenable = false;
+            lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+            GrindDataStr.data.cmd = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
+        }
+
+
         break;
     }
     default:
@@ -421,10 +435,16 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
         lv_obj_add_flag(guider_ui.screen_btn_teaset1,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_teaset2,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_teaset3,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_settea1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_settea2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_img_settea3, LV_OBJ_FLAG_HIDDEN);   
 
         lv_obj_clear_flag(guider_ui.screen_img_9, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_img_12, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_img_16, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_pos(guider_ui.screen_label_9, 71, 160);
+        lv_obj_set_pos(guider_ui.screen_label_10, 217, 160);
+        lv_obj_set_pos(guider_ui.screen_label_19, 359, 160);
     }
     else if(btn_id == 1) {
         /* Tea Beverage Extraction */
@@ -455,13 +475,21 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
         lv_obj_clear_flag(guider_ui.screen_img_tea1, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_img_tea2, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_img_tea3, LV_OBJ_FLAG_HIDDEN);
+        
         lv_obj_clear_flag(guider_ui.screen_btn_teaset1,LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_teaset2,LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_teaset3,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_img_settea1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_img_settea2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_img_settea3, LV_OBJ_FLAG_HIDDEN); 
 
         lv_obj_add_flag(guider_ui.screen_img_9, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_12, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_16, LV_OBJ_FLAG_HIDDEN);
+
+        lv_obj_set_pos(guider_ui.screen_label_9, 103, 117);
+        lv_obj_set_pos(guider_ui.screen_label_10, 249, 117);
+        lv_obj_set_pos(guider_ui.screen_label_19, 390, 117);
     }
 }
 void events_init_screen (lv_ui *ui)
@@ -493,7 +521,7 @@ static void screen_1_btn_steamtempset_event_handler (lv_event_t *e)
         //获取旧设置值到微调器上，唤醒容器
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_steam);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 5;
         break;
     }
@@ -511,7 +539,7 @@ static void screen_1_btn_coffeetempset_event_handler (lv_event_t *e)
         //唤醒容器，获取设置温度值并显示在微调器上
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_coffee);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 6;
         break;
     }
@@ -543,7 +571,7 @@ static void screen_1_btn_time1set_event_handler (lv_event_t *e)
         //time1的值获取到给微调器
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_1);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 1;
         break;
     }
@@ -561,7 +589,7 @@ static void screen_1_btn_time2set_event_handler (lv_event_t *e)
         //time2的值给微调器
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_2);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 2;
         break;
     }
@@ -579,7 +607,7 @@ static void screen_1_btn_time3set_event_handler (lv_event_t *e)
         //time3的值给微调器
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_3);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 3;
         break;
     }
@@ -596,6 +624,7 @@ static void screen_1_btn_cancel_event_handler (lv_event_t *e)
     {
         //取消修改，不做修改，隐藏容器
         lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);  
+        lv_obj_add_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         break;
     }
     default:
@@ -654,6 +683,7 @@ static void screen_1_btn_certain_event_handler (lv_event_t *e)
         }
         flashDataSave();
         lv_obj_add_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN); 
+        lv_obj_add_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         break;
     }
     default:
@@ -669,7 +699,7 @@ static void screen_1_btn_hotwaterset_event_handler (lv_event_t *e)
         //唤醒容器，获取热水秒数值
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.time_hotwater);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 7;        
         break;
     }
@@ -687,8 +717,63 @@ static void screen_1_btn_brewblock_event_handler (lv_event_t *e)
         //唤醒容器，获取冲煮头温度值
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_brew);
-
+        lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 8;   
+        break;
+    }
+    default:
+        break;
+    }
+}
+static void screen_1_btn_rinsebrew_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //冲煮头逆洗
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_descale_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //除垢
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_changewater_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //清空水路
         break;
     }
     default:
@@ -705,6 +790,10 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_time3set, screen_1_btn_time3set_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_cancel, screen_1_btn_cancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_certain, screen_1_btn_certain_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_rinsebrew, screen_1_btn_rinsebrew_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_descale, screen_1_btn_descale_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_changewater, screen_1_btn_changewater_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_emptywater, screen_1_btn_emptywater_event_handler, LV_EVENT_ALL, ui);
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
     #endif

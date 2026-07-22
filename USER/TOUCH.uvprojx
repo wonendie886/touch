@@ -2083,6 +2083,66 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_steamblock_alpha_14x13.c</FilePath>
             </File>
+            <File>
+              <FileName>_cofe_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_cofe_alpha_52x52.c</FilePath>
+            </File>
+            <File>
+              <FileName>_tea_alpha_45x45.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_tea_alpha_45x45.c</FilePath>
+            </File>
+            <File>
+              <FileName>_settea_alpha_30x30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_settea_alpha_30x30.c</FilePath>
+            </File>
+            <File>
+              <FileName>_1_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_1_alpha_52x52.c</FilePath>
+            </File>
+            <File>
+              <FileName>_2_alpha_45x45.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_2_alpha_45x45.c</FilePath>
+            </File>
+            <File>
+              <FileName>_5_alpha_27x32.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_5_alpha_27x32.c</FilePath>
+            </File>
+            <File>
+              <FileName>_7_alpha_30x37.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_7_alpha_30x37.c</FilePath>
+            </File>
+            <File>
+              <FileName>_9_alpha_20x20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_9_alpha_20x20.c</FilePath>
+            </File>
+            <File>
+              <FileName>_10_alpha_20x20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_10_alpha_20x20.c</FilePath>
+            </File>
+            <File>
+              <FileName>_11_alpha_20x20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_11_alpha_20x20.c</FilePath>
+            </File>
+            <File>
+              <FileName>_btnnew_alpha_130x90.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_btnnew_alpha_130x90.c</FilePath>
+            </File>
+            <File>
+              <FileName>_E300UI216_alpha_30x30.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_E300UI216_alpha_30x30.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

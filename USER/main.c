@@ -28,7 +28,7 @@ extern volatile uint16_t Currenttargeweight;
 extern volatile uint8_t dataIsReady;
 extern uint8_t rFrameBuf[FRAME_MAX_LEN];
 extern uint8_t recivedCount;
-
+extern bool hotwaterenable;
 /// @brief static global variables
 static uint8_t buf[FRAME_MAX_LEN];
 static struct Protocol c;
@@ -197,6 +197,10 @@ void CoffeeVolumeProcess(void)
         } else {
             lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
             startflag = false;
+            hotwaterenable = false;
+            #if (LEFT_OR_COFFEE == LEFT)            
+            lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+            #endif
             volume = 0;
             schedule = (volume*100)/scheduleall;
             coffee_run_flag = 0;

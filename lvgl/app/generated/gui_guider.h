@@ -98,6 +98,9 @@ typedef struct
 	lv_obj_t *screen_img_tea2;
 	lv_obj_t *screen_img_tea3;
 	lv_obj_t *screen_img_tea4;
+	lv_obj_t *screen_img_settea3;
+	lv_obj_t *screen_img_settea2;
+	lv_obj_t *screen_img_settea1;
 	lv_obj_t *screen_cont_M;
 	lv_obj_t *screen_btn_teaset1;
 	lv_obj_t *screen_btn_teaset1_label;
@@ -167,6 +170,22 @@ typedef struct
 	lv_obj_t *screen_1_label_brewblock;
 	lv_obj_t *screen_1_btn_brewblock;
 	lv_obj_t *screen_1_btn_brewblock_label;
+	lv_obj_t *screen_1_menu_1;
+	lv_obj_t *screen_1_menu_1_sidebar_page;
+	lv_obj_t *screen_1_menu_1_subpage_1;
+	lv_obj_t *screen_1_menu_1_cont_1;
+	lv_obj_t *screen_1_menu_1_label_1;
+	lv_obj_t *screen_1_menu_1_subpage_2;
+	lv_obj_t *screen_1_menu_1_cont_2;
+	lv_obj_t *screen_1_menu_1_label_2;
+	lv_obj_t *screen_1_btn_rinsebrew;
+	lv_obj_t *screen_1_btn_rinsebrew_label;
+	lv_obj_t *screen_1_btn_descale;
+	lv_obj_t *screen_1_btn_descale_label;
+	lv_obj_t *screen_1_btn_changewater;
+	lv_obj_t *screen_1_btn_changewater_label;
+	lv_obj_t *screen_1_btn_emptywater;
+	lv_obj_t *screen_1_btn_emptywater_label;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
@@ -237,7 +256,17 @@ LV_IMG_DECLARE(_steamblock_alpha_14x13);
 LV_IMG_DECLARE(_coffeebock_alpha_14x13);
 LV_IMG_DECLARE(_cofe_alpha_52x52);
 LV_IMG_DECLARE(_tea_alpha_45x45);
+LV_IMG_DECLARE(_settea_alpha_30x30);
 
+LV_IMG_DECLARE(_11_alpha_20x20);
+LV_IMG_DECLARE(_9_alpha_20x20);
+LV_IMG_DECLARE(_10_alpha_20x20);
+LV_IMG_DECLARE(_E300UI216_alpha_30x30);
+LV_IMG_DECLARE(_btnnew_alpha_130x90);
+LV_IMG_DECLARE(_1_alpha_52x52);
+LV_IMG_DECLARE(_2_alpha_45x45);
+LV_IMG_DECLARE(_5_alpha_27x32);
+LV_IMG_DECLARE(_7_alpha_30x37);
 // LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
