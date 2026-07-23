@@ -134,6 +134,7 @@ typedef struct
 	lv_obj_t *screen_btn_teacancel_label;
 	lv_obj_t *screen_arc_1;
 	lv_obj_t *screen_cont_countdown;
+	lv_obj_t *screen_label_steamtime;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -167,6 +168,9 @@ typedef struct
 	lv_obj_t *screen_1_label_hotwater;
 	lv_obj_t *screen_1_btn_hotwaterset;
 	lv_obj_t *screen_1_btn_hotwaterset_label;
+	lv_obj_t *screen_1_label_steam;
+	lv_obj_t *screen_1_btn_steamset;
+	lv_obj_t *screen_1_btn_steamset_label;
 	lv_obj_t *screen_1_label_brewblock;
 	lv_obj_t *screen_1_btn_brewblock;
 	lv_obj_t *screen_1_btn_brewblock_label;
@@ -267,6 +271,8 @@ LV_IMG_DECLARE(_1_alpha_52x52);
 LV_IMG_DECLARE(_2_alpha_45x45);
 LV_IMG_DECLARE(_5_alpha_27x32);
 LV_IMG_DECLARE(_7_alpha_30x37);
+LV_IMG_DECLARE(_2_alpha_52x52);
+
 // LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)

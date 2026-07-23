@@ -164,11 +164,14 @@ int main(void)
 }
 
 extern volatile uint16_t volume;
+extern volatile uint16_t steamvolume;
 float blocktemp = 0;
 float brewtemp = 0;
 volatile uint8_t coffee_run_flag = 0;
+volatile uint8_t steam_run_flag = 0;
 extern uint8_t teasetflag ;
 extern uint8_t teaflag ;
+extern uint8_t steamEnable;
 bool startflag;
 extern uint8_t scheduleall;
 void CoffeeVolumeProcess(void)
@@ -214,6 +217,36 @@ void CoffeeVolumeProcess(void)
 
 }
 
+void SteamVolumeProcess(void)
+{
+    static TickType_t lastTickSteam = 0;
+    // static int schedule = 0;
+    // 没启动则直接返回
+    if(steamEnable == 0)
+    {
+        return;
+    }
+    // 每1s减一次
+    if(xTaskGetTickCount() - lastTickSteam >= pdMS_TO_TICKS(1000))
+    {
+        lastTickSteam = xTaskGetTickCount();
+        lv_label_set_text_fmt(guider_ui.screen_label_steamtime, "%d", steamvolume);
+        if(steamvolume > 0){
+            steamvolume--;
+        } else {
+            lv_obj_add_flag(guider_ui.screen_label_steamtime, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+            steamvolume = 0;
+            steamEnable = 0;
+            #if (LEFT_OR_COFFEE == LEFT)
+                canSendLeftSteam(0,volume);
+            #else
+                canSendRightSteam(0,volume);
+            #endif
+            printf("steam volume finished\r\n");
+        }       
+    }
+}
 void thread_serial(void *pvParameters)
 {
     int len = 0;
@@ -283,11 +316,11 @@ void thread_serial(void *pvParameters)
 
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if(GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM) {
-            
+            steamEnable = 1;
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftSteam(1,volume);
             #else
-            canSendRightSteam(1,volume);
+                canSendRightSteam(1,volume);
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB){
@@ -470,6 +503,7 @@ void thread_serial(void *pvParameters)
         //     lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
         // }
         CoffeeVolumeProcess();
+        SteamVolumeProcess();
         runtime += 100;
         vTaskDelay(pdMS_TO_TICKS(100));
     }

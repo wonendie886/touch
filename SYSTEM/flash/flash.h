@@ -51,7 +51,7 @@ typedef struct _GRIND_DATA{
     uint32_t time_1;    // unit: ms
     uint32_t time_2;
     uint32_t time_3;
-    uint32_t time_4;  // unit: g  scale:10
+    uint32_t steamtime;  // unit: g  scale:10
     uint32_t temp_steam;
     uint32_t temp_coffee;
     uint32_t time_hotwater;    //weight or time
