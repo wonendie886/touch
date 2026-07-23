@@ -477,7 +477,7 @@ void setup_scr_screen_1(lv_ui *ui)
 #endif
     //Write codes screen_1_label_steam
     ui->screen_1_label_steam = lv_label_create(ui->screen_1_menu_1_subpage_1);
-    lv_label_set_text(ui->screen_1_label_steam, "蒸汽(s)");
+    lv_label_set_text(ui->screen_1_label_steam, "Steam(s)");
     lv_label_set_long_mode(ui->screen_1_label_steam, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_steam, 29, 219);
     lv_obj_set_size(ui->screen_1_label_steam, 100, 14);
