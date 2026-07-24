@@ -234,11 +234,12 @@ LV_IMG_DECLARE(_btnnew_alpha_104x100);
 LV_IMG_DECLARE(_brew_alpha_8x8);
 LV_IMG_DECLARE(_steamblock_alpha_14x13);
 LV_IMG_DECLARE(_coffeebock_alpha_14x13);
-
+LV_IMG_DECLARE(_menu_alpha_8x7);
 // LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_10)
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_25)
 #ifdef __cplusplus
 }

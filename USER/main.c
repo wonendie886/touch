@@ -47,8 +47,8 @@ lv_ui guider_ui;
 
 bool isGrindMode = MODE_TIME;
 
-CanMsg can_msg = {0};
-
+volatile CanMsg can_msg = {0};
+// uint16_t can_rx_count = 0;
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 {
@@ -67,6 +67,8 @@ void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 #ifdef CAN_Id_Extended
     if (r->IDE == CAN_Id_Extended) {
         can_msg.rx_efid = r->ExtId;
+        // can_rx_count++;
+        // printf("ide %d\r\n",can_rx_count);
         can_msg.data_is_ready = 1;
     } 
 #else
@@ -237,6 +239,7 @@ void thread_serial(void *pvParameters)
     // ISL1208_GetTime(&time_read);
     uint32_t runtime = 0;
     while (1){
+
    // 开机5s后补一次水
         TickType_t currentTime = xTaskGetTickCount();
         if (currentTime - lastUpdateTime >= updateTimePeriod && time < 1 ) {           
@@ -331,6 +334,7 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         }
         #endif
+
         #if 0
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
 
@@ -376,13 +380,16 @@ void thread_serial(void *pvParameters)
             uint8_t crc = 0;
             for(int i = 0;i < can_msg.rx_dlen;i++){
                 crc += can_msg.rx_data[i];
+                // printf("can_rx_data[%d] = %d\r\n",i,can_msg.rx_data[i]);
             }
             if (getCrc(can_msg.rx_efid)  == crc ) {
-                
+                    // printf("22222\r\n");
                 if (getDestId(can_msg.rx_efid)  == HMI_ID ) {
+                    // printf("cmd = 0x%02X\r\n", getCmdType(can_msg.rx_efid));
                     if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
                         int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
                         blocktemp = (float)ret/10;
+                        // printf("steam_temp = %f\r\n",blocktemp);
                         if(runtime >= 1000){
                             char temp_str[20];
                             sprintf(temp_str, "%.1f", blocktemp);
@@ -395,6 +402,7 @@ void thread_serial(void *pvParameters)
                         int ret2 = can_msg.rx_data[3] << 8 | can_msg.rx_data[2];   
                         brewtemp = (float)ret2/10;   
                         blocktemp = (float)ret/10;
+
                         if(runtime >= 1000){
                             char temp_str[20];
                             char temp_str1[20];
@@ -407,9 +415,9 @@ void thread_serial(void *pvParameters)
                         #else
                         int ret = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
                         blocktemp = (float)ret/10;
+                        // printf("coffee temp = %f\r\n",blocktemp);
                         if(runtime >= 1000){
-                             char temp_str[20];
-
+                            char temp_str[20];
                             sprintf(temp_str, "%.1f", blocktemp);
                             lv_label_set_text(guider_ui.screen_label_4, temp_str);
                             // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
@@ -419,8 +427,7 @@ void thread_serial(void *pvParameters)
                         float ret = (float)can_msg.rx_data[0]/10;
                         // printf("ret %.1f\n",ret);
                         if(runtime >= 1000){
-                             char temp_str[20];
-
+                            char temp_str[20];
                             sprintf(temp_str, "%.1f bar", ret);
                             lv_label_set_text(guider_ui.screen_label_16, temp_str);
                             // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
@@ -428,9 +435,9 @@ void thread_serial(void *pvParameters)
                     } 
                     #if (LEFT_OR_COFFEE == RIGHT)
                     else if (getCmdType(can_msg.rx_efid) == FUNC_VALVE){ 
-                        int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
-                        // printf("ret %.1f\n",ret);
+                        int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];  
                         brewtemp = (float)ret/10;
+                        // printf("brew %.1f\n",brewtemp);
                         if(runtime >= 1000){
                             char temp_str[20];
                             sprintf(temp_str, "%.1f", brewtemp);
@@ -447,6 +454,7 @@ void thread_serial(void *pvParameters)
         // if(runtime % 500 == 0){
         //     printf("volume %d\r\n",volume);
         // }
+
         if(!startflag){
             lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
             #if (LEFT_OR_COFFEE == LEFT)
@@ -470,8 +478,9 @@ void thread_serial(void *pvParameters)
         //     lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
         // }
         CoffeeVolumeProcess();
-        runtime += 100;
-        vTaskDelay(pdMS_TO_TICKS(100));
+
+        runtime += 5;
+        vTaskDelay(pdMS_TO_TICKS(5));
     }
 }
 

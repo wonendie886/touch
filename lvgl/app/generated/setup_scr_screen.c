@@ -25,7 +25,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write style for screen, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->screen, lv_color_hex(0xd6cdcd), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen, lv_color_hex(0xfcfcfa), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_img_1
@@ -183,7 +183,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_5
     ui->screen_img_5 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_5, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_5, &_caidan_alpha_8x7);
+    lv_img_set_src(ui->screen_img_5, &_menu_alpha_8x7);
     lv_img_set_pivot(ui->screen_img_5, 50,50);
     lv_img_set_angle(ui->screen_img_5, 0);
     lv_obj_set_pos(ui->screen_img_5, 460, 12);
@@ -236,7 +236,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_label_9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_label_9, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_label_9, lv_color_hex(0xd79442), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_label_9, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_9, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_label_9, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_label_9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_label_9, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -291,7 +291,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_label_10, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_label_10, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_label_10, lv_color_hex(0xd79442), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_label_10, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_10, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_label_10, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_label_10, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_label_10, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -394,7 +394,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_label_19, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_label_19, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_label_19, lv_color_hex(0xd79442), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_label_19, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_19, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_label_19, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_label_19, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_label_19, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -449,7 +449,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_border_width(ui->screen_label_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_label_20, 3, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_label_20, lv_color_hex(0xd79442), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_label_20, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_20, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_label_20, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_letter_space(ui->screen_label_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_line_space(ui->screen_label_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -878,7 +878,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_border_color(ui->screen_btnm_choosemode, lv_color_hex(0xc9c9c9), LV_PART_ITEMS|LV_STATE_DEFAULT);
     lv_obj_set_style_border_side(ui->screen_btnm_choosemode, LV_BORDER_SIDE_FULL, LV_PART_ITEMS|LV_STATE_DEFAULT);
     lv_obj_set_style_text_color(ui->screen_btnm_choosemode, lv_color_hex(0xffffff), LV_PART_ITEMS|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_btnm_choosemode, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_ITEMS|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btnm_choosemode, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_ITEMS|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btnm_choosemode, 255, LV_PART_ITEMS|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_btnm_choosemode, 4, LV_PART_ITEMS|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui->screen_btnm_choosemode, 255, LV_PART_ITEMS|LV_STATE_DEFAULT);
@@ -886,7 +886,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_bg_grad_dir(ui->screen_btnm_choosemode, LV_GRAD_DIR_NONE, LV_PART_ITEMS|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_btnm_choosemode, 0, LV_PART_ITEMS|LV_STATE_DEFAULT);
     /* 高亮态（被选中） */
-    lv_obj_set_style_bg_color(ui->screen_btnm_choosemode,lv_color_hex(0x2195f6),LV_PART_ITEMS | LV_STATE_CHECKED);// 高亮蓝
+    lv_obj_set_style_bg_color(ui->screen_btnm_choosemode,lv_color_hex(0xd79442),LV_PART_ITEMS | LV_STATE_CHECKED);// 高亮橘黄
     lv_obj_set_style_text_color(ui->screen_btnm_choosemode,lv_color_hex(0xFFFFFF),LV_PART_ITEMS | LV_STATE_CHECKED);
     /* 未选中态（灰） */
     lv_obj_set_style_bg_color(ui->screen_btnm_choosemode,lv_color_hex(0xC9C9C9),LV_PART_ITEMS | LV_STATE_DEFAULT);// 灰色
