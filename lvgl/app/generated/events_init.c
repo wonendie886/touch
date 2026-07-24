@@ -839,6 +839,7 @@ static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //清空水路
+        GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
         break;
     }
     default:

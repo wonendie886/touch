@@ -2143,6 +2143,11 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_E300UI216_alpha_30x30.c</FilePath>
             </File>
+            <File>
+              <FileName>_2_alpha_52x52.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_2_alpha_52x52.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -364,6 +364,9 @@ void thread_serial(void *pvParameters)
             coffee_run_flag = 1;
             canSendhotwater(1,volume);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_EMPTY_WATER){
+            canSendemptywater(1);
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
         }
         #endif
         #if 0
