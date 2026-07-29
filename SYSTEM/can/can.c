@@ -431,10 +431,11 @@ void canSendsteamtemp(uint8_t enable,uint16_t seconds)
    CAN_Transmit_IT(id,data,len);
 }
 
-void canSendemptywater(uint8_t start){
-    uint8_t data[1];
+void canSendmaintain(uint8_t start,uint8_t step){
+    uint8_t data[2];
     data[0] = start;
-    canSendFrame(FUNC_TASK_EMPTYWATER, data, 1);
+    data[1] = step;
+    canSendFrame(FUNC_TASK_FEEDBACK, data, 2);
 }
 uint8_t getSrcId(uint32_t canId)
 {

@@ -4722,6 +4722,32 @@
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>341</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</PathWithFileName>
+      <FilenameWithoutPath>lv_font_SourceHanSerifSC_Regular_18.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
+    <File>
+      <GroupNumber>9</GroupNumber>
+      <FileNumber>342</FileNumber>
+      <FileType>1</FileType>
+      <tvExp>0</tvExp>
+      <Focus>0</Focus>
+      <tvExpOptDlg>0</tvExpOptDlg>
+      <bDave2>0</bDave2>
+      <PathWithFileName>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_16.c</PathWithFileName>
+      <FilenameWithoutPath>lv_font_SourceHanSerifSC_Regular_16.c</FilenameWithoutPath>
+      <RteFlg>0</RteFlg>
+      <bShared>0</bShared>
+    </File>
   </Group>
 
   <Group>
@@ -4732,7 +4758,7 @@
     <RteFlg>0</RteFlg>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>341</FileNumber>
+      <FileNumber>343</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4745,7 +4771,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>342</FileNumber>
+      <FileNumber>344</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4758,7 +4784,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>343</FileNumber>
+      <FileNumber>345</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4771,7 +4797,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>344</FileNumber>
+      <FileNumber>346</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4784,7 +4810,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>345</FileNumber>
+      <FileNumber>347</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4797,7 +4823,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>346</FileNumber>
+      <FileNumber>348</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4810,7 +4836,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>347</FileNumber>
+      <FileNumber>349</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4823,7 +4849,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>348</FileNumber>
+      <FileNumber>350</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>
@@ -4836,7 +4862,7 @@
     </File>
     <File>
       <GroupNumber>10</GroupNumber>
-      <FileNumber>349</FileNumber>
+      <FileNumber>351</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <Focus>0</Focus>

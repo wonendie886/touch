@@ -135,6 +135,11 @@ typedef struct
 	lv_obj_t *screen_arc_1;
 	lv_obj_t *screen_cont_countdown;
 	lv_obj_t *screen_label_steamtime;
+	// lv_obj_t *screen_cont_maintain;
+	// lv_obj_t *screen_label_maintain;
+	// lv_obj_t *screen_btn_maintainon;
+	// lv_obj_t *screen_btn_maintainon_label;
+	// lv_obj_t *screen_bar_maintain;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -190,6 +195,11 @@ typedef struct
 	lv_obj_t *screen_1_btn_changewater_label;
 	lv_obj_t *screen_1_btn_emptywater;
 	lv_obj_t *screen_1_btn_emptywater_label;
+	lv_obj_t *screen_1_cont_maintain;
+	lv_obj_t *screen_1_label_maintain;
+	lv_obj_t *screen_1_btn_maintain;
+	lv_obj_t *screen_1_btn_maintain_label;
+	lv_obj_t *screen_1_bar_maintain;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
@@ -277,6 +287,7 @@ LV_IMG_DECLARE(_2_alpha_52x52);
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_10)
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_25)
 #ifdef __cplusplus
 }

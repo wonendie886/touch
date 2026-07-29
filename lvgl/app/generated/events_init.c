@@ -24,6 +24,7 @@ volatile uint16_t volume = 0;
 volatile uint16_t steamvolume = 0;
 bool current_mode = MODE_COFFEE;
 static uint8_t active_time_setting = 0; 
+static uint8_t maintain_setting = 0;
 uint8_t teasetflag = 0;
 uint8_t teaflag = 0;
 uint8_t scheduleall = 0;
@@ -803,7 +804,7 @@ static void screen_1_btn_rinsebrew_event_handler (lv_event_t *e)
         break;
     }
 }
-
+extern uint8_t step;
 static void screen_1_btn_descale_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -811,6 +812,10 @@ static void screen_1_btn_descale_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //除垢
+        maintain_setting = 3;
+        step = 1;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "Add 4L of descaling solution to the water tank.Tap OK to start descaling.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -824,7 +829,10 @@ static void screen_1_btn_changewater_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-
+        //锅炉换水
+        maintain_setting = 2;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "Fill the water tank with 3 liters of fresh water.Tap OK to start boiler water replacement.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -839,7 +847,41 @@ static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //清空水路
-        GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
+        maintain_setting = 1;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "Disconnect water supply. Tap OK to drain the system.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_btn_maintainon_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //隐藏按钮，切换文本，下位机开始执行。
+        if(maintain_setting == 1){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "Draining the water system.Be careful of water splashing from the outlet.Estimated time: 10 minutes.");
+            GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
+        } else if (maintain_setting == 2){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "Replacing boiler water.Be careful of water splashing from the outlet.Estimated time: 20 minutes.");
+            GrindDataStr.data.cmd = CMDTYPE_CHANGE_WATER;            
+        } else if (maintain_setting == 3){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "Descaling in progress.Be careful of hot steam from the steam outlet.Estimated time: 30 minutes.");
+            GrindDataStr.data.cmd = CMDTYPE_DESCALE;            
+        }
+
+        // if(taskFeedback.step == )
         break;
     }
     default:
@@ -862,6 +904,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_emptywater, screen_1_btn_emptywater_event_handler, LV_EVENT_ALL, ui);
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_maintain, screen_btn_maintainon_event_handler, LV_EVENT_ALL, ui);
     #endif
     lv_obj_add_event_cb(ui->screen_1_btn_steamset, screen_1_btn_steamset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_brewblock, screen_1_btn_brewblock_event_handler, LV_EVENT_ALL, ui);

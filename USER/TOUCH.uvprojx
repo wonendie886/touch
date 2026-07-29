@@ -2148,6 +2148,16 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_2_alpha_52x52.c</FilePath>
             </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_18.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_18.c</FilePath>
+            </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_16.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_16.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
