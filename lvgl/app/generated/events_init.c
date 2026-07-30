@@ -69,6 +69,11 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
     }
     case LV_EVENT_LONG_PRESSED:
     {
+        // 只有Tea模式才响应长按
+        if(current_mode != MODE_TEA)
+        {
+            break;
+        }
         //长按进入设置界面
         //唤醒设置界面，从内存读取1数据并设置文本
         teasetflag = 0;
@@ -121,6 +126,11 @@ static void screen_btn_coffee3_event_handler (lv_event_t *e)
     }
     case LV_EVENT_LONG_PRESSED:
     {
+        // 只有Tea模式才响应长按
+        if(current_mode != MODE_TEA)
+        {
+            break;
+        }
         //长按进入设置界面
         //唤醒设置界面，从内存读取3数据并设置文本
         teasetflag = 2;
@@ -174,6 +184,11 @@ static void screen_btn_coffee2_event_handler (lv_event_t *e)
     }
     case LV_EVENT_LONG_PRESSED:
     {
+        // 只有Tea模式才响应长按
+        if(current_mode != MODE_TEA)
+        {
+            break;
+        }
         //长按进入设置界面
         //唤醒设置界面，从内存读取2数据并设置文本
         teasetflag = 1;

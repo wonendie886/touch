@@ -547,7 +547,7 @@ void updateTaskStep(void)
 #if (LEFT_OR_COFFEE == LEFT)
     if (taskFeedback.state == TASK_RUNNING){
             lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);    
-            printf("progress %d\n",taskFeedback.progress);    
+            // printf("progress %d\n",taskFeedback.progress);    
     } else if (taskFeedback.progress > 1 ){
         if(taskFeedback.function == CMDTYPE_EMPTY_WATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true)
         {
@@ -579,13 +579,17 @@ void updateTaskStep(void)
         }
     }
     #else
-    printf("taskFeedback.state %d\n",taskFeedback.state);
-    if (taskFeedback.state == TASK_RUNNING || taskFeedback.state == TASK_PAUSE ){
+    // printf("taskFeedback.state %d\n",taskFeedback.state);
+    if ((taskFeedback.state == TASK_RUNNING || taskFeedback.state == TASK_PAUSE) && updatetaskflag == true ){
+        printf("maintaining");
+        updatetaskflag = false;
         lv_obj_add_flag(guider_ui.screen_1_bar_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Maintaining");
-    } else {
+    } else if (updatetaskflag == true && taskFeedback.state == TASK_FINISH){
+        printf("clear maintaining");
+        updatetaskflag = false;
         lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
     }
 

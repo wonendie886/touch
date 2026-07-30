@@ -29,30 +29,6 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_bg_color(ui->screen_1, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_1, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_1_btn_back
-    ui->screen_1_btn_back = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_back_label = lv_label_create(ui->screen_1_btn_back);
-    lv_label_set_text(ui->screen_1_btn_back_label, "Back");
-    lv_label_set_long_mode(ui->screen_1_btn_back_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_back_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_back, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_back_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_back, 430, 247);
-    lv_obj_set_size(ui->screen_1_btn_back, 50, 25);
-
-    //Write style for screen_1_btn_back, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_1_btn_back, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_opa(ui->screen_1_btn_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_color(ui->screen_1_btn_back, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_side(ui->screen_1_btn_back, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_back, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_back, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_back, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_back, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-
     //Write codes screen_1_menu_1
     ui->screen_1_menu_1 = lv_menu_create(ui->screen_1);
 
@@ -69,6 +45,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_size(ui->screen_1_menu_1_label_1, LV_PCT(100), LV_SIZE_CONTENT);
     lv_obj_set_scrollbar_mode(ui->screen_1_menu_1_subpage_1, LV_SCROLLBAR_MODE_AUTO);
     lv_menu_set_load_page_event(ui->screen_1_menu_1, ui->screen_1_menu_1_cont_1, ui->screen_1_menu_1_subpage_1);
+    // lv_obj_set_layout(ui->screen_1_menu_1_cont_1, LV_LAYOUT_NONE);
 
     //Create subpage for screen_1_menu_1
     ui->screen_1_menu_1_subpage_2 = lv_menu_page_create(ui->screen_1_menu_1, NULL);
@@ -80,7 +57,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_menu_set_load_page_event(ui->screen_1_menu_1, ui->screen_1_menu_1_cont_2, ui->screen_1_menu_1_subpage_2);
     lv_event_send(ui->screen_1_menu_1_cont_1, LV_EVENT_CLICKED, NULL);
     lv_obj_set_pos(ui->screen_1_menu_1, 0, 0);
-    lv_obj_set_size(ui->screen_1_menu_1, 420, 272);
+    lv_obj_set_size(ui->screen_1_menu_1, 480, 272);
     lv_obj_set_scrollbar_mode(ui->screen_1_menu_1, LV_SCROLLBAR_MODE_AUTO);
 
     //Write style for screen_1_menu_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -667,6 +644,28 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_1_btn_emptywater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_1_btn_emptywater, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes screen_1_btn_back
+    ui->screen_1_btn_back = lv_btn_create(ui->screen_1);
+    ui->screen_1_btn_back_label = lv_label_create(ui->screen_1_btn_back);
+    lv_label_set_text(ui->screen_1_btn_back_label, "Back");
+    lv_label_set_long_mode(ui->screen_1_btn_back_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_back_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_back, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_back_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_back, 0, 232);
+    lv_obj_set_size(ui->screen_1_btn_back, 144, 40);
+
+    //Write style for screen_1_btn_back, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_back, 69, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_btn_back, lv_color_hex(0xdaf2f8), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_btn_back, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_back, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_back, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_back, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write codes screen_1_cont_set
     ui->screen_1_cont_set = lv_obj_create(ui->screen_1);
@@ -799,9 +798,6 @@ void setup_scr_screen_1(lv_ui *ui)
     //Write codes screen_1_cont_maintain
 #if (LEFT_OR_COFFEE == LEFT)
     ui->screen_1_cont_maintain = lv_obj_create(ui->screen_1);
-#else 
-    ui->screen_1_cont_maintain = lv_obj_create(ui->screen);
-#endif
     lv_obj_set_pos(ui->screen_1_cont_maintain, 0, 0);
     lv_obj_set_size(ui->screen_1_cont_maintain, 480, 272);
     lv_obj_set_scrollbar_mode(ui->screen_1_cont_maintain, LV_SCROLLBAR_MODE_OFF);
@@ -886,7 +882,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_bg_color(ui->screen_1_bar_maintain, lv_color_hex(0x2195f6), LV_PART_INDICATOR|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_1_bar_maintain, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_1_bar_maintain, 10, LV_PART_INDICATOR|LV_STATE_DEFAULT);
-
+#endif
     //The custom code of screen_1.
     char string_data[50] = {0};  
     sprintf(string_data, "%d", GrindSetData.time_1);
