@@ -120,7 +120,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_add_style(lv_menu_get_sidebar_header(ui->screen_1_menu_1), &style_screen_1_menu_1_extra_main_title_main_default, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     #if (LEFT_OR_COFFEE == RIGHT)
-    lv_obj_add_flag(ui->screen_1_menu_1_subpage_2, LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(ui->screen_1_menu_1_cont_2, LV_OBJ_FLAG_HIDDEN);
     #endif
 
     //Write codes screen_1_btn_descale
