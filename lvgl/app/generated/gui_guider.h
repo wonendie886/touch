@@ -200,6 +200,7 @@ typedef struct
 	lv_obj_t *screen_1_btn_maintain;
 	lv_obj_t *screen_1_btn_maintain_label;
 	lv_obj_t *screen_1_bar_maintain;
+	lv_obj_t *screen_1_cont_setting;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
