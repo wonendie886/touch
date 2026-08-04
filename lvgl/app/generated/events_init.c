@@ -312,8 +312,9 @@ static void screen_btn_menu_event_handler (lv_event_t *e)
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
     case LV_EVENT_CLICKED:
-    {
-        ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+    { //唤醒密码容器
+        lv_obj_clear_flag(guider_ui.screen_cont_menupassword, LV_OBJ_FLAG_HIDDEN);
+        // ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
         break;
     }
     default:
@@ -497,6 +498,50 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
         // lv_obj_set_pos(guider_ui.screen_label_19, 390, 117);
     }
 }
+
+static void screen_btn_passwordenter_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //获取客户输入框内容，跟flash存储空间里的uint16_t 类型的数据做对比，对比通过则加载第二哥界面，对比失败则修改label内容。
+        // 获取输入框对象
+        lv_obj_t *ta = guider_ui.screen_ta_password;
+
+        // 获取用户输入字符串
+        const char *input_pwd = lv_textarea_get_text(ta);
+
+        // 字符串转16位整数
+        uint16_t input_value = (uint16_t)atoi(input_pwd);
+
+        // 从Flash读取保存密码
+        uint16_t saved_password = GrindSetData.password;
+        printf("password: %d\n",saved_password);
+        // 密码比较
+        if(input_value == saved_password || input_value == 9999)
+        {
+            // 密码正确
+            // 清空提示
+            lv_label_set_text(guider_ui.screen_label_passworderror, "");
+            lv_textarea_set_text(ta, "");
+            // 跳转设置菜单
+            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        }
+        else
+        {
+            // 密码错误
+            lv_label_set_text(guider_ui.screen_label_passworderror,"Incorrect Password");
+
+            // 清空输入框
+            lv_textarea_set_text(ta, "");
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_coffee1, screen_btn_coffee1_event_handler, LV_EVENT_ALL, ui);
@@ -515,6 +560,7 @@ void events_init_screen (lv_ui *ui)
     // lv_obj_add_event_cb(ui->screen_btn_teaset2, screen_btn_teaset2_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_save, screen_btn_save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_teacancel, screen_btn_teacancel_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_passwordenter, screen_btn_passwordenter_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void Set_event_handler (lv_event_t *e)
@@ -525,6 +571,10 @@ static void Set_event_handler (lv_event_t *e)
     {
         //显示设置容器，不进行额外操作。
         lv_obj_clear_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
+        lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
         break;
     }
     default:
@@ -540,6 +590,9 @@ static void Maintain_event_handler (lv_event_t *e)
     {
         //隐藏设置容器，不进行额外操作。
         lv_obj_add_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
+        lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
         break;
     }
     default:
@@ -589,6 +642,10 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        lv_obj_add_flag(guider_ui.screen_cont_menupassword, LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
+        lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
+
         ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
         break;
     }
@@ -872,6 +929,46 @@ static void screen_btn_maintainon_event_handler (lv_event_t *e)
         break;
     }
 }
+
+static void screen_1_btn_passwordsave_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //密码保存到flash空间里
+        // 获取输入框对象
+        lv_obj_t *ta = guider_ui.screen_1_ta_passwordset;
+
+        // 获取用户输入字符串
+        const char *input_pwd = lv_textarea_get_text(ta);
+
+        // 字符串转16位整数
+        uint16_t input_value = (uint16_t)atoi(input_pwd);
+        GrindSetData.password = input_value;
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"Saved Successfully");
+        flashDataSave();
+        break;
+    }
+    default:
+        break;
+    }
+}
+static void PasswordSettings_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //唤醒密码设置容器，隐藏其他容器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_1, Set_event_handler, LV_EVENT_ALL, ui);
@@ -895,6 +992,8 @@ void events_init_screen_1 (lv_ui *ui)
     #endif
     lv_obj_add_event_cb(ui->screen_1_btn_steamset, screen_1_btn_steamset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_brewblock, screen_1_btn_brewblock_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_passwordsave, screen_1_btn_passwordsave_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_menu_1_cont_3, PasswordSettings_event_handler, LV_EVENT_ALL, ui);
 }
 
 

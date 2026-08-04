@@ -28,6 +28,7 @@ void flashDataInit(void)
         GrindSetData.temp_coffee = 92;
         GrindSetData.time_hotwater = 0;
         GrindSetData.temp_brew = 92;
+        GrindSetData.password = 9999;
         flashDataSave();
     }
 
@@ -35,17 +36,6 @@ void flashDataInit(void)
 
 void flashDataSave(void)
 {
-    // uint32_t buffer[8] = {0};
-    // buffer[0] = GrindSetData.time_1;
-    // buffer[1] = GrindSetData.time_2;
-    // buffer[2] = GrindSetData.time_3;
-    // buffer[3] = GrindSetData.time_4;
-    // buffer[4] = GrindSetData.temp_steam;
-    // buffer[5] = GrindSetData.temp_coffee;
-    // buffer[6] = GrindSetData.time_hotwater;
-    // buffer[7] = GrindSetData.temp_brew;
-    //printf("BUFFER[0] == %d\n",buffer[0]);
-    // FLASH_WriteData(USER_FLASH_DATA_ADDR, buffer, sizeof(buffer) / sizeof(buffer[0]));
     FLASH_WriteData(
         USER_FLASH_DATA_ADDR,
         (uint32_t *)&GrindSetData,
@@ -116,31 +106,5 @@ void getGrindDataFromFlash()
         (void *)USER_FLASH_DATA_ADDR,
         sizeof(GrindSetData)
     );
-    // uint32_t buffer[8] = {0};
-
-    // uint32_t *src = (uint32_t*)USER_FLASH_DATA_ADDR;
-
-    // uint32_t size = sizeof(buffer) / sizeof(buffer[0]);
-    // for (uint32_t i = 0; i < size; i++) {
-    //     buffer[i] = src[i];
-    // }
-
-    // GrindSetData.time_1 = buffer[0];
-    // GrindSetData.time_2 = buffer[1];
-    // GrindSetData.time_3 = buffer[2];
-    // GrindSetData.time_4 = buffer[3];
-    // GrindSetData.temp_steam = buffer[4];
-    // GrindSetData.temp_coffee = buffer[5];
-    // GrindSetData.time_hotwater = buffer[6];
-    // GrindSetData.temp_brew = buffer[7]; 
-    /*
-    printf("time_1: %d\n", GrindSetData.time_1);
-    printf("time_2: %d\n", GrindSetData.time_2);
-    printf("time_3: %d\n", GrindSetData.time_3);
-    printf("weight_1: %d\n", GrindSetData.weight_1);
-    printf("weight_2: %d\n", GrindSetData.weight_2);
-    printf("weight_3: %d\n", GrindSetData.weight_3);
-    printf("grind_mode: %d\n", GrindSetData.grind_mode);
-    */
 }
 

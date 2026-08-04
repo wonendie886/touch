@@ -135,11 +135,12 @@ typedef struct
 	lv_obj_t *screen_arc_1;
 	lv_obj_t *screen_cont_countdown;
 	lv_obj_t *screen_label_steamtime;
-	// lv_obj_t *screen_cont_maintain;
-	// lv_obj_t *screen_label_maintain;
-	// lv_obj_t *screen_btn_maintainon;
-	// lv_obj_t *screen_btn_maintainon_label;
-	// lv_obj_t *screen_bar_maintain;
+	lv_obj_t *screen_cont_menupassword;
+	lv_obj_t *screen_label_password;
+	lv_obj_t *screen_ta_password;
+	lv_obj_t *screen_label_passworderror;
+	lv_obj_t *screen_btn_passwordenter;
+	lv_obj_t *screen_btn_passwordenter_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
@@ -187,12 +188,17 @@ typedef struct
 	lv_obj_t *screen_1_menu_1_subpage_2;
 	lv_obj_t *screen_1_menu_1_cont_2;
 	lv_obj_t *screen_1_menu_1_label_2;
+	lv_obj_t *screen_1_menu_1_subpage_3;
+	lv_obj_t *screen_1_menu_1_cont_3;
+	lv_obj_t *screen_1_menu_1_label_3;
 	lv_obj_t *screen_1_btn_rinsebrew;
 	lv_obj_t *screen_1_btn_rinsebrew_label;
 	lv_obj_t *screen_1_btn_descale;
 	lv_obj_t *screen_1_btn_descale_label;
+	lv_obj_t *screen_1_label_2;
 	lv_obj_t *screen_1_btn_changewater;
 	lv_obj_t *screen_1_btn_changewater_label;
+	lv_obj_t *screen_1_label_1;
 	lv_obj_t *screen_1_btn_emptywater;
 	lv_obj_t *screen_1_btn_emptywater_label;
 	lv_obj_t *screen_1_cont_maintain;
@@ -201,6 +207,11 @@ typedef struct
 	lv_obj_t *screen_1_btn_maintain_label;
 	lv_obj_t *screen_1_bar_maintain;
 	lv_obj_t *screen_1_cont_setting;
+	lv_obj_t *screen_1_cont_passwordset;
+	lv_obj_t *screen_1_ta_passwordset;
+	lv_obj_t *screen_1_btn_passwordsave;
+	lv_obj_t *screen_1_btn_passwordsave_label;
+	lv_obj_t *screen_1_label_savesuccess;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
