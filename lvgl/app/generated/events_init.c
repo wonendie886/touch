@@ -859,6 +859,7 @@ static void screen_1_btn_descale_event_handler (lv_event_t *e)
         step = 1;
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Add 4L of descaling solution to the water tank.Tap OK to start descaling.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -876,6 +877,7 @@ static void screen_1_btn_changewater_event_handler (lv_event_t *e)
         maintain_setting = 2;
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Fill the water tank with 3 liters of fresh water.Tap OK to start boiler water replacement.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -893,6 +895,7 @@ static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
         maintain_setting = 1;
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Disconnect water supply. Tap OK to drain the system.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
