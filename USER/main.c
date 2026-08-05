@@ -227,10 +227,6 @@ void CoffeeVolumeProcess(void)
             coffee_run_flag = 0;
             printf("Coffee volume finished\r\n");
         }       
-        // if(schedule > 9)
-        // lv_label_set_text_fmt(guider_ui.screen_label_18, "00:%d", schedule); 
-        // else if(schedule >= 0)
-        // lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", schedule);
     }
 
 }
@@ -398,46 +394,6 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } 
         #endif
-        #if 0
-        if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-
-        } else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            len = setFillwater(buf,&GrindDataStr.data);
-            GrindDataStr.data.cmd = CMDTYPE_GRIND;
-            sendData(buf, len);
-        } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM){
-            len = setdosteam(buf, &GrindDataStr.data);
-            GrindDataStr.data.cmd = CMDTYPE_GRIND;
-            sendData(buf, len);
-        } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB ){
-            len = setcancel(buf, &GrindDataStr.data);
-            GrindDataStr.data.cmd = CMDTYPE_GRIND;
-            sendData(buf, len);
-        }
-        
-        timeover = 0;
-        while (!dataIsReady && timeover < 20) {
-            timeover++;
-            vTaskDelay(pdMS_TO_TICKS(1));
-        }
-        #if 1
-        if (timeover >= 20) {
-            // printf("timeover line = %d\r\n", __LINE__);
-            uint32_t error_code;// = huart->ErrorCode;
-            uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
-            
-            // 打印错误信息（如果可以使用printf）=
-            // printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
-        }
-        #endif
-        if (dataIsReady){
-            dataIsReady = 0;  
-            getProtocol(rFrameBuf,&c);
-            if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            
-            } 
-        }
-        #endif
         if (can_msg.data_is_ready){
             can_msg.data_is_ready = 0;
             uint8_t crc = 0;
@@ -470,7 +426,6 @@ void thread_serial(void *pvParameters)
                             updatetaskflag = true;
                         }
                         lasttaskstate = taskFeedback.state;
-                        // printf("收到反馈 \n");
                     } 
                     
                     #if (LEFT_OR_COFFEE == RIGHT)
@@ -525,7 +480,6 @@ void updateTaskStep(void)
 #if (LEFT_OR_COFFEE == LEFT)
     if (taskFeedback.state == TASK_RUNNING){
             lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);    
-            // printf("progress %d\n",taskFeedback.progress);    
     } else if (taskFeedback.progress > 1 ){
         if(taskFeedback.function == CMDTYPE_EMPTY_WATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true)
         {
@@ -560,7 +514,6 @@ void updateTaskStep(void)
         }
     }
     #else
-    // printf("taskFeedback.state %d\n",taskFeedback.state);
     if ((taskFeedback.state == TASK_RUNNING || taskFeedback.state == TASK_PAUSE) && updatetaskflag == true ){
         printf("maintaining");
         updatetaskflag = false;
