@@ -2093,6 +2093,11 @@
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\images\_menu_alpha_8x7.c</FilePath>
             </File>
+            <File>
+              <FileName>lv_font_SourceHanSerifSC_Regular_12.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

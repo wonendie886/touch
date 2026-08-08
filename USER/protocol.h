@@ -140,7 +140,58 @@ enum CmdGrindState
 	CMD_STATE_SUCCESS,
 	CMD_STATE_CANCEL,
 };
+typedef enum
+{
 
+    TASK_IDLE = 0,
+
+    TASK_RUNNING,
+
+    TASK_PAUSE,
+
+    TASK_WAIT,
+
+    TASK_FINISH,
+
+    TASK_ERROR
+
+
+}TASK_STATE;
+
+typedef enum
+{
+
+    TASK_STEP_IDLE = 0,
+
+    TASK_STEP_HEAT,         //加热
+
+    TASK_STEP_CLEANCONTINUE,      //清水清洗
+
+    TASK_STEP_CLEAN,        //清洗
+
+    TASK_STEP_FINISH,
+
+
+}TASK_STEP_E;
+
+typedef struct
+{
+
+    uint8_t function;
+
+    uint8_t step;
+
+    uint8_t state;
+
+    uint8_t progress;
+
+    uint8_t error;
+
+
+    uint8_t update_flag;
+
+
+}TaskFeedback_t;
 //! A enum data Command type{命令类型-枚举}
 // enum CmdType
 // {

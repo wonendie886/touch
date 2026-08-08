@@ -81,6 +81,7 @@ enum FUNC_DATA{
 	FUNC_RIGHT_TEA_START,
 	FUNC_LEFT_TEA_PROFILE,
 	FUNC_LEFT_TEA_START,
+	FUNC_TASK_FEEDBACK,
 };
 
 typedef struct _can_msg{
@@ -106,7 +107,7 @@ void canSendRightTeaProfile(uint8_t profile[10]);
 void canSendRightTeaStart(uint8_t start);
 void canSendLeftTeaProfile(uint8_t profile[10]);
 void canSendLeftTeaStart(uint8_t start);
-
+void canSendmaintain(uint8_t start,uint8_t step);
 // ----- Change these if your hardware differs -----
 #ifndef CAN_INSTANCE
 #define CAN_INSTANCE             CAN1

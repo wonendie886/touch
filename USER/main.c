@@ -21,8 +21,15 @@
 #include "main.h"
 #include "rtc.h"
 #include "uart.h"
+typedef struct {
+    float steam_boiler_temp;     // 蒸汽锅炉温度（单位：°C）
+    float coffee_boiler_temp;    // 咖啡锅炉温度（单位：°C）
+    float brew_head_temp;        // 冲煮头温度（单位：°C）
+    float pressure; //压力值（单位：Pa）
+} TemperatureData;
+TemperatureData current_temp = {0};
 
-
+TaskFeedback_t taskFeedback;
 /// @brief external variables
 extern volatile uint16_t Currenttargeweight;
 extern volatile uint8_t dataIsReady;
@@ -46,7 +53,7 @@ TaskHandle_t xSerialTaskHandle = NULL;
 lv_ui guider_ui;
 
 bool isGrindMode = MODE_TIME;
-
+uint8_t step = 0;
 volatile CanMsg can_msg = {0};
 // uint16_t can_rx_count = 0;
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
@@ -165,6 +172,15 @@ int main(void)
     {           
 	}
 }
+void parseTaskFeedback(uint8_t *data)
+{
+    taskFeedback.function = data[0];
+    taskFeedback.step = data[1];
+    taskFeedback.state = data[2];
+    taskFeedback.progress = data[3];
+    taskFeedback.error = data[4];
+    taskFeedback.update_flag = 1;
+}
 
 extern volatile uint16_t volume;
 float blocktemp = 0;
@@ -174,6 +190,7 @@ extern uint8_t teasetflag ;
 extern uint8_t teaflag ;
 bool startflag;
 extern uint8_t scheduleall;
+bool updatetaskflag = false;
 void CoffeeVolumeProcess(void)
 {
     static TickType_t lastTick = 0;
@@ -222,7 +239,7 @@ void thread_serial(void *pvParameters)
     GrindDataStr.data.cmd_number = 0;
     GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
     GrindDataStr.data.cmd = CMDTYPE_GRIND;
-    uint8_t laststate = 0;
+    uint8_t lasttaskstate = 0;
 
     static TickType_t lastUpdateTime = 0;
     const TickType_t updateTimePeriod = pdMS_TO_TICKS(8000); 
@@ -332,48 +349,17 @@ void thread_serial(void *pvParameters)
             coffee_run_flag = 1;
             canSendhotwater(1,volume);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-        }
-        #endif
-
-        #if 0
-        if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
-
-        } else if (GrindDataStr.data.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            len = setFillwater(buf,&GrindDataStr.data);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_EMPTY_WATER){
+            canSendmaintain(CMDTYPE_EMPTY_WATER,1);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-            sendData(buf, len);
-        } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_STEAM){
-            len = setdosteam(buf, &GrindDataStr.data);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_CHANGE_WATER){
+            canSendmaintain(CMDTYPE_CHANGE_WATER,1);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-            sendData(buf, len);
-        } else if (GrindDataStr.data.cmd == CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB ){
-            len = setcancel(buf, &GrindDataStr.data);
+        } else if (GrindDataStr.data.cmd == CMDTYPE_DESCALE){
+            canSendmaintain(CMDTYPE_DESCALE,step);
+            step = 0;
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-            sendData(buf, len);
-        }
-        
-        timeover = 0;
-        while (!dataIsReady && timeover < 20) {
-            timeover++;
-            vTaskDelay(pdMS_TO_TICKS(1));
-        }
-        #if 1
-        if (timeover >= 20) {
-            // printf("timeover line = %d\r\n", __LINE__);
-            uint32_t error_code;// = huart->ErrorCode;
-            uint32_t sr_register = UART4->SR;  // 直接读取状态寄存器
-            
-            // 打印错误信息（如果可以使用printf）=
-            // printf("UART4 Error!  SR: 0x%04lX\r\n", sr_register);
-        }
-        #endif
-        if (dataIsReady){
-            dataIsReady = 0;  
-            getProtocol(rFrameBuf,&c);
-            if (c.frame.cmd == CMDTYPE_SYSTEM_FILL_WATER){
-            
-            } 
-        }
+        } 
         #endif
         if (can_msg.data_is_ready){
             can_msg.data_is_ready = 0;
@@ -388,62 +374,30 @@ void thread_serial(void *pvParameters)
                     // printf("cmd = 0x%02X\r\n", getCmdType(can_msg.rx_efid));
                     if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
                         int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
-                        blocktemp = (float)ret/10;
-                        // printf("steam_temp = %f\r\n",blocktemp);
-                        if(runtime >= 1000){
-                            char temp_str[20];
-                            sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_3, temp_str);
-                            // lv_label_set_text(guider_ui.screen_label_temp, temp_str);
-                        }
+                        current_temp.steam_boiler_temp = (float)ret/10;
                     } else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){
                         #if (LEFT_OR_COFFEE == LEFT)
                         int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
                         int ret2 = can_msg.rx_data[3] << 8 | can_msg.rx_data[2];   
-                        brewtemp = (float)ret2/10;   
-                        blocktemp = (float)ret/10;
-
-                        if(runtime >= 1000){
-                            char temp_str[20];
-                            char temp_str1[20];
-                            sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_4, temp_str);
-                            sprintf(temp_str1, "%.1f", brewtemp);
-                            lv_label_set_text(guider_ui.screen_label_1, temp_str1);
-                        }      
-                
+                        current_temp.brew_head_temp = (float)ret2/10;   
+                        current_temp.coffee_boiler_temp = (float)ret/10;  
                         #else
                         int ret = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
-                        blocktemp = (float)ret/10;
-                        // printf("coffee temp = %f\r\n",blocktemp);
-                        if(runtime >= 1000){
-                            char temp_str[20];
-                            sprintf(temp_str, "%.1f", blocktemp);
-                            lv_label_set_text(guider_ui.screen_label_4, temp_str);
-                            // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
-                        }                               
+                        current_temp.coffee_boiler_temp = (float)ret/10;                              
                         #endif
                     } else if (getCmdType(can_msg.rx_efid) == FUNC_PRESSURE_CURRENT){ 
-                        float ret = (float)can_msg.rx_data[0]/10;
-                        // printf("ret %.1f\n",ret);
-                        if(runtime >= 1000){
-                            char temp_str[20];
-                            sprintf(temp_str, "%.1f bar", ret);
-                            lv_label_set_text(guider_ui.screen_label_16, temp_str);
-                            // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
-                        }   
+                        current_temp.pressure = (float)can_msg.rx_data[0]/10;
+                    } else if (getCmdType(can_msg.rx_efid)==FUNC_TASK_FEEDBACK){ 
+                        parseTaskFeedback(can_msg.rx_data);
+                        if(lasttaskstate != taskFeedback.state){
+                            updatetaskflag = true;
+                        }
+                        lasttaskstate = taskFeedback.state;
                     } 
                     #if (LEFT_OR_COFFEE == RIGHT)
                     else if (getCmdType(can_msg.rx_efid) == FUNC_VALVE){ 
                         int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];  
-                        brewtemp = (float)ret/10;
-                        // printf("brew %.1f\n",brewtemp);
-                        if(runtime >= 1000){
-                            char temp_str[20];
-                            sprintf(temp_str, "%.1f", brewtemp);
-                            lv_label_set_text(guider_ui.screen_label_1, temp_str);
-                            // lv_label_set_text(guider_ui.screen_label_coffeetemp, temp_str);
-                        }   
+                        current_temp.brew_head_temp = (float)ret/10;
                     }
                     #endif
                 }
@@ -451,9 +405,6 @@ void thread_serial(void *pvParameters)
                 printf("crc failed\r\n");
             }
         }
-        // if(runtime % 500 == 0){
-        //     printf("volume %d\r\n",volume);
-        // }
 
         if(!startflag){
             lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
@@ -468,22 +419,81 @@ void thread_serial(void *pvParameters)
             lv_obj_clear_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
             startflag = true;
         }
-        //  else {
-        //     lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
-        //     lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
-        // }
         CoffeeVolumeProcess();
 
         runtime += 5;
         vTaskDelay(pdMS_TO_TICKS(5));
     }
 }
+void updatetemp(void){
+    if(taskFeedback.state != TASK_RUNNING){
+        char temp_str[20];
+        sprintf(temp_str, "%.1f", current_temp.brew_head_temp);
+        lv_label_set_text(guider_ui.screen_label_1, temp_str);
+        sprintf(temp_str, "%.1f", current_temp.steam_boiler_temp);
+        lv_label_set_text(guider_ui.screen_label_3, temp_str);
+        sprintf(temp_str, "%.1f", current_temp.coffee_boiler_temp);
+        lv_label_set_text(guider_ui.screen_label_4, temp_str);
+        sprintf(temp_str, "%.1f bar", current_temp.pressure);
+        lv_label_set_text(guider_ui.screen_label_16, temp_str);
+    }
+}
 
+void updateTaskStep(void)
+{
+    char buf[256];
+#if (LEFT_OR_COFFEE == LEFT)
+    if (taskFeedback.state == TASK_RUNNING){
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);    
+    } else if (taskFeedback.progress > 1 ){
+        if(taskFeedback.function == CMDTYPE_EMPTY_WATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true)
+        {
+            updatetaskflag = false;
+            sprintf(buf,"系统已排空,请关闭电源.");
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, buf);
+        } else if (taskFeedback.function == CMDTYPE_CHANGE_WATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
+            updatetaskflag = false;
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
+            lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+        } else if (taskFeedback.function == CMDTYPE_DESCALE && taskFeedback.step == 1 && taskFeedback.state == TASK_PAUSE && updatetaskflag == true){
+            updatetaskflag = false;
+            step = 2;
+            sprintf(buf,"用4升清水更换水箱中的水.点击“确定”继续冲洗.");
+            lv_label_set_text(guider_ui.screen_1_label_maintain, buf);
+            lv_obj_clear_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
+            printf("descale1");
+        } else if (taskFeedback.function == CMDTYPE_DESCALE && taskFeedback.step == 2 && taskFeedback.state == TASK_PAUSE && updatetaskflag == true ){
+            updatetaskflag = false;
+            step = 3;
+            printf("descale2");
+            sprintf(buf,"点击“确定”以开始锅炉水更换.");
+            lv_label_set_text(guider_ui.screen_1_label_maintain, buf);
+            lv_obj_clear_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
+        } else if (taskFeedback.function == CMDTYPE_DESCALE && taskFeedback.step == 3 && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
+            updatetaskflag = false;
+            step = 0;
+            printf("descale3");
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
+            lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+        }
+    }
+    #else
+    if ((taskFeedback.state == TASK_RUNNING || taskFeedback.state == TASK_PAUSE) && updatetaskflag == true ){
+        printf("maintaining");
+        updatetaskflag = false;
+        lv_obj_add_flag(guider_ui.screen_1_bar_maintain,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "维护中.");
+    } else if (updatetaskflag == true && taskFeedback.state == TASK_FINISH){
+        printf("clear maintaining");
+        updatetaskflag = false;
+        lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+    }
+
+    #endif
+}
 void vLvglTaskFunction(void *pvParameters) {
     printf("LVGL task is running. \r\n");
 
@@ -512,7 +522,8 @@ void vLvglTaskFunction(void *pvParameters) {
         xLastTickCount = xCurrentTickCount;
 
         lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); 
-
+        updateTaskStep();
+        updatetemp();
         lv_task_handler();
 
         vTaskDelayUntil(&xLastWakeTime, xPeriod);

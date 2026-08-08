@@ -28,6 +28,7 @@ void flashDataInit(void)
         GrindSetData.temp_coffee = 92;
         GrindSetData.time_hotwater = 0;
         GrindSetData.temp_brew = 92;
+        GrindSetData.password = 9999;
         flashDataSave();
     }
 

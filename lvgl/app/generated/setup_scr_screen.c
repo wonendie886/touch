@@ -1182,16 +1182,16 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_arc_1 = lv_arc_create(ui->screen);
     lv_arc_set_mode(ui->screen_arc_1, LV_ARC_MODE_NORMAL);
     lv_arc_set_range(ui->screen_arc_1, 0, 100);
-    lv_arc_set_bg_angles(ui->screen_arc_1, 135, 45);
+    lv_arc_set_bg_angles(ui->screen_arc_1, 90, 89);
     lv_arc_set_value(ui->screen_arc_1, 0);
     lv_arc_set_rotation(ui->screen_arc_1, 0);
-    lv_obj_set_pos(ui->screen_arc_1, 180, 76);
+    lv_obj_set_pos(ui->screen_arc_1, 180, 82);
     lv_obj_set_size(ui->screen_arc_1, 120, 120);
 
     //Write style for screen_arc_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_arc_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_border_width(ui->screen_arc_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_arc_width(ui->screen_arc_1, 12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui->screen_arc_1, 1, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui->screen_arc_1, 149, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_arc_color(ui->screen_arc_1, lv_color_hex(0x513c28), LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_arc_1, 6, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1202,7 +1202,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_shadow_width(ui->screen_arc_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //Write style for screen_arc_1, Part: LV_PART_INDICATOR, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_arc_width(ui->screen_arc_1, 12, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_arc_width(ui->screen_arc_1, 6, LV_PART_INDICATOR|LV_STATE_DEFAULT);
     lv_obj_set_style_arc_opa(ui->screen_arc_1, 255, LV_PART_INDICATOR|LV_STATE_DEFAULT);
     lv_obj_set_style_arc_color(ui->screen_arc_1, lv_color_hex(0xd79442), LV_PART_INDICATOR|LV_STATE_DEFAULT);
 
@@ -1210,9 +1210,9 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_bg_opa(ui->screen_arc_1, 255, LV_PART_KNOB|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_arc_1, lv_color_hex(0xd79442), LV_PART_KNOB|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_arc_1, LV_GRAD_DIR_NONE, LV_PART_KNOB|LV_STATE_DEFAULT);
-    lv_obj_set_style_pad_all(ui->screen_arc_1, 5, LV_PART_KNOB|LV_STATE_DEFAULT);
-    lv_obj_clear_flag(ui->screen_arc_1, LV_OBJ_FLAG_CLICKABLE);
+    lv_obj_set_style_pad_all(ui->screen_arc_1, 0, LV_PART_KNOB|LV_STATE_DEFAULT);
 
+    lv_obj_clear_flag(ui->screen_arc_1, LV_OBJ_FLAG_CLICKABLE);
    //Write codes screen_cont_teaset
     ui->screen_cont_teaset = lv_obj_create(ui->screen);
     lv_obj_set_pos(ui->screen_cont_teaset, 121, 27);
@@ -1841,8 +1841,221 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_font(ui->screen_btn_teacancel, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_teacancel, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_teacancel, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+#if (LEFT_OR_COFFEE == RIGHT)
+    ui->screen_1_cont_maintain = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_1_cont_maintain, 0, 0);
+    lv_obj_set_size(ui->screen_1_cont_maintain, 480, 272);
+    lv_obj_set_scrollbar_mode(ui->screen_1_cont_maintain, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
 
- 
+    //Write style for screen_1_cont_maintain, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_cont_maintain, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_cont_maintain, lv_color_hex(0xd6cdcd), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_cont_maintain, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_cont_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_label_maintain
+    ui->screen_1_label_maintain = lv_label_create(ui->screen_1_cont_maintain);
+    lv_label_set_text(ui->screen_1_label_maintain, "");
+    lv_label_set_long_mode(ui->screen_1_label_maintain, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_1_label_maintain, 40, 62);
+    lv_obj_set_size(ui->screen_1_label_maintain, 400, 110);
+
+    //Write style for screen_1_label_maintain, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_label_maintain, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_label_maintain, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_label_maintain, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_label_maintain, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_label_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_btn_maintain
+    ui->screen_1_btn_maintain = lv_btn_create(ui->screen_1_cont_maintain);
+    ui->screen_1_btn_maintain_label = lv_label_create(ui->screen_1_btn_maintain);
+    lv_label_set_text(ui->screen_1_btn_maintain_label, "OK");
+    lv_label_set_long_mode(ui->screen_1_btn_maintain_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_maintain_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_maintain, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_maintain_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_maintain, 288, 180);
+    lv_obj_set_size(ui->screen_1_btn_maintain, 100, 50);
+
+    //Write style for screen_1_btn_maintain, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_maintain, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_btn_maintain, lv_color_hex(0x54606a), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_btn_maintain, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_maintain, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_maintain, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_maintain, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_maintain, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_maintain, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_1_bar_maintain
+    ui->screen_1_bar_maintain = lv_bar_create(ui->screen_1_cont_maintain);
+    lv_obj_set_style_anim_time(ui->screen_1_bar_maintain, 1000, 0);
+    lv_bar_set_mode(ui->screen_1_bar_maintain, LV_BAR_MODE_NORMAL);
+    lv_bar_set_range(ui->screen_1_bar_maintain, 0, 100);
+    lv_bar_set_value(ui->screen_1_bar_maintain, 0, LV_ANIM_OFF);
+    lv_obj_set_pos(ui->screen_1_bar_maintain, 40, 173);
+    lv_obj_set_size(ui->screen_1_bar_maintain, 400, 5);
+
+    //Write style for screen_1_bar_maintain, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_bar_maintain, 60, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_bar_maintain, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_bar_maintain, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_bar_maintain, 10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_bar_maintain, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_1_bar_maintain, Part: LV_PART_INDICATOR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_bar_maintain, 255, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_bar_maintain, lv_color_hex(0x2195f6), LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_bar_maintain, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_bar_maintain, 10, LV_PART_INDICATOR|LV_STATE_DEFAULT);
+#endif
+    //Write codes screen_cont_menupassword
+    ui->screen_cont_menupassword = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_cont_menupassword, 0, 0);
+    lv_obj_set_size(ui->screen_cont_menupassword, 480, 272);
+    lv_obj_set_scrollbar_mode(ui->screen_cont_menupassword, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_cont_menupassword, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for screen_cont_menupassword, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_cont_menupassword, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_cont_menupassword, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_cont_menupassword, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_cont_menupassword, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_label_password
+    ui->screen_label_password = lv_label_create(ui->screen_cont_menupassword);
+    lv_label_set_text(ui->screen_label_password, "请输入密码.");
+    lv_label_set_long_mode(ui->screen_label_password, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_label_password, 180, 58);
+    lv_obj_set_size(ui->screen_label_password, 155, 32);
+
+    //Write style for screen_label_password, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_label_password, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_password, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_label_password, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_label_password, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_label_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_ta_password
+    ui->screen_ta_password = lv_textarea_create(ui->screen_cont_menupassword);
+    lv_textarea_set_text(ui->screen_ta_password, "");
+    lv_textarea_set_placeholder_text(ui->screen_ta_password, "");
+    lv_textarea_set_password_bullet(ui->screen_ta_password, "*");
+    lv_textarea_set_password_mode(ui->screen_ta_password, false);
+    lv_textarea_set_one_line(ui->screen_ta_password, false);
+    lv_textarea_set_accepted_chars(ui->screen_ta_password, "");
+    lv_textarea_set_max_length(ui->screen_ta_password, 4);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->screen_ta_password, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->screen_ta_password, 180, 100);
+    lv_obj_set_size(ui->screen_ta_password, 120, 35);
+
+    //Write style for screen_ta_password, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->screen_ta_password, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_ta_password, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_ta_password, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_ta_password, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_ta_password, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_ta_password, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_password, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_password, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_ta_password, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_ta_password, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_ta_password, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_ta_password, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_ta_password, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_ta_password, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_ta_password, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_ta_password, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_password, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_ta_password, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_ta_password, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_password, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_password, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_password, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes screen_label_passworderror
+    ui->screen_label_passworderror = lv_label_create(ui->screen_cont_menupassword);
+    lv_label_set_text(ui->screen_label_passworderror, "");
+    lv_label_set_long_mode(ui->screen_label_passworderror, LV_LABEL_LONG_WRAP);
+    lv_obj_set_pos(ui->screen_label_passworderror, 180, 153);
+    lv_obj_set_size(ui->screen_label_passworderror, 153, 32);
+
+    //Write style for screen_label_passworderror, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_label_passworderror, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_label_passworderror, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_label_passworderror, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_line_space(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_label_passworderror, LV_TEXT_ALIGN_LEFT, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_label_passworderror, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_passwordenter
+    ui->screen_btn_passwordenter = lv_btn_create(ui->screen_cont_menupassword);
+    ui->screen_btn_passwordenter_label = lv_label_create(ui->screen_btn_passwordenter);
+    lv_label_set_text(ui->screen_btn_passwordenter_label, "确认");
+    lv_label_set_long_mode(ui->screen_btn_passwordenter_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_passwordenter_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_passwordenter, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_passwordenter_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_passwordenter, 315, 100);
+    lv_obj_set_size(ui->screen_btn_passwordenter, 100, 35);
+
+    //Write style for screen_btn_passwordenter, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_passwordenter, 67, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_btn_passwordenter, lv_color_hex(0xdaf2f8), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_btn_passwordenter, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_passwordenter, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_passwordenter, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_passwordenter, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_passwordenter, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_passwordenter, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_passwordenter, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_passwordenter, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //The custom code of screen.
     lv_btnmatrix_set_btn_ctrl_all(ui->screen_btnm_choosemode, LV_BTNMATRIX_CTRL_CHECKABLE);
     lv_btnmatrix_set_one_checked(ui->screen_btnm_choosemode, true);

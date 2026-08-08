@@ -130,42 +130,78 @@ typedef struct
 	lv_obj_t *screen_btn_teacancel;
 	lv_obj_t *screen_btn_teacancel_label;
 	lv_obj_t *screen_arc_1;
+	lv_obj_t *screen_cont_menupassword;
+	lv_obj_t *screen_label_password;
+	lv_obj_t *screen_ta_password;
+	lv_obj_t *screen_label_passworderror;
+	lv_obj_t *screen_btn_passwordenter;
+	lv_obj_t *screen_btn_passwordenter_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
-	lv_obj_t *screen_1_label_steamtemp;
+	lv_obj_t *screen_1_menu_1;
+	lv_obj_t *screen_1_menu_1_sidebar_page;
+	lv_obj_t *screen_1_menu_1_subpage_1;
+	lv_obj_t *screen_1_menu_1_cont_1;
+	lv_obj_t *screen_1_menu_1_label_1;
+	lv_obj_t *screen_1_menu_1_subpage_2;
+	lv_obj_t *screen_1_menu_1_cont_2;
+	lv_obj_t *screen_1_menu_1_label_2;
+	lv_obj_t *screen_1_menu_1_subpage_3;
+	lv_obj_t *screen_1_menu_1_cont_3;
+	lv_obj_t *screen_1_menu_1_label_3;
+	lv_obj_t *screen_1_btn_descale;
+	lv_obj_t *screen_1_btn_descale_label;
+	lv_obj_t *screen_1_label_1;
+	lv_obj_t *screen_1_btn_changewater;
+	lv_obj_t *screen_1_btn_changewater_label;
+	lv_obj_t *screen_1_label_2;
+	lv_obj_t *screen_1_btn_emptywater;
+	lv_obj_t *screen_1_btn_emptywater_label;
+	lv_obj_t *screen_1_cont_maintain;
+	lv_obj_t *screen_1_label_maintain;
+	lv_obj_t *screen_1_btn_maintain;
+	lv_obj_t *screen_1_btn_maintain_label;
+	lv_obj_t *screen_1_bar_maintain;
+	lv_obj_t *screen_1_cont_setting;
+	lv_obj_t *screen_1_btn_brewblock;
+	lv_obj_t *screen_1_btn_brewblock_label;
+	lv_obj_t *screen_1_label_brewblock;
+	lv_obj_t *screen_1_btn_hotwaterset;
+	lv_obj_t *screen_1_btn_hotwaterset_label;
+	lv_obj_t *screen_1_label_hotwater;
 	lv_obj_t *screen_1_btn_steamtempset;
 	lv_obj_t *screen_1_btn_steamtempset_label;
-	lv_obj_t *screen_1_label_coffeetemp;
+	lv_obj_t *screen_1_label_steamtemp;
 	lv_obj_t *screen_1_btn_coffeetempset;
 	lv_obj_t *screen_1_btn_coffeetempset_label;
-	lv_obj_t *screen_1_btn_back;
-	lv_obj_t *screen_1_btn_back_label;
-	lv_obj_t *screen_1_label_time1;
-	lv_obj_t *screen_1_label_time2;
-	lv_obj_t *screen_1_label_time3;
-	lv_obj_t *screen_1_label_time4;
+	lv_obj_t *screen_1_label_coffeetemp;
 	lv_obj_t *screen_1_btn_time1set;
 	lv_obj_t *screen_1_btn_time1set_label;
+	lv_obj_t *screen_1_label_time1;
 	lv_obj_t *screen_1_btn_time2set;
 	lv_obj_t *screen_1_btn_time2set_label;
+	lv_obj_t *screen_1_label_time2;
 	lv_obj_t *screen_1_btn_time3set;
 	lv_obj_t *screen_1_btn_time3set_label;
+	lv_obj_t *screen_1_label_time3;
 	lv_obj_t *screen_1_btn_time4set;
 	lv_obj_t *screen_1_btn_time4set_label;
+	lv_obj_t *screen_1_label_time4;
 	lv_obj_t *screen_1_cont_set;
-	lv_obj_t *screen_1_btn_cancel;
-	lv_obj_t *screen_1_btn_cancel_label;
-	lv_obj_t *screen_1_btn_certain;
-	lv_obj_t *screen_1_btn_certain_label;
 	lv_obj_t *screen_1_spinbox_1;
 	lv_obj_t *screen_1_spinbox_1_btn_plus;
 	lv_obj_t *screen_1_spinbox_1_btn_minus;
-	lv_obj_t *screen_1_label_hotwater;
-	lv_obj_t *screen_1_btn_hotwaterset;
-	lv_obj_t *screen_1_btn_hotwaterset_label;
-	lv_obj_t *screen_1_label_brewblock;
-	lv_obj_t *screen_1_btn_brewblock;
-	lv_obj_t *screen_1_btn_brewblock_label;
+	lv_obj_t *screen_1_btn_certain;
+	lv_obj_t *screen_1_btn_certain_label;
+	lv_obj_t *screen_1_btn_cancel;
+	lv_obj_t *screen_1_btn_cancel_label;
+	lv_obj_t *screen_1_cont_passwordset;
+	lv_obj_t *screen_1_ta_passwordset;
+	lv_obj_t *screen_1_btn_passwordsave;
+	lv_obj_t *screen_1_btn_passwordsave_label;
+	lv_obj_t *screen_1_label_savesuccess;
+	lv_obj_t *screen_1_btn_back;
+	lv_obj_t *screen_1_btn_back_label;
 	lv_obj_t *g_kb_top_layer;
 }lv_ui;
 
@@ -238,7 +274,9 @@ LV_IMG_DECLARE(_menu_alpha_8x7);
 // LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
+LV_FONT_DECLARE(lv_font_montserratMedium_10)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_10)
+LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_12)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_25)
 #ifdef __cplusplus

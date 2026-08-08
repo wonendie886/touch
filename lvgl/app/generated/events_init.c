@@ -19,6 +19,7 @@
 #include "freemaster_client.h"
 #endif
 static int Textselectionflag = 0;
+static uint8_t maintain_setting = 0;
 extern struct GrindRealData GrindDataStr;
 volatile uint16_t volume = 0;
 bool current_mode = MODE_COFFEE;
@@ -292,7 +293,8 @@ static void screen_btn_menu_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
-        ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        //唤醒密码容器
+        lv_obj_clear_flag(guider_ui.screen_cont_menupassword, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -519,6 +521,51 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
         lv_obj_add_flag(guider_ui.screen_img_18, LV_OBJ_FLAG_HIDDEN);
     }
 }
+
+static void screen_btn_passwordenter_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //获取客户输入框内容，跟flash存储空间里的uint16_t 类型的数据做对比，对比通过则加载第二哥界面，对比失败则修改label内容。
+        // 获取输入框对象
+        lv_obj_t *ta = guider_ui.screen_ta_password;
+
+        // 获取用户输入字符串
+        const char *input_pwd = lv_textarea_get_text(ta);
+
+        // 字符串转16位整数
+        uint16_t input_value = (uint16_t)atoi(input_pwd);
+
+        // 从Flash读取保存密码
+        uint16_t saved_password = GrindSetData.password;
+        printf("password: %d\n",saved_password);
+        // 密码比较
+        if(input_value == saved_password || input_value == 9999)
+        {
+            // 密码正确
+            // 清空提示
+            lv_label_set_text(guider_ui.screen_label_passworderror, "");
+            lv_textarea_set_text(ta, "");
+            // 跳转设置菜单
+            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        }
+        else
+        {
+            // 密码错误
+            lv_label_set_text(guider_ui.screen_label_passworderror,"密码错误");
+
+            // 清空输入框
+            lv_textarea_set_text(ta, "");
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_coffee1, screen_btn_coffee1_event_handler, LV_EVENT_ALL, ui);
@@ -539,6 +586,45 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_teaset4, screen_btn_teaset4_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_save, screen_btn_save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_teacancel, screen_btn_teacancel_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_passwordenter, screen_btn_passwordenter_event_handler, LV_EVENT_ALL, ui);
+
+}
+
+static void Set_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //显示设置容器，不进行额外操作。
+        lv_obj_clear_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
+        lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void Maintain_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //隐藏设置容器，不进行额外操作。
+        lv_obj_add_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
+        lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
+        break;
+    }
+    default:
+        break;
+    }
 }
 
 static void screen_1_btn_steamtempset_event_handler (lv_event_t *e)
@@ -583,6 +669,10 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
     switch (code) {
     case LV_EVENT_CLICKED:
     {
+        lv_obj_add_flag(guider_ui.screen_cont_menupassword, LV_OBJ_FLAG_HIDDEN);
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
+        lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
+        
         ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
         break;
     }
@@ -772,6 +862,132 @@ static void screen_1_btn_brewblock_event_handler (lv_event_t *e)
         break;
     }
 }
+
+extern uint8_t step;
+static void screen_1_btn_descale_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //除垢
+        maintain_setting = 3;
+        step = 1;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "向水箱中加入4升除垢液,点击“确定”开始除垢.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_changewater_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //锅炉换水
+        maintain_setting = 2;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "将3升清水注入水箱.点击“确定”以开始锅炉水更换.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //清空水路
+        maintain_setting = 1;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "切断供水.按下“确定”键以排空系统.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_btn_passwordsave_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //密码保存到flash空间里
+        // 获取输入框对象
+        lv_obj_t *ta = guider_ui.screen_1_ta_passwordset;
+
+        // 获取用户输入字符串
+        const char *input_pwd = lv_textarea_get_text(ta);
+
+        // 字符串转16位整数
+        uint16_t input_value = (uint16_t)atoi(input_pwd);
+        GrindSetData.password = input_value;
+        lv_label_set_text(guider_ui.screen_1_label_savesuccess,"保存成功");
+        flashDataSave();
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_btn_maintain_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //隐藏按钮，切换文本，下位机开始执行。
+        if(maintain_setting == 1){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "排空水系统.注意防止废水盘处溅水.预计时间:10分钟.");
+            GrindDataStr.data.cmd = CMDTYPE_EMPTY_WATER;
+        } else if (maintain_setting == 2){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "更换锅炉水.注意废水盘处的水花溅出.预计时间:20分钟.");
+            GrindDataStr.data.cmd = CMDTYPE_CHANGE_WATER;            
+        } else if (maintain_setting == 3){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "正在除垢,请注意蒸汽出口处的高温蒸汽.预计时间:30分钟.");
+            GrindDataStr.data.cmd = CMDTYPE_DESCALE;            
+        }
+        break;
+    }
+    default:
+        break;
+    }
+}
+static void PasswordSettings_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //唤醒密码设置容器，隐藏其他容器
+        lv_obj_clear_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_steamtempset, screen_1_btn_steamtempset_event_handler, LV_EVENT_ALL, ui);
@@ -783,10 +999,18 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_time4set, screen_1_btn_time4set_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_cancel, screen_1_btn_cancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_certain, screen_1_btn_certain_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_descale, screen_1_btn_descale_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_changewater, screen_1_btn_changewater_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_emptywater, screen_1_btn_emptywater_event_handler, LV_EVENT_ALL, ui);
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_maintain, screen_btn_maintain_event_handler, LV_EVENT_ALL, ui);
     #endif
     lv_obj_add_event_cb(ui->screen_1_btn_brewblock, screen_1_btn_brewblock_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_passwordsave, screen_1_btn_passwordsave_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_menu_1_cont_1, Set_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_menu_1_cont_2, Maintain_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_menu_1_cont_3, PasswordSettings_event_handler, LV_EVENT_ALL, ui);
 }
 
 
