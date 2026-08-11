@@ -35,7 +35,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_1
     ui->screen_img_1 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_1, &_logo_alpha_200x60);
+    lv_img_set_src(ui->screen_img_1, &_SIGMALOGONEW_alpha_200x60);
     lv_img_set_pivot(ui->screen_img_1, 50,50);
     lv_img_set_angle(ui->screen_img_1, 0);
     lv_obj_set_pos(ui->screen_img_1, 143, 0);
@@ -88,7 +88,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_3
     ui->screen_img_3 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_3, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_3, &_shuangbei_alpha_85x71);
+    lv_img_set_src(ui->screen_img_3, &_shuangbeies_alpha_85x71);
     lv_img_set_pivot(ui->screen_img_3, 50,50);
     lv_img_set_angle(ui->screen_img_3, 0);
     lv_obj_set_pos(ui->screen_img_3, 345, 120);
@@ -103,7 +103,7 @@ void setup_scr_screen(lv_ui *ui)
     //Write codes screen_img_4
     ui->screen_img_4 = lv_img_create(ui->screen);
     lv_obj_add_flag(ui->screen_img_4, LV_OBJ_FLAG_CLICKABLE);
-    lv_img_set_src(ui->screen_img_4, &_danbei_alpha_63x69);
+    lv_img_set_src(ui->screen_img_4, &_danbeies_alpha_63x69);
     lv_img_set_pivot(ui->screen_img_4, 50,50);
     lv_img_set_angle(ui->screen_img_4, 0);
     lv_obj_set_pos(ui->screen_img_4, 78, 120);
