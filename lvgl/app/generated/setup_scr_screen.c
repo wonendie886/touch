@@ -178,7 +178,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_9, &_1_alpha_52x52);
     lv_img_set_pivot(ui->screen_img_9, 50,50);
     lv_img_set_angle(ui->screen_img_9, 0);
-    lv_obj_set_pos(ui->screen_img_9, 77, 100);
+    lv_obj_set_pos(ui->screen_img_9, 77, 93);
     lv_obj_set_size(ui->screen_img_9, 52, 52);
 
     //Write style for screen_img_9, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -191,7 +191,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_9 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_9, "1  CAP");
     lv_label_set_long_mode(ui->screen_label_9, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_9, 71, 160);
+    lv_obj_set_pos(ui->screen_label_9, 71, 145);
     lv_obj_set_size(ui->screen_label_9, 55, 17);
 
     //Write style for screen_label_9, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -231,7 +231,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_12, &_1_alpha_52x52);
     lv_img_set_pivot(ui->screen_img_12, 50,50);
     lv_img_set_angle(ui->screen_img_12, 0);
-    lv_obj_set_pos(ui->screen_img_12, 217, 100);
+    lv_obj_set_pos(ui->screen_img_12, 217, 93);
     lv_obj_set_size(ui->screen_img_12, 52, 52);
 
     //Write style for screen_img_12, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -244,7 +244,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_10 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_10, "3  CAP");
     lv_label_set_long_mode(ui->screen_label_10, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_10, 217, 160);
+    lv_obj_set_pos(ui->screen_label_10, 217, 145);
     lv_obj_set_size(ui->screen_label_10, 55, 17);
 
     //Write style for screen_label_10, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -284,7 +284,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_16, &_1_alpha_52x52);
     lv_img_set_pivot(ui->screen_img_16, 50,50);
     lv_img_set_angle(ui->screen_img_16, 0);
-    lv_obj_set_pos(ui->screen_img_16, 362, 100);
+    lv_obj_set_pos(ui->screen_img_16, 362, 93);
     lv_obj_set_size(ui->screen_img_16, 52, 52);
 
     //Write style for screen_img_16, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -297,7 +297,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_19 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_19, "2  CAP");
     lv_label_set_long_mode(ui->screen_label_19, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_19, 359, 160);
+    lv_obj_set_pos(ui->screen_label_19, 359, 145);
     lv_obj_set_size(ui->screen_label_19, 55, 17);
 
     //Write style for screen_label_19, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -664,7 +664,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_tea1, &_2_alpha_52x52);
     lv_img_set_pivot(ui->screen_img_tea1, 50,50);
     lv_img_set_angle(ui->screen_img_tea1, 0);
-    lv_obj_set_pos(ui->screen_img_tea1, 77, 100);
+    lv_obj_set_pos(ui->screen_img_tea1, 77, 93);
     lv_obj_set_size(ui->screen_img_tea1, 52, 52);
 
     //Write style for screen_img_tea1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -679,7 +679,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_tea2, &_2_alpha_52x52);
     lv_img_set_pivot(ui->screen_img_tea2, 50,50);
     lv_img_set_angle(ui->screen_img_tea2, 0);
-    lv_obj_set_pos(ui->screen_img_tea2, 362, 100);
+    lv_obj_set_pos(ui->screen_img_tea2, 362, 93);
     lv_obj_set_size(ui->screen_img_tea2, 52, 52);
 
     //Write style for screen_img_tea2, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -694,7 +694,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_tea3, &_2_alpha_52x52);
     lv_img_set_pivot(ui->screen_img_tea3, 50,50);
     lv_img_set_angle(ui->screen_img_tea3, 0);
-    lv_obj_set_pos(ui->screen_img_tea3, 217, 100);
+    lv_obj_set_pos(ui->screen_img_tea3, 217, 93);
     lv_obj_set_size(ui->screen_img_tea3, 52, 52);
 
     //Write style for screen_img_tea3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.

@@ -295,8 +295,12 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
             time++;
         } 
-        if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 2 ) {           
+        if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 1 ) { 
+            #if (LEFT_OR_COFFEE == RIGHT)       
             GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
+            #else   
+            GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
+            #endif
             machinetime++;
         } 
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
@@ -356,6 +360,7 @@ void thread_serial(void *pvParameters)
             canSendsteamtemp(0,volume);
             volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
+            vTaskDelay(pdMS_TO_TICKS(20));
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_COFFEEBLOCK) { 
             #if(LEFT_OR_COFFEE == LEFT)
             int target = 0;

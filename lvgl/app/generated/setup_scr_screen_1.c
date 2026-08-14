@@ -407,7 +407,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_brewblock
     ui->screen_1_label_brewblock = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_brewblock, "Brew Block(T)");
+    lv_label_set_text(ui->screen_1_label_brewblock, "Brew Head(T)");
     lv_label_set_long_mode(ui->screen_1_label_brewblock, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_brewblock, 20, 0);
     lv_obj_set_size(ui->screen_1_label_brewblock, 100, 30);
@@ -501,7 +501,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_steamtemp
     ui->screen_1_label_steamtemp = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_steamtemp, "Steam Block(T)");
+    lv_label_set_text(ui->screen_1_label_steamtemp, "Steam Boiler(T)");
     lv_label_set_long_mode(ui->screen_1_label_steamtemp, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_steamtemp, 20, 76);
     lv_obj_set_size(ui->screen_1_label_steamtemp, 100, 30);
@@ -548,7 +548,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_coffeetemp
     ui->screen_1_label_coffeetemp = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_coffeetemp, "Coffee Block(T)");
+    lv_label_set_text(ui->screen_1_label_coffeetemp, "Coffee Boiler(T)");
     lv_label_set_long_mode(ui->screen_1_label_coffeetemp, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_coffeetemp, 20, 38);
     lv_obj_set_size(ui->screen_1_label_coffeetemp, 100, 30);
@@ -642,7 +642,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time3
     ui->screen_1_label_time3 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time3, "Time2(s)");
+    lv_label_set_text(ui->screen_1_label_time3, "Coffee Time2(s)");
     lv_label_set_long_mode(ui->screen_1_label_time3, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_time3, 20, 190);
     lv_obj_set_size(ui->screen_1_label_time3, 100, 30);
@@ -689,7 +689,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time2
     ui->screen_1_label_time2 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time2, "Time3(s)");
+    lv_label_set_text(ui->screen_1_label_time2, "Coffee Time3(s)");
     lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_time2, 20, 228);
     lv_obj_set_size(ui->screen_1_label_time2, 100, 30);
@@ -736,7 +736,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time1
     ui->screen_1_label_time1 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time1, "Time1(s)");
+    lv_label_set_text(ui->screen_1_label_time1, "Coffee Time1(s)");
     lv_label_set_long_mode(ui->screen_1_label_time1, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_time1, 20, 152);
     lv_obj_set_size(ui->screen_1_label_time1, 100, 30);
