@@ -349,7 +349,7 @@ void vModbusTask(void *pvParameters) {
         if (ret != 0) {
             printf("ret: %d\n",ret);
         }
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(20));
         int ret_progress = MBRTUMasterReadInputRegisters(&MbRtu, 0x01, INDEX_GRIND_MOTOR_RUNNING, 3, 100, register_values);
         if (ret_progress != 0) {
             printf("ret_progress = %d\r\n",ret_progress);
@@ -365,7 +365,7 @@ void vModbusTask(void *pvParameters) {
             }
         }
         
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
 
@@ -460,7 +460,6 @@ void vGrindingControlTask(void *pvParameters) {
         if (timerStart){
             resetTime += 100;
         }
-        LED0=!LED0;
         
         vTaskDelay(pdMS_TO_TICKS(100));
     }
