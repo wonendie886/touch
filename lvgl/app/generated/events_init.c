@@ -327,7 +327,7 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     {
         //Press the button to directly control the motor via Modbus protocol.
         if(start_flag == STATUS_IN_GRIND_STOP){
-            // start_flag = STATUS_IN_GRIND_START;
+            start_flag = STATUS_IN_GRIND_START;
         } else {
             start_flag = STATUS_IN_GRIND_STOP;
         }
