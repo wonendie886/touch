@@ -13,9 +13,9 @@ void flashDataInit(void)
 
     if (GrindSetData.time_1 == 0xFFFFFFFF) {
         ///write default data
-        GrindSetData.time_1 = 5000;
+        GrindSetData.time_1 = 3000;
         GrindSetData.time_2 = 6000;
-        GrindSetData.time_3 = 7000;
+        GrindSetData.time_3 = 5000;
         GrindSetData.weight_1 = 160;
         GrindSetData.weight_2 = 180;
         GrindSetData.weight_3 = 190;
