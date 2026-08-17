@@ -467,7 +467,7 @@ void vGrindingControlTask(void *pvParameters) {
                 elapsedTick = xTaskGetTickCount() - grindStartTick - resetTimeoff;
                 if (elapsedTick < 0)
                 elapsedTick = 0;
-                
+
                 motorTimer = elapsedTick;
                 printf("motorTimer %d xTaskGetTickCount %d grindStartTick %d resetTimeoff %d\r\n",motorTimer,xTaskGetTickCount(),grindStartTick,resetTimeoff);
                 /// update ui
@@ -499,13 +499,13 @@ void vGrindingControlTask(void *pvParameters) {
             }
         }
         if (timerStart){
-            resetTime += 100;
+            resetTime += 50;
         }
         if (timerStart && isGrindProgress != false){
-            resetTimeoff += 100;
+            resetTimeoff += 50;
         }
         // motorTimer += 100;
-        vTaskDelay(pdMS_TO_TICKS(100));
+        vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
 
