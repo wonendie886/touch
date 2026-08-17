@@ -170,7 +170,7 @@ static void screen_btn_1_event_handler (lv_event_t *e)
         //Currently highlighted, the rest are initialized.
         lv_obj_set_style_img_opa(guider_ui.screen_img_4,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_img_opa(guider_ui.screen_img_3,100,LV_PART_MAIN | LV_STATE_DEFAULT);
-
+        lv_obj_set_style_img_opa(guider_ui.screen_img_8,100,LV_PART_MAIN | LV_STATE_DEFAULT);
         grinding_target = 1;
         // 通过Modbus发送数据
         if (isGrindMode == 0) {
@@ -207,7 +207,7 @@ static void screen_btn_2_event_handler (lv_event_t *e)
         //Currently highlighted, the rest are initialized.
         lv_obj_set_style_img_opa(guider_ui.screen_img_3,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         lv_obj_set_style_img_opa(guider_ui.screen_img_4,100,LV_PART_MAIN | LV_STATE_DEFAULT);
-
+        lv_obj_set_style_img_opa(guider_ui.screen_img_8,100,LV_PART_MAIN | LV_STATE_DEFAULT);
         // 设置研磨目标为文本8
         grinding_target = 3;
 
@@ -326,10 +326,14 @@ static void screen_btn_4_event_handler (lv_event_t *e)
     case LV_EVENT_CLICKED:
     {
         //Press the button to directly control the motor via Modbus protocol.
-        if(start_flag == STATUS_IN_GRIND_STOP){
-            start_flag = STATUS_IN_GRIND_START;
-        } else {
+        if(start_flag == STATUS_IN_GRIND_START){
             start_flag = STATUS_IN_GRIND_STOP;
+        } else {
+            lv_obj_set_style_img_opa(guider_ui.screen_img_3,100,LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_img_opa(guider_ui.screen_img_4,100,LV_PART_MAIN | LV_STATE_DEFAULT);
+            lv_obj_set_style_img_opa(guider_ui.screen_img_8,255,LV_PART_MAIN | LV_STATE_DEFAULT);
+            grinding_target = 2;
+            Currenttargetime = 20*1000;
         }
         break;
     }
