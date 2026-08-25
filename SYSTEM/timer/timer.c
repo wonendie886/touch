@@ -48,5 +48,14 @@ void TIM2_IRQHandler(void)
 //     {
 //         HAL_IncTick();
 //         //lv_tick_inc(1);
+//         static uint8_t cnt = 0;
+
+//         cnt++;
+
+//         if (cnt >= 50)
+//         {
+//           cnt = 0;
+//           printf("111\r\n");
+//         }
 //     }
 // }

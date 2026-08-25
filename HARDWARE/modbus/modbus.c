@@ -131,7 +131,8 @@ void HAL_TIM_Base_MspInit(TIM_HandleTypeDef* tim_baseHandle)
         HAL_NVIC_EnableIRQ(TIM3_IRQn);
     }
 }
-
+extern bool motorflag;
+extern uint16_t motorTimer;
 void TIM3_IRQHandler(void)
 {
     HAL_TIM_IRQHandler(&htim3);
@@ -143,6 +144,14 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
         MBRTUMasterTimerISRCallback(&MbRtu);
     } else if(htim->Instance == TIM2) {
         HAL_IncTick();
+        static uint8_t cnt = 0;
+        if(motorflag == true){
+            cnt++;
+            if (cnt >= 50) {
+                cnt = 0;
+                motorTimer+= 50;
+            }
+        }
     }
 }
 

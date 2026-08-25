@@ -39,8 +39,6 @@ bool isGrindRunning = false;
 bool isGrindMode = MODE_TIME;
 bool timerStart = false;
 uint32_t resetTime = 0;
-uint32_t resetTimeoff = 0;
-
 // 接收完成：从 HAL 的 pRxMsg 读取数据，转交给 CAN_UserRxCb，然后重新使能接收
 void HAL_CAN_RxCpltCallback(CAN_HandleTypeDef *hcan_if)
 {
@@ -192,8 +190,8 @@ extern uint32_t rxCount;
 extern uint8_t RxBuf[100];
 extern int grinding_target;  // 研磨目标: 1-对应文本7, 2-对应文本8, 3-对应文本9
 extern uint16_t start_flag;              // 按钮4的启动标志位
-uint16_t motorTimer = 0;
 volatile bool grindAnimRunning = false;
+uint32_t progresstime = 0;
 SemaphoreHandle_t xSharedMutex;
 /// 32K offset
 #define APP_FLASH_OFFSET 0x8000
@@ -360,7 +358,6 @@ void vModbusTask(void *pvParameters) {
         wBuffer[INDEX_GRIND_WEIGHT] = 0;
         wBuffer[INDEX_GRIND_RESET] = resetFlag;
         int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_GRIND_ENABLE, 5,wBuffer, 100);
-
         // printf("motor: %d\n",isStartMotor);
 
         if (resetFlag){
@@ -377,50 +374,45 @@ void vModbusTask(void *pvParameters) {
         }
 
         if (grindButtonStatus != register_values[INDEX_GRIND_BUTTON]){
+            // printf("btn status change: %d\r\n",register_values[INDEX_GRIND_BUTTON]);
             grindButtonStatus = register_values[INDEX_GRIND_BUTTON];
 
-            if(start_flag == STATUS_IN_GRIND_STOP){
-                start_flag = STATUS_IN_GRIND_START;
-            } else {
-                start_flag = STATUS_IN_GRIND_STOP;
+            if (progresstime >= 500){
+                if(start_flag == STATUS_IN_GRIND_STOP){
+                    start_flag = STATUS_IN_GRIND_START;
+                } else {
+                    start_flag = STATUS_IN_GRIND_STOP;
+                }
             }
         }
         
         vTaskDelay(pdMS_TO_TICKS(20));
     }
 }
-
+bool motorflag = false;
+uint16_t motorTimer = 0;
 void vGrindingControlTask(void *pvParameters) {
     uint16_t time = 0 ;
     char progress_text[32];
     bool isStartFlag = 0;
-    // uint16_t motorTimer = 0;
     bool isAniRunning = false;
-    // bool grinding = false;
-    TickType_t grindStartTick = 0;
-    TickType_t elapsedTick;
         for (;;) {
         if(start_flag == STATUS_IN_GRIND_START) {
             isStartMotor = 1;
             if (!register_values[INDEX_GRIND_MOTOR_RUNNING]) {
                 if (!isGrindProgress) {
                     motorTimer = 0;
-                    printf("11111\r\n");
-                    grindStartTick = xTaskGetTickCount();
                 }
                 timerStart = false;
                 resetTime = 0;
                     
                 isGrindProgress = true;
-                // lv_obj_set_style_img_opa(guider_ui.screen_img_8, 188, LV_PART_MAIN | LV_STATE_DEFAULT);
-
                 printf("send start cmd\r\n");
             }
         } else {
             isStartMotor = 0;
             if (register_values[INDEX_GRIND_MOTOR_RUNNING]) {
                 ///@todo change png to start
-                // lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
 
                 /// start 3S timer
                 timerStart = true;
@@ -441,12 +433,8 @@ void vGrindingControlTask(void *pvParameters) {
                 timerStart = false;
                 resetTime = 0;
                 motorTimer = 0;
-                resetTimeoff = 0;
                 set_kr_current_time(0);
-
-                isGrindProgress = false;
-                // lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
-                
+                isGrindProgress = false;                
                 vTaskDelay(pdMS_TO_TICKS(20));
             }
             
@@ -455,24 +443,17 @@ void vGrindingControlTask(void *pvParameters) {
         if (isGrindProgress) {
             ///wait for start
             if (register_values[0] == 1) {
-                //isGrindRunning = true;
+                motorflag = true;
                 isStartFlag = true;
                 if (!isAniRunning) {
                     isAniRunning = true;
                     grindAnimRunning = true;
-                    // printf("start");
-                    // lv_anim_start(&a);
-                } 
-                // printf("resettimeoff %d",resetTimeoff);
-                elapsedTick = xTaskGetTickCount() - grindStartTick - resetTimeoff;
-                if (elapsedTick < 0)
-                elapsedTick = 0;
 
-                motorTimer = elapsedTick;
-                printf("motorTimer %d xTaskGetTickCount %d grindStartTick %d resetTimeoff %d\r\n",motorTimer,xTaskGetTickCount(),grindStartTick,resetTimeoff);
+                } 
                 /// update ui
                 set_kr_current_time(motorTimer/100);
             } else {
+                motorflag = false;
                 if (isAniRunning) {
                     isAniRunning = false;
                     grindAnimRunning = false;
@@ -485,26 +466,24 @@ void vGrindingControlTask(void *pvParameters) {
                 if(motorTimer >= Currenttargetime){
                     printf("motorTimer is time out\n");
                     isGrindProgress = false;
+                    progresstime = 0;
                     // printf("time %d\r\n",motorTimer);
                     start_flag = STATUS_IN_GRIND_STOP;
                     if (isAniRunning) {
                         isAniRunning = false;
                         grindAnimRunning = false;
                         stop_spinner();
-                        resetTimeoff = 0;
                     } 
                     ///@TODO change png to start
-                    // lv_obj_set_style_img_opa(guider_ui.screen_img_8, 255, LV_PART_MAIN | LV_STATE_DEFAULT);
                 }
             }
         }
         if (timerStart){
             resetTime += 50;
         }
-        if (timerStart && isGrindProgress != false){
-            resetTimeoff += 50;
-        }
-        // motorTimer += 100;
+
+        progresstime += 50;
+
         vTaskDelay(pdMS_TO_TICKS(50));
     }
 }
