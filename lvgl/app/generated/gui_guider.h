@@ -157,6 +157,9 @@ typedef struct
 	lv_obj_t *screen_1_label_2;
 	lv_obj_t *screen_1_btn_emptywater;
 	lv_obj_t *screen_1_btn_emptywater_label;
+	lv_obj_t *screen_1_label_3;
+	lv_obj_t *screen_1_btn_backflush;
+	lv_obj_t *screen_1_btn_backflush_label;
 	lv_obj_t *screen_1_cont_maintain;
 	lv_obj_t *screen_1_label_maintain;
 	lv_obj_t *screen_1_btn_maintain;

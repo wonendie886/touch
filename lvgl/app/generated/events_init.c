@@ -919,6 +919,24 @@ static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_1_btn_backflush_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //清空水路
+        maintain_setting = 4;
+        step = 1;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "将1升清水注入水箱,盲碗中加入5g清洁片/粉,再点“确定”开始冲煮头逆洗.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 static void screen_1_btn_passwordsave_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -966,7 +984,12 @@ static void screen_btn_maintain_event_handler (lv_event_t *e)
             lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
             lv_label_set_text(guider_ui.screen_1_label_maintain, "正在除垢,请注意蒸汽出口处的高温蒸汽.预计时间:30分钟.");
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;            
-        }
+        } else if (maintain_setting == 4){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "正在冲煮头逆洗,预计时间:5分钟.");
+            GrindDataStr.data.cmd = CMDTYPE_RINSE_BREWBLOCK;            
+        } 
         break;
     }
     default:
@@ -1002,6 +1025,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_descale, screen_1_btn_descale_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_changewater, screen_1_btn_changewater_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_emptywater, screen_1_btn_emptywater_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_backflush, screen_1_btn_backflush_event_handler, LV_EVENT_ALL, ui);    
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_maintain, screen_btn_maintain_event_handler, LV_EVENT_ALL, ui);

@@ -359,6 +359,10 @@ void thread_serial(void *pvParameters)
             canSendmaintain(CMDTYPE_DESCALE,step);
             step = 0;
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_RINSE_BREWBLOCK){
+            canSendmaintain(CMDTYPE_RINSE_BREWBLOCK,step);
+            step = 0;
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } 
         #endif
         if (can_msg.data_is_ready){
@@ -446,8 +450,7 @@ void updateTaskStep(void)
     if (taskFeedback.state == TASK_RUNNING){
             lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);    
     } else if (taskFeedback.progress > 1 ){
-        if(taskFeedback.function == CMDTYPE_EMPTY_WATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true)
-        {
+        if(taskFeedback.function == CMDTYPE_EMPTY_WATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
             updatetaskflag = false;
             sprintf(buf,"系统已排空,请关闭电源.");
             lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
@@ -474,6 +477,19 @@ void updateTaskStep(void)
             updatetaskflag = false;
             step = 0;
             printf("descale3");
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
+            lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+        } else if (taskFeedback.function == CMDTYPE_RINSE_BREWBLOCK && taskFeedback.step == 1 && taskFeedback.state == TASK_PAUSE && updatetaskflag == true ){
+            updatetaskflag = false;
+            step = 2;
+            printf("cleanbrewblock1");
+            sprintf(buf,"清洗盲碗,点击“确定”,再次清洗.");
+            lv_label_set_text(guider_ui.screen_1_label_maintain, buf);
+            lv_obj_clear_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
+        } else if (taskFeedback.function == CMDTYPE_RINSE_BREWBLOCK && taskFeedback.step == 2 && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
+            updatetaskflag = false;
+            step = 0;
+            printf("cleanbrewblock2");
             lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
             lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
         }
