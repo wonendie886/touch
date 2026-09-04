@@ -196,10 +196,12 @@ void CoffeeVolumeProcess(void)
 {
     static TickType_t lastTick = 0;
     static int schedule = 0;
+    static int elapsed_time = 0;   // 正计时
     // 没启动则直接返回
     if(coffee_run_flag == 0)
     {
         lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
+        elapsed_time = 0;   // 下次启动重新计时
         return;
     }
     lv_obj_clear_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
@@ -207,13 +209,11 @@ void CoffeeVolumeProcess(void)
     if(xTaskGetTickCount() - lastTick >= pdMS_TO_TICKS(1000))
     {
         lastTick = xTaskGetTickCount();
-        if(volume > 9)
-        lv_label_set_text_fmt(guider_ui.screen_label_18, "00:%d", volume); 
-        else if(volume >= 0)
-        lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", volume);
-        if(volume > 0){
-            schedule = (volume*100)/scheduleall;
-            volume--;
+         // 显示正计时
+
+        if(elapsed_time < scheduleall){
+            schedule = (elapsed_time * 100) / scheduleall;
+            elapsed_time++;
             // printf("scheduieall = %d volume = %d  schedule = %d\r\n", scheduleall,volume,schedule);
         } else {
             lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
@@ -222,11 +222,16 @@ void CoffeeVolumeProcess(void)
             #if (LEFT_OR_COFFEE == LEFT)            
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
             #endif
-            volume = 0;
-            schedule = (volume*100)/scheduleall;
+            elapsed_time = 0;
+            schedule = (elapsed_time*100)/scheduleall;
             coffee_run_flag = 0;
             printf("Coffee volume finished\r\n");
-        }       
+        }   
+        if(elapsed_time > 9){
+            lv_label_set_text_fmt(guider_ui.screen_label_18, "00:%d", elapsed_time);  
+        } else {
+            lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", elapsed_time); 
+        }    
     }
 
 }
@@ -234,23 +239,25 @@ void CoffeeVolumeProcess(void)
 void SteamVolumeProcess(void)
 {
     static TickType_t lastTickSteam = 0;
+    static int steam_elapsed_time = 0;   // 已计时时间
     // static int schedule = 0;
     // 没启动则直接返回
     if(steamEnable == 0)
     {
+        steam_elapsed_time = 0;   // 下次启动重新计时
         return;
     }
     // 每1s减一次
     if(xTaskGetTickCount() - lastTickSteam >= pdMS_TO_TICKS(1000))
     {
         lastTickSteam = xTaskGetTickCount();
-        lv_label_set_text_fmt(guider_ui.screen_label_steamtime, "%d", steamvolume);
-        if(steamvolume > 0){
-            steamvolume--;
+
+        if(steam_elapsed_time < steamvolume){
+            steam_elapsed_time++;
         } else {
             lv_obj_add_flag(guider_ui.screen_label_steamtime, LV_OBJ_FLAG_HIDDEN);
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-            steamvolume = 0;
+            steam_elapsed_time = 0;
             steamEnable = 0;
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftSteam(0,volume);
@@ -258,7 +265,9 @@ void SteamVolumeProcess(void)
                 canSendRightSteam(0,volume);
             #endif
             printf("steam volume finished\r\n");
-        }       
+        } 
+        printf("steam volume = %d  steam_elapsed_time = %d\r\n", steamvolume,steam_elapsed_time);    
+        lv_label_set_text_fmt(guider_ui.screen_label_steamtime, "%d", steam_elapsed_time);  
     }
 }
 
@@ -397,6 +406,10 @@ void thread_serial(void *pvParameters)
             canSendmaintain(CMDTYPE_DESCALE,step);
             step = 0;
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
+        } else if (GrindDataStr.data.cmd == CMDTYPE_RINSE_BREWBLOCK){
+            canSendmaintain(CMDTYPE_RINSE_BREWBLOCK,step);
+            step = 0;
+            GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } 
         #endif
         if (can_msg.data_is_ready){
@@ -514,6 +527,19 @@ void updateTaskStep(void)
             updatetaskflag = false;
             step = 0;
             printf("descale3");
+            lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
+            lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+        } else if (taskFeedback.function == CMDTYPE_RINSE_BREWBLOCK && taskFeedback.step == 1 && taskFeedback.state == TASK_PAUSE && updatetaskflag == true ){
+            updatetaskflag = false;
+            step = 2;
+            printf("cleanbrewblock1");
+            sprintf(buf,"清洗盲碗,点击“确定”,再次清洗.");
+            lv_label_set_text(guider_ui.screen_1_label_maintain, buf);
+            lv_obj_clear_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
+        } else if (taskFeedback.function == CMDTYPE_RINSE_BREWBLOCK && taskFeedback.step == 2 && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
+            updatetaskflag = false;
+            step = 0;
+            printf("cleanbrewblock2");
             lv_bar_set_value(guider_ui.screen_1_bar_maintain,taskFeedback.progress,LV_ANIM_ON);
             lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
         }

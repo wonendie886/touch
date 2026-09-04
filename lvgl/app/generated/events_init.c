@@ -228,12 +228,13 @@ static void screen_btn_steam_event_handler (lv_event_t *e)
             #else
                 canSendRightSteam(0,volume);
             #endif
+            lv_label_set_text_fmt(guider_ui.screen_label_steamtime, "%d", steamvolume); 
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
         } else {
             steamvolume = GrindSetData.steamtime;
-            char string_data[50] = {0}; 
-            sprintf(string_data, "%d", steamvolume);
-            lv_label_set_text_fmt(guider_ui.screen_label_steamtime, "%s", string_data);        
+            // char string_data[50] = {0}; 
+            // sprintf(string_data, "%d", steamvolume);
+            // lv_label_set_text_fmt(guider_ui.screen_label_steamtime, "%s", string_data);        
             lv_obj_clear_flag(guider_ui.screen_label_steamtime, LV_OBJ_FLAG_HIDDEN);
             GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
             steamEnable = 1;
@@ -254,17 +255,19 @@ static void screen_btn_rinse_event_handler (lv_event_t *e)
         //rinse
         if(volume == 0){
             volume = 10000;
+            scheduleall = volume;
             lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
-            #if (LEFT_OR_COFFEE == LEFT)
-                canSendLeftCoffee(1,volume);
-            #else
-                canSendRightCoffee(1,volume);
-            #endif
+            // #if (LEFT_OR_COFFEE == LEFT)
+            //     canSendLeftCoffee(1,volume);
+            // #else
+            //     canSendRightCoffee(1,volume);
+            // #endif
+            GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
         } else {
             GrindDataStr.data.cmd = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
             lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
@@ -496,7 +499,7 @@ static void screen_btn_passwordenter_event_handler (lv_event_t *e)
             lv_label_set_text(guider_ui.screen_label_passworderror, "");
             lv_textarea_set_text(ta, "");
             // 跳转设置菜单
-            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_FADE_IN, 300, 0, false, false);
         }
         else
         {
@@ -613,7 +616,7 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
         lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
 
-        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_FADE_ON, 300, 0, false, false);
         break;
     }
     default:
@@ -869,6 +872,24 @@ static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_1_btn_backflush_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //清空水路
+        maintain_setting = 4;
+        step = 1;
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "将1升清水注入水箱,盲碗中加入5g清洁片/粉,再点“确定”开始冲煮头逆洗.");
+        lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 static void screen_btn_maintainon_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -891,7 +912,12 @@ static void screen_btn_maintainon_event_handler (lv_event_t *e)
             lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
             lv_label_set_text(guider_ui.screen_1_label_maintain, "Descaling in progress.Be careful of hot steam from the steam outlet.Estimated time: 30 minutes.");
             GrindDataStr.data.cmd = CMDTYPE_DESCALE;            
-        }
+        } else if (maintain_setting == 4){
+            lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "正在冲煮头逆洗,预计时间:5分钟.");
+            GrindDataStr.data.cmd = CMDTYPE_RINSE_BREWBLOCK;            
+        } 
         break;
     }
     default:
@@ -952,6 +978,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_descale, screen_1_btn_descale_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_changewater, screen_1_btn_changewater_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_emptywater, screen_1_btn_emptywater_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_backflush, screen_1_btn_backflush_event_handler, LV_EVENT_ALL, ui);  
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_maintain, screen_btn_maintainon_event_handler, LV_EVENT_ALL, ui);

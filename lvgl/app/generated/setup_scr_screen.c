@@ -1589,8 +1589,8 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_18 = lv_label_create(ui->screen_cont_countdown);
     lv_label_set_text(ui->screen_label_18, "00:09");
     lv_label_set_long_mode(ui->screen_label_18, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_18, 162, 13);
-    lv_obj_set_size(ui->screen_label_18, 91, 42);
+    lv_obj_set_pos(ui->screen_label_18, 142, 13);
+    lv_obj_set_size(ui->screen_label_18, 130, 42);
 
     //Write style for screen_label_18, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_label_18, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
