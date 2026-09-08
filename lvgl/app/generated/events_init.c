@@ -27,7 +27,7 @@ static uint8_t active_time_setting = 0;
 static uint8_t maintain_setting = 0;
 uint8_t teasetflag = 0;
 uint8_t teaflag = 0;
-uint8_t scheduleall = 0;
+uint32_t scheduleall = 0;
 
 static void SaveTeaParam(uint8_t index);
 static void ShowTeaParam(uint8_t index);
@@ -881,7 +881,7 @@ static void screen_1_btn_backflush_event_handler (lv_event_t *e)
         //清空水路
         maintain_setting = 4;
         step = 1;
-        lv_label_set_text(guider_ui.screen_1_label_maintain, "将1升清水注入水箱,盲碗中加入5g清洁片/粉,再点“确定”开始冲煮头逆洗.");
+        lv_label_set_text(guider_ui.screen_1_label_maintain, "Pour 1 L of fresh water into the water tank. Add 5 g of cleaning tablets/powder to the blind basket, then tap OK to start the brew group backflush.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
         break;
@@ -915,7 +915,7 @@ static void screen_btn_maintainon_event_handler (lv_event_t *e)
         } else if (maintain_setting == 4){
             lv_obj_add_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_1_bar_maintain, LV_OBJ_FLAG_HIDDEN);
-            lv_label_set_text(guider_ui.screen_1_label_maintain, "正在冲煮头逆洗,预计时间:5分钟.");
+            lv_label_set_text(guider_ui.screen_1_label_maintain, "Backflushing brew group. Estimated time: 5 minutes.");
             GrindDataStr.data.cmd = CMDTYPE_RINSE_BREWBLOCK;            
         } 
         break;

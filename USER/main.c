@@ -190,7 +190,7 @@ extern uint8_t teasetflag ;
 extern uint8_t teaflag ;
 extern uint8_t steamEnable;
 bool startflag;
-extern uint8_t scheduleall;
+extern uint32_t scheduleall;
 bool updatetaskflag = false;
 void CoffeeVolumeProcess(void)
 {
@@ -533,7 +533,7 @@ void updateTaskStep(void)
             updatetaskflag = false;
             step = 2;
             printf("cleanbrewblock1");
-            sprintf(buf,"清洗盲碗,点击“确定”,再次清洗.");
+            sprintf(buf,"Insert the blind filter basket, tap OK then run the cleaning cycle again.");
             lv_label_set_text(guider_ui.screen_1_label_maintain, buf);
             lv_obj_clear_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
         } else if (taskFeedback.function == CMDTYPE_RINSE_BREWBLOCK && taskFeedback.step == 2 && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
