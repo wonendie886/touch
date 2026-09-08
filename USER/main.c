@@ -263,8 +263,12 @@ void thread_serial(void *pvParameters)
             GrindDataStr.data.cmd = CMDTYPE_SYSTEM_FILL_WATER;
             time++;
         } 
-        if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 2 ) {           
+        if (currentTime - lastUpdateTime >= machineInfoupdateTimePeriod && machinetime < 1 ) {           
+            #if (LEFT_OR_COFFEE == RIGHT)       
             GrindDataStr.data.cmd = CMDTYPE_SET_STEAMBLOCK;
+            #else   
+            GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
+            #endif
             machinetime++;
         } 
         if (GrindDataStr.data.cmd == CMDTYPE_GRIND){
@@ -323,6 +327,7 @@ void thread_serial(void *pvParameters)
             canSendsteamtemp(0,volume);
             volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
+            vTaskDelay(pdMS_TO_TICKS(20));
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_COFFEEBLOCK) { 
             #if(LEFT_OR_COFFEE == LEFT)
             int target = 0;
@@ -379,18 +384,15 @@ void thread_serial(void *pvParameters)
                     if ( getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_B) {
                         int ret = can_msg.rx_data[1] << 8 | can_msg.rx_data[0];
                         current_temp.steam_boiler_temp = (float)ret/10;
-                    } else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){
-                        #if (LEFT_OR_COFFEE == LEFT)
-                        int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
-                        int ret2 = can_msg.rx_data[3] << 8 | can_msg.rx_data[2];   
-                        current_temp.brew_head_temp = (float)ret2/10;   
-                        current_temp.coffee_boiler_temp = (float)ret/10;  
-                        #else
-                        int ret = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
-                        current_temp.coffee_boiler_temp = (float)ret/10;                              
-                        #endif
-                    } else if (getCmdType(can_msg.rx_efid) == FUNC_PRESSURE_CURRENT){ 
-                        current_temp.pressure = (float)can_msg.rx_data[0]/10;
+                        int ret2 = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
+                        current_temp.pressure = (float)ret2/10; 
+                    #if (LEFT_OR_COFFEE == RIGHT)
+                        int ret1 = can_msg.rx_data[3] << 8 | can_msg.rx_data[2];
+                        current_temp.coffee_boiler_temp = (float)ret1/10; 
+                        int ret3 = can_msg.rx_data[7] << 8 | can_msg.rx_data[6];
+                        current_temp.brew_head_temp = (float)ret3/10;
+                    #endif 
+                        // printf("steamtemp %.2f\r\n",current_temp.steam_boiler_temp);
                     } else if (getCmdType(can_msg.rx_efid)==FUNC_TASK_FEEDBACK){ 
                         parseTaskFeedback(can_msg.rx_data);
                         if(lasttaskstate != taskFeedback.state){
@@ -398,10 +400,12 @@ void thread_serial(void *pvParameters)
                         }
                         lasttaskstate = taskFeedback.state;
                     } 
-                    #if (LEFT_OR_COFFEE == RIGHT)
-                    else if (getCmdType(can_msg.rx_efid) == FUNC_VALVE){ 
-                        int ret = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];  
-                        current_temp.brew_head_temp = (float)ret/10;
+                    #if (LEFT_OR_COFFEE == LEFT)
+                     else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){ 
+                        int ret1 = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
+                        current_temp.coffee_boiler_temp = (float)ret1/10; 
+                        int ret3 = can_msg.rx_data[3] << 8 | can_msg.rx_data[2];
+                        current_temp.brew_head_temp = (float)ret3/10;
                     }
                     #endif
                 }
@@ -538,10 +542,10 @@ void vLvglTaskFunction(void *pvParameters) {
         xLastTickCount = xCurrentTickCount;
 
         lv_tick_inc(elapsed_ticks * portTICK_PERIOD_MS); 
+
+        lv_task_handler();
         updateTaskStep();
         updatetemp();
-        lv_task_handler();
-
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }
