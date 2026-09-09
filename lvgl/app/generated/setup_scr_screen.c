@@ -1092,8 +1092,6 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_pos(ui->screen_btn_steam, 174, 2);
     lv_obj_set_size(ui->screen_btn_steam, 60, 47);
 #endif
-    lv_obj_set_pos(ui->screen_btn_steam, 4, 2);
-    lv_obj_set_size(ui->screen_btn_steam, 60, 47);
 
     //Write style for screen_btn_steam, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
