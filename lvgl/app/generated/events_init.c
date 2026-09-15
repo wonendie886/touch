@@ -86,11 +86,19 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
             lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
             break;
         } else if (current_mode == MODE_COFFEE){ 
-            
-
+            char string_data[50] = {0}; 
+            // printf("coffee1set %d\r\n",GrindSetData.time_1);
+            sprintf(string_data, "%d", GrindSetData.time_1);
+            lv_textarea_set_text(guider_ui.screen_ta_coffee1set, string_data);    
+            lv_obj_clear_flag(guider_ui.screen_cont_coffee1set, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+            lv_obj_add_state(guider_ui.screen_btnm_choosemode, LV_STATE_DISABLED);
+            // lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);            
         }   
-
-      
         break;
     }
     default:
@@ -134,20 +142,32 @@ static void screen_btn_coffee3_event_handler (lv_event_t *e)
     }
     case LV_EVENT_LONG_PRESSED:
     {
-        // 只有Tea模式才响应长按
-        if(current_mode != MODE_TEA)
-        {
-            break;
-        }
         //长按进入设置界面
         //唤醒设置界面，从内存读取3数据并设置文本
-        teasetflag = 2;
-        ShowTeaParam(teasetflag);
-        lv_obj_clear_flag(guider_ui.screen_cont_teaset, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        if(current_mode == MODE_TEA)
+        {
+            teasetflag = 2;
+            ShowTeaParam(teasetflag);
+            lv_obj_clear_flag(guider_ui.screen_cont_teaset, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        } else if (current_mode == MODE_COFFEE){ 
+            char string_data[50] = {0}; 
+            // printf("coffee1set %d\r\n",GrindSetData.time_1);
+            sprintf(string_data, "%d", GrindSetData.time_3);
+            lv_textarea_set_text(guider_ui.screen_ta_coffee2set, string_data);    
+            lv_obj_clear_flag(guider_ui.screen_cont_coffee2set, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+            lv_obj_add_state(guider_ui.screen_btnm_choosemode, LV_STATE_DISABLED);
+            // lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);            
+        }  
         break;
     }
     default:
@@ -192,20 +212,33 @@ static void screen_btn_coffee2_event_handler (lv_event_t *e)
     }
     case LV_EVENT_LONG_PRESSED:
     {
-        // 只有Tea模式才响应长按
-        if(current_mode != MODE_TEA)
-        {
-            break;
-        }
         //长按进入设置界面
         //唤醒设置界面，从内存读取2数据并设置文本
-        teasetflag = 1;
-        ShowTeaParam(teasetflag);
-        lv_obj_clear_flag(guider_ui.screen_cont_teaset, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        if(current_mode == MODE_TEA)
+        {
+            teasetflag = 1;
+            ShowTeaParam(teasetflag);
+            lv_obj_clear_flag(guider_ui.screen_cont_teaset, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        } else if (current_mode == MODE_COFFEE){ 
+            char string_data[50] = {0}; 
+            // printf("coffee1set %d\r\n",GrindSetData.time_1);
+            sprintf(string_data, "%d", GrindSetData.time_2);
+            lv_textarea_set_text(guider_ui.screen_ta_coffee3set, string_data);    
+            lv_obj_clear_flag(guider_ui.screen_cont_coffee3set, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+            lv_obj_add_state(guider_ui.screen_btnm_choosemode, LV_STATE_DISABLED);
+            // lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);            
+        }  
+
         break;
     }
     default:
@@ -519,6 +552,86 @@ static void screen_btn_passwordenter_event_handler (lv_event_t *e)
         break;
     }
 }
+static void screen_btn_coffee1save_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //保存时间值，隐藏对应容器,打开按钮功能。
+        const char *text = lv_textarea_get_text(guider_ui.screen_ta_coffee1set);
+        uint32_t value = atoi(text);    
+        GrindSetData.time_1 = value;      
+        flashDataSave();
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", text); 
+        lv_obj_add_flag(guider_ui.screen_cont_coffee1set, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+        lv_obj_clear_state(guider_ui.screen_btnm_choosemode, LV_STATE_DISABLED);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_btn_coffee2save_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //保存时间值，隐藏对应容器，打开按钮功能。
+        const char *text = lv_textarea_get_text(guider_ui.screen_ta_coffee2set);
+        uint32_t value = atoi(text);    
+        GrindSetData.time_3 = value;      
+        flashDataSave();
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", text); 
+        lv_obj_add_flag(guider_ui.screen_cont_coffee2set, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+        lv_obj_clear_state(guider_ui.screen_btnm_choosemode, LV_STATE_DISABLED);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_btn_coffee3save_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //保存时间值，隐藏对应容器，打开按钮功能。
+        const char *text = lv_textarea_get_text(guider_ui.screen_ta_coffee3set);
+        uint32_t value = atoi(text);    
+        GrindSetData.time_2 = value;      
+        flashDataSave();
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", text); 
+        lv_obj_add_flag(guider_ui.screen_cont_coffee3set, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+        lv_obj_clear_state(guider_ui.screen_btnm_choosemode, LV_STATE_DISABLED);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_coffee1, screen_btn_coffee1_event_handler, LV_EVENT_ALL, ui);
@@ -528,13 +641,16 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_rinse, screen_btn_rinse_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_cancel, screen_btn_cancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_menu, screen_btn_menu_event_handler, LV_EVENT_ALL, ui);
-    #if (LEFT_OR_COFFEE == LEFT)
+    // #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_btn_hotwater, screen_btn_hotwater_event_handler, LV_EVENT_ALL, ui);
-    #endif
+    // #endif
     lv_obj_add_event_cb(ui->screen_btnm_choosemode,screen_btnm_choosemode_event_cb,LV_EVENT_VALUE_CHANGED,NULL);
     lv_obj_add_event_cb(ui->screen_btn_save, screen_btn_save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_teacancel, screen_btn_teacancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_passwordenter, screen_btn_passwordenter_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_coffee1save, screen_btn_coffee1save_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_coffee2save, screen_btn_coffee2save_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_coffee3save, screen_btn_coffee3save_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void Set_event_handler (lv_event_t *e)

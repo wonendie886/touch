@@ -792,11 +792,11 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_20, &_5_alpha_27x32);
     lv_img_set_pivot(ui->screen_img_20, 50,50);
     lv_img_set_angle(ui->screen_img_20, 0);
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_img_20, 40, 11);
-#else
-    lv_obj_set_pos(ui->screen_img_20, 100, 11);
-#endif
+// #else
+//     lv_obj_set_pos(ui->screen_img_20, 100, 11);
+// #endif
 
     lv_obj_set_size(ui->screen_img_20, 27, 32);
 
@@ -806,7 +806,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_radius(ui->screen_img_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_20, true, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
     //Write codes screen_img_hotwater
     ui->screen_img_hotwater = lv_img_create(ui->screen_cont_M);
     lv_obj_add_flag(ui->screen_img_hotwater, LV_OBJ_FLAG_CLICKABLE);
@@ -822,18 +822,18 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_radius(ui->screen_img_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_hotwater, true, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-#endif
+// #endif
    //Write codes screen_img_stop
     ui->screen_img_stop = lv_img_create(ui->screen_cont_M);
     lv_obj_add_flag(ui->screen_img_stop, LV_OBJ_FLAG_CLICKABLE);
     lv_img_set_src(ui->screen_img_stop, &_stop_alpha_32x32);
     lv_img_set_pivot(ui->screen_img_stop, 50,50);
     lv_img_set_angle(ui->screen_img_stop, 0);
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_img_stop, 175, 11);
-#else
-    lv_obj_set_pos(ui->screen_img_stop, 255, 11);
-#endif
+// #else
+//     lv_obj_set_pos(ui->screen_img_stop, 255, 11);
+// #endif
     lv_obj_set_size(ui->screen_img_stop, 32, 32);
     lv_obj_add_flag(ui->screen_img_stop, LV_OBJ_FLAG_HIDDEN);
 
@@ -849,11 +849,11 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_21, &_start_alpha_32x32);
     lv_img_set_pivot(ui->screen_img_21, 50,50);
     lv_img_set_angle(ui->screen_img_21, 0);
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_img_21, 175, 11);
-#else
-    lv_obj_set_pos(ui->screen_img_21, 255, 11);
-#endif
+// #else
+//     lv_obj_set_pos(ui->screen_img_21, 255, 11);
+// #endif
     lv_obj_set_size(ui->screen_img_21, 32, 32);
 
     //Write style for screen_img_21, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -862,7 +862,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_radius(ui->screen_img_21, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_21, true, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
    //Write codes screen_btn_hotwater
     ui->screen_btn_hotwater = lv_btn_create(ui->screen_cont_M);
     ui->screen_btn_hotwater_label = lv_label_create(ui->screen_btn_hotwater);
@@ -884,7 +884,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_btn_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_hotwater, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-#endif
+// #endif
     //Write codes screen_btn_rinse
     ui->screen_btn_rinse = lv_btn_create(ui->screen_cont_M);
     ui->screen_btn_rinse_label = lv_label_create(ui->screen_btn_rinse);
@@ -893,13 +893,13 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_rinse_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_rinse, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_rinse_label, LV_PCT(100));
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_btn_rinse, 130, 1);
     lv_obj_set_size(ui->screen_btn_rinse, 121, 45);
-#else
-    lv_obj_set_pos(ui->screen_btn_rinse, 196, 1);
-    lv_obj_set_size(ui->screen_btn_rinse, 171, 45);
-#endif
+// #else
+//     lv_obj_set_pos(ui->screen_btn_rinse, 196, 1);
+//     lv_obj_set_size(ui->screen_btn_rinse, 171, 45);
+// #endif
 
     //Write style for screen_btn_rinse, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_rinse, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -920,11 +920,11 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_pad_all(ui->screen_btn_steam, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_steam_label, LV_PCT(100));
     lv_obj_set_pos(ui->screen_btn_steam, 4, 2);
-#if (LEFT_OR_COFFEE == LEFT)
+// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_size(ui->screen_btn_steam, 87, 47);
-#else
-    lv_obj_set_size(ui->screen_btn_steam, 181, 47);
-#endif
+// #else
+//     lv_obj_set_size(ui->screen_btn_steam, 181, 47);
+// #endif
     //Write style for screen_btn_steam, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_btn_steam, lv_color_hex(0xfd9f45), LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -1870,6 +1870,252 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_font(ui->screen_btn_passwordenter, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_passwordenter, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_passwordenter, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_cont_coffee1set
+    ui->screen_cont_coffee1set = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_cont_coffee1set, 33, 85);
+    lv_obj_set_size(ui->screen_cont_coffee1set, 130, 90);
+    lv_obj_set_scrollbar_mode(ui->screen_cont_coffee1set, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_cont_coffee1set, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for screen_cont_coffee1set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_cont_coffee1set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_cont_coffee1set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_cont_coffee1set, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_cont_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_ta_coffee1set
+    ui->screen_ta_coffee1set = lv_textarea_create(ui->screen_cont_coffee1set);
+    lv_textarea_set_text(ui->screen_ta_coffee1set, "15");
+    lv_textarea_set_placeholder_text(ui->screen_ta_coffee1set, "");
+    lv_textarea_set_password_bullet(ui->screen_ta_coffee1set, "*");
+    lv_textarea_set_password_mode(ui->screen_ta_coffee1set, false);
+    lv_textarea_set_one_line(ui->screen_ta_coffee1set, false);
+    lv_textarea_set_accepted_chars(ui->screen_ta_coffee1set, "");
+    lv_textarea_set_max_length(ui->screen_ta_coffee1set, 32);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->screen_ta_coffee1set, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->screen_ta_coffee1set, 15, 12);
+    lv_obj_set_size(ui->screen_ta_coffee1set, 100, 35);
+
+    //Write style for screen_ta_coffee1set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->screen_ta_coffee1set, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_ta_coffee1set, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_ta_coffee1set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_ta_coffee1set, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_ta_coffee1set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_ta_coffee1set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_coffee1set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_coffee1set, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_ta_coffee1set, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_ta_coffee1set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_ta_coffee1set, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_ta_coffee1set, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_ta_coffee1set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_ta_coffee1set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_ta_coffee1set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_ta_coffee1set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_coffee1set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_ta_coffee1set, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_ta_coffee1set, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_coffee1set, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_coffee1set, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_coffee1set, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_coffee1save
+    ui->screen_btn_coffee1save = lv_btn_create(ui->screen_cont_coffee1set);
+    ui->screen_btn_coffee1save_label = lv_label_create(ui->screen_btn_coffee1save);
+    lv_label_set_text(ui->screen_btn_coffee1save_label, "save");
+    lv_label_set_long_mode(ui->screen_btn_coffee1save_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_coffee1save_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_coffee1save, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_coffee1save_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_coffee1save, 30, 52);
+    lv_obj_set_size(ui->screen_btn_coffee1save, 70, 24);
+
+    //Write style for screen_btn_coffee1save, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_coffee1save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_btn_coffee1save, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_btn_coffee1save, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_coffee1save, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_coffee1save, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_coffee1save, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_coffee1save, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_coffee1save, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_coffee1save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_coffee1save, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_cont_coffee2set
+    ui->screen_cont_coffee2set = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_cont_coffee2set, 175, 85);
+    lv_obj_set_size(ui->screen_cont_coffee2set, 130, 90);
+    lv_obj_set_scrollbar_mode(ui->screen_cont_coffee2set, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_cont_coffee2set, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for screen_cont_coffee2set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_cont_coffee2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_cont_coffee2set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_cont_coffee2set, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_cont_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_ta_coffee2set
+    ui->screen_ta_coffee2set = lv_textarea_create(ui->screen_cont_coffee2set);
+    lv_textarea_set_text(ui->screen_ta_coffee2set, "25");
+    lv_textarea_set_placeholder_text(ui->screen_ta_coffee2set, "");
+    lv_textarea_set_password_bullet(ui->screen_ta_coffee2set, "*");
+    lv_textarea_set_password_mode(ui->screen_ta_coffee2set, false);
+    lv_textarea_set_one_line(ui->screen_ta_coffee2set, false);
+    lv_textarea_set_accepted_chars(ui->screen_ta_coffee2set, "");
+    lv_textarea_set_max_length(ui->screen_ta_coffee2set, 3);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->screen_ta_coffee2set, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->screen_ta_coffee2set, 15, 12);
+    lv_obj_set_size(ui->screen_ta_coffee2set, 100, 35);
+
+    //Write style for screen_ta_coffee2set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->screen_ta_coffee2set, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_ta_coffee2set, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_ta_coffee2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_ta_coffee2set, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_ta_coffee2set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_ta_coffee2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_coffee2set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_coffee2set, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_ta_coffee2set, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_ta_coffee2set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_ta_coffee2set, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_ta_coffee2set, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_ta_coffee2set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_ta_coffee2set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_ta_coffee2set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_ta_coffee2set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_coffee2set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_ta_coffee2set, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_ta_coffee2set, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_coffee2set, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_coffee2set, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_coffee2set, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_coffee2save
+    ui->screen_btn_coffee2save = lv_btn_create(ui->screen_cont_coffee2set);
+    ui->screen_btn_coffee2save_label = lv_label_create(ui->screen_btn_coffee2save);
+    lv_label_set_text(ui->screen_btn_coffee2save_label, "save");
+    lv_label_set_long_mode(ui->screen_btn_coffee2save_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_coffee2save_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_coffee2save, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_coffee2save_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_coffee2save, 30, 52);
+    lv_obj_set_size(ui->screen_btn_coffee2save, 70, 24);
+
+    //Write style for screen_btn_coffee2save, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_coffee2save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_btn_coffee2save, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_btn_coffee2save, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_coffee2save, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_coffee2save, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_coffee2save, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_coffee2save, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_coffee2save, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_coffee2save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_coffee2save, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_cont_coffee3set
+    ui->screen_cont_coffee3set = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_cont_coffee3set, 318, 85);
+    lv_obj_set_size(ui->screen_cont_coffee3set, 130, 90);
+    lv_obj_set_scrollbar_mode(ui->screen_cont_coffee3set, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_cont_coffee3set, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for screen_cont_coffee3set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_cont_coffee3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_cont_coffee3set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_cont_coffee3set, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_cont_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_ta_coffee3set
+    ui->screen_ta_coffee3set = lv_textarea_create(ui->screen_cont_coffee3set);
+    lv_textarea_set_text(ui->screen_ta_coffee3set, "35");
+    lv_textarea_set_placeholder_text(ui->screen_ta_coffee3set, "");
+    lv_textarea_set_password_bullet(ui->screen_ta_coffee3set, "*");
+    lv_textarea_set_password_mode(ui->screen_ta_coffee3set, false);
+    lv_textarea_set_one_line(ui->screen_ta_coffee3set, false);
+    lv_textarea_set_accepted_chars(ui->screen_ta_coffee3set, "");
+    lv_textarea_set_max_length(ui->screen_ta_coffee3set, 3);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->screen_ta_coffee3set, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->screen_ta_coffee3set, 15, 12);
+    lv_obj_set_size(ui->screen_ta_coffee3set, 100, 35);
+
+    //Write style for screen_ta_coffee3set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->screen_ta_coffee3set, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_ta_coffee3set, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_ta_coffee3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_ta_coffee3set, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_ta_coffee3set, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_ta_coffee3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_coffee3set, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_coffee3set, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_ta_coffee3set, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_ta_coffee3set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_ta_coffee3set, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_ta_coffee3set, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_ta_coffee3set, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_ta_coffee3set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_ta_coffee3set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_ta_coffee3set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_coffee3set, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_ta_coffee3set, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_ta_coffee3set, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_coffee3set, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_coffee3set, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_coffee3set, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_coffee3save
+    ui->screen_btn_coffee3save = lv_btn_create(ui->screen_cont_coffee3set);
+    ui->screen_btn_coffee3save_label = lv_label_create(ui->screen_btn_coffee3save);
+    lv_label_set_text(ui->screen_btn_coffee3save_label, "save");
+    lv_label_set_long_mode(ui->screen_btn_coffee3save_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_coffee3save_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_coffee3save, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_coffee3save_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_coffee3save, 30, 52);
+    lv_obj_set_size(ui->screen_btn_coffee3save, 70, 24);
+
+    //Write style for screen_btn_coffee3save, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_coffee3save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_btn_coffee3save, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_btn_coffee3save, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_coffee3save, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_coffee3save, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_coffee3save, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_coffee3save, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_coffee3save, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_coffee3save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_coffee3save, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
     //The custom code of screen.
     lv_btnmatrix_set_btn_ctrl_all(ui->screen_btnm_choosemode, LV_BTNMATRIX_CTRL_CHECKABLE);

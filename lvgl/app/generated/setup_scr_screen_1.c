@@ -807,7 +807,8 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_pos(ui->screen_1_cont_set, 14, 137);
     lv_obj_set_size(ui->screen_1_cont_set, 300, 55);
     lv_obj_set_scrollbar_mode(ui->screen_1_cont_set, LV_SCROLLBAR_MODE_OFF);
-
+    lv_obj_add_flag(ui->screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+    
     //Write style for screen_1_cont_set, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_cont_set, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_color(ui->screen_1_cont_set, lv_color_hex(0x525151), LV_PART_MAIN|LV_STATE_DEFAULT);

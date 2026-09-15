@@ -141,6 +141,18 @@ typedef struct
 	lv_obj_t *screen_label_passworderror;
 	lv_obj_t *screen_btn_passwordenter;
 	lv_obj_t *screen_btn_passwordenter_label;
+	lv_obj_t *screen_cont_coffee1set;
+	lv_obj_t *screen_ta_coffee1set;
+	lv_obj_t *screen_btn_coffee1save;
+	lv_obj_t *screen_btn_coffee1save_label;
+	lv_obj_t *screen_cont_coffee2set;
+	lv_obj_t *screen_ta_coffee2set;
+	lv_obj_t *screen_btn_coffee2save;
+	lv_obj_t *screen_btn_coffee2save_label;
+	lv_obj_t *screen_cont_coffee3set;
+	lv_obj_t *screen_ta_coffee3set;
+	lv_obj_t *screen_btn_coffee3save;
+	lv_obj_t *screen_btn_coffee3save_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;
