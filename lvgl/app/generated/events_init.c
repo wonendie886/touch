@@ -72,21 +72,25 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
     }
     case LV_EVENT_LONG_PRESSED:
     {
-        // 只有Tea模式才响应长按
-        if(current_mode != MODE_TEA)
-        {
-            break;
-        }
         //长按进入设置界面
         //唤醒设置界面，从内存读取1数据并设置文本
-        printf("tea1set\r\n");
-        teasetflag = 0;
-        ShowTeaParam(teasetflag);
-        lv_obj_clear_flag(guider_ui.screen_cont_teaset, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
-        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);        
+        if(current_mode == MODE_TEA)
+        {
+            printf("tea1set\r\n");
+            teasetflag = 0;
+            ShowTeaParam(teasetflag);
+            lv_obj_clear_flag(guider_ui.screen_cont_teaset, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);  
+            break;
+        } else if (current_mode == MODE_COFFEE){ 
+            
+
+        }   
+
+      
         break;
     }
     default:
@@ -578,6 +582,7 @@ static void screen_1_btn_steamtempset_event_handler (lv_event_t *e)
     {
         //获取旧设置值到微调器上，唤醒容器
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_range(guider_ui.screen_1_spinbox_1, 0, 135); 
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_steam);
         lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 5;
@@ -596,6 +601,7 @@ static void screen_1_btn_coffeetempset_event_handler (lv_event_t *e)
     {
         //唤醒容器，获取设置温度值并显示在微调器上
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_range(guider_ui.screen_1_spinbox_1, 0, 95); 
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_coffee);
         lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 6;
@@ -794,6 +800,7 @@ static void screen_1_btn_brewblock_event_handler (lv_event_t *e)
     {
         //唤醒容器，获取冲煮头温度值
         lv_obj_clear_flag(guider_ui.screen_1_cont_set, LV_OBJ_FLAG_HIDDEN);
+        lv_spinbox_set_range(guider_ui.screen_1_spinbox_1, 0, 95);           
         lv_spinbox_set_value(guider_ui.screen_1_spinbox_1, GrindSetData.temp_brew);
         lv_obj_clear_flag(guider_ui.screen_1_menu_1_cont_2, LV_OBJ_FLAG_CLICKABLE);
         active_time_setting = 8;   
