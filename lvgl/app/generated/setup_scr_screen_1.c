@@ -483,6 +483,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_width(ui->screen_1_btn_hotwaterset_label, LV_PCT(100));
     lv_obj_set_pos(ui->screen_1_btn_hotwaterset, 150, 76);
     lv_obj_set_size(ui->screen_1_btn_hotwaterset, 100, 30);
+    lv_obj_add_flag(ui->screen_1_btn_hotwaterset, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for screen_1_btn_hotwaterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_1_btn_hotwaterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);

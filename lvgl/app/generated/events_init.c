@@ -253,7 +253,7 @@ static void screen_btn_steam_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
-    case LV_EVENT_CLICKED:
+    case LV_EVENT_SHORT_CLICKED:
     {
         //steam
         if(steamEnable) {
@@ -277,6 +277,19 @@ static void screen_btn_steam_event_handler (lv_event_t *e)
             steamEnable = 1;
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 128, LV_PART_MAIN|LV_STATE_DEFAULT);
         }
+        break;
+    }
+    case LV_EVENT_LONG_PRESSED:
+    {  
+        //长按进入设置蒸汽
+            char string_data[50] = {0}; 
+            // printf("coffee1set %d\r\n",GrindSetData.time_1);
+            sprintf(string_data, "%d", GrindSetData.steamtime);
+            lv_textarea_set_text(guider_ui.screen_ta_steamset, string_data);    
+            lv_obj_clear_flag(guider_ui.screen_cont_steamset, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_steam, LV_OBJ_FLAG_HIDDEN);
+        break;
     }
     default:
         break;
@@ -352,11 +365,12 @@ static void screen_btn_menu_event_handler (lv_event_t *e)
     }
 }
 bool hotwaterenable = false;
+uint8_t hotwaterflag = 0;
 static void screen_btn_hotwater_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
     switch (code) {
-    case LV_EVENT_CLICKED:
+    case LV_EVENT_SHORT_CLICKED:
     {
         if(!hotwaterenable){
             //做热水can下发
@@ -378,12 +392,30 @@ static void screen_btn_hotwater_event_handler (lv_event_t *e)
             lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+            hotwaterflag  = 1;
             GrindDataStr.data.cmd = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
         }
 
-
         break;
     }
+    // #if (LEFT_OR_COFFEE == LEFT)
+    case LV_EVENT_LONG_PRESSED:
+    {  
+        //长按进入设置热水
+            char string_data[50] = {0}; 
+            // printf("coffee1set %d\r\n",GrindSetData.time_1);
+            sprintf(string_data, "%d", GrindSetData.time_hotwater);
+            lv_textarea_set_text(guider_ui.screen_ta_waterset, string_data);    
+            lv_obj_clear_flag(guider_ui.screen_cont_waterset, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+            lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    // #endif
     default:
         break;
     }
@@ -632,6 +664,52 @@ static void screen_btn_coffee3save_event_handler (lv_event_t *e)
         break;
     }
 }
+
+static void screen_btn_steamset_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //保存数据，打开按钮功能，关闭设置界面
+        const char *text = lv_textarea_get_text(guider_ui.screen_ta_steamset);
+        uint32_t value = atoi(text);    
+        GrindSetData.steamtime = value;      
+        flashDataSave();
+        lv_obj_add_flag(guider_ui.screen_cont_steamset, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_steam, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_btn_waterset_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //保存数据，打开按钮功能，关闭设置界面
+        const char *text = lv_textarea_get_text(guider_ui.screen_ta_waterset);
+        uint32_t value = atoi(text);    
+        GrindSetData.time_hotwater = value;  
+        flashDataSave();
+        lv_obj_add_flag(guider_ui.screen_cont_waterset, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_coffee1, screen_btn_coffee1_event_handler, LV_EVENT_ALL, ui);
@@ -651,6 +729,8 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_coffee1save, screen_btn_coffee1save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_coffee2save, screen_btn_coffee2save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_coffee3save, screen_btn_coffee3save_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_steamset, screen_btn_steamset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_waterset, screen_btn_waterset_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void Set_event_handler (lv_event_t *e)

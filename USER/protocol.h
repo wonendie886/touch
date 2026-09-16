@@ -4,7 +4,7 @@
 
 #define LEFT 0
 #define RIGHT 1
-#define LEFT_OR_COFFEE RIGHT
+#define LEFT_OR_COFFEE LEFT
 #define logo 0
 /// \def the max length of one frame data
 #define FRAME_MAX_LEN 200
@@ -187,10 +187,9 @@ typedef struct
 
     uint8_t error;
 
-
     uint8_t update_flag;
 
-
+    // uint8_t hotwaterstate;
 }TaskFeedback_t;
 
 

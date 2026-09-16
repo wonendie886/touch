@@ -35,6 +35,7 @@ extern volatile uint16_t Currenttargeweight;
 extern volatile uint8_t dataIsReady;
 extern uint8_t rFrameBuf[FRAME_MAX_LEN];
 extern uint8_t recivedCount;
+extern uint8_t hotwaterflag;
 extern bool hotwaterenable;
 /// @brief static global variables
 static uint8_t buf[FRAME_MAX_LEN];
@@ -177,6 +178,7 @@ void parseTaskFeedback(uint8_t *data)
     taskFeedback.state = data[2];
     taskFeedback.progress = data[3];
     taskFeedback.error = data[4];
+    // taskFeedback.hotwaterstate = data[5];
     taskFeedback.update_flag = 1;
 }
 
@@ -192,6 +194,7 @@ extern uint8_t steamEnable;
 bool startflag;
 extern uint32_t scheduleall;
 bool updatetaskflag = false;
+bool updatehotwaterflag = false;
 void CoffeeVolumeProcess(void)
 {
     static TickType_t lastTick = 0;
@@ -225,6 +228,11 @@ void CoffeeVolumeProcess(void)
             elapsed_time = 0;
             schedule = (elapsed_time*100)/scheduleall;
             coffee_run_flag = 0;
+            #if (LEFT_OR_COFFEE == LEFT)
+                canSendLeftCoffee(0,volume);
+            #else
+                canSendRightCoffee(0,volume);
+            #endif
             printf("Coffee volume finished\r\n");
         }   
         if(elapsed_time > 9){
@@ -281,7 +289,7 @@ void thread_serial(void *pvParameters)
     GrindDataStr.data.cmd_state = CMD_STATE_IDLE;
     GrindDataStr.data.cmd = CMDTYPE_GRIND;
     uint8_t lasttaskstate = 0;
-
+    uint8_t lasthotwaterstate = 0;
 
     static TickType_t lastUpdateTime = 0;
     const TickType_t updateTimePeriod = pdMS_TO_TICKS(8000); 
@@ -361,7 +369,12 @@ void thread_serial(void *pvParameters)
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(0,volume);
             #else
+            if(hotwaterflag == 1)
+                canSendLeftCoffee(0,volume);
+            else    
                 canSendRightCoffee(0,volume);
+
+            hotwaterflag = 0;
             #endif
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_STEAMBLOCK) { 
@@ -390,13 +403,13 @@ void thread_serial(void *pvParameters)
             canSendbrewtemp(target,volume);
             volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-        } 
-        #if (LEFT_OR_COFFEE == LEFT)
-        else if (GrindDataStr.data.cmd == CMDTYPE_HOTWATER) { 
+        } else if (GrindDataStr.data.cmd == CMDTYPE_HOTWATER) { 
             coffee_run_flag = 1;
             canSendhotwater(1,volume);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
-        } else if (GrindDataStr.data.cmd == CMDTYPE_EMPTY_WATER){
+        } 
+        #if (LEFT_OR_COFFEE == LEFT)
+        else if (GrindDataStr.data.cmd == CMDTYPE_EMPTY_WATER){
             canSendmaintain(CMDTYPE_EMPTY_WATER,1);
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_CHANGE_WATER){
@@ -442,7 +455,11 @@ void thread_serial(void *pvParameters)
                         parseTaskFeedback(can_msg.rx_data);
                         if(lasttaskstate != taskFeedback.state){
                             updatetaskflag = true;
-                        }
+                        } 
+                        // if(lasthotwaterstate != taskFeedback.hotwaterstate){
+                        //     updatehotwaterflag = true;
+                        // }
+                        // lasthotwaterstate = taskFeedback.hotwaterstate;
                         lasttaskstate = taskFeedback.state;
                     } 
                     
@@ -479,6 +496,7 @@ void thread_serial(void *pvParameters)
         vTaskDelay(pdMS_TO_TICKS(5));
     }
 }
+
 void updatetemp(void){
     if(taskFeedback.state != TASK_RUNNING){
         char temp_str[20];
@@ -545,20 +563,42 @@ void updateTaskStep(void)
         }
     }
     #else
-    if ((taskFeedback.state == TASK_RUNNING || taskFeedback.state == TASK_PAUSE) && updatetaskflag == true ){
+    if ((taskFeedback.state == TASK_RUNNING || taskFeedback.state == TASK_PAUSE) && taskFeedback.function != CMDTYPE_HOTWATER && updatetaskflag == true ){
         printf("maintaining");
         updatetaskflag = false;
         lv_obj_add_flag(guider_ui.screen_1_bar_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Maintaining");
-    } else if (updatetaskflag == true && taskFeedback.state == TASK_FINISH){
+    } else if (updatetaskflag == true && taskFeedback.function != CMDTYPE_HOTWATER && taskFeedback.state == TASK_FINISH){
         printf("clear maintaining");
         updatetaskflag = false;
         lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
     }
-
     #endif
+    if (taskFeedback.function == CMDTYPE_HOTWATER && taskFeedback.state == TASK_FINISH && updatetaskflag == true){
+        // updatehotwaterflag = false;
+        printf("hotwaterfinish \r\n");
+        updatetaskflag = false;
+        hotwaterenable = false;
+        lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
+        coffee_run_flag = 0;
+        lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    } else if (taskFeedback.function == CMDTYPE_HOTWATER && taskFeedback.state == TASK_RUNNING && updatetaskflag == true){
+        // updatehotwaterflag = false;
+        printf("hotwaterstart \r\n");
+        hotwaterenable = true;
+        updatetaskflag = false;
+        lv_obj_add_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_set_style_bg_opa(guider_ui.screen_btn_hotwater, 128, LV_PART_MAIN|LV_STATE_DEFAULT);
+    }
 }
 void vLvglTaskFunction(void *pvParameters) {
     printf("LVGL task is running. \r\n");

@@ -153,6 +153,14 @@ typedef struct
 	lv_obj_t *screen_ta_coffee3set;
 	lv_obj_t *screen_btn_coffee3save;
 	lv_obj_t *screen_btn_coffee3save_label;
+	lv_obj_t *screen_cont_steamset;
+	lv_obj_t *screen_ta_steamset;
+	lv_obj_t *screen_btn_steamset;
+	lv_obj_t *screen_btn_steamset_label;
+	lv_obj_t *screen_cont_waterset;
+	lv_obj_t *screen_ta_waterset;
+	lv_obj_t *screen_btn_waterset;
+	lv_obj_t *screen_btn_waterset_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;

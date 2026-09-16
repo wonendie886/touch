@@ -2117,6 +2117,170 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_opa(ui->screen_btn_coffee3save, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_coffee3save, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 
+    //Write codes screen_cont_steamset
+    ui->screen_cont_steamset = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_cont_steamset, 50, 207);
+    lv_obj_set_size(ui->screen_cont_steamset, 120, 53);
+    lv_obj_set_scrollbar_mode(ui->screen_cont_steamset, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_cont_steamset, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for screen_cont_steamset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_cont_steamset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_cont_steamset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_cont_steamset, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_cont_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_ta_steamset
+    ui->screen_ta_steamset = lv_textarea_create(ui->screen_cont_steamset);
+    lv_textarea_set_text(ui->screen_ta_steamset, "15");
+    lv_textarea_set_placeholder_text(ui->screen_ta_steamset, "");
+    lv_textarea_set_password_bullet(ui->screen_ta_steamset, "*");
+    lv_textarea_set_password_mode(ui->screen_ta_steamset, false);
+    lv_textarea_set_one_line(ui->screen_ta_steamset, false);
+    lv_textarea_set_accepted_chars(ui->screen_ta_steamset, "");
+    lv_textarea_set_max_length(ui->screen_ta_steamset, 2);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->screen_ta_steamset, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->screen_ta_steamset, 0, 0);
+    lv_obj_set_size(ui->screen_ta_steamset, 79, 53);
+
+    //Write style for screen_ta_steamset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->screen_ta_steamset, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_ta_steamset, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_ta_steamset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_ta_steamset, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_ta_steamset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_ta_steamset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_steamset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_steamset, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_ta_steamset, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_ta_steamset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_ta_steamset, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_ta_steamset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_ta_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_ta_steamset, 14, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_ta_steamset, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_ta_steamset, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_steamset, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_ta_steamset, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_ta_steamset, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_steamset, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_steamset, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_steamset, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_steamset
+    ui->screen_btn_steamset = lv_btn_create(ui->screen_cont_steamset);
+    ui->screen_btn_steamset_label = lv_label_create(ui->screen_btn_steamset);
+    lv_label_set_text(ui->screen_btn_steamset_label, "save");
+    lv_label_set_long_mode(ui->screen_btn_steamset_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_steamset_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_steamset, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_steamset_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_steamset, 80, 0);
+    lv_obj_set_size(ui->screen_btn_steamset, 40, 53);
+
+    //Write style for screen_btn_steamset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_steamset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_btn_steamset, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_btn_steamset, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_steamset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_steamset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_steamset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_steamset, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_steamset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_steamset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_cont_waterset
+    ui->screen_cont_waterset = lv_obj_create(ui->screen);
+    lv_obj_set_pos(ui->screen_cont_waterset, 310, 207);
+    lv_obj_set_size(ui->screen_cont_waterset, 120, 53);
+    lv_obj_set_scrollbar_mode(ui->screen_cont_waterset, LV_SCROLLBAR_MODE_OFF);
+    lv_obj_add_flag(ui->screen_cont_waterset, LV_OBJ_FLAG_HIDDEN);
+
+    //Write style for screen_cont_waterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_border_width(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_cont_waterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_cont_waterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_cont_waterset, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_bottom(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_cont_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write codes screen_ta_waterset
+    ui->screen_ta_waterset = lv_textarea_create(ui->screen_cont_waterset);
+    lv_textarea_set_text(ui->screen_ta_waterset, "15");
+    lv_textarea_set_placeholder_text(ui->screen_ta_waterset, "");
+    lv_textarea_set_password_bullet(ui->screen_ta_waterset, "*");
+    lv_textarea_set_password_mode(ui->screen_ta_waterset, false);
+    lv_textarea_set_one_line(ui->screen_ta_waterset, false);
+    lv_textarea_set_accepted_chars(ui->screen_ta_waterset, "");
+    lv_textarea_set_max_length(ui->screen_ta_waterset, 2);
+#if LV_USE_KEYBOARD != 0 || LV_USE_ZH_KEYBOARD != 0
+    lv_obj_add_event_cb(ui->screen_ta_waterset, ta_event_cb, LV_EVENT_ALL, ui->g_kb_top_layer);
+#endif
+    lv_obj_set_pos(ui->screen_ta_waterset, 0, 0);
+    lv_obj_set_size(ui->screen_ta_waterset, 79, 53);
+
+    //Write style for screen_ta_waterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_text_color(ui->screen_ta_waterset, lv_color_hex(0x000000), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_ta_waterset, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_ta_waterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_letter_space(ui->screen_ta_waterset, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_ta_waterset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_opa(ui->screen_ta_waterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_waterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_waterset, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_ta_waterset, 2, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_opa(ui->screen_ta_waterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_color(ui->screen_ta_waterset, lv_color_hex(0xe6e6e6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_side(ui->screen_ta_waterset, LV_BORDER_SIDE_FULL, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_ta_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_top(ui->screen_ta_waterset, 14, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_right(ui->screen_ta_waterset, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_pad_left(ui->screen_ta_waterset, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_waterset, 4, LV_PART_MAIN|LV_STATE_DEFAULT);
+
+    //Write style for screen_ta_waterset, Part: LV_PART_SCROLLBAR, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_ta_waterset, 255, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_ta_waterset, lv_color_hex(0x2195f6), LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_ta_waterset, LV_GRAD_DIR_NONE, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_ta_waterset, 0, LV_PART_SCROLLBAR|LV_STATE_DEFAULT);
+
+    //Write codes screen_btn_waterset
+    ui->screen_btn_waterset = lv_btn_create(ui->screen_cont_waterset);
+    ui->screen_btn_waterset_label = lv_label_create(ui->screen_btn_waterset);
+    lv_label_set_text(ui->screen_btn_waterset_label, "save");
+    lv_label_set_long_mode(ui->screen_btn_waterset_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_btn_waterset_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_btn_waterset, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_btn_waterset_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_btn_waterset, 80, 0);
+    lv_obj_set_size(ui->screen_btn_waterset, 40, 53);
+
+    //Write style for screen_btn_waterset, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_btn_waterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_btn_waterset, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_btn_waterset, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_btn_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_btn_waterset, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_btn_waterset, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_btn_waterset, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_btn_waterset, &lv_font_montserratMedium_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_btn_waterset, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_btn_waterset, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+
     //The custom code of screen.
     lv_btnmatrix_set_btn_ctrl_all(ui->screen_btnm_choosemode, LV_BTNMATRIX_CTRL_CHECKABLE);
     lv_btnmatrix_set_one_checked(ui->screen_btnm_choosemode, true);
