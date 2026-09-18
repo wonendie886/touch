@@ -22,6 +22,53 @@ __attribute__((unused)) void kb_event_cb (lv_event_t *e) {
     }
 }
 
+/* Container shifted up to keep the focused textarea visible above the keyboard */
+static lv_obj_t *kb_shifted_parent = NULL;
+static lv_coord_t kb_shifted_orig_y = 0;
+
+/* Move the textarea's container up so the focused textarea is not covered by the keyboard */
+static void kb_adjust_ta_visible(lv_obj_t *ta, lv_obj_t *kb)
+{
+    lv_obj_t *parent = lv_obj_get_parent(ta);
+    lv_obj_t *screen = lv_scr_act();
+
+    /* Only sub-containers can be shifted; full-screen panels would move together with the textarea */
+    if (parent == screen) return;
+    if (lv_obj_get_width(parent) >= lv_obj_get_width(screen) &&
+        lv_obj_get_height(parent) >= lv_obj_get_height(screen)) return;
+
+    /* Restore the previous shift first so coordinates are read from the original layout */
+    if (kb_shifted_parent != NULL) {
+        lv_obj_set_y(kb_shifted_parent, kb_shifted_orig_y);
+        kb_shifted_parent = NULL;
+    }
+    lv_obj_update_layout(ta);
+    lv_obj_update_layout(kb);
+
+    lv_area_t ta_area, kb_area;
+    lv_obj_get_coords(ta, &ta_area);
+    lv_obj_get_coords(kb, &kb_area);
+
+    /* Textarea already fully above the keyboard, nothing to do */
+    if (ta_area.y2 < kb_area.y1) return;
+
+    lv_coord_t delta = ta_area.y2 - kb_area.y1 + 8;   /* leave an 8px gap below the textarea */
+    if (ta_area.y1 - delta < 0) delta = ta_area.y1;   /* don't push it above the screen top */
+
+    kb_shifted_parent = parent;
+    kb_shifted_orig_y = lv_obj_get_y(parent);
+    lv_obj_set_y(parent, kb_shifted_orig_y - delta);
+}
+
+/* Put the shifted container back to its original position */
+static void kb_restore_ta_visible(void)
+{
+    if (kb_shifted_parent != NULL) {
+        lv_obj_set_y(kb_shifted_parent, kb_shifted_orig_y);
+        kb_shifted_parent = NULL;
+    }
+}
+
 __attribute__((unused)) void ta_event_cb (lv_event_t *e) {
     lv_event_code_t code = lv_event_get_code(e);
 #if LV_USE_KEYBOARD || LV_USE_ZH_KEYBOARD
@@ -39,8 +86,9 @@ __attribute__((unused)) void ta_event_cb (lv_event_t *e) {
 #endif
         lv_obj_move_foreground(kb);
         lv_obj_clear_flag(kb, LV_OBJ_FLAG_HIDDEN);
+        kb_adjust_ta_visible(ta, kb);
     }
-    if (code == LV_EVENT_CANCEL || code == LV_EVENT_DEFOCUSED)
+    if (code == LV_EVENT_CANCEL || code == LV_EVENT_DEFOCUSED || code == LV_EVENT_READY)
     {
 
 #if LV_USE_ZH_KEYBOARD != 0
@@ -51,6 +99,7 @@ __attribute__((unused)) void ta_event_cb (lv_event_t *e) {
 #endif
         lv_obj_move_background(kb);
         lv_obj_add_flag(kb, LV_OBJ_FLAG_HIDDEN);
+        kb_restore_ta_visible();
     }
 }
 
