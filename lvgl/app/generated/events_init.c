@@ -23,6 +23,7 @@ extern struct GrindRealData GrindDataStr;
 volatile uint16_t volume = 0;
 volatile uint16_t steamvolume = 0;
 bool current_mode = MODE_COFFEE;
+bool targetflag = TIME;
 static uint8_t active_time_setting = 0; 
 static uint8_t maintain_setting = 0;
 uint8_t teasetflag = 0;
@@ -437,11 +438,11 @@ static void screen_btn_save_event_handler (lv_event_t *e)
         }
         sprintf(string_data, "%d", overtime);
         if(teasetflag == 0)
-        lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", string_data);
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
         else if(teasetflag == 1)
-        lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", string_data);  
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data);  
         else if(teasetflag == 2)
-        lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", string_data); 
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data); 
 
         flashDataSave();
         lv_obj_add_flag(guider_ui.screen_cont_teaset,LV_OBJ_FLAG_HIDDEN);
@@ -489,11 +490,11 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
         current_mode = MODE_COFFEE;
  
         sprintf(string_data, "%d", GrindSetData.time_1);
-        lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", string_data);
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
         sprintf(string_data, "%d", GrindSetData.time_2);
-        lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", string_data);
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data);
         sprintf(string_data, "%d", GrindSetData.time_3);
-        lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", string_data);
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data);
         // 2. 切换图片
         lv_obj_add_flag(guider_ui.screen_img_tea1, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_tea2, LV_OBJ_FLAG_HIDDEN);
@@ -511,18 +512,18 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
             // printf("%d\n", overtime[0]);
         }
         sprintf(string_data, "%d", overtime[0]);
-        lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", string_data);
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
 
         for (int i = 0; i < 10; i++){
             overtime[1] += GrindSetData.extract_time[1][i];
         }
         sprintf(string_data, "%d", overtime[1]);
-        lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", string_data); 
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data); 
         for (int i = 0; i < 10; i++){
             overtime[2] += GrindSetData.extract_time[2][i];
         }
         sprintf(string_data, "%d", overtime[2]);
-        lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", string_data);
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data);
 
         for (int i = 0; i < 10; i++){
             overtime[3] += GrindSetData.extract_time[3][i];
@@ -541,6 +542,25 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
     }
 }
 
+static void screen_btnm_choosemode_long_pressed_cb(lv_event_t * e)
+{
+    /* 长按打开设置目标容器 */
+    lv_obj_clear_flag(guider_ui.screen_cont_target,LV_OBJ_FLAG_HIDDEN);
+}
+
+static void screen_btnm_target_event_cb(lv_event_t * e)
+{
+    lv_obj_t * obj = lv_event_get_target(e);
+    uint32_t btn_id = lv_btnmatrix_get_selected_btn(obj);   // 0 or 1
+    uint8_t overtime[4] = {0};
+    char string_data[50] = {0}; 
+    if(btn_id == 0) {
+        targetflag = TIME; // 时间    
+    }
+    else if(btn_id == 1) {
+        targetflag = FLOW;//流量
+    }
+}
 static void screen_btn_passwordenter_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -595,7 +615,11 @@ static void screen_btn_coffee1save_event_handler (lv_event_t *e)
         uint32_t value = atoi(text);    
         GrindSetData.time_1 = value;      
         flashDataSave();
-        lv_label_set_text_fmt(guider_ui.screen_label_9, "%ss", text); 
+        // if(targetflag == TIME)
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", text); 
+        // else if(targetflag == FLOW)
+        // lv_label_set_text_fmt(guider_ui.screen_label_9, "%sml", text);
+
         lv_obj_add_flag(guider_ui.screen_cont_coffee1set, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
@@ -622,7 +646,11 @@ static void screen_btn_coffee2save_event_handler (lv_event_t *e)
         uint32_t value = atoi(text);    
         GrindSetData.time_3 = value;      
         flashDataSave();
-        lv_label_set_text_fmt(guider_ui.screen_label_10, "%ss", text); 
+        // if(targetflag == TIME)
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", text);
+        // else if(targetflag == FLOW)
+        // lv_label_set_text_fmt(guider_ui.screen_label_10, "%sml", text);
+
         lv_obj_add_flag(guider_ui.screen_cont_coffee2set, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
@@ -649,7 +677,12 @@ static void screen_btn_coffee3save_event_handler (lv_event_t *e)
         uint32_t value = atoi(text);    
         GrindSetData.time_2 = value;      
         flashDataSave();
-        lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", text); 
+        // if(targetflag == TIME)
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", text);
+        // else if(targetflag == FLOW)
+        // lv_label_set_text_fmt(guider_ui.screen_label_19, "%sml", text);
+
+        // lv_label_set_text_fmt(guider_ui.screen_label_19, "%ss", text); 
         lv_obj_add_flag(guider_ui.screen_cont_coffee3set, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_btn_rinse, LV_OBJ_FLAG_HIDDEN);
@@ -710,6 +743,20 @@ static void screen_btn_waterset_event_handler (lv_event_t *e)
         break;
     }
 }
+static void screen_btn_targetsave_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //关闭target容器
+        lv_obj_add_flag(guider_ui.screen_cont_target, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_btn_coffee1, screen_btn_coffee1_event_handler, LV_EVENT_ALL, ui);
@@ -723,6 +770,8 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_hotwater, screen_btn_hotwater_event_handler, LV_EVENT_ALL, ui);
     // #endif
     lv_obj_add_event_cb(ui->screen_btnm_choosemode,screen_btnm_choosemode_event_cb,LV_EVENT_VALUE_CHANGED,NULL);
+    lv_obj_add_event_cb(guider_ui.screen_btnm_choosemode,screen_btnm_choosemode_long_pressed_cb,LV_EVENT_LONG_PRESSED,NULL);
+    lv_obj_add_event_cb(ui->screen_btnm_target,screen_btnm_target_event_cb,LV_EVENT_VALUE_CHANGED,NULL);
     lv_obj_add_event_cb(ui->screen_btn_save, screen_btn_save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_teacancel, screen_btn_teacancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_passwordenter, screen_btn_passwordenter_event_handler, LV_EVENT_ALL, ui);
@@ -731,6 +780,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_coffee3save, screen_btn_coffee3save_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_steamset, screen_btn_steamset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_waterset, screen_btn_waterset_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_targetsave, screen_btn_targetsave_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void Set_event_handler (lv_event_t *e)

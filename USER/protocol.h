@@ -130,7 +130,10 @@ enum MAKEMODE{
     MODE_COFFEE,
     MODE_TEA,
 };
-
+enum TARGET{
+    TIME,
+    FLOW,
+};
 enum CmdGrindState
 {
 	CMD_STATE_IDLE = 0,

@@ -2,6 +2,7 @@
 
 #include "can.h"
 #include "FreeRTOS.h"
+#include "events_init.h"
 // internal handle
 static CAN_HandleTypeDef hcan;
 static CanTxMsgTypeDef txMsg;
@@ -182,7 +183,7 @@ void canSendRightTeaProfile(uint8_t profile[10])
     uint8_t data[8];
 
     /* 第一包 */
-    data[0] = 2;      //总包数
+    data[0] = targetflag;      //总包数
     data[1] = 0;      //包号
     for (uint8_t i = 2;i < 8 ;i++)
     {
@@ -196,7 +197,7 @@ void canSendRightTeaProfile(uint8_t profile[10])
     canSendFrame(FUNC_RIGHT_TEA_PROFILE, data, 8);
     vTaskDelay(10 / portTICK_RATE_MS);
     /* 第二包 */
-    data[0] = 2;
+    data[0] = targetflag;
     data[1] = 1;
     for (uint8_t i = 2;i < 6 ;i++)
     {
@@ -214,7 +215,7 @@ void canSendLeftTeaProfile(uint8_t profile[10])
     uint8_t data[8];
 
     /* 第一包 */
-    data[0] = 2;      //总包数
+    data[0] = targetflag;      //总包数
     data[1] = 0;      //包号
     for (uint8_t i = 2;i < 8 ;i++)
     {
@@ -228,7 +229,7 @@ void canSendLeftTeaProfile(uint8_t profile[10])
     canSendFrame(FUNC_LEFT_TEA_PROFILE, data, 8);
     vTaskDelay(10 / portTICK_RATE_MS);
     /* 第二包 */
-    data[0] = 2;
+    data[0] = targetflag;
     data[1] = 1;
     for (uint8_t i = 2;i < 6 ;i++)
     {
@@ -316,12 +317,12 @@ void canSendFillWater()
 void canSendLeftCoffee(uint8_t enable,uint16_t seconds)
 {
    uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
-   uint8_t len = 3;
-   uint8_t data[3];
+   uint8_t len = 4;
+   uint8_t data[4];
    data[0] = enable;
    data[1] = seconds & 0x00FF;
    data[2] = (seconds >> 8) & 0x00FF;
-
+   data[3] = targetflag;
    uint8_t crc = 0;
    for(uint8_t i = 0; i < len; i++){
        crc += data[i];
@@ -336,11 +337,12 @@ void canSendLeftCoffee(uint8_t enable,uint16_t seconds)
 void canSendRightCoffee(uint8_t enable,uint16_t seconds)
 {
    uint32_t id = (0x000000FF & ((HmiId & 0x0F) << 0)) | ((SEMIID & 0x0F) << 4);
-   uint8_t len = 3;
-   uint8_t data[3];
+   uint8_t len = 4;
+   uint8_t data[4];
    data[0] = enable;
    data[1] = seconds & 0x00FF;
    data[2] = (seconds >> 8) & 0x00FF;
+   data[3] = targetflag;
 
    uint8_t crc = 0;
    for(uint8_t i = 0; i < len; i++){

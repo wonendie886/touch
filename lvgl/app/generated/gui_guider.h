@@ -161,6 +161,10 @@ typedef struct
 	lv_obj_t *screen_ta_waterset;
 	lv_obj_t *screen_btn_waterset;
 	lv_obj_t *screen_btn_waterset_label;
+	lv_obj_t *screen_btnm_target;
+	lv_obj_t *screen_cont_target;
+	lv_obj_t *screen_btn_targetsave;
+	lv_obj_t *screen_btn_targetsave_label;
 	lv_obj_t *screen_1;
 	bool screen_1_del;
 	lv_obj_t *screen_1_label_steamtemp;

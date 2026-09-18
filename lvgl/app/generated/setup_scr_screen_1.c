@@ -504,6 +504,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_label_set_long_mode(ui->screen_1_label_hotwater, LV_LABEL_LONG_WRAP);
     lv_obj_set_pos(ui->screen_1_label_hotwater, 20, 76);
     lv_obj_set_size(ui->screen_1_label_hotwater, 100, 30);
+    lv_obj_add_flag(ui->screen_1_label_hotwater, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for screen_1_label_hotwater, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_border_width(ui->screen_1_label_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
