@@ -156,9 +156,15 @@ typedef enum
 
     TASK_FINISH,
 
-    TASK_ERROR
+    TASK_ERROR,
 
+    TASKA_RUNING,
 
+    TASKA_FINISH,
+
+    TASKC_RUNING,
+
+    TASKC_FINISH,
 }TASK_STATE;
 
 typedef enum
@@ -190,9 +196,11 @@ typedef struct
 
     uint8_t error;
 
-    uint8_t update_flag;
+    uint8_t channeC_function;
 
-    // uint8_t hotwaterstate;
+    uint8_t channelC_progress;
+
+    uint8_t channelC_state;
 }TaskFeedback_t;
 
 
@@ -333,4 +341,6 @@ int setdosteam(uint8_t *buf,struct GrindData *pData);
 int setcancel(uint8_t *buf,struct GrindData *pData);
 
 extern TaskFeedback_t taskFeedback;
+extern TaskFeedback_t taskFeedback_A;
+extern TaskFeedback_t taskFeedback_C;
 #endif

@@ -57,6 +57,7 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
             for(int i = 0; i < 10; i++)
             {
                 volume +=  GrindSetData.extract_time[0][i];
+                printf("data %d\n",GrindSetData.extract_time[0][i]);
             }
             printf("tea:%d\r\n",volume);
             scheduleall = volume;
@@ -1217,6 +1218,23 @@ static void PasswordSettings_event_handler (lv_event_t *e)
         break;
     }
 }
+bool startcoffeeupdate = false;
+static void CoffeeBoiler_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //按钮触发后咖啡锅炉文本开始更新。隐藏其他容器。
+        lv_obj_add_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        startcoffeeupdate = true;
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_1, Set_event_handler, LV_EVENT_ALL, ui);
@@ -1242,6 +1260,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_btn_brewblock, screen_1_btn_brewblock_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_passwordsave, screen_1_btn_passwordsave_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_3, PasswordSettings_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_menu_1_cont_4, CoffeeBoiler_event_handler, LV_EVENT_ALL, ui);
 }
 
 
