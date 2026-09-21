@@ -547,6 +547,7 @@ static void screen_btnm_choosemode_long_pressed_cb(lv_event_t * e)
 {
     /* 长按打开设置目标容器 */
     lv_obj_clear_flag(guider_ui.screen_cont_target,LV_OBJ_FLAG_HIDDEN);
+    lv_obj_add_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
 }
 
 static void screen_btnm_target_event_cb(lv_event_t * e)
@@ -752,6 +753,7 @@ static void screen_btn_targetsave_event_handler (lv_event_t *e)
     {
         //关闭target容器
         lv_obj_add_flag(guider_ui.screen_cont_target, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:

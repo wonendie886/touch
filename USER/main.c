@@ -541,7 +541,7 @@ void thread_serial(void *pvParameters)
             lv_obj_clear_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
             startflag = true;
         }
-        if(targetflag == TIME &&taskFeedback.function != CMDTYPE_HOTWATER)
+        if(targetflag == TIME && hotwaterenable != true)
             CoffeeVolumeProcess();
 
         SteamVolumeProcess();
@@ -645,6 +645,7 @@ void updateTaskStep(void)
         updatetaskflag_A = false;        
         lv_obj_clear_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
@@ -656,9 +657,10 @@ void updateTaskStep(void)
         //     printf("progress %d\r\n",taskFeedback.progress);
         //     lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", taskFeedback.progress); 
         // }            
-    } else if (taskFeedback_A.function == CMDTYPE_BEVERAGEMAKE && taskFeedback_A.state == TASK_FINISH && updatetaskflag_A == true && targetflag == FLOW){
+    } else if (taskFeedback_A.function == CMDTYPE_BEVERAGEMAKE && taskFeedback_A.state == TASK_FINISH && updatetaskflag_A == true ){//&& targetflag == FLOW
         printf("Lfinish \r\n");
         updatetaskflag_A = false;
+        lv_obj_clear_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         volume = 0;
         startflag = false;
@@ -717,6 +719,7 @@ void updateTaskStep(void)
         updatetaskflag_C = false;        
         lv_obj_clear_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_btn_coffee1, LV_OBJ_FLAG_HIDDEN);
@@ -728,9 +731,10 @@ void updateTaskStep(void)
         //     printf("progress %d\r\n",taskFeedback.progress);
         //     lv_label_set_text_fmt(guider_ui.screen_label_18, "00:0%d", taskFeedback.progress); 
         // }            
-    } else if (taskFeedback_C.channeC_function == CMDTYPE_BEVERAGEMAKE_CHANNELC && taskFeedback_C.channelC_state == TASK_FINISH && updatetaskflag_C == true && targetflag == FLOW){
+    } else if (taskFeedback_C.channeC_function == CMDTYPE_BEVERAGEMAKE_CHANNELC && taskFeedback_C.channelC_state == TASK_FINISH && updatetaskflag_C == true ){//&& targetflag == FLOW
         printf("rightfinish \r\n");
         updatetaskflag_C = false;
+        lv_obj_clear_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
         lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         volume = 0;
         startflag = false;
@@ -745,7 +749,7 @@ void updateTaskStep(void)
         lv_obj_add_flag(guider_ui.screen_btn_hotwater,LV_OBJ_FLAG_HIDDEN);
         // updatetaskflag = false;
     } else if (taskFeedback_A.function == CMDTYPE_BEVERAGEMAKE && taskFeedback_A.state == TASK_FINISH && updatetaskflag_A == true){
-        printf("222 btn water \r\n");
+        // printf("222 btn water \r\n");
         lv_obj_clear_flag(guider_ui.screen_btn_hotwater,LV_OBJ_FLAG_HIDDEN);
         updatetaskflag_A = false;
     }
