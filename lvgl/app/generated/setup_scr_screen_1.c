@@ -135,7 +135,29 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_add_flag(ui->screen_1_menu_1_cont_2,LV_OBJ_FLAG_HIDDEN);
 #endif
 
+    //Write codes screen_1_btn_back
+    ui->screen_1_btn_back = lv_btn_create(ui->screen_1);
+    ui->screen_1_btn_back_label = lv_label_create(ui->screen_1_btn_back);
+    lv_label_set_text(ui->screen_1_btn_back_label, "返回");
+    lv_label_set_long_mode(ui->screen_1_btn_back_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_back_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_back, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_back_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_back, 0, 237);
+    lv_obj_set_size(ui->screen_1_btn_back, 144, 35);
 
+    //Write style for screen_1_btn_back, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_back, 71, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_btn_back, lv_color_hex(0xdaf2f8), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_btn_back, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_back, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_back, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_back, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
+    
 
     //Write codes screen_1_btn_descale
     ui->screen_1_btn_descale = lv_btn_create(ui->screen_1_menu_1_subpage_2);
@@ -1086,29 +1108,7 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_pad_left(ui->screen_1_label_savesuccess, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_shadow_width(ui->screen_1_label_savesuccess, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
 
-    //Write codes screen_1_btn_back
-    ui->screen_1_btn_back = lv_btn_create(ui->screen_1);
-    ui->screen_1_btn_back_label = lv_label_create(ui->screen_1_btn_back);
-    lv_label_set_text(ui->screen_1_btn_back_label, "返回");
-    lv_label_set_long_mode(ui->screen_1_btn_back_label, LV_LABEL_LONG_WRAP);
-    lv_obj_align(ui->screen_1_btn_back_label, LV_ALIGN_CENTER, 0, 0);
-    lv_obj_set_style_pad_all(ui->screen_1_btn_back, 0, LV_STATE_DEFAULT);
-    lv_obj_set_width(ui->screen_1_btn_back_label, LV_PCT(100));
-    lv_obj_set_pos(ui->screen_1_btn_back, 0, 237);
-    lv_obj_set_size(ui->screen_1_btn_back, 144, 35);
 
-    //Write style for screen_1_btn_back, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
-    lv_obj_set_style_bg_opa(ui->screen_1_btn_back, 71, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_color(ui->screen_1_btn_back, lv_color_hex(0xdaf2f8), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_bg_grad_dir(ui->screen_1_btn_back, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_border_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_radius(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_shadow_width(ui->screen_1_btn_back, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_color(ui->screen_1_btn_back, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_font(ui->screen_1_btn_back, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_opa(ui->screen_1_btn_back, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_set_style_text_align(ui->screen_1_btn_back, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    
     //The custom code of screen_1.
     char string_data[50] = {0};  
     sprintf(string_data, "%d", GrindSetData.time_1);
