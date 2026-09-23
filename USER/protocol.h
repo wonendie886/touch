@@ -4,7 +4,7 @@
 
 #define LEFT 0
 #define RIGHT 1
-#define LEFT_OR_COFFEE LEFT
+#define LEFT_OR_COFFEE RIGHT
 #define logo 0
 /// \def the max length of one frame data
 #define FRAME_MAX_LEN 200
@@ -131,6 +131,11 @@ enum MAKEMODE{
     MODE_TEA,
 };
 
+enum TARGET{
+    TIME,
+    FLOW,
+};
+
 enum CmdGrindState
 {
 	CMD_STATE_IDLE = 0,
@@ -187,9 +192,11 @@ typedef struct
 
     uint8_t error;
 
+    uint8_t channeC_function;
 
-    uint8_t update_flag;
+    uint8_t channelC_progress;
 
+    uint8_t channelC_state;
 
 }TaskFeedback_t;
 //! A enum data Command type{命令类型-枚举}
