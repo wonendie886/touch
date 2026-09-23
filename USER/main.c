@@ -325,9 +325,7 @@ void thread_serial(void *pvParameters)
             
             GrindDataStr.data.cmd = CMDTYPE_GRIND;
         } else if (GrindDataStr.data.cmd == CMDTYPE_MAKE_TEA){
-            if(targetflag == TIME)
-                coffee_run_flag = 1;
-
+            coffee_run_flag = 1;
             printf("do tea");
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftTeaProfile(GrindSetData.extract_time[teasetflag]);
@@ -489,7 +487,7 @@ void thread_serial(void *pvParameters)
             lv_obj_clear_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
             startflag = true;
         }
-        if(targetflag == TIME && hotwaterenable != true)
+        if((targetflag == TIME && hotwaterenable != true) || current_mode == MODE_TEA)
             CoffeeVolumeProcess();
 
         runtime += 5;
@@ -618,7 +616,7 @@ void updateTaskStep(void)
         volume = 0;
         startflag = false;
     }
-    if (taskFeedback_A.function == CMDTYPE_BEVERAGEMAKE  && taskFeedback_A.state == TASK_RUNNING && targetflag == FLOW){
+    if (taskFeedback_A.function == CMDTYPE_BEVERAGEMAKE  && taskFeedback_A.state == TASK_RUNNING && targetflag == FLOW && current_mode != MODE_TEA){
         lv_label_set_text_fmt(guider_ui.screen_label_18, "%d",taskFeedback.progress);
     }
 
@@ -648,6 +646,7 @@ void updateTaskStep(void)
         updatetaskflag = false;
         hotwaterenable = false;
         volume = 0;
+        hotwaterflag = 0;
         // lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         coffee_run_flag = 0;
         lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
@@ -704,7 +703,7 @@ void updateTaskStep(void)
         volume = 0;
         startflag = false;
     }
-    if (taskFeedback_C.channeC_function == CMDTYPE_BEVERAGEMAKE_CHANNELC  && taskFeedback_C.channelC_state == TASK_RUNNING && targetflag == FLOW){
+    if (taskFeedback_C.channeC_function == CMDTYPE_BEVERAGEMAKE_CHANNELC  && taskFeedback_C.channelC_state == TASK_RUNNING && targetflag == FLOW && current_mode != MODE_TEA){
         // printf("data %d \r\n",taskFeedback.channelC_progress);
         lv_label_set_text_fmt(guider_ui.screen_label_18, "%d",taskFeedback.channelC_progress);
     }
