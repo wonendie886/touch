@@ -558,9 +558,21 @@ static void screen_btnm_target_event_cb(lv_event_t * e)
     char string_data[50] = {0}; 
     if(btn_id == 0) {
         targetflag = TIME; // 时间    
+        static const char *choosemode_map[] = {
+            "COFFEE(s)",
+            "TEA",
+            ""
+        };
+        lv_btnmatrix_set_map(guider_ui.screen_btnm_choosemode, choosemode_map);
     }
     else if(btn_id == 1) {
         targetflag = FLOW;//流量
+        static const char *choosemode_map[] = {
+            "COFFEE(ml)",
+            "TEA",
+            ""
+        };
+        lv_btnmatrix_set_map(guider_ui.screen_btnm_choosemode, choosemode_map);
     }
 }
 static void screen_btn_passwordenter_event_handler (lv_event_t *e)
@@ -606,6 +618,21 @@ static void screen_btn_passwordenter_event_handler (lv_event_t *e)
         break;
     }
 }
+static void screen_btn_passwordback_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //闅愯棌瀵嗙爜杈撳叆鐣岄潰
+        lv_obj_add_flag(guider_ui.screen_cont_menupassword, LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 static void screen_btn_coffee1save_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -784,6 +811,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_steamset, screen_btn_steamset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_waterset, screen_btn_waterset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_targetsave, screen_btn_targetsave_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_btn_passwordback, screen_btn_passwordback_event_handler, LV_EVENT_ALL, ui);
 }
 
 static void Set_event_handler (lv_event_t *e)

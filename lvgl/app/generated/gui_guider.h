@@ -141,6 +141,8 @@ typedef struct
 	lv_obj_t *screen_label_passworderror;
 	lv_obj_t *screen_btn_passwordenter;
 	lv_obj_t *screen_btn_passwordenter_label;
+	lv_obj_t *screen_btn_passwordback;
+	lv_obj_t *screen_btn_passwordback_label;
 	lv_obj_t *screen_cont_coffee1set;
 	lv_obj_t *screen_ta_coffee1set;
 	lv_obj_t *screen_btn_coffee1save;

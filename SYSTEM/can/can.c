@@ -183,7 +183,7 @@ void canSendRightTeaProfile(uint8_t profile[10])
     uint8_t data[8];
 
     /* 第一包 */
-    data[0] = targetflag;      //总包数
+    data[0] = 0;//targetflag;      //总包数,茶饮只以s为目标值
     data[1] = 0;      //包号
     for (uint8_t i = 2;i < 8 ;i++)
     {
@@ -197,7 +197,7 @@ void canSendRightTeaProfile(uint8_t profile[10])
     canSendFrame(FUNC_RIGHT_TEA_PROFILE, data, 8);
     vTaskDelay(10 / portTICK_RATE_MS);
     /* 第二包 */
-    data[0] = targetflag;
+    data[0] = 0;//targetflag;
     data[1] = 1;
     for (uint8_t i = 2;i < 6 ;i++)
     {
@@ -215,7 +215,7 @@ void canSendLeftTeaProfile(uint8_t profile[10])
     uint8_t data[8];
 
     /* 第一包 */
-    data[0] = targetflag;      //总包数
+    data[0] = 0;//targetflag;      //总包数
     data[1] = 0;      //包号
     for (uint8_t i = 2;i < 8 ;i++)
     {
@@ -229,7 +229,7 @@ void canSendLeftTeaProfile(uint8_t profile[10])
     canSendFrame(FUNC_LEFT_TEA_PROFILE, data, 8);
     vTaskDelay(10 / portTICK_RATE_MS);
     /* 第二包 */
-    data[0] = targetflag;
+    data[0] = 0;//targetflag;
     data[1] = 1;
     for (uint8_t i = 2;i < 6 ;i++)
     {
