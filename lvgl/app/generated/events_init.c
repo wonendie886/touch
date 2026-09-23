@@ -215,14 +215,10 @@ static void screen_btn_steam_event_handler (lv_event_t *e)
                 canSendRightSteam(0,volume);
             #endif
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
-            // lv_label_set_text(guider_ui.screen_label_temp, temp_str);
-            // lv_label_set_text(guider_ui.screen_btn_rinse_label, "Steam");
         } else {
-            // volume = 30;
             GrindDataStr.data.cmd = CMDTYPE_MAKE_STEAM;
             steamEnable = 1;
             lv_obj_set_style_bg_opa(guider_ui.screen_btn_steam, 128, LV_PART_MAIN|LV_STATE_DEFAULT);
-            // lv_label_set_text(guider_ui.screen_btn_rinse_label, "Cancel");
         }
     }
     default:
@@ -246,18 +242,13 @@ static void screen_btn_rinse_event_handler (lv_event_t *e)
             lv_obj_add_flag(guider_ui.screen_btn_coffee2, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_coffee3, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_coffee4, LV_OBJ_FLAG_HIDDEN);
-            // GrindDataStr.data.cmd = CMDTYPE_BEVERAGEMAKE_CHANNELB;
             #if (LEFT_OR_COFFEE == LEFT)
                 canSendLeftCoffee(1,volume);
             #else
                 canSendRightCoffee(1,volume);
             #endif
             rinseflag = true;
-            // lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
-            // lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
         } else {
-            // lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
-            // lv_obj_clear_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
             GrindDataStr.data.cmd = CMDTYPE_CANCEL_BEVERAGEMAKE_CHANNELB;
             lv_obj_add_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
             lv_obj_clear_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
@@ -417,7 +408,6 @@ static void screen_btn_save_event_handler (lv_event_t *e)
         SaveTeaParam(teasetflag);
         for (int i = 0; i < 10; i++){
             overtime += GrindSetData.extract_time[teasetflag][i];
-            // printf("%d\n", overtime);
         }
         sprintf(string_data, "%d", overtime);
         if(teasetflag == 0)
@@ -492,7 +482,6 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
         current_mode = MODE_TEA;
         for (int i = 0; i < 10; i++){
             overtime[0] += GrindSetData.extract_time[0][i];
-            // printf("%d\n", overtime[0]);
         }
         sprintf(string_data, "%d", overtime[0]);
         lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
@@ -647,9 +636,7 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_rinse, screen_btn_rinse_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_cancel, screen_btn_cancel_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_btn_menu, screen_btn_menu_event_handler, LV_EVENT_ALL, ui);
-    // #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_btn_hotwater, screen_btn_hotwater_event_handler, LV_EVENT_ALL, ui);
-    // #endif
     lv_obj_add_event_cb(ui->screen_btnm_choosemode,screen_btnm_choosemode_event_cb,LV_EVENT_VALUE_CHANGED,NULL);
     lv_obj_add_event_cb(guider_ui.screen_btnm_choosemode,screen_btnm_choosemode_long_pressed_cb,LV_EVENT_LONG_PRESSED,NULL);
     lv_obj_add_event_cb(ui->screen_btnm_target,screen_btnm_target_event_cb,LV_EVENT_VALUE_CHANGED,NULL);
@@ -853,7 +840,6 @@ static void screen_1_btn_certain_event_handler (lv_event_t *e)
 
         char str_value[16];
         sprintf(str_value, "%ld", (long)spinbox_value); 
-        // const char *txt = lv_textarea_get_text(guider_ui.screen_1_spinbox_1);
         if(active_time_setting == 1){
             lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", str_value);  
             lv_label_set_text_fmt(guider_ui.screen_1_btn_time1set_label, "%s", str_value);
@@ -880,14 +866,10 @@ static void screen_1_btn_certain_event_handler (lv_event_t *e)
             GrindSetData.temp_coffee = spinbox_value;
             volume = GrindSetData.temp_coffee;
             GrindDataStr.data.cmd = CMDTYPE_SET_COFFEEBLOCK;
-        } 
-        // #if (LEFT_OR_COFFEE == LEFT)
-        else if (active_time_setting == 7){
+        } else if (active_time_setting == 7){
             lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", str_value);
             GrindSetData.time_hotwater = spinbox_value;
-        }
-        // #endif
-        else if (active_time_setting == 8){
+        } else if (active_time_setting == 8){
             lv_label_set_text_fmt(guider_ui.screen_1_btn_brewblock_label, "%s", str_value);
             GrindSetData.temp_brew = spinbox_value;
             volume = GrindSetData.temp_brew;

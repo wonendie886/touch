@@ -547,8 +547,6 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_steamtempset_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_steamtempset, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_steamtempset_label, LV_PCT(100));
-    // lv_obj_set_pos(ui->screen_1_btn_steamtempset, 150, 76);
-    // lv_obj_set_size(ui->screen_1_btn_steamtempset, 100, 36);
 #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_1_btn_steamtempset, 150, 76);
     lv_obj_set_size(ui->screen_1_btn_steamtempset, 100, 36);
@@ -681,7 +679,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time1
     ui->screen_1_label_time1 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time1, "时间1");
+    lv_label_set_text(ui->screen_1_label_time1, "咖啡1");
     lv_label_set_long_mode(ui->screen_1_label_time1, LV_LABEL_LONG_WRAP);
 #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_1_label_time1, 20, 114);
@@ -736,7 +734,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time2
     ui->screen_1_label_time2 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time2, "时间2");
+    lv_label_set_text(ui->screen_1_label_time2, "咖啡2");
     lv_label_set_long_mode(ui->screen_1_label_time2, LV_LABEL_LONG_WRAP);
 #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_1_label_time2, 20, 152);
@@ -791,7 +789,7 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time3
     ui->screen_1_label_time3 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time3, "时间3");
+    lv_label_set_text(ui->screen_1_label_time3, "咖啡3");
     lv_label_set_long_mode(ui->screen_1_label_time3, LV_LABEL_LONG_WRAP);
     // lv_obj_set_pos(ui->screen_1_label_time3, 20, 190);
     // lv_obj_set_size(ui->screen_1_label_time3, 100, 36);
@@ -826,8 +824,6 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_align(ui->screen_1_btn_time4set_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_1_btn_time4set, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_1_btn_time4set_label, LV_PCT(100));
-    // lv_obj_set_pos(ui->screen_1_btn_time4set, 150, 228);
-    // lv_obj_set_size(ui->screen_1_btn_time4set, 100, 36);
 #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_1_btn_time4set, 150, 228);
     lv_obj_set_size(ui->screen_1_btn_time4set, 100, 36);
@@ -850,10 +846,8 @@ void setup_scr_screen_1(lv_ui *ui)
 
     //Write codes screen_1_label_time4
     ui->screen_1_label_time4 = lv_label_create(ui->screen_1_cont_setting);
-    lv_label_set_text(ui->screen_1_label_time4, "时间4");
+    lv_label_set_text(ui->screen_1_label_time4, "咖啡4");
     lv_label_set_long_mode(ui->screen_1_label_time4, LV_LABEL_LONG_WRAP);
-    // lv_obj_set_pos(ui->screen_1_label_time4, 20, 228);
-    // lv_obj_set_size(ui->screen_1_label_time4, 100, 36);
 #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_1_label_time4, 20, 228);
     lv_obj_set_size(ui->screen_1_label_time4, 100, 36);
@@ -1143,9 +1137,6 @@ void setup_scr_screen_1(lv_ui *ui)
     #if (LEFT_OR_COFFEE == RIGHT)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_steamtempset_label, "%s", string_data4);
     lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);
-    // lv_obj_add_flag(ui->screen_1_label_hotwater, LV_OBJ_FLAG_HIDDEN);
-    // lv_obj_add_flag(ui->screen_1_btn_hotwaterset, LV_OBJ_FLAG_HIDDEN);
-    // lv_obj_add_flag(ui->screen_1_btn_hotwaterset_label, LV_OBJ_FLAG_HIDDEN);
     #endif
     #if (LEFT_OR_COFFEE == LEFT)
     lv_label_set_text_fmt(guider_ui.screen_1_btn_hotwaterset_label, "%s", string_data6);

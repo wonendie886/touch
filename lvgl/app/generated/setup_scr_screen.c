@@ -978,19 +978,15 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_20, &_steam_alpha_27x32);
     lv_img_set_pivot(ui->screen_img_20, 50,50);
     lv_img_set_angle(ui->screen_img_20, 0);
-// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_img_20, 20, 11);
     lv_obj_set_size(ui->screen_img_20, 27, 32);
-// #else
-//      lv_obj_set_pos(ui->screen_img_20, 188, 8);
-//     lv_obj_set_size(ui->screen_img_20, 27, 32);   
-// #endif
+
     //Write style for screen_img_20, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_img_recolor_opa(ui->screen_img_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_img_opa(ui->screen_img_20, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_20, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_20, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-// #if (LEFT_OR_COFFEE == LEFT)
+
     //Write codes screen_img_hotwater
     ui->screen_img_hotwater = lv_img_create(ui->screen_cont_M);
     lv_obj_add_flag(ui->screen_img_hotwater, LV_OBJ_FLAG_CLICKABLE);
@@ -1005,7 +1001,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_hotwater, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_hotwater, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-// #endif
+
     //Write codes screen_img_stop
     ui->screen_img_stop = lv_img_create(ui->screen_cont_M);
     lv_obj_add_flag(ui->screen_img_stop, LV_OBJ_FLAG_CLICKABLE);
@@ -1036,7 +1032,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_21, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_21, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_21, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-// #if (LEFT_OR_COFFEE == LEFT)
+
     //Write codes screen_btn_hotwater
     ui->screen_btn_hotwater = lv_btn_create(ui->screen_cont_M);
     ui->screen_btn_hotwater_label = lv_label_create(ui->screen_btn_hotwater);
@@ -1057,7 +1053,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_font(ui->screen_btn_hotwater, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_hotwater, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_hotwater, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-// #endif
+
     //Write codes screen_btn_rinse
     ui->screen_btn_rinse = lv_btn_create(ui->screen_cont_M);
     ui->screen_btn_rinse_label = lv_label_create(ui->screen_btn_rinse);
@@ -1087,13 +1083,8 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_align(ui->screen_btn_steam_label, LV_ALIGN_CENTER, 0, 0);
     lv_obj_set_style_pad_all(ui->screen_btn_steam, 0, LV_STATE_DEFAULT);
     lv_obj_set_width(ui->screen_btn_steam_label, LV_PCT(100));
-// #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_set_pos(ui->screen_btn_steam, 4, 2);
     lv_obj_set_size(ui->screen_btn_steam, 60, 47);
-// #else
-//     lv_obj_set_pos(ui->screen_btn_steam, 174, 2);
-//     lv_obj_set_size(ui->screen_btn_steam, 60, 47);
-// #endif
 
     //Write style for screen_btn_steam, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_bg_opa(ui->screen_btn_steam, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
