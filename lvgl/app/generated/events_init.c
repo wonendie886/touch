@@ -579,7 +579,7 @@ static void screen_btn_passwordenter_event_handler (lv_event_t *e)
             lv_label_set_text(guider_ui.screen_label_passworderror, "");
             lv_textarea_set_text(ta, "");
             // 跳转设置菜单
-            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false, false);
         }
         else
         {
@@ -734,7 +734,7 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
         lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
         
-        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_FADE_ON, 200, 0, false, false);
         break;
     }
     default:
@@ -1067,6 +1067,23 @@ static void PasswordSettings_event_handler (lv_event_t *e)
         break;
     }
 }
+bool startcoffeeupdate = false;
+static void CoffeeBoiler_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //按钮触发后咖啡锅炉文本开始更新。隐藏其他容器。
+        lv_obj_add_flag(guider_ui.screen_1_cont_passwordset,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_cont_setting,LV_OBJ_FLAG_HIDDEN);
+        startcoffeeupdate = true;
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_btn_steamtempset, screen_1_btn_steamtempset_event_handler, LV_EVENT_ALL, ui);
@@ -1091,6 +1108,7 @@ void events_init_screen_1 (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_1, Set_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_2, Maintain_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_3, PasswordSettings_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_menu_1_cont_4, CoffeeBoiler_event_handler, LV_EVENT_ALL, ui);
 }
 
 

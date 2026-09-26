@@ -155,6 +155,10 @@ typedef struct
 	lv_obj_t *screen_1_menu_1_subpage_3;
 	lv_obj_t *screen_1_menu_1_cont_3;
 	lv_obj_t *screen_1_menu_1_label_3;
+	lv_obj_t *screen_1_menu_1_subpage_4;
+	lv_obj_t *screen_1_menu_1_cont_4;
+	lv_obj_t *screen_1_menu_1_label_4;
+	lv_obj_t *screen_1_label_coffeeboilerT;
 	lv_obj_t *screen_1_btn_descale;
 	lv_obj_t *screen_1_btn_descale_label;
 	lv_obj_t *screen_1_label_1;

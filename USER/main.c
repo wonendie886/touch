@@ -39,6 +39,7 @@ extern uint8_t rFrameBuf[FRAME_MAX_LEN];
 extern uint8_t recivedCount;
 extern bool hotwaterenable;
 extern bool rinseflag;
+extern bool startcoffeeupdate;
 extern uint8_t hotwaterflag;
 
 /// @brief static global variables
@@ -445,8 +446,7 @@ void thread_serial(void *pvParameters)
                             }
                             lasttaskstate_C = taskFeedback_C.channelC_state;
                         }
-
-                    } 
+                    }
                     #if (LEFT_OR_COFFEE == LEFT)
                      else if (getCmdType(can_msg.rx_efid) == FUNC_TEMPERATURE_A){ 
                         int ret1 = can_msg.rx_data[5] << 8 | can_msg.rx_data[4];
@@ -486,6 +486,10 @@ void updatetemp(void){
         lv_label_set_text(guider_ui.screen_label_1, temp_str);
         sprintf(temp_str, "%.1f", current_temp.steam_boiler_temp);
         lv_label_set_text(guider_ui.screen_label_3, temp_str);
+        if( startcoffeeupdate == true ){
+            sprintf(temp_str, "%.1f", current_temp.coffee_boiler_temp);
+            lv_label_set_text(guider_ui.screen_1_label_coffeeboilerT, temp_str);
+        }        
         sprintf(temp_str, "%.1f bar", current_temp.pressure);
         lv_label_set_text(guider_ui.screen_label_16, temp_str);
     }
