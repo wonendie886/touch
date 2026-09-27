@@ -93,5 +93,5 @@ void init_keyboard(lv_ui *ui)
     lv_keyboard_set_mode(ui->g_kb_top_layer, LV_KEYBOARD_MODE_NUMBER);
     lv_obj_add_event_cb(ui->g_kb_top_layer, kb_event_cb, LV_EVENT_ALL, NULL);
     lv_obj_add_flag(ui->g_kb_top_layer, LV_OBJ_FLAG_HIDDEN);
-    lv_obj_set_style_text_font(ui->g_kb_top_layer, &lv_font_SourceHanSerifSC_Regular_10, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->g_kb_top_layer, &lv_font_montserratMedium_12, LV_PART_MAIN|LV_STATE_DEFAULT);
 }

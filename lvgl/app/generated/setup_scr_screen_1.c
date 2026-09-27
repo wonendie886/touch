@@ -445,6 +445,28 @@ void setup_scr_screen_1(lv_ui *ui)
     lv_obj_set_style_bg_color(ui->screen_1_bar_maintain, lv_color_hex(0x2195f6), LV_PART_INDICATOR|LV_STATE_DEFAULT);
     lv_obj_set_style_bg_grad_dir(ui->screen_1_bar_maintain, LV_GRAD_DIR_NONE, LV_PART_INDICATOR|LV_STATE_DEFAULT);
 
+    //Write codes screen_1_btn_maintainback
+    ui->screen_1_btn_maintainback = lv_btn_create(ui->screen_1_cont_maintain);
+    ui->screen_1_btn_maintainback_label = lv_label_create(ui->screen_1_btn_maintainback);
+    lv_label_set_text(ui->screen_1_btn_maintainback_label, "返回");
+    lv_label_set_long_mode(ui->screen_1_btn_maintainback_label, LV_LABEL_LONG_WRAP);
+    lv_obj_align(ui->screen_1_btn_maintainback_label, LV_ALIGN_CENTER, 0, 0);
+    lv_obj_set_style_pad_all(ui->screen_1_btn_maintainback, 0, LV_STATE_DEFAULT);
+    lv_obj_set_width(ui->screen_1_btn_maintainback_label, LV_PCT(100));
+    lv_obj_set_pos(ui->screen_1_btn_maintainback, 92, 180);
+    lv_obj_set_size(ui->screen_1_btn_maintainback, 100, 50);
+
+    //Write style for screen_1_btn_maintainback, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
+    lv_obj_set_style_bg_opa(ui->screen_1_btn_maintainback, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_color(ui->screen_1_btn_maintainback, lv_color_hex(0x54606a), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_bg_grad_dir(ui->screen_1_btn_maintainback, LV_GRAD_DIR_NONE, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_border_width(ui->screen_1_btn_maintainback, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_radius(ui->screen_1_btn_maintainback, 5, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_shadow_width(ui->screen_1_btn_maintainback, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_color(ui->screen_1_btn_maintainback, lv_color_hex(0xffffff), LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_font(ui->screen_1_btn_maintainback, &lv_font_SourceHanSerifSC_Regular_16, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_opa(ui->screen_1_btn_maintainback, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
+    lv_obj_set_style_text_align(ui->screen_1_btn_maintainback, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
 #endif
     //Write codes screen_1_cont_setting
     ui->screen_1_cont_setting = lv_obj_create(ui->screen_1);
