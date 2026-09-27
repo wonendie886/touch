@@ -36,6 +36,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_angle(ui->screen_img_1, 0);
     lv_obj_set_pos(ui->screen_img_1, 16, 11);
     lv_obj_set_size(ui->screen_img_1, 8, 8);
+    lv_obj_add_flag(ui->screen_img_1, LV_OBJ_FLAG_HIDDEN);
 
     //Write style for screen_img_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
     lv_obj_set_style_img_recolor_opa(ui->screen_img_1, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
@@ -47,7 +48,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_1 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_1, "");
     lv_label_set_long_mode(ui->screen_label_1, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_1, 423, 11);
+    lv_obj_set_pos(ui->screen_label_1, 75, 11);
     lv_obj_set_size(ui->screen_label_1, 32, 9);
 
     //Write style for screen_label_1, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -111,7 +112,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_3, &_steamblock_alpha_14x13);
     lv_img_set_pivot(ui->screen_img_3, 50,50);
     lv_img_set_angle(ui->screen_img_3, 0);
-    lv_obj_set_pos(ui->screen_img_3, 347, 11);
+    lv_obj_set_pos(ui->screen_img_3, 10, 11);
     lv_obj_set_size(ui->screen_img_3, 14, 13);
 
     //Write style for screen_img_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -124,7 +125,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_3 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_3, "");
     lv_label_set_long_mode(ui->screen_label_3, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_3, 371, 11);
+    lv_obj_set_pos(ui->screen_label_3, 25, 11);
     lv_obj_set_size(ui->screen_label_3, 32, 9);
 
     //Write style for screen_label_3, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -149,7 +150,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_img_set_src(ui->screen_img_4, &_coffeebock_alpha_14x13);
     lv_img_set_pivot(ui->screen_img_4, 50,50);
     lv_img_set_angle(ui->screen_img_4, 0);
-    lv_obj_set_pos(ui->screen_img_4, 407, 11);
+    lv_obj_set_pos(ui->screen_img_4, 60, 11);
     lv_obj_set_size(ui->screen_img_4, 14, 13);
 
     //Write style for screen_img_4, Part: LV_PART_MAIN, State: LV_STATE_DEFAULT.
@@ -162,7 +163,7 @@ void setup_scr_screen(lv_ui *ui)
     ui->screen_label_4 = lv_label_create(ui->screen);
     lv_label_set_text(ui->screen_label_4, "");
     lv_label_set_long_mode(ui->screen_label_4, LV_LABEL_LONG_WRAP);
-    lv_obj_set_pos(ui->screen_label_4, 428, 11);
+    lv_obj_set_pos(ui->screen_label_4, 75, 11);
     lv_obj_set_size(ui->screen_label_4, 27, 9);
     lv_obj_add_flag(ui->screen_label_4, LV_OBJ_FLAG_HIDDEN);
 
