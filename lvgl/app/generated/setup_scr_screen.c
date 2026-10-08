@@ -621,7 +621,7 @@ void setup_scr_screen(lv_ui *ui)
 
     //Write codes screen_btnm_choosemode
     ui->screen_btnm_choosemode = lv_btnmatrix_create(ui->screen);
-    static const char *screen_btnm_choosemode_text_map[] = {"Coffee", "Tea", "",};
+    static const char *screen_btnm_choosemode_text_map[] = {"TIME(S)", "FLOW(ML)", "",};
     lv_btnmatrix_set_map(ui->screen_btnm_choosemode, screen_btnm_choosemode_text_map);
     lv_obj_set_pos(ui->screen_btnm_choosemode, 132, 37);
     lv_obj_set_size(ui->screen_btnm_choosemode, 216, 38);

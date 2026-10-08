@@ -262,6 +262,7 @@ void CoffeeVolumeProcess(void)
             #else
                 canSendRightCoffee(0,volume);
             #endif
+            lv_btnmatrix_clear_btn_ctrl_all(guider_ui.screen_btnm_choosemode, LV_BTNMATRIX_CTRL_DISABLED);
             printf("Coffee volume finished\r\n");
         }   
         if(elapsed_time > 9){
@@ -659,6 +660,7 @@ void updateTaskStep(void)
         printf("Lfinish \r\n");
         updatetaskflag_A = false;
         lv_obj_clear_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
+        lv_btnmatrix_clear_btn_ctrl_all(guider_ui.screen_btnm_choosemode, LV_BTNMATRIX_CTRL_DISABLED);  
         lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         volume = 0;
         startflag = false;
@@ -733,6 +735,7 @@ void updateTaskStep(void)
         printf("rightfinish \r\n");
         updatetaskflag_C = false;
         lv_obj_clear_flag(guider_ui.screen_btn_menu,LV_OBJ_FLAG_HIDDEN);
+        lv_btnmatrix_clear_btn_ctrl_all(guider_ui.screen_btnm_choosemode, LV_BTNMATRIX_CTRL_DISABLED);        
         lv_obj_add_flag(guider_ui.screen_cont_countdown, LV_OBJ_FLAG_HIDDEN);
         volume = 0;
         startflag = false;
