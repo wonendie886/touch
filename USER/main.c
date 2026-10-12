@@ -685,7 +685,7 @@ void updateTaskStep(void)
         lv_obj_add_flag(guider_ui.screen_1_btn_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Maintaining");
-    } else if (updatetaskflag == true && taskFeedback.function != CMDTYPE_HOTWATER && taskFeedback.function != CMDTYPE_BEVERAGEMAKE_CHANNELC && taskFeedback.function != CMDTYPE_BEVERAGEMAKE && taskFeedback.state == TASK_FINISH){
+    } else if (updatetaskflag == true && taskFeedback.function != CMDTYPE_HOTWATER && taskFeedback.function != CMDTYPE_BEVERAGEMAKE_CHANNELC && taskFeedback.function != CMDTYPE_BEVERAGEMAKE && taskFeedback.function != CMDTYPE_EMPTY_WATER && taskFeedback.state == TASK_FINISH){
         printf("clear maintaining");
         updatetaskflag = false;
         lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);

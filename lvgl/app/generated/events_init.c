@@ -1127,6 +1127,7 @@ static void screen_1_btn_descale_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Add 4L of descaling solution to the water tank.Tap OK to start descaling.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintainback,LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -1145,6 +1146,7 @@ static void screen_1_btn_changewater_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Fill the water tank with 3 liters of fresh water.Tap OK to start boiler water replacement.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintainback,LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -1163,6 +1165,7 @@ static void screen_1_btn_emptywater_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Disconnect water supply. Tap OK to drain the system.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintainback,LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -1182,6 +1185,7 @@ static void screen_1_btn_backflush_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_maintain, "Pour 1 L of fresh water into the water tank. Add 5 g of cleaning tablets/powder to the blind basket, then tap OK to start the brew group backflush.");
         lv_obj_clear_flag(guider_ui.screen_1_cont_maintain, LV_OBJ_FLAG_HIDDEN);
         lv_obj_clear_flag(guider_ui.screen_1_btn_maintain, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_clear_flag(guider_ui.screen_1_btn_maintainback,LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -1216,6 +1220,7 @@ static void screen_btn_maintainon_event_handler (lv_event_t *e)
             lv_label_set_text(guider_ui.screen_1_label_maintain, "Backflushing brew group. Estimated time: 5 minutes.");
             GrindDataStr.data.cmd = CMDTYPE_RINSE_BREWBLOCK;            
         } 
+        lv_obj_add_flag(guider_ui.screen_1_btn_maintainback, LV_OBJ_FLAG_HIDDEN);
         break;
     }
     default:
@@ -1279,6 +1284,22 @@ static void CoffeeBoiler_event_handler (lv_event_t *e)
         break;
     }
 }
+
+static void screen_1_btn_maintainback_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        // 隐藏本身，隐藏维护容器
+        lv_obj_add_flag(guider_ui.screen_1_cont_maintain,LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_btn_maintainback,LV_OBJ_FLAG_HIDDEN);
+        break;
+    }
+    default:
+        break;
+    }
+}
 void events_init_screen_1 (lv_ui *ui)
 {
     lv_obj_add_event_cb(ui->screen_1_menu_1_cont_1, Set_event_handler, LV_EVENT_ALL, ui);
@@ -1297,6 +1318,7 @@ void events_init_screen_1 (lv_ui *ui)
     #if (LEFT_OR_COFFEE == LEFT)
     lv_obj_add_event_cb(ui->screen_1_btn_hotwaterset, screen_1_btn_hotwaterset_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_maintain, screen_btn_maintainon_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_btn_maintainback, screen_1_btn_maintainback_event_handler, LV_EVENT_ALL, ui);
     #else
     lv_obj_add_event_cb(ui->screen_1_btn_steamtempset, screen_1_btn_steamtempset_event_handler, LV_EVENT_ALL, ui);
     #endif
