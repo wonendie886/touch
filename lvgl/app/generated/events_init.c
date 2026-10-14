@@ -604,7 +604,7 @@ static void screen_btn_passwordenter_event_handler (lv_event_t *e)
             lv_label_set_text(guider_ui.screen_label_passworderror, "");
             lv_textarea_set_text(ta, "");
             // 跳转设置菜单
-            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_FADE_IN, 200, 0, false, false);
+            ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_FADE_IN, 0, 0, false, false);
         }
         else
         {
@@ -759,7 +759,7 @@ static void screen_1_btn_back_event_handler (lv_event_t *e)
         lv_label_set_text(guider_ui.screen_1_label_savesuccess,"");
         lv_textarea_set_text(guider_ui.screen_1_ta_passwordset, "");
         
-        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_FADE_ON, 200, 0, false, false);
+        ui_load_scr_animation(&guider_ui, &guider_ui.screen, guider_ui.screen_del, &guider_ui.screen_1_del, setup_scr_screen, LV_SCR_LOAD_ANIM_FADE_ON, 0, 0, false, false);
         break;
     }
     default:
