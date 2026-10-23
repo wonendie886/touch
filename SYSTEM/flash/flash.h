@@ -48,6 +48,10 @@ extern bool isGrindMode;
 
 #define USER_FLASH_DATA_ADDR   0x08004000      /* Sector 1 */
 #define USER_FLASH_SECTOR       FLASH_SECTOR_1  /* 对应扇区编号 */
+
+/* 杯数计数页：Sector 1 内 8KB，每杯写一个字（1->0 位写，无需擦除） */
+#define CUP_COUNTER_ADDR        0x08006000
+#define CUP_COUNTER_SIZE_WORDS  (8 * 1024 / 4)
 #define MAX_TEXT_LEN  8
 typedef struct {
     char label1_text[MAX_TEXT_LEN];
@@ -67,6 +71,8 @@ typedef struct _GRIND_DATA{
     uint32_t weight_2;
     uint32_t weight_3;
     uint32_t grind_mode;    //weight or time
+    uint32_t single_cups;   // 单杯完成次数
+    uint32_t double_cups;   // 双杯完成次数
 } GrindData;
 
 extern volatile uint8_t flash_request_flag;
@@ -75,6 +81,16 @@ extern flash_store_t grindsetdata;
 void flashDataInit(void);
 void flashDataSave(void);
 void getGrindDataFromFlash();
+void cupCounterInit(void);
+void cupCounterRecord(uint8_t cupType);
+void cupCounterReadFromFlash(uint32_t *single, uint32_t *double_cups);
+
+/* 测试钩子开关：测试固件取消下面这行注释，正式固件保持注释 */
+// #define CUP_COUNTER_TEST 1
+
+#if CUP_COUNTER_TEST
+void cupCounterTestFill(uint32_t n);
+#endif
 
 uint32_t FLASH_ReadWord(uint32_t Address);
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector);

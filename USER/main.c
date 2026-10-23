@@ -183,7 +183,7 @@ int fputc(int ch, FILE *f)
     return ch;
 }
 
-const char version[12] = "MRC_V1.0.0";
+const char version[12] = "v1.0.0";
 extern UART_HandleTypeDef huart4;
 extern MBRTUMaterTypeDef MbRtu;
 extern uint32_t rxCount;
@@ -220,6 +220,10 @@ int main(void)
     gt911_init();
 
     flashDataInit();
+
+#if CUP_COUNTER_TEST
+    cupCounterTestFill(2047);   /* 测试固件：填到差 1 个满（可改参数） */
+#endif
 
     xSharedMutex = xSemaphoreCreateMutex();
     xSemaphoreGive(xSharedMutex);
@@ -391,6 +395,28 @@ void vModbusTask(void *pvParameters) {
 }
 bool motorflag = false;
 uint16_t motorTimer = 0;
+bool grindHasRun = false;
+
+/* 研磨完成（电机实际运行过）后，按当前研磨目标累计杯数（位累积写入计数页） */
+static void countCompletedCup(void)
+{
+    if (!grindHasRun) {
+        return;
+    }
+    grindHasRun = false;
+
+    printf("[cup] completed, target=%d\r\n", grinding_target);
+
+    if (grinding_target == 1) {
+        cupCounterRecord(0);
+        printf("single cups: %lu\r\n", (unsigned long)GrindSetData.single_cups);
+    } else if (grinding_target == 3) {
+        cupCounterRecord(1);
+        printf("double cups: %lu\r\n", (unsigned long)GrindSetData.double_cups);
+    }
+    /* grinding_target == 2 为手动研磨，不计入统计 */
+}
+
 void vGrindingControlTask(void *pvParameters) {
     uint16_t time = 0 ;
     char progress_text[32];
@@ -403,9 +429,12 @@ void vGrindingControlTask(void *pvParameters) {
                 if (!isGrindProgress) {
                     motorTimer = 0;
                 }
-                timerStart = false;
-                resetTime = 0;
-                    
+                if (!grindHasRun) {
+                    /* 电机还没启动过（启动前空窗），保持复位计时清零 */
+                    timerStart = false;
+                    resetTime = 0;
+                }
+
                 isGrindProgress = true;
                 printf("send start cmd\r\n");
             }
@@ -418,32 +447,35 @@ void vGrindingControlTask(void *pvParameters) {
                 timerStart = true;
                 resetTime = 0;
                 if(grinding_target == 2){
-                    resetTime = 3000;  
+                    resetTime = 3000;
                 }
                 stop_spinner();
                 grindAnimRunning = false;
                 printf("send stop cmd\r\n");
             }
+        }
 
-            /// check resetTime == 3S, then send modbus reset cmd, then resetTime = 0 change png to start,update ui time = 0,isGrindProgress = false
-            
-            if(resetTime == 3000){
-                printf("resetFlag = 1\r\n");
-                resetFlag = 1;
-                timerStart = false;
-                resetTime = 0;
-                motorTimer = 0;
-                set_kr_current_time(0);
-                isGrindProgress = false;                
-                vTaskDelay(pdMS_TO_TICKS(20));
-            }
-            
+        /// check resetTime == 3S, then send modbus reset cmd, then resetTime = 0 change png to start,update ui time = 0,isGrindProgress = false
+        /// 手动停止/自然完成两种路径共用：START 状态下自然完成也必须能走到这里
+        if(resetTime >= 3000){
+            printf("resetFlag = 1\r\n");
+            countCompletedCup();
+            resetFlag = 1;
+            timerStart = false;
+            resetTime = 0;
+            motorTimer = 0;
+            set_kr_current_time(0);
+            isGrindProgress = false;
+            /* 研磨周期结束：回到停止态（手动停止流程本来就是 STOP，无副作用） */
+            start_flag = STATUS_IN_GRIND_STOP;
+            vTaskDelay(pdMS_TO_TICKS(20));
         }
 
         if (isGrindProgress) {
             ///wait for start
             if (register_values[0] == 1) {
                 motorflag = true;
+                grindHasRun = true;
                 isStartFlag = true;
                 if (!isAniRunning) {
                     isAniRunning = true;
@@ -458,13 +490,20 @@ void vGrindingControlTask(void *pvParameters) {
                     isAniRunning = false;
                     grindAnimRunning = false;
                     stop_spinner();
-                    
-                } 
+
+                }
+                /* 自然完成：电机实际运行过后自己停转（机器按目标时间/重量自动停机），
+                   启动 3 秒复位计时，走 resetTime == 3000 的计数与 UI 复位 */
+                if (grindHasRun && start_flag == STATUS_IN_GRIND_START && !timerStart) {
+                    timerStart = true;
+                    resetTime = 0;
+                }
             }
             
             if (isStartFlag){
                 if(motorTimer >= Currenttargetime){
                     printf("motorTimer is time out\n");
+                    countCompletedCup();
                     isGrindProgress = false;
                     progresstime = 0;
                     // printf("time %d\r\n",motorTimer);

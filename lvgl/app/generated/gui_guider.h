@@ -67,12 +67,22 @@ typedef struct
 	lv_obj_t *screen_1;
 	lv_obj_t *screen_img_13;
 	bool screen_1_del;
-	lv_obj_t *screen_1_btn_1;
-	lv_obj_t *screen_1_btn_1_label;
-	lv_obj_t *screen_1_btn_2;
-	lv_obj_t *screen_1_btn_2_label;
 	lv_obj_t *screen_1_btn_3;
 	lv_obj_t *screen_1_btn_3_label;
+	lv_obj_t *screen_1_nav_cont;
+	lv_obj_t *screen_1_nav_btn_1;
+	lv_obj_t *screen_1_nav_btn_1_label;
+	lv_obj_t *screen_1_nav_btn_2;
+	lv_obj_t *screen_1_nav_btn_2_label;
+	lv_obj_t *screen_1_content_cont;
+	lv_obj_t *screen_1_panel_stats;
+	lv_obj_t *screen_1_panel_version;
+	lv_obj_t *screen_1_label_stats_title;
+	lv_obj_t *screen_1_label_stats_total;
+	lv_obj_t *screen_1_label_stats_single;
+	lv_obj_t *screen_1_label_stats_double;
+	lv_obj_t *screen_1_label_version_title;
+	lv_obj_t *screen_1_label_version_value;
 	lv_obj_t *g_kb_top_layer;
 	lv_obj_t *screen_label_logo;
 }lv_ui;
@@ -124,6 +134,7 @@ LV_FONT_DECLARE(lv_font_montserratMedium_16)
 LV_FONT_DECLARE(lv_font_montserratMedium_12)
 LV_FONT_DECLARE(lv_font_montserratMedium_25)
 LV_FONT_DECLARE(lv_font_SourceHanSerifSC_Regular_18)
+LV_FONT_DECLARE(lv_font_montserratMedium_18)
 
 
 #ifdef __cplusplus

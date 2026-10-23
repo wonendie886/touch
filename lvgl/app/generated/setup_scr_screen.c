@@ -449,7 +449,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_img_opa(ui->screen_img_12, 188, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_radius(ui->screen_img_12, 0, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_clip_corner(ui->screen_img_12, true, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_add_flag(ui->screen_img_12, LV_OBJ_FLAG_HIDDEN);
+    // 手动修改：默认显示右上角菜单（设置）图标，点击进入设置页 screen_1
 
     //Write codes screen_btn_13
     ui->screen_btn_13 = lv_btn_create(ui->screen);
@@ -471,7 +471,7 @@ void setup_scr_screen(lv_ui *ui)
     lv_obj_set_style_text_font(ui->screen_btn_13, &lv_font_SourceHanSerifSC_Regular_12, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_opa(ui->screen_btn_13, 255, LV_PART_MAIN|LV_STATE_DEFAULT);
     lv_obj_set_style_text_align(ui->screen_btn_13, LV_TEXT_ALIGN_CENTER, LV_PART_MAIN|LV_STATE_DEFAULT);
-    lv_obj_add_flag(ui->screen_btn_13, LV_OBJ_FLAG_HIDDEN);
+    // 手动修改：按钮与菜单图标一起默认显示
 
     //Write codes screen_img_11
     ui->screen_img_11 = lv_img_create(ui->screen);

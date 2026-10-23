@@ -125,6 +125,7 @@ void show_multiple_buttons(lv_ui *ui, lv_obj_t *target_btn, int count)
         ui->screen_btn_11,
         ui->screen_btn_12,
         ui->screen_btn_13,
+        ui->screen_img_12,   // 右上角菜单图标，随按钮组一起显示/隐藏
         ui->screen_btn_14,
         ui->screen_btn_15
     };
@@ -444,6 +445,29 @@ static void screen_btn_12_event_handler (lv_event_t *e)
     }
 }
 
+/* 进入设置页时刷新统计杯数：
+   screen_1 对象会被复用（setup_scr_screen_1 只在首次创建时执行），
+   必须手动从 Flash 重新读取并更新标签 */
+static void refreshStatsLabels(lv_ui *ui)
+{
+    uint32_t single_cups = 0;
+    uint32_t double_cups = 0;
+    char buf[32];
+
+    if (ui->screen_1_label_stats_single == NULL) {
+        return;   /* screen_1 尚未创建（首次进入时 setup 会先执行，此处兜底） */
+    }
+
+    cupCounterReadFromFlash(&single_cups, &double_cups);
+
+    sprintf(buf, "Single cups: %lu", (unsigned long)single_cups);
+    lv_label_set_text(ui->screen_1_label_stats_single, buf);
+    sprintf(buf, "Double cups: %lu", (unsigned long)double_cups);
+    lv_label_set_text(ui->screen_1_label_stats_double, buf);
+    sprintf(buf, "Total cups: %lu", (unsigned long)(single_cups + double_cups));
+    lv_label_set_text(ui->screen_1_label_stats_total, buf);
+}
+
 static void screen_btn_13_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -452,6 +476,7 @@ static void screen_btn_13_event_handler (lv_event_t *e)
     {
         lv_obj_set_style_img_opa(guider_ui.screen_img_12,255,LV_PART_MAIN | LV_STATE_DEFAULT);
         ui_load_scr_animation(&guider_ui, &guider_ui.screen_1, guider_ui.screen_1_del, &guider_ui.screen_del, setup_scr_screen_1, LV_SCR_LOAD_ANIM_NONE, 200, 200, false, false);
+        refreshStatsLabels(&guider_ui);   /* 每次进入都从 Flash 重新读取杯数 */
         break;
     }
     default:
@@ -538,7 +563,7 @@ static void screen_btn_14_event_handler (lv_event_t *e)
         flashDataSave();
         Textselectionflag = 0;
 
-        show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);
+        show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,9);
     
         break;
     }
@@ -584,7 +609,7 @@ static void screen_btn_15_event_handler (lv_event_t *e)
         }
         Textselectionflag = 0;
 
-        show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,8);         
+        show_multiple_buttons(&guider_ui,guider_ui.screen_btn_1,9);         
         break;
     }
     default:
@@ -606,80 +631,6 @@ void events_init_screen (lv_ui *ui)
     lv_obj_add_event_cb(ui->screen_btn_15, screen_btn_15_event_handler, LV_EVENT_ALL, ui);
 }
 
-static void screen_1_btn_1_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_CLICKED:{
-        //Send the thickness information to the lower-level machine.
-        uint16_t motordrive_value = 0;  // 驱动与否
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if(ret != 0)
-        {
-            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        }
-        break;
-    }
-    case LV_EVENT_LONG_PRESSED:{
-        // 长按发送1
-        uint16_t motordrive_value[2] = {1,0};
-        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
-        if(ret != 0){
-            printf("ret == %d\n",ret);
-        }  
-        break;
-    }
-    case LV_EVENT_RELEASED:{
-        // 松开发送0
-        uint16_t motordrive_value = 0;
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if (ret != 0)
-        {
-            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
-
-static void screen_1_btn_2_event_handler (lv_event_t *e)
-{
-    lv_event_code_t code = lv_event_get_code(e);
-    switch (code) {
-    case LV_EVENT_CLICKED:{
-        //Send the thickness information to the lower-level machine.
-        uint16_t motordrive_value = 0;  // 驱动与否
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if(ret != 0){
-            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        }
-        break;
-    }
-    case LV_EVENT_LONG_PRESSED:{
-        // 长按发送1
-        uint16_t motordrive_value[2] = {1,1};
-        int ret = MBRTUMasterWriteMultipleRegisters(&MbRtu, 0x01, INDEX_STEP_ENABLE,2, motordrive_value, 100);
-        if(ret != 0){
-            printf("ret == %d\n",ret);
-        }
-        break;
-    }
-    case LV_EVENT_RELEASED:{
-        // 松开发送0
-        uint16_t motordrive_value = 0;
-        int ret = MBRTUMasterWriteSingleRegister(&MbRtu, 0x01, INDEX_STEP_ENABLE, motordrive_value, 100);
-        if (ret != 0)
-        {
-            printf("MBRTUMasterWriteSingleRegister error: %d\n", ret);
-        }
-        break;
-    }
-    default:
-        break;
-    }
-}
 static void screen_1_btn_3_event_handler (lv_event_t *e)
 {
     lv_event_code_t code = lv_event_get_code(e);
@@ -694,11 +645,49 @@ static void screen_1_btn_3_event_handler (lv_event_t *e)
     }
 }
 
+static void screen_1_nav_btn_1_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //Statistics panel
+        lv_obj_clear_flag(guider_ui.screen_1_panel_stats, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_panel_version, LV_OBJ_FLAG_HIDDEN);
+        //Highlight selected title
+        lv_obj_set_style_bg_color(guider_ui.screen_1_nav_btn_1, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_color(guider_ui.screen_1_nav_btn_2, lv_color_hex(0x5b514b), LV_PART_MAIN|LV_STATE_DEFAULT);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+static void screen_1_nav_btn_2_event_handler (lv_event_t *e)
+{
+    lv_event_code_t code = lv_event_get_code(e);
+    switch (code) {
+    case LV_EVENT_CLICKED:
+    {
+        //Version panel
+        lv_obj_clear_flag(guider_ui.screen_1_panel_version, LV_OBJ_FLAG_HIDDEN);
+        lv_obj_add_flag(guider_ui.screen_1_panel_stats, LV_OBJ_FLAG_HIDDEN);
+        //Highlight selected title
+        lv_obj_set_style_bg_color(guider_ui.screen_1_nav_btn_2, lv_color_hex(0x2195f6), LV_PART_MAIN|LV_STATE_DEFAULT);
+        lv_obj_set_style_bg_color(guider_ui.screen_1_nav_btn_1, lv_color_hex(0x5b514b), LV_PART_MAIN|LV_STATE_DEFAULT);
+        break;
+    }
+    default:
+        break;
+    }
+}
+
 void events_init_screen_1 (lv_ui *ui)
 {
-    lv_obj_add_event_cb(ui->screen_1_btn_1, screen_1_btn_1_event_handler, LV_EVENT_ALL, ui);
-    lv_obj_add_event_cb(ui->screen_1_btn_2, screen_1_btn_2_event_handler, LV_EVENT_ALL, ui);
     lv_obj_add_event_cb(ui->screen_1_btn_3, screen_1_btn_3_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_nav_btn_1, screen_1_nav_btn_1_event_handler, LV_EVENT_ALL, ui);
+    lv_obj_add_event_cb(ui->screen_1_nav_btn_2, screen_1_nav_btn_2_event_handler, LV_EVENT_ALL, ui);
 }
 
 
