@@ -23,6 +23,9 @@ void flashDataInit(void)
         GrindSetData.time_1 = 15;
         GrindSetData.time_2 = 20;
         GrindSetData.time_3 = 30;
+        GrindSetData.flow_1 = 30;
+        GrindSetData.flow_2 = 50;
+        GrindSetData.flow_3 = 70;
         GrindSetData.steamtime = 10;
         GrindSetData.temp_steam = 125;
         GrindSetData.temp_coffee = 92;

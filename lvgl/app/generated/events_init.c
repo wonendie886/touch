@@ -42,7 +42,11 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
         printf("mode=%d\n",current_mode);
         //coffee1做咖啡
         if(current_mode == MODE_COFFEE){
-            volume = GrindSetData.time_1;
+            if( targetflag == TIME)
+                volume = GrindSetData.time_1;
+            else if ( targetflag == FLOW )
+                volume = GrindSetData.flow_1;
+
             printf("coffee1:%d\r\n",volume);
             scheduleall = volume;
             lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
@@ -91,7 +95,11 @@ static void screen_btn_coffee1_event_handler (lv_event_t *e)
         } else if (current_mode == MODE_COFFEE){ 
             char string_data[50] = {0}; 
             // printf("coffee1set %d\r\n",GrindSetData.time_1);
-            sprintf(string_data, "%d", GrindSetData.time_1);
+            if(targetflag == TIME)
+                sprintf(string_data, "%d", GrindSetData.time_1);
+            else if (targetflag == FLOW)
+                sprintf(string_data, "%d", GrindSetData.flow_1);
+                
             lv_textarea_set_text(guider_ui.screen_ta_coffee1set, string_data);    
             lv_obj_clear_flag(guider_ui.screen_cont_coffee1set, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_hotwater, LV_OBJ_FLAG_HIDDEN);
@@ -117,7 +125,11 @@ static void screen_btn_coffee3_event_handler (lv_event_t *e)
     {
         //coffee3
         if(current_mode == MODE_COFFEE){
-            volume = GrindSetData.time_3;
+            if(targetflag == TIME)
+                volume = GrindSetData.time_3;
+            else if (targetflag == FLOW)
+                volume = GrindSetData.flow_3;
+
             scheduleall = volume;
             lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
@@ -160,7 +172,11 @@ static void screen_btn_coffee3_event_handler (lv_event_t *e)
         } else if (current_mode == MODE_COFFEE){ 
             char string_data[50] = {0}; 
             // printf("coffee1set %d\r\n",GrindSetData.time_1);
-            sprintf(string_data, "%d", GrindSetData.time_3);
+            if( targetflag == TIME)
+                sprintf(string_data, "%d", GrindSetData.time_3);
+            else if ( targetflag == FLOW )
+                sprintf(string_data, "%d", GrindSetData.flow_3);
+
             lv_textarea_set_text(guider_ui.screen_ta_coffee2set, string_data);    
             lv_obj_clear_flag(guider_ui.screen_cont_coffee2set, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
@@ -187,7 +203,11 @@ static void screen_btn_coffee2_event_handler (lv_event_t *e)
     {
         //coffee2
         if(current_mode == MODE_COFFEE){
-            volume = GrindSetData.time_2;
+            if(targetflag == TIME)
+                volume = GrindSetData.time_2;
+            else if (targetflag == FLOW)
+                volume = GrindSetData.flow_2;
+                
             scheduleall = volume;
             lv_obj_clear_flag(guider_ui.screen_img_stop, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_img_21, LV_OBJ_FLAG_HIDDEN);
@@ -231,7 +251,11 @@ static void screen_btn_coffee2_event_handler (lv_event_t *e)
         } else if (current_mode == MODE_COFFEE){ 
             char string_data[50] = {0}; 
             // printf("coffee1set %d\r\n",GrindSetData.time_1);
-            sprintf(string_data, "%d", GrindSetData.time_2);
+            if( targetflag == TIME)
+                sprintf(string_data, "%d", GrindSetData.time_2);
+            else if ( targetflag == FLOW )
+                sprintf(string_data, "%d", GrindSetData.flow_2);
+
             lv_textarea_set_text(guider_ui.screen_ta_coffee3set, string_data);    
             lv_obj_clear_flag(guider_ui.screen_cont_coffee3set, LV_OBJ_FLAG_HIDDEN);
             lv_obj_add_flag(guider_ui.screen_btn_menu, LV_OBJ_FLAG_HIDDEN);
@@ -491,66 +515,22 @@ static void screen_btnm_choosemode_event_cb(lv_event_t * e)
     uint8_t overtime[4] = {0};
     char string_data[50] = {0}; 
     if(btn_id == 0) {
-        // /* Coffee Extraction */
-        // // 1. 切换数据
-        // current_mode = MODE_COFFEE;
- 
-        // sprintf(string_data, "%d", GrindSetData.time_1);
-        // lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
-        // sprintf(string_data, "%d", GrindSetData.time_2);
-        // lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data);
-        // sprintf(string_data, "%d", GrindSetData.time_3);
-        // lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data);
-        // // 2. 切换图片
-        // lv_obj_add_flag(guider_ui.screen_img_tea1, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_add_flag(guider_ui.screen_img_tea2, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_add_flag(guider_ui.screen_img_tea3, LV_OBJ_FLAG_HIDDEN);  
+        sprintf(string_data, "%d", GrindSetData.time_1);
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
+        sprintf(string_data, "%d", GrindSetData.time_2);
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data);
+        sprintf(string_data, "%d", GrindSetData.time_3);
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data);
 
-        // lv_obj_clear_flag(guider_ui.screen_img_9, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_clear_flag(guider_ui.screen_img_12, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_clear_flag(guider_ui.screen_img_16, LV_OBJ_FLAG_HIDDEN);
         targetflag = TIME; // 时间    
-        // static const char *choosemode_map[] = {
-        //     "COFFEE(s)",
-        //     "TEA",
-        //     ""
-        // };
-        // lv_btnmatrix_set_map(guider_ui.screen_btnm_choosemode, choosemode_map);
     }
     else if(btn_id == 1) {
-        // /* Tea Beverage Extraction */
-        // current_mode = MODE_TEA;
-        // for (int i = 0; i < 10; i++){
-        //     overtime[0] += GrindSetData.extract_time[0][i];
-        //     // printf("%d\n", overtime[0]);
-        // }
-        // sprintf(string_data, "%d", overtime[0]);
-        // lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
-
-        // for (int i = 0; i < 10; i++){
-        //     overtime[1] += GrindSetData.extract_time[1][i];
-        // }
-        // sprintf(string_data, "%d", overtime[1]);
-        // lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data); 
-        // for (int i = 0; i < 10; i++){
-        //     overtime[2] += GrindSetData.extract_time[2][i];
-        // }
-        // sprintf(string_data, "%d", overtime[2]);
-        // lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data);
-
-        // for (int i = 0; i < 10; i++){
-        //     overtime[3] += GrindSetData.extract_time[3][i];
-        // }
-        // sprintf(string_data, "%d", overtime[3]);
-
-        // lv_obj_clear_flag(guider_ui.screen_img_tea1, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_clear_flag(guider_ui.screen_img_tea2, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_clear_flag(guider_ui.screen_img_tea3, LV_OBJ_FLAG_HIDDEN);
-        
-
-        // lv_obj_add_flag(guider_ui.screen_img_9, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_add_flag(guider_ui.screen_img_12, LV_OBJ_FLAG_HIDDEN);
-        // lv_obj_add_flag(guider_ui.screen_img_16, LV_OBJ_FLAG_HIDDEN);
+        sprintf(string_data, "%d", GrindSetData.flow_1);
+        lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", string_data);
+        sprintf(string_data, "%d", GrindSetData.flow_2);
+        lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", string_data);
+        sprintf(string_data, "%d", GrindSetData.flow_3);
+        lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", string_data);
 
         targetflag = FLOW;//流量
 
@@ -655,8 +635,12 @@ static void screen_btn_coffee1save_event_handler (lv_event_t *e)
     {
         //保存时间值，隐藏对应容器,打开按钮功能。
         const char *text = lv_textarea_get_text(guider_ui.screen_ta_coffee1set);
-        uint32_t value = atoi(text);    
-        GrindSetData.time_1 = value;      
+        uint32_t value = atoi(text); 
+        if ( targetflag == TIME )   
+            GrindSetData.time_1 = value;
+        else if ( targetflag == FLOW )
+            GrindSetData.flow_1 = value;    
+
         flashDataSave();
         // if(targetflag == TIME)
         lv_label_set_text_fmt(guider_ui.screen_label_9, "%s", text); 
@@ -686,8 +670,11 @@ static void screen_btn_coffee2save_event_handler (lv_event_t *e)
     {
         //保存时间值，隐藏对应容器，打开按钮功能。
         const char *text = lv_textarea_get_text(guider_ui.screen_ta_coffee2set);
-        uint32_t value = atoi(text);    
-        GrindSetData.time_3 = value;      
+        uint32_t value = atoi(text); 
+        if ( targetflag == TIME )   
+            GrindSetData.time_3 = value;
+        else if ( targetflag == FLOW )
+            GrindSetData.flow_3 = value;   
         flashDataSave();
         // if(targetflag == TIME)
         lv_label_set_text_fmt(guider_ui.screen_label_10, "%s", text);
@@ -717,8 +704,14 @@ static void screen_btn_coffee3save_event_handler (lv_event_t *e)
     {
         //保存时间值，隐藏对应容器，打开按钮功能。
         const char *text = lv_textarea_get_text(guider_ui.screen_ta_coffee3set);
-        uint32_t value = atoi(text);    
-        GrindSetData.time_2 = value;      
+        uint32_t value = atoi(text); 
+        printf("value: %d\n",value);
+        if ( targetflag == TIME )   
+            GrindSetData.time_2 = value;
+        else if ( targetflag == FLOW )
+            GrindSetData.flow_2 = value;
+
+        printf("time: %d  flow :%d\n",GrindSetData.time_2,GrindSetData.flow_2);
         flashDataSave();
         // if(targetflag == TIME)
         lv_label_set_text_fmt(guider_ui.screen_label_19, "%s", text);
