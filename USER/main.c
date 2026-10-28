@@ -10,6 +10,7 @@
 #include "lv_port_indev.h"
 #include "gui_guider.h"
 #include "events_init.h"
+#include "lang.h"
 #include "flash.h"
 #include "FreeRTOS.h"
 #include "semphr.h"
@@ -817,6 +818,7 @@ void vLvglTaskFunction(void *pvParameters) {
 
 	setup_ui(&guider_ui);
 	events_init(&guider_ui);
+	lang_init();
 
 
     ISL1208_Time_t time_read;
@@ -834,6 +836,7 @@ void vLvglTaskFunction(void *pvParameters) {
         updateTaskStep();
         updatetemp();
         update_rinse_label();
+        lang_task();
         vTaskDelayUntil(&xLastWakeTime, xPeriod);
     }
 }

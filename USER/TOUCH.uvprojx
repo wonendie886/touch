@@ -1674,6 +1674,11 @@
           <GroupName>lvgl/app</GroupName>
           <Files>
             <File>
+              <FileName>lang.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\custom\lang.c</FilePath>
+            </File>
+            <File>
               <FileName>custom.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\custom\custom.c</FilePath>
@@ -2097,6 +2102,21 @@
               <FileName>lv_font_SourceHanSerifSC_Regular_12.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\lvgl\app\generated\guider_fonts\lv_font_SourceHanSerifSC_Regular_12.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_alpha_70x22.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_alpha_70x22.c</FilePath>
+            </File>
+            <File>
+              <FileName>_menu_alpha_20x20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_menu_alpha_20x20.c</FilePath>
+            </File>
+            <File>
+              <FileName>_logo_alpha_70x29.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\lvgl\app\generated\images\_logo_alpha_70x29.c</FilePath>
             </File>
           </Files>
         </Group>
