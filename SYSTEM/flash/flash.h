@@ -58,6 +58,7 @@ typedef struct _GRIND_DATA{
     uint32_t temp_brew;
     uint8_t extract_time[4][10];  //tea time
     uint16_t password;
+    uint32_t language;  // UI language, encoded by lang.c (see LANG_FLASH_BASE)
 } GrindData;
 
 extern volatile uint8_t flash_request_flag;
@@ -66,6 +67,11 @@ extern flash_store_t grindsetdata;
 void flashDataInit(void);
 void flashDataSave(void);
 void getGrindDataFromFlash();
+
+/* raw access to the language field of GrindSetData; the meaning of the value is
+ * defined by lang.c, this module only stores it (writes the whole flash block) */
+uint32_t flashGetLanguage(void);
+void flashSetLanguage(uint32_t language);
 
 uint32_t FLASH_ReadWord(uint32_t Address);
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector);

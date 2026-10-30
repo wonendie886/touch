@@ -379,6 +379,7 @@ void thread_serial(void *pvParameters)
             canSendcoffeetemp(target,volume);
             volume = 0;
             GrindDataStr.data.cmd = CMDTYPE_SET_BREWBLOCK;
+            vTaskDelay(pdMS_TO_TICKS(20));
         } else if (GrindDataStr.data.cmd == CMDTYPE_SET_BREWBLOCK) { 
             #if(LEFT_OR_COFFEE == LEFT)
             int target = 0;

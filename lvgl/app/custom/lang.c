@@ -27,6 +27,7 @@
 #include <string.h>
 #include "lvgl.h"
 #include "lang.h"
+#include "flash.h"
 
 /*********************
  *      DEFINES
@@ -38,6 +39,14 @@
 /* label of the language toggle button: it always shows the language you can switch to */
 #define LANG_BTN_TEXT_TO_EN     "English"
 #define LANG_BTN_TEXT_TO_ZH     "Chinese"
+
+/* language the UI starts with after power on (used when flash holds no valid value) */
+#define LANG_DEFAULT            LANG_EN
+
+/* Offset of the language value stored in flash.  An erased flash cell reads as
+ * 0xFFFFFFFF, so LANG_ZH (0) and LANG_EN (1) are stored on top of this base to
+ * tell "not written yet" apart from a real selection. */
+#define LANG_FLASH_BASE         0x1000u
 
 /* the title of the menu sidebar page (page->title of lv_menu) */
 #define LANG_MENU_TITLE_ZH      "菜单"
@@ -134,7 +143,7 @@ static const lang_pair_t lang_table[] = {
 
 #define LANG_TABLE_NUM  (sizeof(lang_table) / sizeof(lang_table[0]))
 
-static lang_t g_lang = LANG_ZH;             /* current language */
+static lang_t g_lang = LANG_DEFAULT;        /* current language */
 static lv_obj_t *g_lang_btn = NULL;         /* the language toggle button of screen_1 */
 static lv_obj_t *g_lang_btn_label = NULL;   /* label of the language toggle button */
 static lv_obj_t *g_lang_screen_1 = NULL;    /* screen_1 this module is already prepared for */
@@ -154,6 +163,7 @@ static void lang_prepare_screen_1(void);
 static void lang_create_button(void);
 static void lang_button_label_refr(void);
 static void lang_button_sync_maintain(void);
+static lang_t lang_flash_load(void);
 
 
 /**********************
@@ -440,6 +450,22 @@ static void lang_create_button(void)
 }
 
 /**
+ * Language selected at the last power down.
+ * flashGetLanguage() holds LANG_FLASH_BASE + lang, or 0xFFFFFFFF if the flash
+ * was never written (first power on, or a firmware update from a version
+ * without the language field) - then LANG_DEFAULT is used.
+ */
+static lang_t lang_flash_load(void)
+{
+    uint32_t stored = flashGetLanguage();
+
+    if(stored == LANG_FLASH_BASE + (uint32_t)LANG_ZH) return LANG_ZH;
+    if(stored == LANG_FLASH_BASE + (uint32_t)LANG_EN) return LANG_EN;
+
+    return LANG_DEFAULT;
+}
+
+/**
  * Apply the current language to the whole UI.
  */
 static void lang_refr(void)
@@ -472,14 +498,20 @@ static void lang_prepare_screen_1(void)
 
 void lang_init(void)
 {
-    g_lang = LANG_ZH;
+    g_lang = lang_flash_load();
     g_lang_btn = NULL;
     g_lang_btn_label = NULL;
     g_btnm_cache_cnt = 0;
     g_lang_screen_1 = guider_ui.screen_1;
 
     if(g_lang_screen_1 != NULL) {
+        /* screen_1 is already there: prepare it (this translates the whole UI) */
         lang_prepare_screen_1();
+    }
+    else {
+        /* screen_1 is created on the first visit of the setting screen, but the
+         * start screen must already show the default language */
+        lang_refr();
     }
 }
 
@@ -515,6 +547,10 @@ void lang_set(lang_t lang)
 
     g_lang = lang;
     lang_refr();
+
+    /* remember the selection for the next power on; this erases the parameter
+     * sector, so the UI is refreshed above first */
+    flashSetLanguage(LANG_FLASH_BASE + (uint32_t)lang);
 }
 
 lang_t lang_get(void)

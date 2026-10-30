@@ -54,6 +54,24 @@ void flashDataSave(void)
     );
 }
 
+uint32_t flashGetLanguage(void)
+{
+    return GrindSetData.language;
+}
+
+/**
+ * Store the language and write the whole parameter block back to flash.
+ * Writing an unchanged value is skipped: flashDataSave() erases the complete
+ * sector and must not be called for nothing.
+ */
+void flashSetLanguage(uint32_t language)
+{
+    if(GrindSetData.language == language) return;
+
+    GrindSetData.language = language;
+    flashDataSave();
+}
+
 HAL_StatusTypeDef FLASH_EraseSector(uint32_t Sector) {
     HAL_StatusTypeDef status;
     FLASH_EraseInitTypeDef EraseInitStruct;
